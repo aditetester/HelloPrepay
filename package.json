@@ -1,0 +1,89 @@
+{
+  "name": "prepaidiq",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint .",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@freakycoder/react-native-bounceable": "^1.0.3",
+    "@react-native-async-storage/async-storage": "^1.17.7",
+    "@react-native-clipboard/clipboard": "^1.10.0",
+    "@react-native-masked-view/masked-view": "^0.2.7",
+    "@react-navigation/bottom-tabs": "^6.3.2",
+    "@react-navigation/native": "^6.0.11",
+    "@react-navigation/native-stack": "^6.7.0",
+    "@react-navigation/stack": "^6.2.2",
+    "@reduxjs/toolkit": "^1.8.3",
+    "@rneui/base": "^4.0.0-rc.6",
+    "@rneui/themed": "^4.0.0-rc.6",
+    "i18next": "^21.8.14",
+    "libphonenumber-js": "^1.10.13",
+    "prop-types": "^15.8.1",
+    "react": "18.0.0",
+    "react-i18next": "^11.18.3",
+    "react-native": "0.69.3",
+    "react-native-animated-spinkit": "^1.5.2",
+    "react-native-app-intro-slider": "^4.0.4",
+    "react-native-dynamic-search-bar": "^2.0.2",
+    "react-native-elements": "^3.4.2",
+    "react-native-flipper": "^0.156.0",
+    "react-native-gesture-handler": "^2.5.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-otp-inputs": "^7.4.0",
+    "react-native-phone-number-input": "^2.1.0",
+    "react-native-reanimated": "^2.9.1",
+    "react-native-safe-area-context": "^4.3.1",
+    "react-native-screens": "^3.15.0",
+    "react-native-vector-icons": "^9.2.0",
+    "react-native-virtual-keyboard": "^1.2.1",
+    "react-redux": "^8.0.2",
+    "react-simple-keyboard": "^3.4.188",
+    "redux-flipper": "^2.0.2",
+    "redux-persist": "^6.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^3.0.1",
+    "babel-jest": "^26.6.3",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "eslint": "^7.32.0",
+    "eslint-import-resolver-babel-module": "^5.1.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^24.3.5",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.70.3",
+    "prettier": "^2.7.1",
+    "react-test-renderer": "18.0.0"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
+    },
+    "setupFiles": [
+      "./jest.setup.js"
+    ],
+    "timers": "fake",
+    "testEnvironment": "jsdom",
+    "transformIgnorePatterns": [
+      "/node_modules/(?!@react-native|react-native)"
+    ]
+  }
+}
