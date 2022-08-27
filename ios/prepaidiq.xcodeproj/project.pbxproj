@@ -18,6 +18,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* prepaidiqTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* prepaidiqTests.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		833F2006FE004CFBA319C9F2 /* libPods-prepaidiq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE8F60935CC7F1EA8FB7E0E /* libPods-prepaidiq.a */; };
+		F62AA0FE28BA013800033B29 /* Satoshi-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F62AA0B328B9F91000033B29 /* Satoshi-Regular.ttf */; };
 		F62E9A6328B61B7A00AF1659 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		F6952D9C28AE2164005EE4AF /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8C28AE2164005EE4AF /* Fontisto.ttf */; };
 		F6952D9D28AE2164005EE4AF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8D28AE2164005EE4AF /* Octicons.ttf */; };
@@ -76,6 +77,7 @@
 		A8A496B83138A0046DC1D49A /* Pods-prepaidiq-prepaidiqTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq-prepaidiqTests.release.xcconfig"; path = "Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F62AA0B328B9F91000033B29 /* Satoshi-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Satoshi-Regular.ttf"; sourceTree = "<group>"; };
 		F6952D8C28AE2164005EE4AF /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		F6952D8D28AE2164005EE4AF /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		F6952D8E28AE2164005EE4AF /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
@@ -148,7 +150,8 @@
 		13B07FAE1A68108700A75B9A /* prepaidiq */ = {
 			isa = PBXGroup;
 			children = (
-				F6952D8B28AE2164005EE4AF /* Fonts */,
+				F62AA09A28B9F84100033B29 /* Fonts */,
+				F6952D8B28AE2164005EE4AF /* icons */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -215,7 +218,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F6952D8B28AE2164005EE4AF /* Fonts */ = {
+		F62AA09A28B9F84100033B29 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F62AA0B328B9F91000033B29 /* Satoshi-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		F6952D8B28AE2164005EE4AF /* icons */ = {
 			isa = PBXGroup;
 			children = (
 				F6952D8C28AE2164005EE4AF /* Fontisto.ttf */,
@@ -235,7 +246,7 @@
 				F6952D9A28AE2164005EE4AF /* SimpleLineIcons.ttf */,
 				F6952D9B28AE2164005EE4AF /* MaterialIcons.ttf */,
 			);
-			path = Fonts;
+			path = icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,6 +391,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F62AA0FE28BA013800033B29 /* Satoshi-Regular.ttf in Resources */,
 				F62E9A6328B61B7A00AF1659 /* main.jsbundle in Resources */,
 				F6952D9C28AE2164005EE4AF /* Fontisto.ttf in Resources */,
 				F6952DA728AE2164005EE4AF /* FontAwesome.ttf in Resources */,

@@ -121,6 +121,7 @@ const SelectCarrier = ({ navigation }) => {
             Common.titleText,
             Fonts.fontWeightRegular,
             Fonts.fontSizeLarge,
+            Fonts.fontFamilyPrimary,
           ]}
         >
           Select your carrier
@@ -128,7 +129,12 @@ const SelectCarrier = ({ navigation }) => {
       </View>
       <View style={Layout.alignItemsCenter}>
         <Text
-          style={[Common.innerText, Fonts.fontWeightSmall, Fonts.fontSizeSmall]}
+          style={[
+            Common.innerText,
+            Fonts.fontWeightSmall,
+            Fonts.fontSizeSmall,
+            Fonts.fontFamilyPrimary,
+          ]}
         >
           Start by selecting your carrier below.
         </Text>
@@ -147,11 +153,14 @@ const SelectCarrier = ({ navigation }) => {
           backgroundColor: Common.searchBarBackgRoundColor,
           borderRadius: Common.borderRadius.borderRadius,
         }}
-        inputContainerStyle={{
-          height: 56,
-          backgroundColor: Common.offWhiteBackground.backgroundColor,
-          borderRadius: Common.borderRadius.borderRadius,
-        }}
+        inputContainerStyle={[
+          {
+            height: 56,
+            backgroundColor: Common.offWhiteBackground.backgroundColor,
+            borderRadius: Common.borderRadius.borderRadius,
+          },
+          Fonts.fontFamilyPrimary,
+        ]}
         containerStyle={{
           backgroundColor: Common.offWhiteBackground.backgroundColor,
           borderRadius: Common.borderRadius.borderRadius,

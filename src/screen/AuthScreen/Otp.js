@@ -124,6 +124,7 @@ const Otp = ({ navigation, route }) => {
               Common.titleText,
               Fonts.fontWeightRegular,
               Fonts.fontSizeLarge,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             Please confirm
@@ -133,6 +134,7 @@ const Otp = ({ navigation, route }) => {
               Common.titleText,
               Fonts.fontWeightRegular,
               Fonts.fontSizeLarge,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             your number
@@ -145,6 +147,7 @@ const Otp = ({ navigation, route }) => {
               Common.primaryGrey,
               Fonts.fontWeightSmall,
               Fonts.fontSizeSmall,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             We’ve sent you a 4 digit code through SMS.
@@ -171,6 +174,7 @@ const Otp = ({ navigation, route }) => {
                   Fonts.fontSizeRegular,
                   Fonts.fontWeightRegular,
                   Layout.selfCenter,
+                  Fonts.fontFamilyPrimary,
                 ]}
               >
                 {key1}
@@ -192,6 +196,7 @@ const Otp = ({ navigation, route }) => {
                   Fonts.fontSizeRegular,
                   Fonts.fontWeightRegular,
                   Layout.selfCenter,
+                  Fonts.fontFamilyPrimary,
                 ]}
               >
                 {key2}
@@ -213,6 +218,7 @@ const Otp = ({ navigation, route }) => {
                   Fonts.fontSizeRegular,
                   Fonts.fontWeightRegular,
                   Layout.selfCenter,
+                  Fonts.fontFamilyPrimary,
                 ]}
               >
                 {key3}
@@ -234,6 +240,7 @@ const Otp = ({ navigation, route }) => {
                   Fonts.fontSizeRegular,
                   Fonts.fontWeightRegular,
                   Layout.selfCenter,
+                  Fonts.fontFamilyPrimary,
                 ]}
               >
                 {key4}
@@ -255,6 +262,7 @@ const Otp = ({ navigation, route }) => {
             Fonts.textDecorationLineUnderline,
             Fonts.fontWeightRegular,
             Gutters.twentyBMargin,
+            Fonts.fontFamilyPrimary,
           ]}
         >
           Send code again
@@ -288,6 +296,7 @@ const Otp = ({ navigation, route }) => {
                   style={[
                     pressed && Common.white,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
                   ]}
@@ -315,6 +324,7 @@ const Otp = ({ navigation, route }) => {
                   style={[
                     pressed && Common.white,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
                   ]}
@@ -342,6 +352,7 @@ const Otp = ({ navigation, route }) => {
                   style={[
                     pressed && Common.white,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
                   ]}
@@ -371,6 +382,7 @@ const Otp = ({ navigation, route }) => {
                   style={[
                     pressed && Common.white,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
                   ]}
@@ -398,6 +410,7 @@ const Otp = ({ navigation, route }) => {
                   style={[
                     pressed && Common.white,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
                   ]}
@@ -425,6 +438,7 @@ const Otp = ({ navigation, route }) => {
                   style={[
                     pressed && Common.white,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
                   ]}
@@ -454,6 +468,7 @@ const Otp = ({ navigation, route }) => {
                   style={[
                     pressed && Common.white,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
                   ]}
@@ -481,6 +496,7 @@ const Otp = ({ navigation, route }) => {
                   style={[
                     pressed && Common.white,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
                   ]}
@@ -508,6 +524,7 @@ const Otp = ({ navigation, route }) => {
                   style={[
                     pressed && Common.white,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
                   ]}
@@ -540,6 +557,7 @@ const Otp = ({ navigation, route }) => {
                     !pressed && Common.primaryBlue,
                     !pressed && Fonts.fontWeightSmall,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   0

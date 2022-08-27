@@ -21,6 +21,9 @@ export default function () {
 
     check: require('../Assets/Images/check.png'),
     uncheck: require('../Assets/Images/uncheck.png'),
+    welcome: require('../Assets/Images/welcome.png'),
+    avatar: require('../Assets/Images/avatar.png'),
+    profile: require('../Assets/Images/profile.png'),
 
     carrier1: require('../Assets/CarrierImage/attprepaid.png'),
     carrier2: require('../Assets/CarrierImage/boost.png'),

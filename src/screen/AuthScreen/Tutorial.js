@@ -71,6 +71,7 @@ const Slide = ({ item }) => {
             Fonts.fontSizeRegular,
             Fonts.textCenter,
             Fonts.fontWeightRegular,
+            Fonts.fontFamilyPrimary,
           ]}
         >
           {item?.title}
@@ -82,6 +83,7 @@ const Slide = ({ item }) => {
             Fonts.textCenter,
             Gutters.sixtyPMWidth,
             Gutters.twentyTMargin,
+            Fonts.fontFamilyPrimary,
           ]}
         >
           {item?.subtitle}
@@ -184,6 +186,7 @@ const Tutorial = ({ navigation }) => {
                     Fonts.fontSizeSmall,
                     Common.white,
                     Fonts.fontWeightRegular,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   Let’s start
@@ -212,12 +215,11 @@ const Tutorial = ({ navigation }) => {
               >
                 <Text
                   style={[
-                    {
-                      textDecorationLine: 'underline',
-                    },
                     Fonts.fontWeightRegular,
                     Fonts.fontSizeSmall,
+                    Fonts.textDecorationLineUnderline,
                     Common.primaryPink,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   SKIP
@@ -239,6 +241,7 @@ const Tutorial = ({ navigation }) => {
                     Fonts.fontWeight,
                     Common.white,
                     Fonts.fontSizeSmaller,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   NEXT

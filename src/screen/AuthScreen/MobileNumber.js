@@ -96,6 +96,7 @@ const EnterMobileNumber = ({ navigation }) => {
               Common.titleText,
               Fonts.fontWeightRegular,
               Fonts.fontSizeLarge,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             Enter your
@@ -105,6 +106,7 @@ const EnterMobileNumber = ({ navigation }) => {
               Common.titleText,
               Fonts.fontWeightRegular,
               Fonts.fontSizeLarge,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             mobile number
@@ -115,7 +117,7 @@ const EnterMobileNumber = ({ navigation }) => {
           style={[
             {
               backgroundColor: 'red',
-              width: '99%',
+              width: '95%',
               alignItems: 'center',
             },
             Common.backgroundPrimary,
@@ -146,6 +148,7 @@ const EnterMobileNumber = ({ navigation }) => {
               Fonts.fontWeightSmall,
               Fonts.fontSizeLargeS,
               Gutters.seventyHeight,
+              Fonts.fontFamilyPrimary,
             ]}
             flagButtonStyle={[
               Common.primaryBlue,
@@ -154,6 +157,7 @@ const EnterMobileNumber = ({ navigation }) => {
               Gutters.seventyHeight,
               Layout.selfCenter,
             ]}
+            showSoftInputOnFocus={false}
             // withShadow
             withDarkTheme
             autoFocus
@@ -164,7 +168,7 @@ const EnterMobileNumber = ({ navigation }) => {
         </View>
         <View
           style={[
-            Gutters.ninetyPWidth,
+            Gutters.ninetyfivePWidth,
             Gutters.tenPadding,
             Layout.justifyContentCenter,
             Layout.selfCenter,
@@ -193,6 +197,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     Fonts.fontSizeRegular,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   1
@@ -220,6 +225,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     Fonts.fontSizeRegular,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   2
@@ -247,6 +253,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     Fonts.fontSizeRegular,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   3
@@ -276,6 +283,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     Fonts.fontSizeRegular,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   4
@@ -303,6 +311,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     Fonts.fontSizeRegular,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   5
@@ -330,6 +339,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     Fonts.fontSizeRegular,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   6
@@ -359,6 +369,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     Fonts.fontSizeRegular,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   7
@@ -386,6 +397,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     Fonts.fontSizeRegular,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   8
@@ -413,6 +425,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     Fonts.fontSizeRegular,
                     !pressed && Fonts.fontWeightSmall,
                     !pressed && Common.primaryBlue,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   9
@@ -431,7 +444,7 @@ const EnterMobileNumber = ({ navigation }) => {
                 Layout.fill,
                 Gutters.tenHMargin,
                 Gutters.tenVMargin,
-                Gutters.oonLMargin,
+                Gutters.otsLMargin,
                 Gutters.eightyfivePHeight,
               ]}
               onPress={() => onKeyPress('0')}
@@ -443,6 +456,7 @@ const EnterMobileNumber = ({ navigation }) => {
                     !pressed && Common.primaryBlue,
                     !pressed && Fonts.fontWeightSmall,
                     Fonts.fontSizeRegular,
+                    Fonts.fontFamilyPrimary,
                   ]}
                 >
                   0

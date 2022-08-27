@@ -39,6 +39,7 @@ const Login = ({ navigation }) => {
               Common.titleText,
               Fonts.fontWeightRegular,
               Fonts.fontSizeLarge,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             Log in to
@@ -48,6 +49,7 @@ const Login = ({ navigation }) => {
               Common.titleText,
               Fonts.fontWeightRegular,
               Fonts.fontSizeLarge,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             start refilling
@@ -60,7 +62,13 @@ const Login = ({ navigation }) => {
             Layout.selfCenter,
           ]}
         >
-          <Text style={[Common.innerText, Gutters.tenVMargin]}>
+          <Text
+            style={[
+              Common.innerText,
+              Gutters.tenVMargin,
+              Fonts.fontFamilyPrimary,
+            ]}
+          >
             Phone Number
           </Text>
           <PhoneInput
@@ -86,9 +94,11 @@ const Login = ({ navigation }) => {
             textInputStyle={[
               Common.secondaryGrey,
               Fonts.fontWeightSmall,
-              Fonts.fontSizeSmall,
+              Fonts.fontSizeRegular,
               Gutters.seventyHeight,
+              Fonts.fontFamilyPrimary,
             ]}
+            showSoftInputOnFocus={true}
             // withShadow
             withDarkTheme
             // autoFocus
@@ -126,6 +136,7 @@ const Login = ({ navigation }) => {
               Common.innerText,
               Fonts.fontSizeSmall,
               Fonts.fontWeightSmall,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             First time here?
@@ -137,6 +148,7 @@ const Login = ({ navigation }) => {
                 Fonts.fontSizeSmall,
                 Fonts.fontWeightSmall,
                 Fonts.textDecorationLineUnderline,
+                Fonts.fontFamilyPrimary,
               ]}
             >
               {' '}

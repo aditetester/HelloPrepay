@@ -103,6 +103,9 @@ export default function () {
     flexFour: {
       flex: 4,
     },
+    flexThree: {
+      flex: 3,
+    },
     flexTwo: {
       flex: 2,
     },

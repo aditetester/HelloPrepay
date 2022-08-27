@@ -10,8 +10,8 @@ import { StyleSheet } from 'react-native'
  */
 export default function ({ FontSize, Colors }) {
   return StyleSheet.create({
-    fontFamily: {
-      fontFamily: 'google',
+    fontFamilyPrimary: {
+      fontFamily: 'Satoshi-Regular',
     },
     fontSizeSmall: {
       fontSize: 16,

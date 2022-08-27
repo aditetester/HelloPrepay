@@ -70,6 +70,7 @@ const eighteen = 18
 const otz = 130
 const fiftysix = 56
 const sixteen = 16
+const ots = 126
 
 //---------Width and Height-------------
 const twentyP = '20%'
@@ -111,6 +112,7 @@ export const MetricsSizes = {
   eighteen,
   sixty,
   eight,
+  ots,
   fiftysix,
   sixteen,
   twentyP,

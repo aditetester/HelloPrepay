@@ -41,6 +41,7 @@ function Button({
           Fonts.fontWeightRegular,
           Fonts.fontSizeSmall,
           Common.white,
+          Fonts.fontFamilyPrimary,
         ]}
       >
         {title}

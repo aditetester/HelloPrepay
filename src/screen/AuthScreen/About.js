@@ -72,6 +72,7 @@ const About = ({ navigation, route }) => {
               Common.titleText,
               Fonts.fontWeightRegular,
               Fonts.fontSizeLarge,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             About you
@@ -86,6 +87,7 @@ const About = ({ navigation, route }) => {
               Gutters.tenLMargin,
               Gutters.fiveVMargin,
               Layout.fill,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             First Name
@@ -102,6 +104,7 @@ const About = ({ navigation, route }) => {
               Fonts.fontSizeSmall,
               Fonts.fontWeightSmall,
               Common.primaryBlue,
+              Fonts.fontFamilyPrimary,
               !firstNameIsValid && Common.errorBorder,
             ]}
             onChangeText={text => setFirstName(text)}
@@ -114,6 +117,7 @@ const About = ({ navigation, route }) => {
               Gutters.tenLMargin,
               Gutters.fiveVMargin,
               Layout.fill,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             Last name
@@ -130,6 +134,7 @@ const About = ({ navigation, route }) => {
               Fonts.fontSizeSmall,
               Fonts.fontWeightSmall,
               Common.primaryBlue,
+              Fonts.fontFamilyPrimary,
               !lastNameIsValid && Common.errorBorder,
             ]}
             onChangeText={text => setLastName(text)}
@@ -142,6 +147,7 @@ const About = ({ navigation, route }) => {
               Gutters.tenLMargin,
               Gutters.fiveVMargin,
               Layout.fill,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             Email
@@ -159,6 +165,7 @@ const About = ({ navigation, route }) => {
               Fonts.fontSizeSmall,
               Fonts.fontWeightSmall,
               Common.primaryBlue,
+              Fonts.fontFamilyPrimary,
               !emailIsValid && Common.errorBorder,
             ]}
             onChangeText={e => setEmail(e)}
@@ -171,6 +178,7 @@ const About = ({ navigation, route }) => {
               Gutters.tenLMargin,
               Gutters.fiveVMargin,
               Layout.fill,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             Phone number
@@ -190,7 +198,13 @@ const About = ({ navigation, route }) => {
             ]}
           >
             <Text
-              style={[Fonts.fontSizeSmall, Layout.fill, Gutters.tenHMargin]}
+              style={[
+                Fonts.fontSizeSmall,
+                Layout.fill,
+                Gutters.tenHMargin,
+                Common.greyColor,
+                Fonts.fontFamilyPrimary,
+              ]}
             >
               {params.mobileNumber}
             </Text>
@@ -221,16 +235,18 @@ const About = ({ navigation, route }) => {
                 Common.textColor,
                 Common.innerText,
                 Fonts.fontSizeExtraSmall,
+                Fonts.fontFamilyPrimary,
               ]}
             >
               By sending this information you are agreeing the{' '}
               <Text
                 onPress={() => console.log('pressed')}
                 style={[
-                  Fonts.fontWeightRegular,
-                  Fonts.textDecorationLineUnderline,
                   Common.textColor,
                   Common.innerText,
+                  Fonts.fontWeightRegular,
+                  Fonts.textDecorationLineUnderline,
+                  Fonts.fontFamilyPrimary,
                 ]}
               >
                 Terms and Conditions
@@ -250,9 +266,10 @@ const About = ({ navigation, route }) => {
                 Layout.justifyContentCenter,
               ]}
               textStyle={[
+                Common.primaryBlueMode,
                 Fonts.fontWeightRegular,
                 Fonts.fontSizeExtraSmall,
-                Common.primaryBlueMode,
+                Fonts.fontFamilyPrimary,
               ]}
               checkedIcon={
                 <Image
