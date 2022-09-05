@@ -7,6 +7,7 @@ import com.facebook.react.ReactRootView;
 import android.content.Intent;
 import android.content.res.Configuration;
 
+
 public class MainActivity extends ReactActivity {
 
   /**

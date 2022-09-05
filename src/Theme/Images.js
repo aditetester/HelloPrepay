@@ -18,12 +18,20 @@ export default function () {
     otpPlaceHolder: require('../Assets/Images/otpPlaceHolder.png'),
     delete: require('../Assets/Images/delete.png'),
     verified: require('../Assets/Images/verified.png'),
+    bluetick: require('../Assets/Images/bluetick.png'),
+    checked: require('../Assets/Images/checked.png'),
+    unchecked: require('../Assets/Images/unchecked.png'),
+
+    checkedround: require('../Assets/PaymentMethodImage/checked.png'),
+    uncheckedround: require('../Assets/PaymentMethodImage/unchecked.png'),
 
     check: require('../Assets/Images/check.png'),
     uncheck: require('../Assets/Images/uncheck.png'),
     welcome: require('../Assets/Images/welcome.png'),
     avatar: require('../Assets/Images/avatar.png'),
     profile: require('../Assets/Images/profile.png'),
+    checkcircle: require('../Assets/Images/checkcircle.png'),
+    whitecheckcircle: require('../Assets/Images/whitecheckcircle.png'),
 
     carrier1: require('../Assets/CarrierImage/attprepaid.png'),
     carrier2: require('../Assets/CarrierImage/boost.png'),
@@ -37,5 +45,14 @@ export default function () {
     carrier10: require('../Assets/CarrierImage/tmobile-logo.png'),
     carrier11: require('../Assets/CarrierImage/ultra.png'),
     carrier12: require('../Assets/CarrierImage/verizon-logo.png'),
+
+    whitecarrier12: require('../Assets/Images/carrierwhite.png'),
+
+    cards: require('../Assets/PaymentMethodImage/cards.png'),
+    applepay: require('../Assets/PaymentMethodImage/applepay.png'),
+    gpay: require('../Assets/PaymentMethodImage/gpay.png'),
+    paypal: require('../Assets/PaymentMethodImage/paypal.png'),
+    samsungpay: require('../Assets/PaymentMethodImage/samsungpay.png'),
+    allcards: require('../Assets/PaymentMethodImage/allcards.png'),
   }
 }

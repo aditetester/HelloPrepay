@@ -7,15 +7,18 @@ const Colors = {
   primaryBlue: '#28224B',
   primaryBlueMode: 'white',
   primaryPink: '#DB006A',
+  persistLoadingBackground: '#DB006A',
   primaryGrey: '#7B808D',
   secondaryGrey: '#71787D',
   normalText: '#ffffff',
   offWhite: '#F3F5F7',
+  offWhiteSecondary: '#EFEFED',
   searchBarBackgRoundColor: '#F3F5F7',
   white: 'white',
   black: 'black',
   grey: 'grey',
-  red: 'red',
+  red: '#FF3333',
+  placeHolder: '#dee2e6',
 }
 
 const NavigationColors = {

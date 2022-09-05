@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "148315333768",
+    "project_id": "prepaidiq1",
+    "storage_bucket": "prepaidiq1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148315333768:android:9dddad266c26ef13baab3d",
+        "android_client_info": {
+          "package_name": "com.prepaidiq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148315333768-gnjldk6u2tpn87377tjrvjecsf600h8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3BGwJTjfP4PTnBvTmSCENnZ9SNyNaZIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148315333768-gnjldk6u2tpn87377tjrvjecsf600h8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,8 +6,8 @@ const DATA = [
   },
   {
     id: '2',
-    title: 'boostmobile',
-    image: require('../../Assets/CarrierImage/boost.png'),
+    title: 'verizon',
+    image: require('../../Assets/CarrierImage/verizon-logo.png'),
   },
   {
     id: '3',
@@ -56,8 +56,8 @@ const DATA = [
   },
   {
     id: '12',
-    title: 'verizon',
-    image: require('../../Assets/CarrierImage/verizon-logo.png'),
+    title: 'boostmobile',
+    image: require('../../Assets/CarrierImage/boost.png'),
   },
 ]
 

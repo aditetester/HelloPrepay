@@ -4,11 +4,12 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import { StartupContainer } from './Containers'
+import PersistLoading from './Containers/PersistLoading'
 import './Translations'
 
 const App = () => (
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
+    <PersistGate loading={<PersistLoading />} persistor={persistor}>
       <StartupContainer />
     </PersistGate>
   </Provider>

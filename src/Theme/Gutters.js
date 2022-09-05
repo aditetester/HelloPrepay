@@ -76,6 +76,9 @@ export default function ({ MetricsSizes }) {
         [`${key}MHeight`]: {
           maxHeight: value,
         },
+        [`${key}Opacity`]: {
+          opacity: value,
+        },
       }),
       {},
     ),

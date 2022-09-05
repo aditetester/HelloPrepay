@@ -6,36 +6,66 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Pressable,
+  Alert,
 } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import Button from '@/Components/UI/Button'
+import { Button } from '@rneui/themed'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/Store/User'
+import auth from '@react-native-firebase/auth'
 
 const Otp = ({ navigation, route }) => {
   let params = route.params
-  console.log(params)
-  const { Common, Images, Layout, Gutters, Fonts } = useTheme()
-  const [formattedNumber, setFormattedNumber] = useState()
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const theme = useSelector(state => state.theme)
+
+  const { Common, Images, Layout, Gutters, Fonts } = useTheme()
+  const [formattedNumber, setFormattedNumber] = useState()
+  const [buttonLoading, setButtonLoading] = useState(false)
   const [key1, setKey1] = useState('')
   const [key2, setKey2] = useState('')
   const [key3, setKey3] = useState('')
   const [key4, setKey4] = useState('')
+  const [key5, setKey5] = useState('')
+  const [key6, setKey6] = useState('')
+  const [OTPCode, setOTPCode] = useState('')
 
-  const onContinueHandler = () => {
+  useEffect(() => {
+    setOTPCode(key1 + key2 + key3 + key4 + key5 + key6)
+  }, [key1, key2, key3, key4, key5, key6])
+
+  console.log(OTPCode)
+
+  const onContinueHandler = async () => {
+    setButtonLoading(true)
     if (params.navigateFrom === 'Login') {
-      dispatch(setUser({ isAuth: true }))
-      return
+      try {
+        await params.confirm.confirm(OTPCode)
+        dispatch(setUser({ isAuth: true }))
+        // Alert.alert('VALID', 'Code Is Valid')
+        setButtonLoading(false)
+        return
+      } catch (error) {
+        setButtonLoading(false)
+        Alert.alert('Invalid Code', 'You Entered Invalid Code')
+        setKey1('')
+        setKey2('')
+        setKey3('')
+        setKey4('')
+        setKey5('')
+        setKey6('')
+        setOTPCode('')
+        return
+      }
     }
     if (params.navigateFrom === 'MobileNumber') {
       navigation.navigate('About', { mobileNumber: formattedNumber })
       return
     }
+    setButtonLoading(false)
     return
   }
 
@@ -48,11 +78,19 @@ const Otp = ({ navigation, route }) => {
       setKey3(keyvalue.toString())
     } else if (key4 === '') {
       setKey4(keyvalue.toString())
+    } else if (key5 === '') {
+      setKey5(keyvalue.toString())
+    } else if (key6 === '') {
+      setKey6(keyvalue.toString())
     }
   }
 
   const onDeleteValue = () => {
-    if (key4 !== '') {
+    if (key6 !== '') {
+      setKey6('')
+    } else if (key5 !== '') {
+      setKey5('')
+    } else if (key4 !== '') {
       setKey4('')
     } else if (key3 !== '') {
       setKey3('')
@@ -67,26 +105,7 @@ const Otp = ({ navigation, route }) => {
     navigation.goBack()
   }
 
-  useEffect(() => {
-    // try {
-    let formatPhoneNumber = str => {
-      let cleaned = ('' + str).replace(/\D/g, '')
-      let match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/)
-      if (match) {
-        let intlCode = match[1]
-          ? `${params.countyCode} `
-          : `${params.countyCode} `
-        setFormattedNumber(
-          [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join(''),
-        )
-      }
-      return null
-    }
-    formatPhoneNumber(params.mobileNumber)
-    // } catch {
-    //   err => console.log('err', err)
-    // }
-  }, [params])
+  //-----------------------------------------
 
   useEffect(() => {
     navigation.setOptions({
@@ -150,7 +169,7 @@ const Otp = ({ navigation, route }) => {
               Fonts.fontFamilyPrimary,
             ]}
           >
-            We’ve sent you a 4 digit code through SMS.
+            We’ve sent you a 6 digit code through SMS.
           </Text>
         </View>
         <View
@@ -244,6 +263,50 @@ const Otp = ({ navigation, route }) => {
                 ]}
               >
                 {key4}
+              </Text>
+            ) : (
+              <Image
+                source={Images.otpPlaceHolder}
+                style={[Gutters.tenWidth, Gutters.tenHeight, Layout.selfCenter]}
+              />
+            )}
+          </View>
+          <View
+            style={[Gutters.thirtyWidth, Gutters.fiftyHeight, Layout.center]}
+          >
+            {key5 ? (
+              <Text
+                style={[
+                  Common.primaryPink,
+                  Fonts.fontSizeRegular,
+                  Fonts.fontWeightRegular,
+                  Layout.selfCenter,
+                  Fonts.fontFamilyPrimary,
+                ]}
+              >
+                {key5}
+              </Text>
+            ) : (
+              <Image
+                source={Images.otpPlaceHolder}
+                style={[Gutters.tenWidth, Gutters.tenHeight, Layout.selfCenter]}
+              />
+            )}
+          </View>
+          <View
+            style={[Gutters.thirtyWidth, Gutters.fiftyHeight, Layout.center]}
+          >
+            {key6 ? (
+              <Text
+                style={[
+                  Common.primaryPink,
+                  Fonts.fontSizeRegular,
+                  Fonts.fontWeightRegular,
+                  Layout.selfCenter,
+                  Fonts.fontFamilyPrimary,
+                ]}
+              >
+                {key6}
               </Text>
             ) : (
               <Image
@@ -535,18 +598,29 @@ const Otp = ({ navigation, route }) => {
             </Pressable>
           </View>
           <View style={[Layout.row, Layout.justifyContentBetween, Layout.fill]}>
+            <View
+              style={[
+                Gutters.twentyninePWidth,
+                Gutters.eightyfivePHeight,
+                Layout.fill,
+                Common.backgroundPrimary,
+                Common.borderRadius,
+                Layout.center,
+                Gutters.tenVMargin,
+                Gutters.tenHMargin,
+              ]}
+            ></View>
             <Pressable
               style={({ pressed }) => [
                 pressed && Common.primaryPinkBackground,
+                Gutters.twentyninePWidth,
+                Gutters.eightyfivePHeight,
+                Layout.fill,
                 !pressed && Common.offWhiteBackground,
-                Common.primaryBlue,
                 Common.borderRadius,
                 Layout.center,
-                Layout.fill,
-                Gutters.tenHMargin,
                 Gutters.tenVMargin,
-                Gutters.oonLMargin,
-                Gutters.eightyfivePHeight,
+                Gutters.tenHMargin,
               ]}
               onPress={() => onKeyPress('0')}
             >
@@ -554,10 +628,10 @@ const Otp = ({ navigation, route }) => {
                 <Text
                   style={[
                     pressed && Common.white,
-                    !pressed && Common.primaryBlue,
-                    !pressed && Fonts.fontWeightSmall,
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
+                    !pressed && Fonts.fontWeightSmall,
+                    !pressed && Common.primaryBlue,
                   ]}
                 >
                   0
@@ -567,12 +641,12 @@ const Otp = ({ navigation, route }) => {
             <Pressable
               style={({ pressed }) => [
                 pressed && Common.primaryPinkBackground,
-                !pressed && Common.offWhiteBackground,
-                Common.borderRadius,
-                Layout.fill,
-                Layout.center,
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
+                Layout.fill,
+                !pressed && Common.offWhiteBackground,
+                Common.borderRadius,
+                Layout.center,
                 Gutters.tenVMargin,
                 Gutters.tenHMargin,
               ]}
@@ -598,7 +672,7 @@ const Otp = ({ navigation, route }) => {
             Gutters.tenVMargin,
           ]}
         >
-          <Button
+          {/* <Button
             onPress={() => {
               onContinueHandler()
             }}
@@ -606,11 +680,34 @@ const Otp = ({ navigation, route }) => {
             size="sm"
             fontSize={16}
             backgroundColor={
-              key1 && key2 && key3 && key4 !== ''
+              OTPCode.length === 6
                 ? Common.primaryPink.color
                 : Common.greyColor.color
             }
-            disabled={!(key1 && key2 && key3 && key4 !== '')}
+            disabled={!(OTPCode.length === 6)}
+          /> */}
+          <Button
+            title="Continue"
+            loading={buttonLoading}
+            onPress={() => {
+              onContinueHandler()
+            }}
+            loadingProps={[{ size: 'small' }, Common.whiteColor]}
+            titleStyle={[Fonts.fontWeightRegular]}
+            buttonStyle={[
+              Common.primaryPinkBackground,
+              Gutters.fiftyfiveHeight,
+              Common.borderRadius,
+              // Layout.fullHeight,
+            ]}
+            containerStyle={[
+              Gutters.ninetyfivePWidth,
+              Layout.selfCenter,
+              Common.borderRadius,
+            ]}
+            disabled={!(OTPCode.length === 6)}
+            disabledStyle={[Common.whiteColor, Common.greyBackground]}
+            disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
           />
         </View>
       </View>

@@ -94,6 +94,13 @@ export default function ({ Colors, ...args }) {
         borderColor: Colors.offWhite,
         borderWidth: 1,
       },
+      offWhiteSecondary: {
+        color: Colors.offWhiteSecondary,
+      },
+      offWhiteSecondaryBorder: {
+        borderColor: Colors.offWhiteSecondary,
+        borderWidth: 1,
+      },
       whiteColorBackground: {
         backgroundColor: Colors.white,
       },
@@ -118,6 +125,12 @@ export default function ({ Colors, ...args }) {
       borderRadius: {
         borderRadius: 4,
       },
+      borderWidth: {
+        borderWidth: 1,
+      },
+      borderRadiusMedium: {
+        borderRadius: 10,
+      },
       greyColor: {
         color: Colors.grey,
       },
@@ -133,12 +146,24 @@ export default function ({ Colors, ...args }) {
       borderWidthOne: {
         borderWidth: 1,
       },
+      borderWidthTwo: {
+        borderWidth: 2,
+      },
       errorBorder: {
         borderColor: Colors.red,
         borderWidth: 1,
       },
+      errorColor: {
+        color: Colors.red,
+      },
       redBackground: {
         backgroundColor: Colors.red,
+      },
+      persistLoadingBackground: {
+        backgroundColor: Colors.persistLoadingBackground,
+      },
+      placeHolderText: {
+        color: Colors.placeHolder,
       },
     }),
   }

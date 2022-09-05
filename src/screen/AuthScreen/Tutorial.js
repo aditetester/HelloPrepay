@@ -1,3 +1,7 @@
+/*
+@format
+@flow
+*/
 import React from 'react'
 import {
   SafeAreaView,
@@ -56,7 +60,6 @@ const Slide = ({ item }) => {
         }}
         source={item?.image}
       />
-
       <View
         style={[
           { flex: 1, alignItems: 'center' },
@@ -262,7 +265,7 @@ const Tutorial = ({ navigation }) => {
         bounces={false}
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
-        contentContainerStyle={{ height: height * 0.75 }}
+        // contentContainerStyle={{ height: height * 0.75 }}
         showsHorizontalScrollIndicator={false}
         horizontal
         data={slides}

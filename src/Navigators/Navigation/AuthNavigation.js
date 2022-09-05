@@ -27,6 +27,7 @@ const AuthNavigation = () => {
         />
 
         <Stack.Navigator
+          // initialRouteName="Otp"
           screenOptions={{
             headerStyle: {
               backgroundColor: Common.backgroundPrimary.backgroundColor,

@@ -14,17 +14,18 @@ import Button from '@/Components/UI/Button'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/Store/User'
 import PhoneInput from 'react-native-phone-number-input'
+import { auth, getAuth } from '@react-native-firebase/auth'
 
 const EnterMobileNumber = ({ navigation }) => {
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
-  const [formattedNumber, setFormattedNumber] = useState()
   const theme = useSelector(state => state.theme)
 
   const [value, setValue] = useState('')
   const phoneInput = useRef(null)
   const [code, setCode] = useState('+1')
+  let formattedNumber = code + value
 
   useEffect(() => {
     let formatPhoneNumber = str => {
@@ -45,7 +46,6 @@ const EnterMobileNumber = ({ navigation }) => {
       countyCode: code,
       mobileNumber: value,
     })
-    // dispatch(setUser({ isAuth: true }))
   }
 
   const onKeyPress = keyvalue => {
@@ -115,14 +115,10 @@ const EnterMobileNumber = ({ navigation }) => {
 
         <View
           style={[
-            {
-              backgroundColor: 'red',
-              width: '95%',
-              alignItems: 'center',
-            },
             Common.backgroundPrimary,
-            // Gutters.fortyTMargin,
+            Gutters.ninetyfivePWidth,
             Layout.selfCenter,
+            Layout.alignItemsCenter,
           ]}
         >
           <PhoneInput
@@ -137,11 +133,10 @@ const EnterMobileNumber = ({ navigation }) => {
               setCode(`+${text.callingCode.toString()}`)
             }}
             containerStyle={[
-              { height: 70 },
               Common.offWhiteBorder,
               Common.offWhiteBackground,
               Gutters.ninetyPWidth,
-              // Gutters.fiftyfiveHeight,
+              Gutters.seventyHeight,
             ]}
             textInputStyle={[
               Common.primaryBlue,

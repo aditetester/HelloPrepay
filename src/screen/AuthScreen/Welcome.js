@@ -1,6 +1,6 @@
 import { useTheme } from '@/Hooks'
 import React, { useEffect } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, Image } from 'react-native'
+import { View, Text, SafeAreaView, Image } from 'react-native'
 import Button from '@/Components/UI/Button'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/Store/User'
@@ -22,7 +22,7 @@ const Welcome = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>
       <View style={[Layout.fill, Common.backgroundPrimary]}>
         <View
           style={[
@@ -39,6 +39,7 @@ const Welcome = ({ navigation, route }) => {
               Fonts.fontWeightRegular,
               Fonts.fontSizeRegular,
               Gutters.tenBMargin,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             Welcome {params.firstName}!
@@ -49,6 +50,7 @@ const Welcome = ({ navigation, route }) => {
               Common.primaryGrey,
               Fonts.fontWeightSmall,
               Fonts.fontSizeSmall,
+              Fonts.fontFamilyPrimary,
             ]}
           >
             Refill your phone number right away.
@@ -78,23 +80,16 @@ const Welcome = ({ navigation, route }) => {
         <View style={[Layout.center, Layout.flexSix]}>
           <Image
             source={Images.welcome}
-            style={{
-              height: '80%',
-              width: '100%',
-              resizeMode: 'cover',
-            }}
+            style={[
+              { resizeMode: 'cover' },
+              Gutters.eightyPHeight,
+              Gutters.hundredPWidth,
+            ]}
           />
         </View>
       </View>
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-})
 
 export default Welcome
