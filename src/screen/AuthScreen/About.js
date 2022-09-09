@@ -7,15 +7,23 @@ import {
   Image,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
-import { CheckBox, Icon } from '@rneui/themed'
+import { CheckBox } from '@rneui/themed'
 import Button from '@/Components/UI/Button'
+import { firebase } from '@react-native-firebase/app'
+import axios from 'axios'
+import { BASE_URL } from '@/Config'
+import { useDispatch } from 'react-redux'
+import { setUser } from '@/Store/User'
 
 const About = ({ navigation, route }) => {
   let params = route.params
+  let dispatch = useDispatch()
   const { Common, Fonts, Layout, Images, Gutters } = useTheme()
+  const [formattedNumber, setFormattedNumber] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -34,7 +42,29 @@ const About = ({ navigation, route }) => {
   }
 
   const onContinueHandler = () => {
-    navigation.navigate('Welcome', { firstName: firstName })
+    axios
+      .post(`${BASE_URL}register`, {
+        phone_number: params.phone_number,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+      })
+      .then(res => {
+        let json = JSON.stringify(res.data)
+        let obj = JSON.parse(json)
+        console.log('DATA', obj)
+        if (obj.register === 'Registration successful') {
+          navigation.navigate('SelectCarrier', {
+            token: obj.token,
+            first_name: firstName,
+            obj: obj,
+          })
+          return
+        } else if (obj.message.email[0] === 'Email Should Be Unique ') {
+          Alert.alert('', 'Email Should Be Unique!!')
+        }
+      })
+      .catch(err => console.log(err))
   }
 
   useEffect(() => {
@@ -42,6 +72,25 @@ const About = ({ navigation, route }) => {
       headerLeft: () => null,
     })
   }, [navigation])
+
+  useEffect(() => {
+    function phoneFormat(input) {
+      //returns (###) ###-####
+      input = input.replace(/\D/g, '').substring(0, 10) //Strip everything but 1st 10 digits
+      var size = input.length
+      if (size > 0) {
+        input = '(' + input
+      }
+      if (size > 3) {
+        input = input.slice(0, 4) + ') ' + input.slice(4)
+      }
+      if (size > 6) {
+        input = input.slice(0, 9) + '-' + input.slice(9)
+      }
+      return setFormattedNumber(input)
+    }
+    phoneFormat(params.phone_number)
+  }, [params.phone_number])
 
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
@@ -206,7 +255,7 @@ const About = ({ navigation, route }) => {
                 Fonts.fontFamilyPrimary,
               ]}
             >
-              {params.mobileNumber}
+              +1{formattedNumber}
             </Text>
             <Image
               source={Images.verified}

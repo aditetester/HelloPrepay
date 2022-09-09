@@ -11,9 +11,9 @@ import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '@/Components/UI/Button'
-import NumberFormat from 'react-number-format'
 
 const AddMoney = ({ navigation, route }) => {
+  let params = route.params
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
 
@@ -29,7 +29,10 @@ const AddMoney = ({ navigation, route }) => {
   }, [format])
 
   const onContinueHandler = () => {
-    navigation.navigate('Checkout', { amount: numFormat })
+    navigation.navigate('Checkout', {
+      amount: numFormat,
+      phone_number: params.phone_number,
+    })
     return
   }
 

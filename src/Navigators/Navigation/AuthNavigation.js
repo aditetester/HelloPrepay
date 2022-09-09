@@ -60,8 +60,8 @@ const AuthNavigation = () => {
             headerBackTitleVisible: false,
           }}
         >
-          <Stack.Screen name="Tutorial" component={Tutorial} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Tutorial" component={Tutorial} />
           <Stack.Screen name="Otp" component={Otp} />
           <Stack.Screen name="SelectCarrier" component={SelectCarrier} />
           <Stack.Screen

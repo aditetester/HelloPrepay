@@ -11,23 +11,51 @@ import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { setUser } from '@/Store/User'
 import Button from '@/Components/UI/Button'
 import { SearchBar } from '@rneui/themed'
-import DATA from '../Data/data'
+import { BASE_URL } from '@/Config'
+import axios from 'axios'
 
-const SelectCarrier = ({ navigation }) => {
+const SelectCarrier = ({ navigation, route }) => {
+  const params = route.params
+  console.log('Carrier Params', params.obj)
   const { Common, Images, Fonts, Gutters, Layout } = useTheme()
   const user = useSelector(state => state.user)
   const theme = useSelector(state => state.theme)
   const dispatch = useDispatch()
   const [selectedId, setSelectedId] = useState()
+  const [carrier, setCarrier] = useState()
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}carrier`, {
+        headers: { Authorization: 'Bearer ' + params.token },
+      })
+      .then(res => setCarrier(res.data.result))
+      .then(err => console.log(err))
+  }, [params])
 
   const onContinueHandler = () => {
     if (!selectedId) {
       return
     }
-    navigation.navigate('EnterMobileNumber')
+    axios
+      .post(
+        `${BASE_URL}profile_update`,
+        { carrier_id: selectedId },
+        {
+          headers: { Authorization: 'Bearer ' + params.token },
+        },
+      )
+      .then(res => {
+        let json = JSON.stringify(res.data)
+        let obj = JSON.parse(json)
+        navigation.navigate('Welcome', {
+          first_name: params.first_name,
+          obj: params.obj,
+        })
+      })
+      .catch(err => console.log('ERROR ERROR ERROR ', err))
   }
 
   const onBackHandler = () => {
@@ -51,7 +79,7 @@ const SelectCarrier = ({ navigation }) => {
   const Item = ({ id, image }) => {
     return (
       <TouchableHighlight
-        underlayColor={Common.white.color}
+        underlayColor={[Common.white.color]}
         style={[
           Gutters.twentyPadding,
           Gutters.eightVMargin,
@@ -67,7 +95,7 @@ const SelectCarrier = ({ navigation }) => {
         onPress={() => onSelectCarrier(id)}
       >
         <Image
-          source={image}
+          source={{ uri: image }}
           style={[
             Layout.selfCenter,
             Gutters.ninetyPWidth,
@@ -79,20 +107,20 @@ const SelectCarrier = ({ navigation }) => {
     )
   }
 
-  const renderItem = ({ item }) => <Item id={item.id} image={item.image} />
+  const renderItem = ({ item }) => (
+    <Item id={item.id} image={item.image} color={item.color} />
+  )
 
-  const arrayholder = DATA
-
-  const [data, setData] = useState(DATA)
+  const arrayholder = carrier
   const [searchValue, setSearchValue] = useState('')
 
   const searchFunction = text => {
     const updatedData = arrayholder.filter(item => {
-      const item_data = `${item.title.toUpperCase()})`
+      const item_data = `${item.name.toUpperCase()})`
       const text_data = text.toUpperCase()
       return item_data.indexOf(text_data) > -1
     })
-    setData(updatedData)
+    setCarrier(updatedData)
     setSearchValue(text)
   }
 
@@ -169,7 +197,7 @@ const SelectCarrier = ({ navigation }) => {
         lightTheme={theme.darkMode ? false : true}
       />
       <FlatList
-        data={data}
+        data={carrier}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         numColumns={2}

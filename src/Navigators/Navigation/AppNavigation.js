@@ -15,6 +15,8 @@ import Checkout from '@/screen/AppScreen/Checkout'
 import PaymentSuccess from '@/screen/AppScreen/PaymentSuccess'
 import Profile from '@/screen/AppScreen/Profile'
 import PaymentFailed from '@/screen/AppScreen/PaymentFailed'
+import CarrierPlans from '@/Components/CarrierPlans'
+import UserHistory from '@/Components/History'
 
 const Stack = createStackNavigator()
 const AuthNavigation = () => {
@@ -57,6 +59,8 @@ const AuthNavigation = () => {
           <Stack.Screen name="AddMoney" component={AddMoney} />
           <Stack.Screen name="Checkout" component={Checkout} />
           <Stack.Screen name="PaymentSuccess" component={PaymentSuccess} />
+          <Stack.Screen name="CarrierPlans" component={CarrierPlans} />
+          <Stack.Screen name="UserHistory" component={UserHistory} />
           <Stack.Screen
             options={{
               gestureEnabled: true,

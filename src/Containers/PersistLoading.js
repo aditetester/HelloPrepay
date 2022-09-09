@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, SafeAreaView, StatusBar, Image } from 'react-native'
+import { View, SafeAreaView, StatusBar, Image, Appearance } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { LinearProgress } from '@rneui/themed'
 import { useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 const PersistLoading = () => {
   const { Common, Layout, Gutters, Images } = useTheme()
   const theme = useSelector(state => state.theme)
+  const colorScheme = Appearance.getColorScheme()
 
   return (
     <SafeAreaView style={[Common.persistLoadingBackground, Layout.fill]}>
@@ -24,25 +25,17 @@ const PersistLoading = () => {
         {theme.darkMode ? (
           <Image
             source={Images.darkThemeLogo}
-            style={{
-              resizeMode: 'contain',
-              width: '50%',
-            }}
+            style={[{ resizeMode: 'contain' }, Gutters.fiftyPWidth]}
           />
         ) : (
           <Image
             source={Images.whiteThemeLogo}
-            style={{ resizeMode: 'contain', width: '50%' }}
+            style={[{ resizeMode: 'contain' }, Gutters.fiftyPWidth]}
           />
         )}
         <LinearProgress
-          style={[
-            { width: '70%' },
-            // Gutters.twentyVMargin,
-            // Gutters.fiftyPWidth,
-            Gutters.tenMargin,
-          ]}
-          color={theme.darkMode ? '#FFFFFF' : '#DB006A'}
+          style={[Gutters.tenMargin, Gutters.seventyPWidth]}
+          color={theme.darkMode ? Common.white.color : Common.primaryPink.color}
           value={10}
           variant="indeterminate"
         />

@@ -14,17 +14,19 @@ import { useSelector } from 'react-redux'
 import { Button } from '@rneui/themed'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/Store/User'
-import auth from '@react-native-firebase/auth'
+import axios from 'axios'
+import { BASE_URL } from '@/Config'
+import Timer from '@/Components/UI/Timer'
 
 const Otp = ({ navigation, route }) => {
   let params = route.params
-  const user = useSelector(state => state.user)
+  console.log(params)
   const dispatch = useDispatch()
   const theme = useSelector(state => state.theme)
 
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
-  const [formattedNumber, setFormattedNumber] = useState()
   const [buttonLoading, setButtonLoading] = useState(false)
+  const [counter, setCounter] = useState(15)
   const [key1, setKey1] = useState('')
   const [key2, setKey2] = useState('')
   const [key3, setKey3] = useState('')
@@ -37,15 +39,13 @@ const Otp = ({ navigation, route }) => {
     setOTPCode(key1 + key2 + key3 + key4 + key5 + key6)
   }, [key1, key2, key3, key4, key5, key6])
 
-  console.log(OTPCode)
-
-  const onContinueHandler = async () => {
+  const onContinueHandler = async PARAMS => {
     setButtonLoading(true)
-    if (params.navigateFrom === 'Login') {
+    if (PARAMS.navigateFor === 'Registration') {
       try {
-        await params.confirm.confirm(OTPCode)
-        dispatch(setUser({ isAuth: true }))
-        // Alert.alert('VALID', 'Code Is Valid')
+        setButtonLoading(true)
+        await PARAMS.OTP.confirm(OTPCode)
+        navigation.navigate('About', { phone_number: PARAMS.phone_number })
         setButtonLoading(false)
         return
       } catch (error) {
@@ -61,13 +61,62 @@ const Otp = ({ navigation, route }) => {
         return
       }
     }
-    if (params.navigateFrom === 'MobileNumber') {
-      navigation.navigate('About', { mobileNumber: formattedNumber })
-      return
+    if (PARAMS.navigateFor === 'Login') {
+      setButtonLoading(true)
+      axios
+        .post(`${BASE_URL}login`, {
+          phone_number: PARAMS.phone_number,
+          otp: OTPCode,
+        })
+        .then(res => {
+          setButtonLoading(true)
+          let data = JSON.stringify(res.data)
+          let obj = JSON.parse(data)
+          if (obj.success === true) {
+            if (obj.carrier_id === null) {
+              navigation.navigate('SelectCarrier', {
+                token: obj.token,
+                first_name: obj.first_name,
+                obj: obj,
+              })
+              setButtonLoading(false)
+              return
+            } else {
+              dispatch(setUser({ userData: obj, isAuth: true }))
+              setButtonLoading(false)
+            }
+          } else if (obj.success === false) {
+            setButtonLoading(false)
+            Alert.alert('', obj.message)
+            setKey1('')
+            setKey2('')
+            setKey3('')
+            setKey4('')
+            setKey5('')
+            setKey6('')
+            setOTPCode('')
+          }
+        })
+        .catch(() => {
+          setButtonLoading(false)
+          Alert.alert('Error!', 'Something Went Wrong...')
+        })
     }
     setButtonLoading(false)
     return
   }
+
+  const onSendCodeAgainHandler = () => {
+    // onContinueHandler(params)
+    setCounter(10)
+  }
+
+  useEffect(() => {
+    if (OTPCode.length === 6) {
+      setButtonLoading(true)
+      onContinueHandler(params)
+    }
+  }, [OTPCode])
 
   const onKeyPress = keyvalue => {
     if (key1 === '') {
@@ -316,7 +365,7 @@ const Otp = ({ navigation, route }) => {
             )}
           </View>
         </View>
-        <Text
+        {/* <Text
           style={[
             Common.titleText,
             Layout.selfCenter,
@@ -329,7 +378,26 @@ const Otp = ({ navigation, route }) => {
           ]}
         >
           Send code again
-        </Text>
+        </Text> */}
+        <TouchableOpacity
+          style={[Layout.alignItemsCenter, Layout.flexTwo]}
+          onPress={() => onSendCodeAgainHandler()}
+        >
+          {/* <Text
+            style={[
+              Common.titleText,
+              Layout.selfCenter,
+              // Layout.flexTwo,
+              Fonts.fontSizeSmall,
+              Fonts.textDecorationLineUnderline,
+              Fonts.fontWeightRegular,
+              Fonts.fontFamilyPrimary,
+            ]}
+          >
+            Send code again
+          </Text> */}
+          <Timer maxRange={counter} />
+        </TouchableOpacity>
         <View
           style={[
             Gutters.ninetyPWidth,
@@ -690,7 +758,7 @@ const Otp = ({ navigation, route }) => {
             title="Continue"
             loading={buttonLoading}
             onPress={() => {
-              onContinueHandler()
+              onContinueHandler(params)
             }}
             loadingProps={[{ size: 'small' }, Common.whiteColor]}
             titleStyle={[Fonts.fontWeightRegular]}

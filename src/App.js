@@ -7,12 +7,18 @@ import { StartupContainer } from './Containers'
 import PersistLoading from './Containers/PersistLoading'
 import './Translations'
 
-const App = () => (
-  <Provider store={store}>
-    <PersistGate loading={<PersistLoading />} persistor={persistor}>
-      <StartupContainer />
-    </PersistGate>
-  </Provider>
-)
+const App = () => {
+  return (
+    <Provider store={store}>
+      <PersistGate
+        loading={<PersistLoading />}
+        persistor={persistor}
+        onBeforeLift={() => new Promise(resolve => setTimeout(resolve, 2000))}
+      >
+        <StartupContainer />
+      </PersistGate>
+    </Provider>
+  )
+}
 
 export default App

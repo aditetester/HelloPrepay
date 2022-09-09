@@ -1,45 +1,39 @@
-import React, { useState, useRef } from 'react'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  TextInput,
-} from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, SafeAreaView, TextInput } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
-import PhoneInput from 'react-native-phone-number-input'
 import auth from '@react-native-firebase/auth'
 import { Button } from '@rneui/themed'
+import { BASE_URL } from '@/Config'
+import axios from 'axios'
+import { useGetVerifyUserMutation } from '../../Services/api'
 
 const Login = ({ navigation }) => {
-  const { Common, Layout, Fonts, Images, Gutters } = useTheme()
-  const [value, setValue] = useState('')
+  const { Common, Layout, Fonts, Gutters } = useTheme()
+  const [value, setValue] = useState('6666666666')
   const [buttonLoading, setButtonLoading] = useState(false)
-  const [formattedValue, setFormattedValue] = useState('')
   const [error, setError] = useState('')
-  const phoneInput = useRef(null)
-  const [code, setCode] = useState('+1')
-
-  //-------------------------------
-
+  const withoutFormateNumber = value.replace(/\D/g, '')
   const [initializing, setInitializing] = useState(true)
-  const [confirm, setConfirm] = useState(null)
-  const [otpCode, setOtpCode] = useState('')
-
   const [user, setUser] = useState()
 
-  // Handle user state changes
-  function onAuthStateChanged(users) {
-    console.log('users', users)
-    setUser(users)
-    if (initializing) setInitializing(false)
-  }
+  const [getVerifyUser, { data, isLoading, isSuccess }] =
+    useGetVerifyUserMutation()
+
+  useEffect(() => {
+    getVerifyUser({ phone_number: 8888888888 })
+    console.log('DATA ffefef', data)
+  }, [])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+    })
+  }, [navigation])
 
   useEffect(() => {
     function phoneFormat(input) {
-      //returns (###) ###-####
-      input = input.replace(/\D/g, '').substring(0, 10) //Strip everything but 1st 10 digits
+      input = input.replace(/\D/g, '').substring(0, 10)
       var size = input.length
       if (size > 0) {
         input = '(' + input
@@ -57,27 +51,35 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-    // return subscriber // unsubscribe on unmount
+    return subscriber
   }, [])
 
-  const signIn = async phoneNumber => {
+  function onAuthStateChanged(users) {
+    setUser(users)
+    if (initializing) {
+      setInitializing(false)
+    }
+  }
+
+  const signInUsingFirebase = async phoneNumber => {
     setButtonLoading(true)
-    const confirmation = await auth()
+    await auth()
       .signInWithPhoneNumber(`+1${phoneNumber}`)
       .then(res => {
+        setButtonLoading(true)
         setError('')
-        setButtonLoading(false)
-        setConfirm(res)
+        // setConfirm(res)
+        console.log('RESPONSE', res)
         navigation.navigate('Otp', {
-          navigateFrom: 'Login',
-          countyCode: code,
-          mobileNumber: value,
-          confirm: confirm,
+          navigateFor: 'Registration',
+          phone_number: withoutFormateNumber,
+          OTP: res,
         })
+        setButtonLoading(false)
+        // setValue('')
       })
       .catch(err => {
         setButtonLoading(false)
-        console.log(err)
         if (err.code === 'auth/invalid-phone-number') {
           setError('Invalid Number')
         } else if (err.code === 'auth/too-many-requests') {
@@ -88,32 +90,30 @@ const Login = ({ navigation }) => {
       })
   }
 
-  //-------------------------------
-
-  const onContinueHandler = () => {
+  const onContinueHandler = async () => {
+    setButtonLoading(true)
     setError('')
-    if (value.length !== 0) {
-      setButtonLoading(true)
-      signIn(value)
-    }
-    // navigation.navigate('Otp', {
-    //   navigateFrom: 'Login',
-    //   countyCode: code,
-    //   mobileNumber: value,
-    // })
+    await axios
+      .post(`${BASE_URL}verify`, { phone_number: withoutFormateNumber })
+      .then(res => {
+        let data = JSON.stringify(res.data)
+        let obj = JSON.parse(data)
+        if (obj.status === 'active') {
+          navigation.navigate('Otp', {
+            navigateFor: 'Login',
+            OTP: obj.otp,
+            phone_number: withoutFormateNumber,
+          })
+          setButtonLoading(false)
+        } else {
+          signInUsingFirebase(withoutFormateNumber)
+        }
+      })
+      .catch(() => {
+        setButtonLoading(false)
+        setError('Something Went Wrong...')
+      })
   }
-
-  const onRegistrationHandler = () => {
-    navigation.navigate('SelectCarrier')
-  }
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-    })
-  }, [navigation])
-
-  console.log(value)
 
   return (
     <SafeAreaView style={Layout.fill}>
@@ -142,10 +142,9 @@ const Login = ({ navigation }) => {
         </View>
         <View
           style={[
-            { marginHorizontal: 20 },
             Common.backgroundPrimary,
             Gutters.fortyTMargin,
-            // Layout.selfCenter,
+            Gutters.twentyHMargin,
           ]}
         >
           <Text
@@ -157,117 +156,54 @@ const Login = ({ navigation }) => {
           >
             Phone Number
           </Text>
-          <View
-            style={{
-              width: '100%',
-              flexDirection: 'row',
-            }}
-          >
+          <View style={[Layout.row, Gutters.hundredPWidth]}>
             <TextInput
               defaultValue="+1"
               editable={false}
               style={[
-                {
-                  width: '20%',
-                  height: 56,
-                  borderTopLeftRadius: 4,
-                  borderBottomLeftRadius: 4,
-                  textAlign: 'center',
-                  fontWeight: '500',
-                },
                 Common.secondaryGrey,
                 Fonts.fontWeightSmall,
                 Fonts.fontSizeRegular,
+                Fonts.textCenter,
                 Fonts.fontFamilyPrimary,
-                // Common.offWhiteBorder,
                 Common.offWhiteBackground,
+                Common.borderTopLeftRadius,
+                Common.borderBottomLeftRadius,
+                Gutters.twentyPWidth,
+                Gutters.fiftysixHeight,
               ]}
             />
             <TextInput
+              value={value}
               autoFocus={true}
-              placeholder="(123) 456-7890"
+              editable={!buttonLoading}
+              placeholder="(415) 333-3333"
               maxLength={14}
               keyboardType="numeric"
               onChangeText={num => setValue(num)}
-              value={value}
+              placeholderTextColor={Common.placeHolderText.color}
               style={[
-                {
-                  width: '80%',
-                  height: 56,
-                  borderTopRightRadius: 4,
-                  borderBottomRightRadius: 4,
-                  alignItems: 'center',
-                },
                 Common.secondaryGrey,
                 Fonts.fontWeightSmall,
                 Fonts.fontSizeRegular,
                 Fonts.fontFamilyPrimary,
                 Common.offWhiteBackground,
+                Common.borderTopRightRadius,
+                Common.borderBottomRightRadius,
+                Gutters.eightyPWidth,
+                Gutters.fiftysixHeight,
+                Layout.alignItemsCenter,
               ]}
             />
           </View>
-          {/* <PhoneInput
-            ref={phoneInput}
-            defaultValue={value}
-            defaultCode="US"
-            layout="second"
-            onChangeText={text => {
-              setValue(text)
-            }}
-            onChangeFormattedText={text => {
-              setFormattedValue(text)
-            }}
-            onChangeCountry={text => {
-              setCode(`+${text.callingCode.toString()}`)
-            }}
-            containerStyle={[
-              Common.offWhiteBorder,
-              Common.offWhiteBackground,
-              Gutters.ninetyPWidth,
-              Gutters.fiftyfiveHeight,
-            ]}
-            textInputStyle={[
-              Common.secondaryGrey,
-              Fonts.fontWeightSmall,
-              Fonts.fontSizeRegular,
-              Gutters.seventyHeight,
-              Fonts.fontFamilyPrimary,
-            ]}
-            showSoftInputOnFocus={true}
-            // withShadow
-            // autoFocus
-            withDarkTheme
-            placeholder="(123) 456-7890"
-            textInputProps={{
-              placeholderTextColor: Common.placeHolderText.color,
-            }}
-            textContainerStyle={Common.offWhiteColor}
-          /> */}
         </View>
         <View
           style={[
             Layout.selfCenter,
             Gutters.ninetyfivePWidth,
             Gutters.twentyFourVMargin,
-            // Gutters.seventyHeight,
-            // Gutters.fiftyBMargin,
           ]}
         >
-          {/* <Button
-            onPress={() => {
-              onContinueHandler()
-            }}
-            title={'continue'}
-            size="sm"
-            fontSize={Fonts.fontSizeMedium.fontSize}
-            backgroundColor={
-              phoneInput.current?.isValidNumber(value)
-                ? Common.primaryPink.color
-                : Common.greyColor.color
-            }
-            // disabled={!phoneInput.current?.isValidNumber(value)}
-            disabled={false}
-          /> */}
           <Button
             title="Continue"
             loading={buttonLoading}
@@ -286,48 +222,16 @@ const Login = ({ navigation }) => {
               Layout.selfCenter,
               Common.borderRadius,
             ]}
-            disabled={!(value.length === 14)}
+            disabled={!(value.length === 14) || buttonLoading}
             disabledStyle={[Common.whiteColor, Common.greyBackground]}
             disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
           />
         </View>
         <View style={[Layout.center, Gutters.twentyBMargin]}>
-          <Text
-            style={[
-              Common.errorColor,
-              Fonts.fontSizeExtraSmall,
-              // Gutters.zeroOsevenOpacity,
-            ]}
-          >
+          <Text style={[Common.errorColor, Fonts.fontSizeExtraSmall]}>
             {error}
           </Text>
         </View>
-        {/* <View style={[Layout.row, Layout.justifyContentCenter]}>
-          <Text
-            style={[
-              Common.innerText,
-              Fonts.fontSizeSmall,
-              Fonts.fontWeightSmall,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            First time here?
-          </Text>
-          <TouchableOpacity onPress={onRegistrationHandler}>
-            <Text
-              style={[
-                Common.primaryPink,
-                Fonts.fontSizeSmall,
-                Fonts.fontWeightSmall,
-                Fonts.textDecorationLineUnderline,
-                Fonts.fontFamilyPrimary,
-              ]}
-            >
-              {' '}
-              Register your number
-            </Text>
-          </TouchableOpacity>
-        </View> */}
       </View>
     </SafeAreaView>
   )

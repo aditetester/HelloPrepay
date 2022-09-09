@@ -125,6 +125,12 @@ export default function ({ Colors, ...args }) {
       borderRadius: {
         borderRadius: 4,
       },
+      borderTopLeftRadius: {
+        borderTopLeftRadius: 4,
+      },
+      borderBottomLeftRadius: {
+        borderBottomLeftRadius: 4,
+      },
       borderWidth: {
         borderWidth: 1,
       },
@@ -139,6 +145,9 @@ export default function ({ Colors, ...args }) {
       },
       secondaryGrey: {
         color: Colors.secondaryGrey,
+      },
+      secondaryGreyBorder: {
+        borderColor: Colors.secondaryGrey,
       },
       borderRadiusOne: {
         borderRadius: 1,

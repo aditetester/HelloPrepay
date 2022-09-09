@@ -1,29 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import {
-  View,
-  Text,
-  Image,
-  SafeAreaView,
-  FlatList,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { View, Text, Image, FlatList, Pressable } from 'react-native'
 import { useTheme } from '@/Hooks'
-import { CheckBox } from '@rneui/themed'
-import Button from '@/Components/UI/Button'
-import Plans from '../Data/plans'
-import plans from '../Data/plans'
+import { useSelector } from 'react-redux'
+import { Avatar, CheckBox, Button } from '@rneui/themed'
+import Plans from '@/screen/Data/plans'
+import { useNavigation } from '@react-navigation/native'
 
-const Selectplan = ({ navigation, route }) => {
-  let params = route.params
+const CarrierPlans = () => {
+  const navigation = useNavigation()
   const theme = useSelector(state => state.theme)
+  const userData = useSelector(state => state.user.userData)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [isSelected, setSelection] = useState('')
-  console.log(params.phone_number)
 
-  const onBackHandler = () => {
-    navigation.goBack()
+  const onContinue = () => {
+    navigation.navigate('AddMoney', { phone_number: userData.phone_number })
   }
 
   const onPlanSelect = id => {
@@ -39,43 +30,6 @@ const Selectplan = ({ navigation, route }) => {
     }
   }
 
-  const onContinueHandler = () => {
-    navigation.navigate('AddMoney', {
-      planId: isSelected,
-      phone_number: params.phone_number,
-    })
-  }
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-      headerStyle: {
-        backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
-      },
-      headerTitle: () =>
-        !theme.darkMode ? (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
-          />
-        ) : (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[
-              { resizeMode: 'contain' },
-              Gutters.headerHeight,
-              Gutters.headerWidthWidth,
-            ]}
-          />
-        ),
-
-      headerTitleAlign: 'center',
-      headerShadowVisible: false,
-      headerBackTitleVisible: false,
-    })
-  }, [navigation, theme])
-
   const keyExtractor = (item, index) => index.toString()
 
   const renderPlans = ({ item }) => {
@@ -89,7 +43,7 @@ const Selectplan = ({ navigation, route }) => {
           item.id === isSelected && Common.primaryPinkBorder,
           item.id === isSelected && Common.primaryPinkBackground,
           Layout.fill,
-          Common.borderWidth,
+          Common.borderWidthOne,
           Common.borderRadius,
           Gutters.ninePadding,
           Gutters.sixVMargin,
@@ -100,9 +54,9 @@ const Selectplan = ({ navigation, route }) => {
             style={[
               Common.primaryBlueMode,
               isSelected === item.id && Common.white,
+              Gutters.fiveRMargin,
               Fonts.fontWeightRegular,
               Fonts.fontSizeSmall,
-              Gutters.fiveRMargin,
               Fonts.fontFamilyPrimary,
             ]}
           >
@@ -112,8 +66,8 @@ const Selectplan = ({ navigation, route }) => {
             style={[
               Common.primaryBlueMode,
               isSelected === item.id && Common.white,
-              Fonts.fontWeightRegular,
               Fonts.fontSizeSmall,
+              Fonts.fontWeightRegular,
               Fonts.fontFamilyPrimary,
             ]}
           >
@@ -146,10 +100,10 @@ const Selectplan = ({ navigation, route }) => {
             containerStyle={[
               Common.backgroundPrimary,
               item.id === isSelected && Common.primaryPinkBackground,
-              Layout.center,
-              Layout.selfCenter,
               Gutters.onesixzeroLMargin,
               Gutters.twentyFiveMBMargin,
+              Layout.center,
+              Layout.selfCenter,
             ]}
             wrapperStyle={[Layout.center]}
           />
@@ -160,7 +114,6 @@ const Selectplan = ({ navigation, route }) => {
             isSelected === item.id && Common.white,
             Gutters.fiveVMargin,
             Fonts.fontFamilyPrimary,
-            Fonts.fontWeightSmall,
           ]}
         >
           {item.info}
@@ -170,84 +123,70 @@ const Selectplan = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
-      <TouchableOpacity
-        style={[Gutters.fifteenPWidth, Gutters.fiveTMargin, Gutters.tenHMargin]}
-        onPress={onBackHandler}
-      >
-        {!theme.darMode ? (
-          <Image source={Images.greyLeftArrow} />
-        ) : (
-          <Image source={Images.whiteLeftArrow} />
-        )}
-      </TouchableOpacity>
+    <>
       <View
         style={[
           Layout.flexTwo,
-          Layout.justifyContentCenter,
-          Layout.alignItemsCenter,
-          Gutters.tenVMargin,
-          Gutters.twentyFourHMargin,
+          Layout.center,
+          Gutters.twentyHMargin,
+          Gutters.fiveVMargin,
         ]}
       >
         <Text
           style={[
-            Common.titleText,
-            Fonts.fontFamilyPrimary,
-            Fonts.fontSizeLarge,
             Fonts.fontWeightRegular,
-            Gutters.oneVMargin,
+            Fonts.fontSizeSmall,
+            Fonts.fontFamilyPrimary,
+            Common.titleText,
           ]}
         >
-          Select your plan
+          Let’s make your first refill Anastasia
         </Text>
         <Text
           style={[
-            Common.titleText,
-            Fonts.fontFamilyPrimary,
-            Fonts.fontSizeSmall,
+            Fonts.fontSizeExtraSmall,
             Fonts.fontWeightSmall,
-            Gutters.tenVMargin,
+            Fonts.textCenter,
+            Common.primaryGrey,
+            Fonts.fontFamilyPrimary,
           ]}
         >
-          Choose the one that suits you best.
+          Select one plan from the list available for your carrier and top-up
+          your phone number instantly
         </Text>
       </View>
       <View
         style={[
-          Layout.flexTwo,
-          Layout.row,
-          Layout.justifyContentBetween,
+          Layout.flexThree,
           Layout.alignItemsCenter,
           Gutters.twentyFourHMargin,
           Gutters.tenVMargin,
         ]}
       >
-        {theme.darkMode ? (
-          <Image
-            source={Images.whitecarrier12}
-            style={[{ resizeMode: 'contain' }, Gutters.fortyPWidth]}
-          />
-        ) : (
+        {!theme.darkMode ? (
           <Image
             source={Images.carrier12}
-            style={[{ resizeMode: 'contain' }, Gutters.fortyPWidth]}
+            style={[{ resizeMode: 'contain' }, Layout.flexTwo]}
+          />
+        ) : (
+          <Image
+            source={Images.whitecarrier12}
+            style={[{ resizeMode: 'contain' }, Layout.flexTwo]}
           />
         )}
-
         <Text
           style={[
+            Common.primaryGrey,
             Fonts.fontWeightSmall,
-            Fonts.fontSizeSmall,
-            Common.normalText,
+            Fonts.fontSizeExtraSmall,
             Fonts.fontFamilyPrimary,
+            Gutters.eightVMargin,
           ]}
         >
-          {plans.length} plans available
+          {Plans.length} plans available
         </Text>
       </View>
-
-      <View style={[Gutters.twentyFourHMargin, Layout.flexTen]}>
+      <View style={[Layout.flexTen, Gutters.twentyFourHMargin]}>
         <FlatList
           showsVerticalScrollIndicator={false}
           keyExtractor={keyExtractor}
@@ -258,13 +197,13 @@ const Selectplan = ({ navigation, route }) => {
       <View
         style={[
           Layout.selfCenter,
+          Layout.flexTwo,
           Gutters.ninetyfivePWidth,
           Gutters.fortyBMargin,
-          Layout.flexTwo,
           Gutters.twentyMTMargin,
         ]}
       >
-        <Button
+        {/* <Button
           onPress={() => {
             onContinueHandler()
           }}
@@ -275,10 +214,32 @@ const Selectplan = ({ navigation, route }) => {
             isSelected ? Common.primaryPink.color : Common.greyColor.color
           }
           disabled={!isSelected}
+        /> */}
+        <Button
+          title="continue"
+          loading={false}
+          onPress={() => {
+            onContinue()
+          }}
+          loadingProps={[{ size: 'small' }, Common.whiteColor]}
+          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+          buttonStyle={[
+            Common.primaryPinkBackground,
+            Gutters.fiftyfiveHeight,
+            Common.borderRadius,
+          ]}
+          containerStyle={[
+            Gutters.ninetyfivePWidth,
+            Gutters.twentyTMargin,
+            Layout.selfCenter,
+            Common.borderRadius,
+          ]}
+          // disabled={!planIsValid}
+          disabledStyle={[Common.whiteColor, Common.greyBackground]}
+          disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
         />
       </View>
-    </SafeAreaView>
+    </>
   )
 }
-
-export default Selectplan
+export default CarrierPlans

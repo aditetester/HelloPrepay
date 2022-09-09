@@ -81,6 +81,7 @@ const sixteen = 16
 const ots = 126
 const six = 6
 const zero = 0
+const twentytwo = 22
 const twentyFour = 24
 const onefivezero = 150
 const onesixzero = 160
@@ -106,6 +107,7 @@ const twentyP = '20%'
 const hundredP = '100%'
 const fiftyP = '50%'
 const sixtyP = '60%'
+const seventyP = '70%'
 const thirtyP = '30%'
 const ninetyP = '90%'
 const ninetyfiveP = '95%'
@@ -161,6 +163,7 @@ export const MetricsSizes = {
   onesixzero,
   onetwozero,
   seventyfour,
+  twentytwo,
 
   zeroOfive,
   zeroOseven,
@@ -170,6 +173,7 @@ export const MetricsSizes = {
   twentyP,
   hundredP,
   sixtyP,
+  seventyP,
   thirtyP,
   ninetyP,
   ninetyfiveP,

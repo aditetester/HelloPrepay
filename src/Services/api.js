@@ -13,5 +13,19 @@ const baseQueryWithInterceptor = async (args, api, extraOptions) => {
 
 export const api = createApi({
   baseQuery: baseQueryWithInterceptor,
-  endpoints: () => ({}),
+  endpoints: builder => ({
+    getVerifyUser: builder.mutation({
+      query: payload => ({
+        url: 'verify',
+        method: 'POST',
+        body: payload,
+        // headers: {
+        //   'Content-type': 'application/json; charset=UTF-8',
+        // },
+      }),
+      // invalidatesTags: ['Post'],
+    }),
+  }),
 })
+
+export const { useGetVerifyUserMutation } = api

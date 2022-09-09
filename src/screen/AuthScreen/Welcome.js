@@ -6,10 +6,9 @@ import { useDispatch } from 'react-redux'
 import { setUser } from '@/Store/User'
 
 const Welcome = ({ navigation, route }) => {
-  const dispatch = useDispatch()
   const params = route.params
+  const dispatch = useDispatch()
   const { Common, Fonts, Layout, Gutters, Images } = useTheme()
-  console.log(route.params)
 
   useEffect(() => {
     navigation.setOptions({
@@ -17,8 +16,12 @@ const Welcome = ({ navigation, route }) => {
     })
   }, [navigation])
 
+  useEffect(() => {
+    dispatch(setUser({ setData: params.obj }))
+  }, [])
+
   const onContinueHandler = () => {
-    dispatch(setUser({ isAuth: true }))
+    dispatch(setUser({ setData: params.obj, isAuth: true }))
   }
 
   return (

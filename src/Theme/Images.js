@@ -32,6 +32,7 @@ export default function () {
     profile: require('../Assets/Images/profile.png'),
     checkcircle: require('../Assets/Images/checkcircle.png'),
     whitecheckcircle: require('../Assets/Images/whitecheckcircle.png'),
+    modalHandle: require('../Assets/Images/modalHandle.png'),
 
     carrier1: require('../Assets/CarrierImage/attprepaid.png'),
     carrier2: require('../Assets/CarrierImage/boost.png'),

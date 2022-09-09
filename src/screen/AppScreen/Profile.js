@@ -43,10 +43,7 @@ const Profile = ({ navigation, route }) => {
   }, [navigation, theme])
 
   const onLogoutHandler = async () => {
-    auth()
-      .signOut()
-      .then(dispatch(setUser({ isAuth: false })))
-      .catch(err => console.log(err))
+    dispatch(setUser({ userData: null, isAuth: false }))
   }
 
   const onBackHandler = () => {
