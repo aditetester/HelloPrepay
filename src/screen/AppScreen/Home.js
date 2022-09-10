@@ -18,6 +18,7 @@ import UserHistory from '@/Components/History'
 const Home = ({ navigation }) => {
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
+  console.log('🚀 ~ file: Home.js ~ line 21 ~ Home ~ user', user)
   const [number, setNumber] = useState('')
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [isSelected, setSelection] = useState('')

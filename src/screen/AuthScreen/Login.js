@@ -21,11 +21,6 @@ const Login = ({ navigation }) => {
     useGetVerifyUserMutation()
 
   useEffect(() => {
-    getVerifyUser({ phone_number: 8888888888 })
-    console.log('DATA ffefef', data)
-  }, [])
-
-  useEffect(() => {
     navigation.setOptions({
       headerLeft: () => null,
     })
@@ -48,6 +43,33 @@ const Login = ({ navigation }) => {
     }
     phoneFormat(value)
   }, [value])
+
+  console.log('🚀 ~ file: Login.js ~ line 89 ~ Login ~ data', data)
+  const onContinueHandler = async () => {
+    setButtonLoading(true)
+    setError('')
+    getVerifyUser({ phone_number: 8888888888 })
+    // await axios
+    //   .post(`${BASE_URL}verify`, { phone_number: withoutFormateNumber })
+    //   .then(res => {
+    //     let data = JSON.stringify(res.data)
+    //     let obj = JSON.parse(data)
+    //     if (obj.status === 'active') {
+    //       navigation.navigate('Otp', {
+    //         navigateFor: 'Login',
+    //         OTP: obj.otp,
+    //         phone_number: withoutFormateNumber,
+    //       })
+    //       setButtonLoading(false)
+    //     } else {
+    //       signInUsingFirebase(withoutFormateNumber)
+    //     }
+    //   })
+    //   .catch(() => {
+    //     setButtonLoading(false)
+    //     setError('Something Went Wrong...')
+    //   })
+  }
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
@@ -87,31 +109,6 @@ const Login = ({ navigation }) => {
         } else {
           setError('Something went wrong...')
         }
-      })
-  }
-
-  const onContinueHandler = async () => {
-    setButtonLoading(true)
-    setError('')
-    await axios
-      .post(`${BASE_URL}verify`, { phone_number: withoutFormateNumber })
-      .then(res => {
-        let data = JSON.stringify(res.data)
-        let obj = JSON.parse(data)
-        if (obj.status === 'active') {
-          navigation.navigate('Otp', {
-            navigateFor: 'Login',
-            OTP: obj.otp,
-            phone_number: withoutFormateNumber,
-          })
-          setButtonLoading(false)
-        } else {
-          signInUsingFirebase(withoutFormateNumber)
-        }
-      })
-      .catch(() => {
-        setButtonLoading(false)
-        setError('Something Went Wrong...')
       })
   }
 

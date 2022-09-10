@@ -19,11 +19,7 @@ export const api = createApi({
         url: 'verify',
         method: 'POST',
         body: payload,
-        // headers: {
-        //   'Content-type': 'application/json; charset=UTF-8',
-        // },
       }),
-      // invalidatesTags: ['Post'],
     }),
   }),
 })
