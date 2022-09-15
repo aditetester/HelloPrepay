@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { Pressable, Text, TouchableOpacity } from 'react-native'
 import { useTheme } from '@/Hooks'
 
-const Timer = ({ maxRange }) => {
+const Timer = ({ maxRange, onPress, beforeText, afterText }) => {
   const [counter, setCounter] = useState(maxRange)
   const { Common, Layout, Fonts } = useTheme()
 
@@ -19,7 +19,12 @@ const Timer = ({ maxRange }) => {
   }
 
   return (
-    <TouchableOpacity onPress={() => start()}>
+    <Pressable
+      onPress={() => {
+        onPress(), start()
+      }}
+      disabled={counter !== 0}
+    >
       {counter === 0 ? (
         <Text
           style={[
@@ -31,7 +36,7 @@ const Timer = ({ maxRange }) => {
             Fonts.fontFamilyPrimary,
           ]}
         >
-          Send code again
+          {beforeText && beforeText}
         </Text>
       ) : (
         <Text
@@ -43,10 +48,10 @@ const Timer = ({ maxRange }) => {
             Fonts.fontFamilyPrimary,
           ]}
         >
-          Send code again in 00:{counter <= 9 ? `0${counter}` : counter}
+          {afterText && afterText} 00:{counter <= 9 ? `0${counter}` : counter}
         </Text>
       )}
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 export default Timer

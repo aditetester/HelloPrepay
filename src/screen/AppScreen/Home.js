@@ -18,32 +18,30 @@ import UserHistory from '@/Components/History'
 const Home = ({ navigation }) => {
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
-  console.log('🚀 ~ file: Home.js ~ line 21 ~ Home ~ user', user)
+  console.log('🚀 ~ Home ~ ', user.userData)
+  let first_name =
+    user.userData.first_name.charAt(0).toUpperCase() +
+    user.userData.first_name.slice(1)
+
   const [number, setNumber] = useState('')
+  const withoutFormateNumber = String(number).replace(/\D/g, '')
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
-  const [isSelected, setSelection] = useState('')
+  const [visible, setVisible] = useState(false)
+
+  const toggleDialog2 = () => {
+    setVisible(!visible)
+  }
 
   const onProfileHandler = () => {
     navigation.navigate('Profile')
-  }
-
-  const onNewRefillHandler = () => {
-    navigation.navigate('Selectplan', { phone_number: number })
-  }
-
-  const onContinueHandler = () => {
-    navigation.navigate('AddMoney', {
-      planId: isSelected,
-      phone_number: number,
-    })
   }
 
   const onExitApp = () => {
     Alert.alert('Exit App?', 'Are you sure you want to exit?', [
       {
         text: 'Cancel',
-        onPress: () => null,
         style: 'cancel',
+        onPress: () => null,
       },
       { text: 'YES', onPress: () => BackHandler.exitApp() },
     ])
@@ -56,24 +54,6 @@ const Home = ({ navigation }) => {
       BackHandler.removeEventListener('hardwareBackPress', onExitApp)
     }
   }, [])
-
-  useEffect(() => {
-    setNumber(user.userData.phone_number)
-  }, [])
-
-  // useEffect(() => {
-  //   function formatPhoneNumber(phoneNumberString) {
-  //     var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
-  //     var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
-  //     if (match) {
-  //       setNumber('(' + match[1] + ') ' + match[2] + '-' + match[3])
-  //     }
-  //     return null
-  //   }
-  //   formatPhoneNumber(user.userData.phone_number)
-  // }, [user, number])
-
-  console.log('number', number)
 
   useEffect(() => {
     function phoneFormat(input) {
@@ -90,13 +70,11 @@ const Home = ({ navigation }) => {
       }
       return setNumber(input)
     }
-    phoneFormat(number)
+    phoneFormat(String(number))
   }, [number])
 
   useEffect(() => {
-    return () => {
-      setSelection('')
-    }
+    setNumber(user.userData.phone_number)
   }, [])
 
   useEffect(() => {
@@ -110,15 +88,15 @@ const Home = ({ navigation }) => {
         !theme.darkMode ? (
           <Image
             source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
+            style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
           />
         ) : (
           <Image
             source={Images.darkThemeLogo}
             style={[
-              { resizeMode: 'contain' },
               Gutters.headerHeight,
               Gutters.headerWidthWidth,
+              Common.resizeModeContain,
             ]}
           />
         ),
@@ -142,23 +120,6 @@ const Home = ({ navigation }) => {
     })
   }, [navigation, theme])
 
-  const onPlanSelect = id => {
-    if (isSelected === '') {
-      setSelection(id)
-      return
-    } else if (isSelected === id) {
-      setSelection('')
-      return
-    } else if (isSelected !== id) {
-      setSelection(id)
-      return
-    }
-  }
-
-  const onShowHistoryHandler = id => {
-    navigation.navigate('RefillHistory', { refillTransactionId: id })
-  }
-
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
       <View
@@ -178,7 +139,7 @@ const Home = ({ navigation }) => {
         >
           Hello,{' '}
           <Text style={[Common.titleText, Fonts.fontFamilyPrimary]}>
-            Anastasia.
+            {first_name}.
           </Text>
         </Text>
       </View>
@@ -221,10 +182,10 @@ const Home = ({ navigation }) => {
           ]}
         >
           <TextInput
-            defaultValue={number}
-            onChangeText={num => setNumber(num)}
-            maxLength={14}
+            defaultValue={String(number)}
+            onChangeText={text => setNumber(text)}
             keyboardType="numeric"
+            maxLength={14}
             style={[
               Fonts.fontFamilyPrimary,
               Common.white,
@@ -236,15 +197,19 @@ const Home = ({ navigation }) => {
           <Image
             source={Images.whitecarrier12}
             style={[
-              { resizeMode: 'contain' },
               Layout.center,
               Gutters.eightRMargin,
               Gutters.thirtyPWidth,
+              Common.resizeModeContain,
             ]}
           />
         </View>
       </View>
-      {History.length !== 0 ? <UserHistory /> : <CarrierPlans />}
+      {History.length !== 0 ? (
+        <UserHistory phone_number={withoutFormateNumber} />
+      ) : (
+        <CarrierPlans phone_number={withoutFormateNumber} />
+      )}
     </SafeAreaView>
   )
 }

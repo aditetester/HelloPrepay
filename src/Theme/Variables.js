@@ -30,6 +30,7 @@ export const Colors = {
   grey: 'grey',
   red: '#FF3333',
   placeHolder: '#dee2e6',
+  loadingColor: '#DB006A',
 }
 
 export const NavigationColors = {
@@ -87,6 +88,7 @@ const onefivezero = 150
 const onesixzero = 160
 const onetwozero = 120
 const twofivezero = 250
+const foureightzero = 480
 
 const zeroOfive = 0.5
 const zeroOseven = 0.7
@@ -103,6 +105,7 @@ const fifteenM = -15
 const twentyFiveM = -25
 
 //---------Width and Height-------------
+const twoP = '2%'
 const twentyP = '20%'
 const hundredP = '100%'
 const fiftyP = '50%'
@@ -164,6 +167,7 @@ export const MetricsSizes = {
   onetwozero,
   seventyfour,
   twentytwo,
+  foureightzero,
 
   zeroOfive,
   zeroOseven,
@@ -188,6 +192,7 @@ export const MetricsSizes = {
   fiftyP,
   fortyeightP,
   fortyP,
+  twoP,
 
   //------ Values Minus -----------
   eightM,

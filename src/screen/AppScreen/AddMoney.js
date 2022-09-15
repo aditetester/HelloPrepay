@@ -14,6 +14,7 @@ import Button from '@/Components/UI/Button'
 
 const AddMoney = ({ navigation, route }) => {
   let params = route.params
+  console.log('🚀 ~ file: AddMoney.js ~ line 18 ~ AddMoney ~ params', params)
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
 

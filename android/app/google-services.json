@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "148315333768",
-    "project_id": "prepaidiq1",
-    "storage_bucket": "prepaidiq1.appspot.com"
+    "project_number": "1019549713217",
+    "project_id": "prepaidiq-2923a",
+    "storage_bucket": "prepaidiq-2923a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:148315333768:android:9dddad266c26ef13baab3d",
+        "mobilesdk_app_id": "1:1019549713217:android:f1ede155b672ef4ce117c0",
         "android_client_info": {
           "package_name": "com.prepaidiq"
         }
       },
       "oauth_client": [
         {
-          "client_id": "148315333768-gnjldk6u2tpn87377tjrvjecsf600h8d.apps.googleusercontent.com",
+          "client_id": "1019549713217-82evlcu4l35l3k63tihr4k1i735ktrlp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC3BGwJTjfP4PTnBvTmSCENnZ9SNyNaZIc"
+          "current_key": "AIzaSyAEVgprwHK9-qPYQBQe9XltetRJG-P2qmw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "148315333768-gnjldk6u2tpn87377tjrvjecsf600h8d.apps.googleusercontent.com",
+              "client_id": "1019549713217-82evlcu4l35l3k63tihr4k1i735ktrlp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1019549713217-vkciddkf6ror4b3kn5nifkrmr2i9t619.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.prepaidiq"
+              }
             }
           ]
         }

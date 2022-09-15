@@ -122,14 +122,26 @@ export default function ({ Colors, ...args }) {
       elevation: {
         elevation: 8,
       },
+      elevationFive: {
+        elevation: 5,
+      },
       borderRadius: {
         borderRadius: 4,
+      },
+      borderRadiusTen: {
+        borderRadius: 10,
       },
       borderTopLeftRadius: {
         borderTopLeftRadius: 4,
       },
       borderBottomLeftRadius: {
         borderBottomLeftRadius: 4,
+      },
+      borderTopLeftRadiusTen: {
+        borderTopLeftRadius: 10,
+      },
+      borderTopRightRadiusTen: {
+        borderTopLeftRadius: 10,
       },
       borderWidth: {
         borderWidth: 1,
@@ -173,6 +185,15 @@ export default function ({ Colors, ...args }) {
       },
       placeHolderText: {
         color: Colors.placeHolder,
+      },
+      resizeModeContain: {
+        resizeMode: 'contain',
+      },
+      resizeModeCover: {
+        resizeMode: 'cover',
+      },
+      loadingColor: {
+        color: Colors.loadingColor,
       },
     }),
   }

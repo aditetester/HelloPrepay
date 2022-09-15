@@ -19,6 +19,7 @@ const Colors = {
   grey: 'grey',
   red: '#FF3333',
   placeHolder: '#dee2e6',
+  loadingColor: '#DB006A',
 }
 
 const NavigationColors = {

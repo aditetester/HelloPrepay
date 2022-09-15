@@ -18,7 +18,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* prepaidiqTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* prepaidiqTests.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		833F2006FE004CFBA319C9F2 /* libPods-prepaidiq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE8F60935CC7F1EA8FB7E0E /* libPods-prepaidiq.a */; };
-		F615728D28C0DF6D00C11BBB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F615728C28C0DF6D00C11BBB /* GoogleService-Info.plist */; };
+		8980DFD128D1E059005FD686 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8980DFD028D1E058005FD686 /* GoogleService-Info.plist */; };
 		F61ED7F028BF92E30015A74E /* Satoshi-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F61ED7EF28BF92E30015A74E /* Satoshi-Regular.otf */; };
 		F62E9A6328B61B7A00AF1659 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		F6952D9C28AE2164005EE4AF /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8C28AE2164005EE4AF /* Fontisto.ttf */; };
@@ -73,12 +73,12 @@
 		2D02E4901E0B4A5D006451C7 /* prepaidiq-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "prepaidiq-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F9E780CE724C60CB827C553 /* Pods-prepaidiq-prepaidiqTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; path = "Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = prepaidiq/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8980DFD028D1E058005FD686 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8CE8F60935CC7F1EA8FB7E0E /* libPods-prepaidiq.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prepaidiq.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		968A20F8BD0245E30FBD22A5 /* Pods-prepaidiq.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq.release.xcconfig"; path = "Target Support Files/Pods-prepaidiq/Pods-prepaidiq.release.xcconfig"; sourceTree = "<group>"; };
 		A8A496B83138A0046DC1D49A /* Pods-prepaidiq-prepaidiqTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq-prepaidiqTests.release.xcconfig"; path = "Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F615728C28C0DF6D00C11BBB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F61ED7EF28BF92E30015A74E /* Satoshi-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Satoshi-Regular.otf"; path = "../src/Assets/fonts/Satoshi-Regular.otf"; sourceTree = "<group>"; };
 		F6952D8C28AE2164005EE4AF /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		F6952D8D28AE2164005EE4AF /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 		13B07FAE1A68108700A75B9A /* prepaidiq */ = {
 			isa = PBXGroup;
 			children = (
-				F615728C28C0DF6D00C11BBB /* GoogleService-Info.plist */,
+				8980DFD028D1E058005FD686 /* GoogleService-Info.plist */,
 				F61ED7EF28BF92E30015A74E /* Satoshi-Regular.otf */,
 				F6952D8B28AE2164005EE4AF /* icons */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -407,7 +407,7 @@
 				F6952DA528AE2164005EE4AF /* FontAwesome5_Solid.ttf in Resources */,
 				F6952DA128AE2164005EE4AF /* MaterialCommunityIcons.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				F615728D28C0DF6D00C11BBB /* GoogleService-Info.plist in Resources */,
+				8980DFD128D1E059005FD686 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,10 +743,11 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prepaidiq;
 				PRODUCT_NAME = prepaidiq;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -765,9 +766,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prepaidiq;
 				PRODUCT_NAME = prepaidiq;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

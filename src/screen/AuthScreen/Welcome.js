@@ -7,6 +7,7 @@ import { setUser } from '@/Store/User'
 
 const Welcome = ({ navigation, route }) => {
   const params = route.params
+  console.log('Welcome', params.data)
   const dispatch = useDispatch()
   const { Common, Fonts, Layout, Gutters, Images } = useTheme()
 
@@ -16,12 +17,8 @@ const Welcome = ({ navigation, route }) => {
     })
   }, [navigation])
 
-  useEffect(() => {
-    dispatch(setUser({ setData: params.obj }))
-  }, [])
-
   const onContinueHandler = () => {
-    dispatch(setUser({ setData: params.obj, isAuth: true }))
+    dispatch(setUser({ userData: params.data, isAuth: true }))
   }
 
   return (
@@ -84,7 +81,7 @@ const Welcome = ({ navigation, route }) => {
           <Image
             source={Images.welcome}
             style={[
-              { resizeMode: 'cover' },
+              Common.resizeModeCover,
               Gutters.eightyPHeight,
               Gutters.hundredPWidth,
             ]}

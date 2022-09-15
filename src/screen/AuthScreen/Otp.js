@@ -14,19 +14,17 @@ import { useSelector } from 'react-redux'
 import { Button } from '@rneui/themed'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/Store/User'
-import axios from 'axios'
-import { BASE_URL } from '@/Config'
 import Timer from '@/Components/UI/Timer'
+import { useGetLoginUserMutation } from '@/Services/api'
 
 const Otp = ({ navigation, route }) => {
   let params = route.params
-  console.log(params)
+  console.log('Params', params)
   const dispatch = useDispatch()
   const theme = useSelector(state => state.theme)
-
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
   const [buttonLoading, setButtonLoading] = useState(false)
-  const [counter, setCounter] = useState(15)
+  const [counter, setCounter] = useState(59)
   const [key1, setKey1] = useState('')
   const [key2, setKey2] = useState('')
   const [key3, setKey3] = useState('')
@@ -35,13 +33,69 @@ const Otp = ({ navigation, route }) => {
   const [key6, setKey6] = useState('')
   const [OTPCode, setOTPCode] = useState('')
 
+  const [
+    getLogin,
+    {
+      data,
+      isLoading,
+      isError,
+      isSuccess,
+      isUninitialized,
+      originalArgs,
+      status,
+    },
+  ] = useGetLoginUserMutation()
+
+  useEffect(() => {
+    if (isLoading) {
+      setButtonLoading(true)
+    } else {
+      setButtonLoading(false)
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    if (data && data.message === 'otp has been expired') {
+      Alert.alert('Error', 'Otp has been expired !!')
+      return
+    }
+    if (data && data.success === false) {
+      Alert.alert('Error', 'You Entered Wrong Otp')
+      setButtonLoading(false)
+      setKey1('')
+      setKey2('')
+      setKey3('')
+      setKey4('')
+      setKey5('')
+      setKey6('')
+      setOTPCode('')
+      return
+    }
+    if (data && data.success === true) {
+      if (data.carrier_id === null) {
+        navigation.navigate('SelectCarrier', {
+          token: data.token,
+          first_name: data.first_name,
+          data: data,
+        })
+        setButtonLoading(false)
+      } else {
+        dispatch(setUser({ userData: data, isAuth: true }))
+        setButtonLoading(false)
+      }
+    }
+  }, [data])
+
   useEffect(() => {
     setOTPCode(key1 + key2 + key3 + key4 + key5 + key6)
   }, [key1, key2, key3, key4, key5, key6])
 
   const onContinueHandler = async PARAMS => {
     setButtonLoading(true)
-    if (PARAMS.navigateFor === 'Registration') {
+    if (PARAMS.navigateFor === 'Login') {
+      setButtonLoading(true)
+      getLogin({ phone_number: PARAMS.phone_number, otp: OTPCode })
+    } else if (PARAMS.navigateFor === 'Registration') {
       try {
         setButtonLoading(true)
         await PARAMS.OTP.confirm(OTPCode)
@@ -61,54 +115,14 @@ const Otp = ({ navigation, route }) => {
         return
       }
     }
-    if (PARAMS.navigateFor === 'Login') {
-      setButtonLoading(true)
-      axios
-        .post(`${BASE_URL}login`, {
-          phone_number: PARAMS.phone_number,
-          otp: OTPCode,
-        })
-        .then(res => {
-          setButtonLoading(true)
-          let data = JSON.stringify(res.data)
-          let obj = JSON.parse(data)
-          if (obj.success === true) {
-            if (obj.carrier_id === null) {
-              navigation.navigate('SelectCarrier', {
-                token: obj.token,
-                first_name: obj.first_name,
-                obj: obj,
-              })
-              setButtonLoading(false)
-              return
-            } else {
-              dispatch(setUser({ userData: obj, isAuth: true }))
-              setButtonLoading(false)
-            }
-          } else if (obj.success === false) {
-            setButtonLoading(false)
-            Alert.alert('', obj.message)
-            setKey1('')
-            setKey2('')
-            setKey3('')
-            setKey4('')
-            setKey5('')
-            setKey6('')
-            setOTPCode('')
-          }
-        })
-        .catch(() => {
-          setButtonLoading(false)
-          Alert.alert('Error!', 'Something Went Wrong...')
-        })
-    }
+
     setButtonLoading(false)
     return
   }
 
   const onSendCodeAgainHandler = () => {
     // onContinueHandler(params)
-    setCounter(10)
+    setCounter(59)
   }
 
   useEffect(() => {
@@ -365,38 +379,17 @@ const Otp = ({ navigation, route }) => {
             )}
           </View>
         </View>
-        {/* <Text
-          style={[
-            Common.titleText,
-            Layout.selfCenter,
-            Layout.flexTwo,
-            Fonts.fontSizeSmall,
-            Fonts.textDecorationLineUnderline,
-            Fonts.fontWeightRegular,
-            Gutters.twentyBMargin,
-            Fonts.fontFamilyPrimary,
-          ]}
-        >
-          Send code again
-        </Text> */}
+
         <TouchableOpacity
           style={[Layout.alignItemsCenter, Layout.flexTwo]}
           onPress={() => onSendCodeAgainHandler()}
         >
-          {/* <Text
-            style={[
-              Common.titleText,
-              Layout.selfCenter,
-              // Layout.flexTwo,
-              Fonts.fontSizeSmall,
-              Fonts.textDecorationLineUnderline,
-              Fonts.fontWeightRegular,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            Send code again
-          </Text> */}
-          <Timer maxRange={counter} />
+          <Timer
+            maxRange={counter}
+            onPress={() => console.log('Send Code Again')}
+            beforeText="Send code again"
+            afterText="Send code again in"
+          />
         </TouchableOpacity>
         <View
           style={[
@@ -761,7 +754,7 @@ const Otp = ({ navigation, route }) => {
               onContinueHandler(params)
             }}
             loadingProps={[{ size: 'small' }, Common.whiteColor]}
-            titleStyle={[Fonts.fontWeightRegular]}
+            titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
             buttonStyle={[
               Common.primaryPinkBackground,
               Gutters.fiftyfiveHeight,

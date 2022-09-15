@@ -24,6 +24,9 @@ export default function ({ MetricsSizes }) {
       (acc, [key, value]) => ({
         ...acc,
         /* Margins */
+        [`${key}Margin`]: {
+          margin: value,
+        },
         [`${key}BMargin`]: {
           marginBottom: value,
         },

@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, Image, FlatList, Pressable } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
-import { Avatar, CheckBox, Button } from '@rneui/themed'
+import { CheckBox, Button } from '@rneui/themed'
 import Plans from '@/screen/Data/plans'
 import { useNavigation } from '@react-navigation/native'
 
-const CarrierPlans = () => {
+const CarrierPlans = ({ phone_number }) => {
   const navigation = useNavigation()
   const theme = useSelector(state => state.theme)
-  const userData = useSelector(state => state.user.userData)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [isSelected, setSelection] = useState('')
 
   const onContinue = () => {
-    navigation.navigate('AddMoney', { phone_number: userData.phone_number })
+    navigation.navigate('AddMoney', { phone_number: phone_number })
   }
 
   const onPlanSelect = id => {
@@ -81,7 +80,7 @@ const CarrierPlans = () => {
               <Image
                 source={Images.checked}
                 style={[
-                  { resizeMode: 'contain' },
+                  Common.resizeModeContain,
                   Gutters.twentyfiveHeight,
                   Gutters.twentyfiveWidth,
                 ]}
@@ -91,7 +90,7 @@ const CarrierPlans = () => {
               <Image
                 source={Images.unchecked}
                 style={[
-                  { resizeMode: 'contain' },
+                  Common.resizeModeContain,
                   Gutters.twentyfiveHeight,
                   Gutters.twentyfiveWidth,
                 ]}
@@ -166,12 +165,12 @@ const CarrierPlans = () => {
         {!theme.darkMode ? (
           <Image
             source={Images.carrier12}
-            style={[{ resizeMode: 'contain' }, Layout.flexTwo]}
+            style={[Layout.flexTwo, Common.resizeModeContain]}
           />
         ) : (
           <Image
             source={Images.whitecarrier12}
-            style={[{ resizeMode: 'contain' }, Layout.flexTwo]}
+            style={[Common.resizeModeContain, Layout.flexTwo]}
           />
         )}
         <Text

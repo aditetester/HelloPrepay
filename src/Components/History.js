@@ -7,14 +7,12 @@ import History from '../screen/Data/history'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import { useNavigation } from '@react-navigation/native'
 
-const UserHistory = () => {
+const UserHistory = ({ phone_number }) => {
   const navigation = useNavigation()
-  const { Common, Gutters, Images, Layout, Fonts } = useTheme()
-  const userData = useSelector(state => state.user.userData)
-  const [isSelected, setSelection] = useState('')
+  const { Common, Gutters, Layout, Fonts } = useTheme()
 
   const onNewRefillHandler = () => {
-    navigation.navigate('Selectplan', { phone_number: userData.phone_number })
+    navigation.navigate('Selectplan', { phone_number: phone_number })
   }
 
   const onShowHistoryHandler = id => {
@@ -41,7 +39,7 @@ const UserHistory = () => {
             <Image
               source={item.image}
               style={[
-                { resizeMode: 'contain' },
+                Common.resizeModeContain,
                 Gutters.fiftyHeight,
                 Gutters.twentyPWidth,
                 Gutters.fiveVMargin,
@@ -51,7 +49,6 @@ const UserHistory = () => {
               <Text
                 style={[
                   Common.primaryBlueMode,
-                  isSelected === item.id && Common.white,
                   Fonts.fontWeightRegular,
                   Fonts.fontSizeSmall,
                   Gutters.tenTMargin,
@@ -64,7 +61,6 @@ const UserHistory = () => {
               <Text
                 style={[
                   Common.primaryBlueMode,
-                  isSelected === item.id && Common.white,
                   Fonts.fontWeightRegular,
                   Fonts.fontSizeSmall,
                   Gutters.tenTMargin,
@@ -91,13 +87,7 @@ const UserHistory = () => {
           <View
             style={[Gutters.twentyFiveMTMargin, Gutters.seventyfourLMargin]}
           >
-            <Text
-              style={[
-                Common.primaryGrey,
-                isSelected === item.id && Common.white,
-                Fonts.fontFamilyPrimary,
-              ]}
-            >
+            <Text style={[Common.primaryGrey, Fonts.fontFamilyPrimary]}>
               {item.date}
             </Text>
           </View>
@@ -145,18 +135,6 @@ const UserHistory = () => {
           Gutters.twentyMTMargin,
         ]}
       >
-        {/* <Button
-          onPress={() => {
-            onNewRefillHandler()
-          }}
-          title={'New refill'}
-          size="sm"
-          fontSize={Fonts.fontSizeMedium.fontSize}
-          backgroundColor={Common.primaryPink.color}
-          disabled={!(number.length === 14)}
-          disabledStyle={[Common.whiteColor, Common.greyBackground]}
-          disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
-        /> */}
         <Button
           title="New refill"
           loading={false}
@@ -176,7 +154,6 @@ const UserHistory = () => {
             Layout.selfCenter,
             Common.borderRadius,
           ]}
-          // disabled={!historyIsValid}
           disabledStyle={[Common.whiteColor, Common.greyBackground]}
           disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
         />

@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>148315333768-ss6foh38bi7psi8ln45pu2mt2mosrfun.apps.googleusercontent.com</string>
+	<string>1019549713217-vkciddkf6ror4b3kn5nifkrmr2i9t619.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.148315333768-ss6foh38bi7psi8ln45pu2mt2mosrfun</string>
+	<string>com.googleusercontent.apps.1019549713217-vkciddkf6ror4b3kn5nifkrmr2i9t619</string>
 	<key>API_KEY</key>
-	<string>AIzaSyABYlZp24PrHSwxYV0hTL6QfhnlFbWYSmA</string>
+	<string>AIzaSyATm5zSromjCsNh97StRnwRPZBscfqkrhw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>148315333768</string>
+	<string>1019549713217</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.prepaidiq</string>
+	<string>com.prepaidiq</string>
 	<key>PROJECT_ID</key>
-	<string>prepaidiq1</string>
+	<string>prepaidiq-2923a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>prepaidiq1.appspot.com</string>
+	<string>prepaidiq-2923a.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:148315333768:ios:858cb9c66502fdc6baab3d</string>
+	<string>1:1019549713217:ios:8d375cb06a316c1ce117c0</string>
 </dict>
 </plist>

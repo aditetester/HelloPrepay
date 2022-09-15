@@ -12,22 +12,20 @@ import {
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
 import { CheckBox } from '@rneui/themed'
-import Button from '@/Components/UI/Button'
-import { firebase } from '@react-native-firebase/app'
-import axios from 'axios'
-import { BASE_URL } from '@/Config'
 import { useDispatch } from 'react-redux'
-import { setUser } from '@/Store/User'
+import { Button } from '@rneui/themed'
+import { useGetRegisterUserMutation } from '@/Services/api'
 
 const About = ({ navigation, route }) => {
   let params = route.params
   let dispatch = useDispatch()
+  const theme = useSelector(state => state.theme)
+  const [buttonLoading, setButtonLoading] = useState(false)
   const { Common, Fonts, Layout, Images, Gutters } = useTheme()
   const [formattedNumber, setFormattedNumber] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
-  const theme = useSelector(state => state.theme)
   const [check, setCheck] = useState(false)
   var onlyAlphabet = /[^a-zA-Z]/
   const emailRegex =
@@ -41,30 +39,39 @@ const About = ({ navigation, route }) => {
     navigation.goBack()
   }
 
-  const onContinueHandler = () => {
-    axios
-      .post(`${BASE_URL}register`, {
-        phone_number: params.phone_number,
+  const [getRegister, { data, isLoading, error }] = useGetRegisterUserMutation()
+
+  useEffect(() => {
+    if (isLoading) {
+      setButtonLoading(true)
+    } else {
+      setButtonLoading(false)
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    if (data && data.register === 'Registration successful') {
+      navigation.navigate('SelectCarrier', {
+        token: data.token,
         first_name: firstName,
-        last_name: lastName,
-        email: email,
+        data: data,
       })
-      .then(res => {
-        let json = JSON.stringify(res.data)
-        let obj = JSON.parse(json)
-        console.log('DATA', obj)
-        if (obj.register === 'Registration successful') {
-          navigation.navigate('SelectCarrier', {
-            token: obj.token,
-            first_name: firstName,
-            obj: obj,
-          })
-          return
-        } else if (obj.message.email[0] === 'Email Should Be Unique ') {
-          Alert.alert('', 'Email Should Be Unique!!')
-        }
-      })
-      .catch(err => console.log(err))
+      return
+    } else if (data && data.message.email[0] === 'Email Should Be Unique ') {
+      Alert.alert(
+        'Email !!',
+        'This Email is already in use!! \n Use Different Email',
+      )
+    }
+  }, [data])
+
+  const onContinueHandler = () => {
+    getRegister({
+      phone_number: params.phone_number,
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+    })
   }
 
   useEffect(() => {
@@ -75,8 +82,7 @@ const About = ({ navigation, route }) => {
 
   useEffect(() => {
     function phoneFormat(input) {
-      //returns (###) ###-####
-      input = input.replace(/\D/g, '').substring(0, 10) //Strip everything but 1st 10 digits
+      input = input.replace(/\D/g, '').substring(0, 10)
       var size = input.length
       if (size > 0) {
         input = '(' + input
@@ -255,15 +261,15 @@ const About = ({ navigation, route }) => {
                 Fonts.fontFamilyPrimary,
               ]}
             >
-              +1{formattedNumber}
+              +1 {formattedNumber}
             </Text>
             <Image
               source={Images.verified}
-              resizeMode="cover"
               style={[
                 Gutters.fourtyfivePHeight,
                 Gutters.twentyfivePWidth,
                 Gutters.tenHMargin,
+                Common.resizeModeCover,
               ]}
             />
           </View>
@@ -337,6 +343,7 @@ const About = ({ navigation, route }) => {
               onPress={() => setCheck(!check)}
             />
           </View>
+
           <View
             style={[
               Layout.center,
@@ -347,16 +354,29 @@ const About = ({ navigation, route }) => {
             ]}
           >
             <Button
+              title="Save and continue"
+              loading={buttonLoading}
               onPress={() => {
                 onContinueHandler()
               }}
-              title={'Save and continue'}
-              size="sm"
-              fontSize={16}
-              backgroundColor={
-                valid ? Common.primaryPink.color : Common.greyColor.color
-              }
+              loadingProps={[{ size: 'small' }, Common.whiteColor]}
+              titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+              buttonStyle={[
+                Common.primaryPinkBackground,
+                Gutters.fiftyfiveHeight,
+                Common.borderRadius,
+              ]}
+              containerStyle={[
+                Gutters.ninetyfivePWidth,
+                Layout.selfCenter,
+                Common.borderRadius,
+              ]}
               disabled={!valid}
+              disabledStyle={[Common.whiteColor, Common.greyBackground]}
+              disabledTitleStyle={[
+                Common.whiteColor,
+                Gutters.zeroOsevenOpacity,
+              ]}
             />
           </View>
         </View>

@@ -4,21 +4,29 @@ import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import auth from '@react-native-firebase/auth'
 import { Button } from '@rneui/themed'
-import { BASE_URL } from '@/Config'
-import axios from 'axios'
 import { useGetVerifyUserMutation } from '../../Services/api'
 
 const Login = ({ navigation }) => {
   const { Common, Layout, Fonts, Gutters } = useTheme()
-  const [value, setValue] = useState('6666666666')
+  const [number, setNumber] = useState('')
   const [buttonLoading, setButtonLoading] = useState(false)
-  const [error, setError] = useState('')
-  const withoutFormateNumber = value.replace(/\D/g, '')
+  const [errors, setErrors] = useState('')
+  const withoutFormateNumber = number.replace(/\D/g, '')
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
 
-  const [getVerifyUser, { data, isLoading, isSuccess }] =
-    useGetVerifyUserMutation()
+  const [
+    getVerifyUser,
+    {
+      data,
+      isLoading,
+      isError,
+      isSuccess,
+      isUninitialized,
+      originalArgs,
+      status,
+    },
+  ] = useGetVerifyUserMutation()
 
   useEffect(() => {
     navigation.setOptions({
@@ -39,36 +47,45 @@ const Login = ({ navigation }) => {
       if (size > 6) {
         input = input.slice(0, 9) + '-' + input.slice(9)
       }
-      return setValue(input)
+      return setNumber(input)
     }
-    phoneFormat(value)
-  }, [value])
+    phoneFormat(number)
+  }, [number])
 
-  console.log('🚀 ~ file: Login.js ~ line 89 ~ Login ~ data', data)
+  useEffect(() => {
+    if (isLoading) {
+      setButtonLoading(true)
+    } else {
+      setButtonLoading(false)
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    setErrors('')
+    if (data && data.status === 'active') {
+      navigation.navigate('Otp', {
+        navigateFor: 'Login',
+        OTP: data.otp,
+        phone_number: withoutFormateNumber,
+      })
+      setButtonLoading(false)
+    } else if (data && data.status !== 'active') {
+      signInUsingFirebase(withoutFormateNumber)
+    } else if (
+      data &&
+      data.message.phone_number[0] ===
+        'The phone number must be between 5 and 10 digits.'
+    ) {
+      setErrors('The phone number must be 10 digits.')
+    } else if (data && data.message) {
+      setErrors('Something Went Wrong...')
+    }
+  }, [data])
+
   const onContinueHandler = async () => {
     setButtonLoading(true)
-    setError('')
-    getVerifyUser({ phone_number: 8888888888 })
-    // await axios
-    //   .post(`${BASE_URL}verify`, { phone_number: withoutFormateNumber })
-    //   .then(res => {
-    //     let data = JSON.stringify(res.data)
-    //     let obj = JSON.parse(data)
-    //     if (obj.status === 'active') {
-    //       navigation.navigate('Otp', {
-    //         navigateFor: 'Login',
-    //         OTP: obj.otp,
-    //         phone_number: withoutFormateNumber,
-    //       })
-    //       setButtonLoading(false)
-    //     } else {
-    //       signInUsingFirebase(withoutFormateNumber)
-    //     }
-    //   })
-    //   .catch(() => {
-    //     setButtonLoading(false)
-    //     setError('Something Went Wrong...')
-    //   })
+    setErrors('')
+    getVerifyUser({ phone_number: withoutFormateNumber })
   }
 
   useEffect(() => {
@@ -89,7 +106,7 @@ const Login = ({ navigation }) => {
       .signInWithPhoneNumber(`+1${phoneNumber}`)
       .then(res => {
         setButtonLoading(true)
-        setError('')
+        setErrors('')
         // setConfirm(res)
         console.log('RESPONSE', res)
         navigation.navigate('Otp', {
@@ -98,16 +115,21 @@ const Login = ({ navigation }) => {
           OTP: res,
         })
         setButtonLoading(false)
-        // setValue('')
+        setNumber('')
       })
       .catch(err => {
         setButtonLoading(false)
         if (err.code === 'auth/invalid-phone-number') {
-          setError('Invalid Number')
+          setErrors('Invalid Number')
         } else if (err.code === 'auth/too-many-requests') {
-          setError('Too Many Requests Wait a Moment')
+          setErrors('Too Many Requests Wait a Moment')
+        } else if (err.code === 'auth/app-not-authorized') {
+          setErrors(
+            'This app is not authorized to use Firebase Authentication. Please verify that the correct package name and SHA-1 are configured in the Firebase Console.',
+          )
         } else {
-          setError('Something went wrong...')
+          console.log(err)
+          setErrors('Something went wrong...')
         }
       })
   }
@@ -171,13 +193,13 @@ const Login = ({ navigation }) => {
               ]}
             />
             <TextInput
-              value={value}
+              value={number}
               autoFocus={true}
               editable={!buttonLoading}
               placeholder="(415) 333-3333"
               maxLength={14}
               keyboardType="numeric"
-              onChangeText={num => setValue(num)}
+              onChangeText={num => setNumber(num)}
               placeholderTextColor={Common.placeHolderText.color}
               style={[
                 Common.secondaryGrey,
@@ -208,7 +230,7 @@ const Login = ({ navigation }) => {
               onContinueHandler()
             }}
             loadingProps={[{ size: 'small' }, Common.whiteColor]}
-            titleStyle={[Fonts.fontWeightRegular]}
+            titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
             buttonStyle={[
               Common.primaryPinkBackground,
               Gutters.fiftyfiveHeight,
@@ -219,14 +241,14 @@ const Login = ({ navigation }) => {
               Layout.selfCenter,
               Common.borderRadius,
             ]}
-            disabled={!(value.length === 14) || buttonLoading}
+            disabled={!(number.length === 14) || buttonLoading}
             disabledStyle={[Common.whiteColor, Common.greyBackground]}
             disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
           />
         </View>
         <View style={[Layout.center, Gutters.twentyBMargin]}>
           <Text style={[Common.errorColor, Fonts.fontSizeExtraSmall]}>
-            {error}
+            {errors}
           </Text>
         </View>
       </View>

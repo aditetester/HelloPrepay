@@ -2,60 +2,72 @@ import React, { useState } from 'react'
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   FlatList,
   TouchableHighlight,
+  ActivityIndicator,
+  Alert,
 } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import Button from '@/Components/UI/Button'
-import { SearchBar } from '@rneui/themed'
-import { BASE_URL } from '@/Config'
-import axios from 'axios'
+import { SearchBar, Image, Button } from '@rneui/themed'
+import {
+  useGetCarrierListQuery,
+  useGetProfileUpdateMutation,
+} from '@/Services/api'
 
 const SelectCarrier = ({ navigation, route }) => {
   const params = route.params
-  console.log('Carrier Params', params.obj)
   const { Common, Images, Fonts, Gutters, Layout } = useTheme()
-  const user = useSelector(state => state.user)
   const theme = useSelector(state => state.theme)
-  const dispatch = useDispatch()
   const [selectedId, setSelectedId] = useState()
   const [carrier, setCarrier] = useState()
+  const [searchable, setSearchable] = useState(carrier)
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}carrier`, {
-        headers: { Authorization: 'Bearer ' + params.token },
+    navigation.setOptions({
+      headerLeft: () => null,
+    })
+  }, [navigation])
+
+  const { data, isLoading, error } = useGetCarrierListQuery(params.token)
+  const [
+    getProfileUpdate,
+    {
+      data: profileUpdateData,
+      isLoading: profileUpdateLoading,
+      error: profileUpdateError,
+    },
+  ] = useGetProfileUpdateMutation()
+
+  useEffect(() => {
+    if (data && data.result) {
+      setCarrier(data.result)
+      setSearchable(data.result)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (profileUpdateData && profileUpdateData.success === true) {
+      navigation.navigate('Welcome', {
+        first_name: params.first_name,
+        data: profileUpdateData,
       })
-      .then(res => setCarrier(res.data.result))
-      .then(err => console.log(err))
-  }, [params])
+    } else if (profileUpdateData && profileUpdateData.success === false) {
+      Alert.alert('', 'Something Went Wrong...')
+      return
+    }
+  }, [profileUpdateData])
 
   const onContinueHandler = () => {
     if (!selectedId) {
       return
     }
-    axios
-      .post(
-        `${BASE_URL}profile_update`,
-        { carrier_id: selectedId },
-        {
-          headers: { Authorization: 'Bearer ' + params.token },
-        },
-      )
-      .then(res => {
-        let json = JSON.stringify(res.data)
-        let obj = JSON.parse(json)
-        navigation.navigate('Welcome', {
-          first_name: params.first_name,
-          obj: params.obj,
-        })
-      })
-      .catch(err => console.log('ERROR ERROR ERROR ', err))
+    getProfileUpdate({
+      body: { carrier_id: selectedId },
+      token: params.token,
+    })
   }
 
   const onBackHandler = () => {
@@ -70,49 +82,8 @@ const SelectCarrier = ({ navigation, route }) => {
     setSelectedId(id)
   }
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-    })
-  }, [navigation])
-
-  const Item = ({ id, image }) => {
-    return (
-      <TouchableHighlight
-        underlayColor={[Common.white.color]}
-        style={[
-          Gutters.twentyPadding,
-          Gutters.eightVMargin,
-          Gutters.oosHeight,
-          Gutters.fourtythreePWidth,
-          Common.borderRadius,
-          Common.offWhiteBorder,
-          selectedId !== id && Common.whiteColorBackground,
-          selectedId === id && Common.primaryPinkBackground,
-          Gutters.eighteenLMargin,
-          Common.whiteBackground,
-        ]}
-        onPress={() => onSelectCarrier(id)}
-      >
-        <Image
-          source={{ uri: image }}
-          style={[
-            Layout.selfCenter,
-            Gutters.ninetyPWidth,
-            Layout.fill,
-            { resizeMode: 'contain' },
-          ]}
-        />
-      </TouchableHighlight>
-    )
-  }
-
-  const renderItem = ({ item }) => (
-    <Item id={item.id} image={item.image} color={item.color} />
-  )
-
-  const arrayholder = carrier
-  const [searchValue, setSearchValue] = useState('')
+  const arrayholder = searchable
+  const [searchText, setSearchText] = useState('')
 
   const searchFunction = text => {
     const updatedData = arrayholder.filter(item => {
@@ -120,8 +91,76 @@ const SelectCarrier = ({ navigation, route }) => {
       const text_data = text.toUpperCase()
       return item_data.indexOf(text_data) > -1
     })
-    setCarrier(updatedData)
-    setSearchValue(text)
+    setSearchable(updatedData)
+    setSearchText(text)
+  }
+
+  useEffect(() => {
+    if (searchText.length === 0) {
+      setSearchable(carrier)
+    }
+  }, [searchText])
+
+  const renderItem = ({ item }) => (
+    <Item id={item.id} image={item.image} color={item.color} />
+  )
+
+  const Item = ({ id, image }) => {
+    return (
+      <>
+        <TouchableHighlight
+          underlayColor={[Common.white.color]}
+          style={[
+            Gutters.twentyPadding,
+            Gutters.eightVMargin,
+            Gutters.oosHeight,
+            Gutters.fourtythreePWidth,
+            Common.borderRadius,
+            Common.offWhiteBorder,
+            // selectedId !== id && Common.whiteColorBackground,
+            Common.whiteColorBackground,
+            // selectedId === id && Common.primaryPinkBackground,
+            selectedId === id && Common.primaryPinkBorder,
+            Gutters.eighteenLMargin,
+            Common.whiteBackground,
+          ]}
+          onPress={() => onSelectCarrier(id)}
+        >
+          {/* <Image
+            source={{ uri: image }}
+            style={[
+              Layout.selfCenter,
+              Gutters.ninetyPWidth,
+              Layout.fill,
+              Common.resizeModeContain,
+            ]}
+          /> */}
+          <Image
+            source={{ uri: image }}
+            style={[
+              Layout.selfCenter,
+              Gutters.ninetyPWidth,
+              Layout.fill,
+              Common.resizeModeContain,
+            ]}
+            containerStyle={[
+              Layout.selfCenter,
+              Gutters.ninetyPWidth,
+              Layout.fill,
+              Common.whiteColorBackground,
+              // Common.resizeModeContain,
+            ]}
+            placeholderStyle={{ backgroundColor: 'white' }}
+            PlaceholderContent={
+              <ActivityIndicator
+                size="small"
+                color={Common.loadingColor.color}
+              />
+            }
+          />
+        </TouchableHighlight>
+      </>
+    )
   }
 
   return (
@@ -170,7 +209,7 @@ const SelectCarrier = ({ navigation, route }) => {
 
       <SearchBar
         round
-        value={searchValue}
+        value={searchText}
         onChangeText={text => searchFunction(text)}
         autoCorrect={false}
         placeholder="Search by name..."
@@ -196,12 +235,16 @@ const SelectCarrier = ({ navigation, route }) => {
         }}
         lightTheme={theme.darkMode ? false : true}
       />
-      <FlatList
-        data={carrier}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        numColumns={2}
-      />
+      {isLoading ? (
+        <ActivityIndicator size="small" color={Common.loadingColor.color} />
+      ) : (
+        <FlatList
+          data={searchable && searchable}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          numColumns={2}
+        />
+      )}
       <View
         style={[
           Layout.center,
@@ -211,7 +254,7 @@ const SelectCarrier = ({ navigation, route }) => {
           Layout.selfCenter,
         ]}
       >
-        <Button
+        {/* <Button
           onPress={() => {
             onContinueHandler()
           }}
@@ -224,6 +267,29 @@ const SelectCarrier = ({ navigation, route }) => {
               ? Common.primaryPinkBackground.backgroundColor
               : Common.greyBackground.backgroundColor
           }
+        /> */}
+        <Button
+          title="Continue"
+          loading={profileUpdateLoading}
+          onPress={() => {
+            onContinueHandler(params)
+          }}
+          loadingProps={[{ size: 'small' }, Common.whiteColor]}
+          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+          buttonStyle={[
+            Common.primaryPinkBackground,
+            // Gutters.fiftyfiveHeight,
+            Gutters.sixtyHeight,
+            Common.borderRadius,
+          ]}
+          containerStyle={[
+            Gutters.ninetyfivePWidth,
+            Layout.selfCenter,
+            Common.borderRadius,
+          ]}
+          disabled={!selectedId}
+          disabledStyle={[Common.whiteColor, Common.greyBackground]}
+          disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
         />
       </View>
     </View>
