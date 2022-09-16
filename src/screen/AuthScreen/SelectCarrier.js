@@ -283,7 +283,7 @@ const SelectCarrier = ({ navigation, route }) => {
             Common.borderRadius,
           ]}
           containerStyle={[
-            Gutters.ninetyfivePWidth,
+            Gutters.hundredPWidth,
             Layout.selfCenter,
             Common.borderRadius,
           ]}

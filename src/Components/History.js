@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
-import { Button } from '@rneui/themed'
+import { Button, Skeleton } from '@rneui/themed'
 import History from '../screen/Data/history'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import { useNavigation } from '@react-navigation/native'
+import { promises } from 'stream'
 
 const UserHistory = ({ phone_number }) => {
   const navigation = useNavigation()
   const { Common, Gutters, Layout, Fonts } = useTheme()
-
+  const [fetching, setFetching] = useState(true)
   const onNewRefillHandler = () => {
     navigation.navigate('Selectplan', { phone_number: phone_number })
   }
@@ -18,6 +19,14 @@ const UserHistory = ({ phone_number }) => {
   const onShowHistoryHandler = id => {
     navigation.navigate('RefillHistory', { refillTransactionId: id })
   }
+
+  useEffect(() => {
+    if (fetching) {
+      setTimeout(() => {
+        setFetching(false)
+      }, 2000)
+    }
+  }, [])
 
   const keyExtractor = (item, index) => index.toString()
   const renderHistory = ({ item }) => {
@@ -95,69 +104,140 @@ const UserHistory = ({ phone_number }) => {
       </TouchableOpacity>
     )
   }
+
+  const loading = (
+    <View
+      style={[
+        { flex: 15 },
+        Layout.justifyContentCenter,
+        Gutters.twentyFourHMargin,
+        Gutters.fiveVMargin,
+        Layout.center,
+      ]}
+    >
+      <Skeleton
+        animation="wave"
+        width="99%"
+        height={40}
+        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="99%"
+        height={40}
+        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="99%"
+        height={40}
+        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="99%"
+        height={40}
+        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="99%"
+        height={40}
+        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="99%"
+        height={40}
+        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="99%"
+        height={40}
+        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="99%"
+        height={40}
+        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
+      />
+    </View>
+  )
+
   return (
     <>
-      <View
-        style={[
-          Layout.flexTwo,
-          Layout.justifyContentCenter,
-          Gutters.twentyFourHMargin,
-          Gutters.fiveVMargin,
-        ]}
-      >
-        <Text
-          style={[
-            Fonts.fontWeightRegular,
-            Fonts.fontSizeRegular,
-            Fonts.fontFamilyPrimary,
-            Common.titleText,
-          ]}
-        >
-          Refill history
-        </Text>
-      </View>
-      <View style={[Gutters.twentyFourHMargin, Layout.flexFifteen]}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          keyExtractor={keyExtractor}
-          data={History}
-          renderItem={renderHistory}
-        />
-      </View>
-      <View
-        style={[
-          Layout.selfCenter,
-          Layout.flexTwo,
-          Gutters.ninetyfivePWidth,
-          Gutters.fortyBMargin,
-          Gutters.twentyMTMargin,
-          Gutters.fortyBMargin,
-          Gutters.twentyMTMargin,
-        ]}
-      >
-        <Button
-          title="New refill"
-          loading={false}
-          onPress={() => {
-            onNewRefillHandler()
-          }}
-          loadingProps={[{ size: 'small' }, Common.whiteColor]}
-          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
-          buttonStyle={[
-            Common.primaryPinkBackground,
-            Gutters.fiftyfiveHeight,
-            Common.borderRadius,
-          ]}
-          containerStyle={[
-            Gutters.ninetyfivePWidth,
-            Gutters.twentyTMargin,
-            Layout.selfCenter,
-            Common.borderRadius,
-          ]}
-          disabledStyle={[Common.whiteColor, Common.greyBackground]}
-          disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
-        />
-      </View>
+      {fetching ? (
+        loading
+      ) : (
+        <>
+          <View
+            style={[
+              Layout.flexTwo,
+              Layout.justifyContentCenter,
+              Gutters.twentyFourHMargin,
+              Gutters.fiveVMargin,
+            ]}
+          >
+            <Text
+              style={[
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeRegular,
+                Fonts.fontFamilyPrimary,
+                Common.titleText,
+              ]}
+            >
+              Refill history
+            </Text>
+          </View>
+          <View style={[Gutters.twentyFourHMargin, Layout.flexFifteen]}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              keyExtractor={keyExtractor}
+              data={History}
+              renderItem={renderHistory}
+            />
+          </View>
+          <View
+            style={[
+              Layout.selfCenter,
+              Layout.flexTwo,
+              Gutters.ninetyfivePWidth,
+              Gutters.fortyBMargin,
+              Gutters.twentyMTMargin,
+              Gutters.fortyBMargin,
+              Gutters.twentyMTMargin,
+            ]}
+          >
+            <Button
+              title="New refill"
+              loading={false}
+              onPress={() => {
+                onNewRefillHandler()
+              }}
+              loadingProps={[{ size: 'small' }, Common.whiteColor]}
+              titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+              buttonStyle={[
+                Common.primaryPinkBackground,
+                Gutters.fiftyfiveHeight,
+                Common.borderRadius,
+              ]}
+              containerStyle={[
+                Gutters.ninetyfivePWidth,
+                Gutters.twentyTMargin,
+                Layout.selfCenter,
+                Common.borderRadius,
+              ]}
+              disabledStyle={[Common.whiteColor, Common.greyBackground]}
+              disabledTitleStyle={[
+                Common.whiteColor,
+                Gutters.zeroOsevenOpacity,
+              ]}
+            />
+          </View>
+        </>
+      )}
     </>
   )
 }

@@ -12,13 +12,11 @@ import {
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
 import { CheckBox } from '@rneui/themed'
-import { useDispatch } from 'react-redux'
 import { Button } from '@rneui/themed'
 import { useGetRegisterUserMutation } from '@/Services/api'
 
 const About = ({ navigation, route }) => {
   let params = route.params
-  let dispatch = useDispatch()
   const theme = useSelector(state => state.theme)
   const [buttonLoading, setButtonLoading] = useState(false)
   const { Common, Fonts, Layout, Images, Gutters } = useTheme()
@@ -57,11 +55,16 @@ const About = ({ navigation, route }) => {
         data: data,
       })
       return
-    } else if (data && data.message.email[0] === 'Email Should Be Unique ') {
+    } else if (
+      data !== undefined &&
+      data.message.email[0] === 'Email Should Be Unique '
+    ) {
       Alert.alert(
         'Email !!',
         'This Email is already in use!! \n Use Different Email',
       )
+    } else {
+      Alert.alert('Error!', 'Something went wrong')
     }
   }, [data])
 
@@ -149,18 +152,19 @@ const About = ({ navigation, route }) => {
           </Text>
           <TextInput
             style={[
+              !firstNameIsValid && Common.errorBorder,
               Common.offWhiteBackground,
               Common.borderRadius,
-              Gutters.tenHMargin,
+              Common.primaryBlue,
               Layout.selfCenter,
+              Layout.flexTwo,
+              Gutters.tenHMargin,
               Gutters.fiftysixHeight,
               Gutters.ninetyfivePWidth,
-              Layout.flexTwo,
+              Gutters.tenHPadding,
               Fonts.fontSizeSmall,
               Fonts.fontWeightSmall,
-              Common.primaryBlue,
               Fonts.fontFamilyPrimary,
-              !firstNameIsValid && Common.errorBorder,
             ]}
             onChangeText={text => setFirstName(text)}
           />
@@ -190,6 +194,7 @@ const About = ({ navigation, route }) => {
               Fonts.fontWeightSmall,
               Common.primaryBlue,
               Fonts.fontFamilyPrimary,
+              Gutters.tenHPadding,
               !lastNameIsValid && Common.errorBorder,
             ]}
             onChangeText={text => setLastName(text)}
@@ -221,6 +226,7 @@ const About = ({ navigation, route }) => {
               Fonts.fontWeightSmall,
               Common.primaryBlue,
               Fonts.fontFamilyPrimary,
+              Gutters.tenHPadding,
               !emailIsValid && Common.errorBorder,
             ]}
             onChangeText={e => setEmail(e)}

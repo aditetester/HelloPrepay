@@ -16,9 +16,11 @@ import { useDispatch } from 'react-redux'
 import { setUser } from '@/Store/User'
 import Timer from '@/Components/UI/Timer'
 import { useGetLoginUserMutation } from '@/Services/api'
+import auth from '@react-native-firebase/auth'
+import { useGetVerifyUserMutation } from '@/Services/api'
 
 const Otp = ({ navigation, route }) => {
-  let params = route.params
+  const [params, setParams] = useState(route.params)
   console.log('Params', params)
   const dispatch = useDispatch()
   const theme = useSelector(state => state.theme)
@@ -120,10 +122,83 @@ const Otp = ({ navigation, route }) => {
     return
   }
 
-  const onSendCodeAgainHandler = () => {
-    // onContinueHandler(params)
-    setCounter(59)
+  //----------START = Send-Code-Again---------------//
+  //--Registration--//
+  const signInUsingFirebase = async () => {
+    await auth()
+      .signInWithPhoneNumber(`+1${route.params.phone_number}`)
+      .then(res => {
+        setParams({
+          navigateFor: 'Registration',
+          phone_number: route.params.phone_number,
+          OTP: res,
+        })
+        setButtonLoading(false)
+      })
+      .catch(err => {
+        setButtonLoading(false)
+        if (err.code === 'auth/invalid-phone-number') {
+          console.log('Invalid Number')
+        } else if (err.code === 'auth/too-many-requests') {
+          console.log('Too Many Requests Wait a Moment')
+        } else if (err.code === 'auth/app-not-authorized') {
+          console.log(
+            'This app is not authorized to use Firebase Authentication. Please verify that the correct package name and SHA-1 are configured in the Firebase Console.',
+          )
+        } else {
+          console.log(err)
+        }
+      })
   }
+  //-------Registration---------//
+
+  //------Login-----------//
+  const [
+    getVerifyUser,
+    {
+      data: verifyUserData,
+      isLoading: verifyUserIsLoading,
+      isError: verifyUserIsError,
+      isSuccess: verifyUserIsSuccess,
+      isUninitialized: verifyUserIsUninitialized,
+      originalArgs: verifyUserOriginalArgs,
+      status: verifyUserStatus,
+    },
+  ] = useGetVerifyUserMutation()
+
+  useEffect(() => {
+    if (verifyUserIsLoading) {
+      setButtonLoading(true)
+    } else {
+      setButtonLoading(false)
+    }
+  }, [verifyUserIsLoading])
+
+  useEffect(() => {
+    if (verifyUserData && verifyUserData.status === 'active') {
+      setParams({
+        navigateFor: 'Login',
+        OTP: verifyUserData.otp,
+        phone_number: route.params.phone_number,
+      })
+      setButtonLoading(false)
+    } else if (verifyUserData && verifyUserData) {
+      console.log('Something Went Wrong...', verifyUserData)
+    }
+  }, [verifyUserData])
+  //--------Login--------//
+
+  const onSendCodeAgainHandler = () => {
+    setButtonLoading(true)
+    setCounter(59)
+    if (params.navigateFor === 'Registration') {
+      signInUsingFirebase()
+    } else if (params.navigateFor === 'Login') {
+      getVerifyUser({ phone_number: route.params.phone_number })
+    }
+  }
+
+  //------------END = Send-Code-Again--------------//
 
   useEffect(() => {
     if (OTPCode.length === 6) {
@@ -382,11 +457,11 @@ const Otp = ({ navigation, route }) => {
 
         <TouchableOpacity
           style={[Layout.alignItemsCenter, Layout.flexTwo]}
-          onPress={() => onSendCodeAgainHandler()}
+          // onPress={() => onSendCodeAgainHandler()}
         >
           <Timer
             maxRange={counter}
-            onPress={() => console.log('Send Code Again')}
+            onPress={(console.log('Send Code Again'), onSendCodeAgainHandler)}
             beforeText="Send code again"
             afterText="Send code again in"
           />

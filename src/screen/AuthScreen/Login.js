@@ -127,6 +127,8 @@ const Login = ({ navigation }) => {
           setErrors(
             'This app is not authorized to use Firebase Authentication. Please verify that the correct package name and SHA-1 are configured in the Firebase Console.',
           )
+        } else if (err.code === 'auth/quota-exceeded') {
+          setErrors('QUOTA_EXCEEDED : Exceeded quota')
         } else {
           console.log(err)
           setErrors('Something went wrong...')
@@ -247,7 +249,13 @@ const Login = ({ navigation }) => {
           />
         </View>
         <View style={[Layout.center, Gutters.twentyBMargin]}>
-          <Text style={[Common.errorColor, Fonts.fontSizeExtraSmall]}>
+          <Text
+            style={[
+              Common.errorColor,
+              Fonts.fontSizeExtraSmall,
+              Gutters.twentyHMargin,
+            ]}
+          >
             {errors}
           </Text>
         </View>
