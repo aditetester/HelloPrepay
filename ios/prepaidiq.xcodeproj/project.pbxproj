@@ -16,11 +16,11 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* prepaidiqTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* prepaidiqTests.m */; };
+		691AB6B928D3625300748B82 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 691AB6B828D3625300748B82 /* main.jsbundle */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		833F2006FE004CFBA319C9F2 /* libPods-prepaidiq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE8F60935CC7F1EA8FB7E0E /* libPods-prepaidiq.a */; };
 		8980DFD128D1E059005FD686 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8980DFD028D1E058005FD686 /* GoogleService-Info.plist */; };
 		F61ED7F028BF92E30015A74E /* Satoshi-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F61ED7EF28BF92E30015A74E /* Satoshi-Regular.otf */; };
-		F62E9A6328B61B7A00AF1659 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		F6952D9C28AE2164005EE4AF /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8C28AE2164005EE4AF /* Fontisto.ttf */; };
 		F6952D9D28AE2164005EE4AF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8D28AE2164005EE4AF /* Octicons.ttf */; };
 		F6952D9E28AE2164005EE4AF /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8E28AE2164005EE4AF /* Feather.ttf */; };
@@ -57,7 +57,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356EE1AD99517003FC87E /* prepaidiqTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = prepaidiqTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* prepaidiqTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prepaidiqTests.m; sourceTree = "<group>"; };
@@ -72,6 +71,8 @@
 		2D02E47B1E0B4A5D006451C7 /* prepaidiq-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "prepaidiq-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* prepaidiq-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "prepaidiq-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F9E780CE724C60CB827C553 /* Pods-prepaidiq-prepaidiqTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; path = "Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; sourceTree = "<group>"; };
+		691AB6B828D3625300748B82 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		691AB6BA28D3639200748B82 /* prepaidiq.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = prepaidiq.entitlements; path = prepaidiq/prepaidiq.entitlements; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = prepaidiq/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8980DFD028D1E058005FD686 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8CE8F60935CC7F1EA8FB7E0E /* libPods-prepaidiq.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prepaidiq.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,10 +153,11 @@
 		13B07FAE1A68108700A75B9A /* prepaidiq */ = {
 			isa = PBXGroup;
 			children = (
+				691AB6BA28D3639200748B82 /* prepaidiq.entitlements */,
+				691AB6B828D3625300748B82 /* main.jsbundle */,
 				8980DFD028D1E058005FD686 /* GoogleService-Info.plist */,
 				F61ED7EF28BF92E30015A74E /* Satoshi-Regular.otf */,
 				F6952D8B28AE2164005EE4AF /* icons */,
-				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -341,7 +343,9 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = ARCS7WUK7Y;
 						LastSwiftMigration = 1120;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -388,7 +392,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F61ED7F028BF92E30015A74E /* Satoshi-Regular.otf in Resources */,
-				F62E9A6328B61B7A00AF1659 /* main.jsbundle in Resources */,
 				F6952D9C28AE2164005EE4AF /* Fontisto.ttf in Resources */,
 				F6952DA728AE2164005EE4AF /* FontAwesome.ttf in Resources */,
 				F6952DA328AE2164005EE4AF /* Foundation.ttf in Resources */,
@@ -400,6 +403,7 @@
 				F6952DA828AE2164005EE4AF /* Zocial.ttf in Resources */,
 				F6952DAA28AE2164005EE4AF /* SimpleLineIcons.ttf in Resources */,
 				F6952D9E28AE2164005EE4AF /* Feather.ttf in Resources */,
+				691AB6B928D3625300748B82 /* main.jsbundle in Resources */,
 				F6952D9D28AE2164005EE4AF /* Octicons.ttf in Resources */,
 				F6952DA028AE2164005EE4AF /* FontAwesome5_Brands.ttf in Resources */,
 				F6952DA228AE2164005EE4AF /* AntDesign.ttf in Resources */,
@@ -734,17 +738,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = prepaidiq/prepaidiq.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ARCS7WUK7Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = prepaidiq/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.prepaidiq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prepaidiq.d2c;
 				PRODUCT_NAME = prepaidiq;
+				PROVISIONING_PROFILE_SPECIFIER = PREPAY_Release_Profile_15_09_2022;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -758,16 +768,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = prepaidiq/prepaidiq.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ARCS7WUK7Y;
 				INFOPLIST_FILE = prepaidiq/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.prepaidiq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prepaidiq.d2c;
 				PRODUCT_NAME = prepaidiq;
+				PROVISIONING_PROFILE_SPECIFIER = PREPAY_Release_Profile_15_09_2022;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
