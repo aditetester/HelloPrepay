@@ -27,7 +27,7 @@ const AuthNavigation = () => {
         />
 
         <Stack.Navigator
-          // initialRouteName="Otp"
+          // initialRouteName="About"
           screenOptions={{
             headerStyle: {
               backgroundColor: Common.backgroundPrimary.backgroundColor,
@@ -39,7 +39,7 @@ const AuthNavigation = () => {
                   source={Images.whiteThemeLogo}
                   style={{
                     width: 139.13,
-                    height: 32,
+                    height: '100%',
                     alignSelf: 'center',
                     resizeMode: 'contain',
                   }}
@@ -49,7 +49,7 @@ const AuthNavigation = () => {
                   source={Images.darkThemeLogo}
                   style={{
                     width: 139.13,
-                    height: 32,
+                    height: '70%',
                     alignSelf: 'center',
                     resizeMode: 'contain',
                   }}

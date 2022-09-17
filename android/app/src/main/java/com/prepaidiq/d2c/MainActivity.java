@@ -1,4 +1,4 @@
-package com.prepaidiq;
+package com.prepaidiq.d2c;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

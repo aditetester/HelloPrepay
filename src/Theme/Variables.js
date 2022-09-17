@@ -31,6 +31,8 @@ export const Colors = {
   red: '#FF3333',
   placeHolder: '#dee2e6',
   loadingColor: '#DB006A',
+  keyboardText: '#28224B',
+  keyboardBackGround: '#F3F5F7',
 }
 
 export const NavigationColors = {

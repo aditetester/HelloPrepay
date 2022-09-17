@@ -20,6 +20,8 @@ const Colors = {
   red: '#FF3333',
   placeHolder: '#dee2e6',
   loadingColor: '#DB006A',
+  keyboardText: '#ffffff',
+  keyboardBackGround: '#45484A',
 }
 
 const NavigationColors = {

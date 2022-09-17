@@ -195,6 +195,12 @@ export default function ({ Colors, ...args }) {
       loadingColor: {
         color: Colors.loadingColor,
       },
+      keyboardText: {
+        color: Colors.keyboardText,
+      },
+      keyboardBackGround: {
+        backgroundColor: Colors.keyboardBackGround,
+      },
     }),
   }
 }

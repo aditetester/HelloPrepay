@@ -19,7 +19,7 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.prepaidiq.BuildConfig;
+import com.prepaidiq.d2c.BuildConfig;
 import com.prepaidiq.newarchitecture.components.MainComponentsRegistry;
 import com.prepaidiq.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;

@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1019549713217:android:f1ede155b672ef4ce117c0",
+        "mobilesdk_app_id": "1:1019549713217:android:75597aa06cd8d0d6e117c0",
         "android_client_info": {
-          "package_name": "com.prepaidiq"
+          "package_name": "com.prepaidiq.d2c"
         }
       },
       "oauth_client": [
@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "1019549713217-vkciddkf6ror4b3kn5nifkrmr2i9t619.apps.googleusercontent.com",
+              "client_id": "1019549713217-n0v2crl99a29970iah9ldftv2rss521r.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.prepaidiq"
+                "bundle_id": "com.prepaidiq.d2c"
               }
             }
           ]

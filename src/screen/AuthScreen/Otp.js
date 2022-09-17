@@ -18,6 +18,7 @@ import Timer from '@/Components/UI/Timer'
 import { useGetLoginUserMutation } from '@/Services/api'
 import auth from '@react-native-firebase/auth'
 import { useGetVerifyUserMutation } from '@/Services/api'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 const Otp = ({ navigation, route }) => {
   const [params, setParams] = useState(route.params)
@@ -26,7 +27,7 @@ const Otp = ({ navigation, route }) => {
   const theme = useSelector(state => state.theme)
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
   const [buttonLoading, setButtonLoading] = useState(false)
-  const [counter, setCounter] = useState(59)
+  const [sendCodeAgainSpinner, setSendCodeAgainSpinner] = useState(false)
   const [key1, setKey1] = useState('')
   const [key2, setKey2] = useState('')
   const [key3, setKey3] = useState('')
@@ -56,13 +57,15 @@ const Otp = ({ navigation, route }) => {
     }
   }, [isLoading])
 
+  console.log(data)
+
   useEffect(() => {
     if (data && data.message === 'otp has been expired') {
-      Alert.alert('Error', 'Otp has been expired !!')
+      Alert.alert('Otp Expired', 'Otp has been expired !!')
       return
     }
     if (data && data.success === false) {
-      Alert.alert('Error', 'You Entered Wrong Otp')
+      Alert.alert('Wrong Otp', 'You Entered Wrong Otp')
       setButtonLoading(false)
       setKey1('')
       setKey2('')
@@ -125,6 +128,7 @@ const Otp = ({ navigation, route }) => {
   //----------START = Send-Code-Again---------------//
   //--Registration--//
   const signInUsingFirebase = async () => {
+    setSendCodeAgainSpinner(true)
     await auth()
       .signInWithPhoneNumber(`+1${route.params.phone_number}`)
       .then(res => {
@@ -133,10 +137,10 @@ const Otp = ({ navigation, route }) => {
           phone_number: route.params.phone_number,
           OTP: res,
         })
-        setButtonLoading(false)
+        setSendCodeAgainSpinner(false)
       })
       .catch(err => {
-        setButtonLoading(false)
+        setSendCodeAgainSpinner(false)
         if (err.code === 'auth/invalid-phone-number') {
           console.log('Invalid Number')
         } else if (err.code === 'auth/too-many-requests') {
@@ -158,11 +162,11 @@ const Otp = ({ navigation, route }) => {
     {
       data: verifyUserData,
       isLoading: verifyUserIsLoading,
-      isError: verifyUserIsError,
-      isSuccess: verifyUserIsSuccess,
-      isUninitialized: verifyUserIsUninitialized,
-      originalArgs: verifyUserOriginalArgs,
-      status: verifyUserStatus,
+      // isError: verifyUserIsError,
+      // isSuccess: verifyUserIsSuccess,
+      // isUninitialized: verifyUserIsUninitialized,
+      // originalArgs: verifyUserOriginalArgs,
+      // status: verifyUserStatus,
     },
   ] = useGetVerifyUserMutation()
 
@@ -181,19 +185,20 @@ const Otp = ({ navigation, route }) => {
         OTP: verifyUserData.otp,
         phone_number: route.params.phone_number,
       })
-      setButtonLoading(false)
+      setSendCodeAgainSpinner(false)
     } else if (verifyUserData && verifyUserData) {
+      setSendCodeAgainSpinner(false)
       console.log('Something Went Wrong...', verifyUserData)
     }
   }, [verifyUserData])
   //--------Login--------//
 
   const onSendCodeAgainHandler = () => {
-    setButtonLoading(true)
-    setCounter(59)
+    setSendCodeAgainSpinner(true)
     if (params.navigateFor === 'Registration') {
       signInUsingFirebase()
     } else if (params.navigateFor === 'Login') {
+      setSendCodeAgainSpinner(true)
       getVerifyUser({ phone_number: route.params.phone_number })
     }
   }
@@ -251,8 +256,19 @@ const Otp = ({ navigation, route }) => {
     })
   }, [navigation])
 
+  let loading = (
+    <>
+      <Spinner
+        visible={sendCodeAgainSpinner}
+        textContent={''}
+        textStyle={{ color: '#FFF' }}
+      />
+    </>
+  )
+
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
+      {loading}
       <View style={Layout.fill}>
         <TouchableOpacity
           style={[
@@ -455,12 +471,9 @@ const Otp = ({ navigation, route }) => {
           </View>
         </View>
 
-        <TouchableOpacity
-          style={[Layout.alignItemsCenter, Layout.flexTwo]}
-          // onPress={() => onSendCodeAgainHandler()}
-        >
+        <TouchableOpacity style={[Layout.alignItemsCenter, Layout.flexTwo]}>
           <Timer
-            maxRange={counter}
+            maxRange={59}
             onPress={(console.log('Send Code Again'), onSendCodeAgainHandler)}
             beforeText="Send code again"
             afterText="Send code again in"
@@ -478,11 +491,13 @@ const Otp = ({ navigation, route }) => {
           <View style={[Layout.row, Layout.justifyContentBetween, Layout.fill]}>
             <Pressable
               style={({ pressed }) => [
+                // { backgroundColor: '#45484A' },
                 pressed && Common.primaryPinkBackground,
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -497,7 +512,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   1
@@ -510,7 +526,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -525,7 +542,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   2
@@ -538,7 +556,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -553,7 +572,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   3
@@ -568,7 +588,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -583,7 +604,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   4
@@ -596,7 +618,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -611,7 +634,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   5
@@ -624,7 +648,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -639,7 +664,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   6
@@ -654,7 +680,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -669,7 +696,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   7
@@ -682,7 +710,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -697,7 +726,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   8
@@ -710,7 +740,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -725,7 +756,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   9
@@ -752,7 +784,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -767,7 +800,8 @@ const Otp = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    // !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   0
@@ -780,7 +814,8 @@ const Otp = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -808,20 +843,6 @@ const Otp = ({ navigation, route }) => {
             Gutters.tenVMargin,
           ]}
         >
-          {/* <Button
-            onPress={() => {
-              onContinueHandler()
-            }}
-            title={'Continue'}
-            size="sm"
-            fontSize={16}
-            backgroundColor={
-              OTPCode.length === 6
-                ? Common.primaryPink.color
-                : Common.greyColor.color
-            }
-            disabled={!(OTPCode.length === 6)}
-          /> */}
           <Button
             title="Continue"
             loading={buttonLoading}

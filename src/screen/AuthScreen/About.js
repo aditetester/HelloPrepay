@@ -55,16 +55,23 @@ const About = ({ navigation, route }) => {
         data: data,
       })
       return
-    } else if (
-      data !== undefined &&
-      data.message.email[0] === 'Email Should Be Unique '
-    ) {
-      Alert.alert(
-        'Email !!',
-        'This Email is already in use!! \n Use Different Email',
-      )
     } else {
-      Alert.alert('Error!', 'Something went wrong')
+      if (data) {
+        if (String(data.message.email) === 'Email Should Be Unique ') {
+          Alert.alert(
+            'Email !!',
+            'This Email is already in use!! \n Use Different Email',
+          )
+        } else if (
+          String(data.message.phone_number) ===
+          'The phone number has already been taken.'
+        ) {
+          Alert.alert(
+            'Phone Number !!',
+            'The phone number has already been taken.',
+          )
+        }
+      }
     }
   }, [data])
 
@@ -100,6 +107,16 @@ const About = ({ navigation, route }) => {
     }
     phoneFormat(params.phone_number)
   }, [params.phone_number])
+
+  const onFirstNameBlur = () => {
+    setFirstName(firstName.trim())
+  }
+  const onLastNameBlur = () => {
+    setLastName(lastName.trim())
+  }
+  const onEmailBlur = () => {
+    setEmail(email.trim())
+  }
 
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
@@ -166,6 +183,7 @@ const About = ({ navigation, route }) => {
               Fonts.fontWeightSmall,
               Fonts.fontFamilyPrimary,
             ]}
+            onBlur={onFirstNameBlur}
             onChangeText={text => setFirstName(text)}
           />
           <Text
@@ -197,6 +215,7 @@ const About = ({ navigation, route }) => {
               Gutters.tenHPadding,
               !lastNameIsValid && Common.errorBorder,
             ]}
+            onBlur={onLastNameBlur}
             onChangeText={text => setLastName(text)}
           />
           <Text
@@ -229,6 +248,7 @@ const About = ({ navigation, route }) => {
               Gutters.tenHPadding,
               !emailIsValid && Common.errorBorder,
             ]}
+            onBlur={onEmailBlur}
             onChangeText={e => setEmail(e)}
           />
           <Text

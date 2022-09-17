@@ -1,6 +1,6 @@
 <manifest
   xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.prepaidiq"
+  package="com.prepaidiq.d2c"
 >
     <uses-permission android:name="android.permission.INTERNET" />
 
