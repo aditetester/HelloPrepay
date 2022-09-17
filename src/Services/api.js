@@ -66,6 +66,15 @@ export const api = createApi({
         }
       },
     }),
+    sendEmailCode: builder.mutation({
+      query: phoneNumber => {
+        return {
+          url: 'sendMail',
+          method: 'POST',
+          body: phoneNumber,
+        }
+      },
+    }),
   }),
 })
 
@@ -75,4 +84,5 @@ export const {
   useGetRegisterUserMutation,
   useGetCarrierListQuery,
   useGetProfileUpdateMutation,
+  useSendEmailCodeMutation,
 } = api

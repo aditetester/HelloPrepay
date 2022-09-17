@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { View, Text, SafeAreaView, TextInput } from 'react-native'
+import { View, Text, SafeAreaView, TextInput, Alert } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import auth from '@react-native-firebase/auth'
-import { Button } from '@rneui/themed'
-import { useGetVerifyUserMutation } from '../../Services/api'
+import { Button, Dialog, CheckBox } from '@rneui/themed'
+import {
+  useGetVerifyUserMutation,
+  useSendEmailCodeMutation,
+} from '../../Services/api'
 
 const Login = ({ navigation }) => {
   const { Common, Layout, Fonts, Gutters } = useTheme()
@@ -14,6 +17,10 @@ const Login = ({ navigation }) => {
   const withoutFormateNumber = number.replace(/\D/g, '')
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
+
+  const [dialog, setDialog] = useState(false)
+  const [sms, setSms] = useState(true)
+  const [email, setEmail] = useState(false)
 
   const [
     getVerifyUser,
@@ -27,6 +34,37 @@ const Login = ({ navigation }) => {
       status,
     },
   ] = useGetVerifyUserMutation()
+
+  const [
+    sendEmailCode,
+    { data: emailData, isLoading: emailIsLoading, error: emailError },
+  ] = useSendEmailCodeMutation()
+  console.log('emailData', emailError)
+  useEffect(() => {
+    if (emailData && emailData.success === true) {
+      navigation.navigate('Otp', {
+        navigateFor: 'Login',
+        OTP: data.otp,
+        phone_number: withoutFormateNumber,
+        flag: 2,
+      })
+      setDialog(false)
+    } else if (emailData && emailData.success === false) {
+      Alert.alert('Opps!', 'This email is not registered')
+    }
+  }, [emailData])
+
+  useEffect(() => {
+    if (emailError) Alert.alert('Opps!', 'This email is not registered')
+  }, [emailError])
+
+  useEffect(() => {
+    if (emailIsLoading) {
+      setButtonLoading(true)
+    } else {
+      setButtonLoading(false)
+    }
+  }, [emailIsLoading])
 
   useEffect(() => {
     navigation.setOptions({
@@ -63,14 +101,11 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     setErrors('')
     if (data && data.status === 'active') {
-      navigation.navigate('Otp', {
-        navigateFor: 'Login',
-        OTP: data.otp,
-        phone_number: withoutFormateNumber,
-      })
+      setDialog(true)
       setButtonLoading(false)
+      console.log(data)
     } else if (data && data.status !== 'active') {
-      signInUsingFirebase(withoutFormateNumber)
+      signInUsingFirebase(withoutFormateNumber, 'Registration')
     } else if (
       data &&
       data.message.phone_number[0] ===
@@ -100,8 +135,9 @@ const Login = ({ navigation }) => {
     }
   }
 
-  const signInUsingFirebase = async phoneNumber => {
+  const signInUsingFirebase = async (phoneNumber, mode) => {
     setButtonLoading(true)
+    setDialog(false)
     await auth()
       .signInWithPhoneNumber(`+1${phoneNumber}`)
       .then(res => {
@@ -110,15 +146,18 @@ const Login = ({ navigation }) => {
         // setConfirm(res)
         console.log('RESPONSE', res)
         navigation.navigate('Otp', {
-          navigateFor: 'Registration',
+          navigateFor: mode,
           phone_number: withoutFormateNumber,
           OTP: res,
+          flag: 1,
         })
         setButtonLoading(false)
         setNumber('')
+        setDialog(false)
       })
       .catch(err => {
         setButtonLoading(false)
+        setDialog(false)
         if (err.code === 'auth/invalid-phone-number') {
           setErrors('Invalid Number')
         } else if (err.code === 'auth/too-many-requests') {
@@ -136,9 +175,58 @@ const Login = ({ navigation }) => {
       })
   }
 
+  const onConfirmMode = () => {
+    if (sms) {
+      signInUsingFirebase(withoutFormateNumber, 'Login')
+    } else if (email) {
+      sendEmailCode({ phone_number: withoutFormateNumber })
+    }
+    setDialog(false)
+  }
+
+  let selectDialog = (
+    <View>
+      <Dialog isVisible={dialog} onBackdropPress={() => setDialog(false)}>
+        <Dialog.Title title="Select Verification Mode" />
+        <CheckBox
+          title={'SMS'}
+          containerStyle={{ backgroundColor: 'skyblue', borderWidth: 4 }}
+          checkedIcon="dot-circle-o"
+          uncheckedIcon="circle-o"
+          checked={sms}
+          onPress={() => {
+            if (email) {
+              setEmail(false)
+              setSms(true)
+            }
+          }}
+        />
+        <CheckBox
+          title={'Email'}
+          containerStyle={{ backgroundColor: 'lightgreen', borderWidth: 4 }}
+          checkedIcon="dot-circle-o"
+          uncheckedIcon="circle-o"
+          checked={email}
+          onPress={() => {
+            if (sms) {
+              setSms(false)
+              setEmail(true)
+            }
+          }}
+        />
+
+        <Dialog.Actions>
+          <Dialog.Button title="CONFIRM" onPress={() => onConfirmMode()} />
+          <Dialog.Button title="CANCEL" onPress={() => setDialog(false)} />
+        </Dialog.Actions>
+      </Dialog>
+    </View>
+  )
+
   return (
     <SafeAreaView style={Layout.fill}>
       <View style={[Common.backgroundPrimary, Layout.fill]}>
+        {selectDialog}
         <View style={[Gutters.tenTMargin, Gutters.twentyfiveLMargin]}>
           <Text
             style={[

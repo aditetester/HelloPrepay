@@ -99,7 +99,36 @@ const Otp = ({ navigation, route }) => {
     setButtonLoading(true)
     if (PARAMS.navigateFor === 'Login') {
       setButtonLoading(true)
-      getLogin({ phone_number: PARAMS.phone_number, otp: OTPCode })
+      if (params.flag === 1) {
+        try {
+          setButtonLoading(true)
+          await PARAMS.OTP.confirm(OTPCode)
+          getLogin({
+            phone_number: PARAMS.phone_number,
+            otp: OTPCode,
+            flag: params.flag,
+          })
+          setButtonLoading(false)
+          return
+        } catch (error) {
+          setButtonLoading(false)
+          Alert.alert('Invalid Code', 'You Entered Invalid Code')
+          setKey1('')
+          setKey2('')
+          setKey3('')
+          setKey4('')
+          setKey5('')
+          setKey6('')
+          setOTPCode('')
+          return
+        }
+      } else if (params.flag === 2) {
+        getLogin({
+          phone_number: PARAMS.phone_number,
+          otp: OTPCode,
+          flag: params.flag,
+        })
+      }
     } else if (PARAMS.navigateFor === 'Registration') {
       try {
         setButtonLoading(true)
@@ -323,7 +352,8 @@ const Otp = ({ navigation, route }) => {
               Fonts.fontFamilyPrimary,
             ]}
           >
-            We’ve sent you a 6 digit code through SMS.
+            We’ve sent you a 6 digit code through{' '}
+            {params.flag === 1 ? 'SMS' : 'Email'}.
           </Text>
         </View>
         <View
