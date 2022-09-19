@@ -50,13 +50,17 @@ const Login = ({ navigation }) => {
       })
       setDialog(false)
       setSms(true)
+      setEmail(false)
     } else if (emailData && emailData.success === false) {
       Alert.alert('Opps!', 'Email is not registered')
     }
   }, [emailData])
 
   useEffect(() => {
-    if (emailError) Alert.alert('Opps!', 'Server Down \n Please try again')
+    if (emailError) {
+      Alert.alert('Opps!!!', 'Server Down \n Please try again')
+      console.log(JSON.stringify('Email Error', emailError.data))
+    }
   }, [emailError])
 
   useEffect(() => {
@@ -119,7 +123,9 @@ const Login = ({ navigation }) => {
   }, [data])
 
   useEffect(() => {
-    if (error) Alert.alert('Error!', 'Server Down')
+    if (error) {
+      Alert.alert('Error!', 'Server Down')
+    }
   }, [error])
 
   const onContinueHandler = async () => {
@@ -160,6 +166,7 @@ const Login = ({ navigation }) => {
         setNumber('')
         setDialog(false)
         setSms(true)
+        setEmail(false)
       })
       .catch(err => {
         setButtonLoading(false)
@@ -195,21 +202,19 @@ const Login = ({ navigation }) => {
       <Dialog
         isVisible={dialog}
         onBackdropPress={() => setDialog(false)}
-        overlayStyle={[{ borderRadius: 10 }, Common.offWhiteBackground]}
+        overlayStyle={[Common.offWhiteBackground, Common.borderRadiusTen]}
       >
         <Dialog.Title
           title="Select Verification Mode"
-          titleStyle={[{}, Common.black]}
+          titleStyle={[{}, Common.black, Fonts.textCenter]}
         />
         <CheckBox
           title={'SMS'}
           textStyle={[sms && Common.white, !sms && Common.black]}
           containerStyle={[
-            {
-              borderWidth: 4,
-              borderRadius: 10,
-            },
             sms && Common.primaryPinkBackground,
+            Common.borderRadiusTen,
+            Common.borderWidthFour,
           ]}
           checkedIcon={
             <Icon
@@ -239,11 +244,9 @@ const Login = ({ navigation }) => {
           title={'Email'}
           textStyle={[email && Common.white, !email && Common.black]}
           containerStyle={[
-            {
-              borderWidth: 4,
-              borderRadius: 10,
-            },
             email && Common.primaryPinkBackground,
+            Common.borderRadiusTen,
+            Common.borderWidthFour,
           ]}
           checkedIcon={
             <Icon

@@ -168,6 +168,7 @@ const About = ({ navigation, route }) => {
             First Name
           </Text>
           <TextInput
+            value={firstName}
             style={[
               !firstNameIsValid && Common.errorBorder,
               Common.offWhiteBackground,
@@ -200,6 +201,7 @@ const About = ({ navigation, route }) => {
             Last name
           </Text>
           <TextInput
+            value={lastName}
             style={[
               Common.offWhiteBackground,
               Common.borderRadius,
@@ -233,6 +235,7 @@ const About = ({ navigation, route }) => {
           </Text>
           <TextInput
             keyboardType="email-address"
+            value={email}
             style={[
               Common.offWhiteBackground,
               Common.borderRadius,

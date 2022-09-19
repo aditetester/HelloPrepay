@@ -146,6 +146,9 @@ export default function ({ Colors, ...args }) {
       borderWidth: {
         borderWidth: 1,
       },
+      borderWidthFour: {
+        borderWidth: 4,
+      },
       borderRadiusMedium: {
         borderRadius: 10,
       },
