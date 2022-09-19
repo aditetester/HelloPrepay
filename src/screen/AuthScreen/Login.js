@@ -3,7 +3,7 @@ import { View, Text, SafeAreaView, TextInput, Alert } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import auth from '@react-native-firebase/auth'
-import { Button, Dialog, CheckBox } from '@rneui/themed'
+import { Button, Dialog, CheckBox, Icon } from '@rneui/themed'
 import {
   useGetVerifyUserMutation,
   useSendEmailCodeMutation,
@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
     {
       data,
       isLoading,
-      isError,
+      error,
       isSuccess,
       isUninitialized,
       originalArgs,
@@ -39,7 +39,7 @@ const Login = ({ navigation }) => {
     sendEmailCode,
     { data: emailData, isLoading: emailIsLoading, error: emailError },
   ] = useSendEmailCodeMutation()
-  console.log('emailData', emailError)
+
   useEffect(() => {
     if (emailData && emailData.success === true) {
       navigation.navigate('Otp', {
@@ -49,13 +49,14 @@ const Login = ({ navigation }) => {
         flag: 2,
       })
       setDialog(false)
+      setSms(true)
     } else if (emailData && emailData.success === false) {
-      Alert.alert('Opps!', 'This email is not registered')
+      Alert.alert('Opps!', 'Email is not registered')
     }
   }, [emailData])
 
   useEffect(() => {
-    if (emailError) Alert.alert('Opps!', 'This email is not registered')
+    if (emailError) Alert.alert('Opps!', 'Server Down \n Please try again')
   }, [emailError])
 
   useEffect(() => {
@@ -117,6 +118,10 @@ const Login = ({ navigation }) => {
     }
   }, [data])
 
+  useEffect(() => {
+    if (error) Alert.alert('Error!', 'Server Down')
+  }, [error])
+
   const onContinueHandler = async () => {
     setButtonLoading(true)
     setErrors('')
@@ -154,6 +159,7 @@ const Login = ({ navigation }) => {
         setButtonLoading(false)
         setNumber('')
         setDialog(false)
+        setSms(true)
       })
       .catch(err => {
         setButtonLoading(false)
@@ -186,13 +192,41 @@ const Login = ({ navigation }) => {
 
   let selectDialog = (
     <View>
-      <Dialog isVisible={dialog} onBackdropPress={() => setDialog(false)}>
-        <Dialog.Title title="Select Verification Mode" />
+      <Dialog
+        isVisible={dialog}
+        onBackdropPress={() => setDialog(false)}
+        overlayStyle={[{ borderRadius: 10 }, Common.offWhiteBackground]}
+      >
+        <Dialog.Title
+          title="Select Verification Mode"
+          titleStyle={[{}, Common.black]}
+        />
         <CheckBox
           title={'SMS'}
-          containerStyle={{ backgroundColor: 'skyblue', borderWidth: 4 }}
-          checkedIcon="dot-circle-o"
-          uncheckedIcon="circle-o"
+          textStyle={[sms && Common.white, !sms && Common.black]}
+          containerStyle={[
+            {
+              borderWidth: 4,
+              borderRadius: 10,
+            },
+            sms && Common.primaryPinkBackground,
+          ]}
+          checkedIcon={
+            <Icon
+              name="check-circle"
+              type="font-awesome-5"
+              size={20}
+              color={sms ? 'white' : 'white'}
+            />
+          }
+          uncheckedIcon={
+            <Icon
+              name="circle"
+              type="font-awesome-5"
+              size={20}
+              color={!sms ? 'grey' : '#DB006A'}
+            />
+          }
           checked={sms}
           onPress={() => {
             if (email) {
@@ -203,9 +237,30 @@ const Login = ({ navigation }) => {
         />
         <CheckBox
           title={'Email'}
-          containerStyle={{ backgroundColor: 'lightgreen', borderWidth: 4 }}
-          checkedIcon="dot-circle-o"
-          uncheckedIcon="circle-o"
+          textStyle={[email && Common.white, !email && Common.black]}
+          containerStyle={[
+            {
+              borderWidth: 4,
+              borderRadius: 10,
+            },
+            email && Common.primaryPinkBackground,
+          ]}
+          checkedIcon={
+            <Icon
+              name="check-circle"
+              type="font-awesome-5"
+              size={20}
+              color={email ? 'white' : 'white'}
+            />
+          }
+          uncheckedIcon={
+            <Icon
+              name="circle"
+              type="font-awesome-5"
+              size={20}
+              color={!email ? 'grey' : '#DB006A'}
+            />
+          }
           checked={email}
           onPress={() => {
             if (sms) {
@@ -216,8 +271,16 @@ const Login = ({ navigation }) => {
         />
 
         <Dialog.Actions>
-          <Dialog.Button title="CONFIRM" onPress={() => onConfirmMode()} />
-          <Dialog.Button title="CANCEL" onPress={() => setDialog(false)} />
+          <Dialog.Button
+            title="CONFIRM"
+            onPress={() => onConfirmMode()}
+            titleStyle={[Common.black]}
+          />
+          <Dialog.Button
+            title="CANCEL"
+            onPress={() => setDialog(false)}
+            titleStyle={[Common.black]}
+          />
         </Dialog.Actions>
       </Dialog>
     </View>

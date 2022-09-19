@@ -65,7 +65,7 @@ const Otp = ({ navigation, route }) => {
       return
     }
     if (data && data.success === false) {
-      Alert.alert('Wrong Otp', 'You Entered Wrong Otp')
+      Alert.alert('Wrong Otp', 'You Entered Wrong Otp EMAIL')
       setButtonLoading(false)
       setKey1('')
       setKey2('')
@@ -112,7 +112,7 @@ const Otp = ({ navigation, route }) => {
           return
         } catch (error) {
           setButtonLoading(false)
-          Alert.alert('Invalid Code', 'You Entered Invalid Code')
+          Alert.alert('Invalid Code', 'You Entered Invalid Code Login Firebase')
           setKey1('')
           setKey2('')
           setKey3('')
