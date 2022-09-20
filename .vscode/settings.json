@@ -75,7 +75,7 @@
   "editor.formatOnType": true,
   "eslint.enable": true,
   "prettier.singleQuote": true,
-  "editor.fontFamily": "Victor Mono",
+  // "editor.fontFamily": "Victor Mono",
   "editor.fontLigatures": true,
   "commentTranslate.targetLanguage": "en",
   // "editor.fontWeight": 900

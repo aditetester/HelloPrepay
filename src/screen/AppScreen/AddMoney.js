@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 import Button from '@/Components/UI/Button'
 
 const AddMoney = ({ navigation, route }) => {
+  //NOTE: 1. Define Variables
   let params = route.params
   console.log('🚀 ~ file: AddMoney.js ~ line 18 ~ AddMoney ~ params', params)
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
@@ -25,14 +26,13 @@ const AddMoney = ({ navigation, route }) => {
     currency: 'USD',
   }).format(keyValue)
 
-  useEffect(() => {
-    setNumFormat(format)
-  }, [format])
+  //NOTE: 2. Helper Method
 
   const onContinueHandler = () => {
     navigation.navigate('Checkout', {
       amount: numFormat,
       phone_number: params.phone_number,
+      formattedNumber: params.formattedNumber,
     })
     return
   }
@@ -60,6 +60,12 @@ const AddMoney = ({ navigation, route }) => {
   const onBackHandler = () => {
     navigation.goBack()
   }
+
+  //NOTE: 3. Life Cycle
+
+  useEffect(() => {
+    setNumFormat(format)
+  }, [format])
 
   useEffect(() => {
     navigation.setOptions({
@@ -90,6 +96,8 @@ const AddMoney = ({ navigation, route }) => {
       headerBackTitleVisible: false,
     })
   }, [navigation, theme])
+
+  //NOTE: 4. Render Method
 
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
@@ -181,7 +189,8 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.eightyfivePHeight,
                 Gutters.tenVMargin,
                 Gutters.tenHMargin,
-                !pressed && Common.offWhiteBackground,
+                // !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 pressed && Common.primaryPinkBackground,
               ]}
               onPress={() => onKeyPress(1)}
@@ -193,7 +202,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   1
@@ -206,7 +215,8 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
+                // !pressed && Common.offWhiteBackground,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -221,7 +231,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   2
@@ -234,7 +244,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -249,7 +259,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   3
@@ -264,7 +274,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -279,7 +289,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   4
@@ -292,7 +302,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -307,7 +317,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   5
@@ -320,7 +330,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -335,7 +345,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   6
@@ -350,7 +360,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -365,7 +375,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   7
@@ -378,7 +388,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -393,7 +403,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   8
@@ -406,7 +416,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -421,7 +431,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   9
@@ -436,7 +446,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -451,7 +461,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   0
@@ -464,7 +474,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -479,7 +489,7 @@ const AddMoney = ({ navigation, route }) => {
                     Fonts.fontSizeRegular,
                     Fonts.fontFamilyPrimary,
                     !pressed && Fonts.fontWeightSmall,
-                    !pressed && Common.primaryBlue,
+                    !pressed && Common.keyboardText,
                   ]}
                 >
                   .
@@ -492,7 +502,7 @@ const AddMoney = ({ navigation, route }) => {
                 Gutters.twentyninePWidth,
                 Gutters.eightyfivePHeight,
                 Layout.fill,
-                !pressed && Common.offWhiteBackground,
+                !pressed && Common.keyboardBackGround,
                 Common.borderRadius,
                 Layout.center,
                 Gutters.tenVMargin,
@@ -522,20 +532,6 @@ const AddMoney = ({ navigation, route }) => {
             Gutters.tenVMargin,
           ]}
         >
-          {/* <Button
-            onPress={() => {
-              onContinueHandler()
-            }}
-            title={'Continue'}
-            size="sm"
-            fontSize={16}
-            backgroundColor={
-              keyValue.length === 4
-                ? Common.primaryPink.color
-                : Common.greyColor.color
-            }
-            disabled={!numFormat === 60.0}
-          /> */}
           <Button
             title="Continue"
             loading={false}

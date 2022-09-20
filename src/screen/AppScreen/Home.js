@@ -16,9 +16,10 @@ import CarrierPlans from '@/Components/CarrierPlans'
 import UserHistory from '@/Components/History'
 
 const Home = ({ navigation }) => {
+  //NOTE: 1. Define Variables
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
-  console.log('🚀 ~ Home ~ ', user.userData)
+  // console.log('🚀 ~ Home ~ ', user.userData)
   let first_name =
     user.userData.first_name.charAt(0).toUpperCase() +
     user.userData.first_name.slice(1)
@@ -26,11 +27,8 @@ const Home = ({ navigation }) => {
   const [number, setNumber] = useState('')
   const withoutFormateNumber = String(number).replace(/\D/g, '')
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
-  const [visible, setVisible] = useState(false)
 
-  const toggleDialog2 = () => {
-    setVisible(!visible)
-  }
+  //NOTE: 2. Helper Method
 
   const onProfileHandler = () => {
     navigation.navigate('Profile')
@@ -48,30 +46,7 @@ const Home = ({ navigation }) => {
     return true
   }
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', onExitApp)
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', onExitApp)
-    }
-  }, [])
-
-  useEffect(() => {
-    function phoneFormat(input) {
-      input = input.replace(/\D/g, '').substring(0, 10)
-      var size = input.length
-      if (size > 0) {
-        input = '(' + input
-      }
-      if (size > 3) {
-        input = input.slice(0, 4) + ') ' + input.slice(4)
-      }
-      if (size > 6) {
-        input = input.slice(0, 9) + '-' + input.slice(9)
-      }
-      return setNumber(input)
-    }
-    phoneFormat(String(number))
-  }, [number])
+  //NOTE: 3. Life Cycle Method
 
   useEffect(() => {
     setNumber(user.userData.phone_number)
@@ -120,6 +95,32 @@ const Home = ({ navigation }) => {
     })
   }, [navigation, theme])
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', onExitApp)
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onExitApp)
+    }
+  }, [])
+
+  useEffect(() => {
+    function phoneFormat(input) {
+      input = input.replace(/\D/g, '').substring(0, 10)
+      var size = input.length
+      if (size > 0) {
+        input = '(' + input
+      }
+      if (size > 3) {
+        input = input.slice(0, 4) + ') ' + input.slice(4)
+      }
+      if (size > 6) {
+        input = input.slice(0, 9) + '-' + input.slice(9)
+      }
+      return setNumber(input)
+    }
+    phoneFormat(String(number))
+  }, [number])
+
+  //NOTE: 4. Render Method
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
       <View
@@ -187,6 +188,7 @@ const Home = ({ navigation }) => {
             keyboardType="numeric"
             maxLength={14}
             style={[
+              // { backgroundColor: 'red' },
               Fonts.fontFamilyPrimary,
               Common.white,
               Fonts.fontSizeRegular,
@@ -206,9 +208,15 @@ const Home = ({ navigation }) => {
         </View>
       </View>
       {History.length !== 0 ? (
-        <UserHistory phone_number={withoutFormateNumber} />
+        <UserHistory
+          phone_number={withoutFormateNumber}
+          formattedNumber={number}
+        />
       ) : (
-        <CarrierPlans phone_number={withoutFormateNumber} />
+        <CarrierPlans
+          phone_number={withoutFormateNumber}
+          formattedNumber={number}
+        />
       )}
     </SafeAreaView>
   )

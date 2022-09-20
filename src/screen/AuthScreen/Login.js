@@ -10,6 +10,7 @@ import {
 } from '../../Services/api'
 
 const Login = ({ navigation }) => {
+  //NOTE: 1. Define Variables
   const { Common, Layout, Fonts, Gutters } = useTheme()
   const [number, setNumber] = useState('')
   const [buttonLoading, setButtonLoading] = useState(false)
@@ -17,7 +18,6 @@ const Login = ({ navigation }) => {
   const withoutFormateNumber = number.replace(/\D/g, '')
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState()
-
   const [dialog, setDialog] = useState(false)
   const [sms, setSms] = useState(true)
   const [email, setEmail] = useState(false)
@@ -70,30 +70,6 @@ const Login = ({ navigation }) => {
       setButtonLoading(false)
     }
   }, [emailIsLoading])
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-    })
-  }, [navigation])
-
-  useEffect(() => {
-    function phoneFormat(input) {
-      input = input.replace(/\D/g, '').substring(0, 10)
-      var size = input.length
-      if (size > 0) {
-        input = '(' + input
-      }
-      if (size > 3) {
-        input = input.slice(0, 4) + ') ' + input.slice(4)
-      }
-      if (size > 6) {
-        input = input.slice(0, 9) + '-' + input.slice(9)
-      }
-      return setNumber(input)
-    }
-    phoneFormat(number)
-  }, [number])
 
   useEffect(() => {
     if (isLoading) {
@@ -196,6 +172,30 @@ const Login = ({ navigation }) => {
     }
     setDialog(false)
   }
+
+  useEffect(() => {
+    function phoneFormat(input) {
+      input = input.replace(/\D/g, '').substring(0, 10)
+      var size = input.length
+      if (size > 0) {
+        input = '(' + input
+      }
+      if (size > 3) {
+        input = input.slice(0, 4) + ') ' + input.slice(4)
+      }
+      if (size > 6) {
+        input = input.slice(0, 9) + '-' + input.slice(9)
+      }
+      return setNumber(input)
+    }
+    phoneFormat(number)
+  }, [number])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+    })
+  }, [navigation])
 
   let selectDialog = (
     <View>

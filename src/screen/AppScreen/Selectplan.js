@@ -16,12 +16,14 @@ import Plans from '../Data/plans'
 import plans from '../Data/plans'
 
 const Selectplan = ({ navigation, route }) => {
+  //NOTE: 1. Define Variables
   let params = route.params
   const theme = useSelector(state => state.theme)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [isSelected, setSelection] = useState('')
   console.log(params.phone_number)
 
+  //NOTE: 2. Helper Method
   const onBackHandler = () => {
     navigation.goBack()
   }
@@ -45,36 +47,6 @@ const Selectplan = ({ navigation, route }) => {
       phone_number: params.phone_number,
     })
   }
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-      headerStyle: {
-        backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
-      },
-      headerTitle: () =>
-        !theme.darkMode ? (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
-          />
-        ) : (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[
-              { resizeMode: 'contain' },
-              Gutters.headerHeight,
-              Gutters.headerWidthWidth,
-            ]}
-          />
-        ),
-
-      headerTitleAlign: 'center',
-      headerShadowVisible: false,
-      headerBackTitleVisible: false,
-    })
-  }, [navigation, theme])
 
   const keyExtractor = (item, index) => index.toString()
 
@@ -168,6 +140,40 @@ const Selectplan = ({ navigation, route }) => {
       </Pressable>
     )
   }
+
+  //NOTE: 3. Life Cycle
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+      headerStyle: {
+        backgroundColor: Common.backgroundPrimary.backgroundColor,
+        height: 70,
+      },
+      headerTitle: () =>
+        !theme.darkMode ? (
+          <Image
+            source={Images.whiteThemeLogo}
+            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
+          />
+        ) : (
+          <Image
+            source={Images.darkThemeLogo}
+            style={[
+              { resizeMode: 'contain' },
+              Gutters.headerHeight,
+              Gutters.headerWidthWidth,
+            ]}
+          />
+        ),
+
+      headerTitleAlign: 'center',
+      headerShadowVisible: false,
+      headerBackTitleVisible: false,
+    })
+  }, [navigation, theme])
+
+  //NOTE: 4. Render Method
 
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>

@@ -23,6 +23,7 @@ import {
 import GestureRecognizer from 'react-native-swipe-gestures'
 
 const Checkout = ({ navigation, route }) => {
+  //NOTE: 1. Define Variables
   let params = route.params
   console.log('🚀 Checkout', params)
   const platform = Platform.OS
@@ -65,43 +66,7 @@ const Checkout = ({ navigation, route }) => {
     stateIsValid &&
     agree
 
-  useEffect(() => {
-    if (useNumber) {
-      setPhoneNumber(number)
-    } else if (!useNumber) {
-      setPhoneNumber('')
-    }
-  }, [useNumber])
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-      headerStyle: {
-        backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
-      },
-      headerTitle: () =>
-        !theme.darkMode ? (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
-          />
-        ) : (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[
-              { resizeMode: 'contain' },
-              Gutters.headerHeight,
-              Gutters.headerWidthWidth,
-            ]}
-          />
-        ),
-
-      headerTitleAlign: 'center',
-      headerShadowVisible: false,
-      headerBackTitleVisible: false,
-    })
-  }, [navigation, theme])
+  //NOTE: 2. Helper Method
 
   const onContinueHandler = async () => {
     setSpinner(true)
@@ -230,6 +195,7 @@ const Checkout = ({ navigation, route }) => {
             Gutters.fiftysixHeight,
             Fonts.fontSizeSmall,
             Fonts.fontFamilyPrimary,
+            Gutters.tenHPadding,
           ]}
           onChangeText={text => setCardName(text)}
         />
@@ -381,6 +347,7 @@ const Checkout = ({ navigation, route }) => {
               Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
+              Gutters.tenHPadding,
             ]}
             onChangeText={text => setAddress(text)}
           />
@@ -404,6 +371,7 @@ const Checkout = ({ navigation, route }) => {
               Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
+              Gutters.tenHPadding,
             ]}
             onChangeText={text => setAptSuite(text)}
           />
@@ -427,6 +395,7 @@ const Checkout = ({ navigation, route }) => {
               Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
+              Gutters.tenHPadding,
             ]}
             onChangeText={text => setCity(text)}
           />
@@ -450,6 +419,7 @@ const Checkout = ({ navigation, route }) => {
               Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
+              Gutters.tenHPadding,
             ]}
             onChangeText={text => setState(text)}
           />
@@ -706,6 +676,48 @@ const Checkout = ({ navigation, route }) => {
     </GestureRecognizer>
   )
 
+  //NOTE: 3. Life Cycle
+
+  useEffect(() => {
+    if (useNumber) {
+      setPhoneNumber(number)
+    } else if (!useNumber) {
+      setPhoneNumber('')
+    }
+  }, [useNumber])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+      headerStyle: {
+        backgroundColor: Common.backgroundPrimary.backgroundColor,
+        height: 70,
+      },
+      headerTitle: () =>
+        !theme.darkMode ? (
+          <Image
+            source={Images.whiteThemeLogo}
+            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
+          />
+        ) : (
+          <Image
+            source={Images.darkThemeLogo}
+            style={[
+              { resizeMode: 'contain' },
+              Gutters.headerHeight,
+              Gutters.headerWidthWidth,
+            ]}
+          />
+        ),
+
+      headerTitleAlign: 'center',
+      headerShadowVisible: false,
+      headerBackTitleVisible: false,
+    })
+  }, [navigation, theme])
+
+  //NOTE: 4. Render Method
+
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>
       {!spinner ? (
@@ -784,7 +796,7 @@ const Checkout = ({ navigation, route }) => {
                     Gutters.fifteenLMargin,
                   ]}
                 >
-                  {params.phone_number}
+                  {params.formattedNumber}
                 </Text>
                 <Image
                   source={Images.whitecarrier12}

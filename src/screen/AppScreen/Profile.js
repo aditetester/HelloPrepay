@@ -7,10 +7,23 @@ import { setUser } from '@/Store/User'
 import auth from '@react-native-firebase/auth'
 
 const Profile = ({ navigation, route }) => {
+  //NOTE: 1. Define Variables
   //   const params = route.params
   const theme = useSelector(state => state.theme)
   const dispatch = useDispatch()
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
+
+  //NOTE: 2. Helper Method
+
+  const onLogoutHandler = async () => {
+    dispatch(setUser({ userData: null, isAuth: false }))
+  }
+
+  const onBackHandler = () => {
+    navigation.goBack()
+  }
+
+  //NOTE: 3. Life Cycle
 
   useEffect(() => {
     navigation.setOptions({
@@ -42,13 +55,7 @@ const Profile = ({ navigation, route }) => {
     })
   }, [navigation, theme])
 
-  const onLogoutHandler = async () => {
-    dispatch(setUser({ userData: null, isAuth: false }))
-  }
-
-  const onBackHandler = () => {
-    navigation.goBack()
-  }
+  //NOTE: 4. Render Method
 
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>

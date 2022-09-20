@@ -18,19 +18,17 @@ import {
 } from '@/Services/api'
 
 const SelectCarrier = ({ navigation, route }) => {
+  //NOTE: 1. Define Variables
   const params = route.params
   const { Common, Images, Fonts, Gutters, Layout } = useTheme()
   const theme = useSelector(state => state.theme)
   const [selectedId, setSelectedId] = useState()
   const [carrier, setCarrier] = useState()
   const [searchable, setSearchable] = useState(carrier)
+  const arrayholder = searchable
+  const [searchText, setSearchText] = useState('')
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-    })
-  }, [navigation])
-
+  //NOTE: 2. API
   const { data, isLoading, error } = useGetCarrierListQuery(params.token)
   const [
     getProfileUpdate,
@@ -41,25 +39,7 @@ const SelectCarrier = ({ navigation, route }) => {
     },
   ] = useGetProfileUpdateMutation()
 
-  useEffect(() => {
-    if (data && data.result) {
-      setCarrier(data.result)
-      setSearchable(data.result)
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (profileUpdateData && profileUpdateData.success === true) {
-      navigation.navigate('Welcome', {
-        first_name: params.first_name,
-        data: profileUpdateData,
-      })
-    } else if (profileUpdateData && profileUpdateData.success === false) {
-      Alert.alert('', 'Something Went Wrong...')
-      return
-    }
-  }, [profileUpdateData])
-
+  //NOTE: 3. Helper Method
   const onContinueHandler = () => {
     if (!selectedId) {
       return
@@ -82,9 +62,6 @@ const SelectCarrier = ({ navigation, route }) => {
     setSelectedId(id)
   }
 
-  const arrayholder = searchable
-  const [searchText, setSearchText] = useState('')
-
   const searchFunction = text => {
     const updatedData = arrayholder.filter(item => {
       const item_data = `${item.name.toUpperCase()})`
@@ -95,11 +72,40 @@ const SelectCarrier = ({ navigation, route }) => {
     setSearchText(text)
   }
 
+  //NOTE: 4. Life Cycle
+
+  useEffect(() => {
+    if (data && data.result) {
+      setCarrier(data.result)
+      setSearchable(data.result)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (profileUpdateData && profileUpdateData.success === true) {
+      navigation.navigate('Welcome', {
+        first_name: params.first_name,
+        data: profileUpdateData,
+      })
+    } else if (profileUpdateData && profileUpdateData.success === false) {
+      Alert.alert('', 'Something Went Wrong...')
+      return
+    }
+  }, [profileUpdateData])
+
   useEffect(() => {
     if (searchText.length === 0) {
       setSearchable(carrier)
     }
   }, [searchText])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+    })
+  }, [navigation])
+
+  //NOTE: 5. Render Method
 
   const renderItem = ({ item }) => (
     <Item id={item.id} image={item.image} color={item.color} />

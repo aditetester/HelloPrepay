@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
-import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
 import { Button, Skeleton } from '@rneui/themed'
 import History from '../screen/Data/history'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import { useNavigation } from '@react-navigation/native'
-import { promises } from 'stream'
 
-const UserHistory = ({ phone_number }) => {
+const UserHistory = ({ phone_number, formattedNumber }) => {
   const navigation = useNavigation()
   const { Common, Gutters, Layout, Fonts } = useTheme()
   const [fetching, setFetching] = useState(true)
@@ -108,14 +106,155 @@ const UserHistory = ({ phone_number }) => {
   const loading = (
     <View
       style={[
-        { flex: 15 },
+        { flex: 15, marginHorizontal: 31 },
         Layout.justifyContentCenter,
-        Gutters.twentyFourHMargin,
+        // Gutters.twentyFourHMargin,
         Gutters.fiveVMargin,
         Layout.center,
       ]}
     >
-      <Skeleton
+      <View
+        style={[
+          { flexDirection: 'row', flex: 1, justifyContent: 'space-between' },
+          Gutters.twentyFourHMargin,
+          Gutters.fiveVMargin,
+        ]}
+      >
+        <Skeleton
+          animation="wave"
+          width="20%"
+          height={40}
+          style={{ marginRight: 10, borderRadius: 4 }}
+        />
+        <Skeleton
+          animation="wave"
+          width="100%"
+          height={40}
+          // style={{ marginVertical: 10, borderRadius: 4 }}
+        />
+      </View>
+      <View
+        style={[
+          { flexDirection: 'row', flex: 1, justifyContent: 'space-between' },
+          Gutters.twentyFourHMargin,
+          Gutters.fiveVMargin,
+        ]}
+      >
+        <Skeleton
+          animation="wave"
+          width="20%"
+          height={40}
+          style={{ marginRight: 10, borderRadius: 4 }}
+        />
+        <Skeleton
+          animation="wave"
+          width="100%"
+          height={40}
+          // style={{ marginVertical: 10, borderRadius: 4 }}
+        />
+      </View>
+      <View
+        style={[
+          { flexDirection: 'row', flex: 1, justifyContent: 'space-between' },
+          Gutters.twentyFourHMargin,
+          Gutters.fiveVMargin,
+        ]}
+      >
+        <Skeleton
+          animation="wave"
+          width="20%"
+          height={40}
+          style={{ marginRight: 10, borderRadius: 4 }}
+        />
+        <Skeleton
+          animation="wave"
+          width="100%"
+          height={40}
+          // style={{ marginVertical: 10, borderRadius: 4 }}
+        />
+      </View>
+      <View
+        style={[
+          { flexDirection: 'row', flex: 1, justifyContent: 'space-between' },
+          Gutters.twentyFourHMargin,
+          Gutters.fiveVMargin,
+        ]}
+      >
+        <Skeleton
+          animation="wave"
+          width="20%"
+          height={40}
+          style={{ marginRight: 10, borderRadius: 4 }}
+        />
+        <Skeleton
+          animation="wave"
+          width="100%"
+          height={40}
+          // style={{ marginVertical: 10, borderRadius: 4 }}
+        />
+      </View>
+      <View
+        style={[
+          { flexDirection: 'row', flex: 1, justifyContent: 'space-between' },
+          Gutters.twentyFourHMargin,
+          Gutters.fiveVMargin,
+        ]}
+      >
+        <Skeleton
+          animation="wave"
+          width="20%"
+          height={40}
+          style={{ marginRight: 10, borderRadius: 4 }}
+        />
+        <Skeleton
+          animation="wave"
+          width="100%"
+          height={40}
+          // style={{ marginVertical: 10, borderRadius: 4 }}
+        />
+      </View>
+      <View
+        style={[
+          { flexDirection: 'row', flex: 1, justifyContent: 'space-between' },
+          Gutters.twentyFourHMargin,
+          Gutters.fiveVMargin,
+        ]}
+      >
+        <Skeleton
+          animation="wave"
+          width="20%"
+          height={40}
+          style={{ marginRight: 10, borderRadius: 4 }}
+        />
+        <Skeleton
+          animation="wave"
+          width="100%"
+          height={40}
+          // style={{ marginVertical: 10, borderRadius: 4 }}
+        />
+      </View>
+      <View
+        style={[
+          { flexDirection: 'row', flex: 1, justifyContent: 'space-between' },
+          Gutters.twentyFourHMargin,
+          Gutters.fiveVMargin,
+        ]}
+      >
+        <Skeleton
+          animation="wave"
+          width="20%"
+          height={40}
+          style={{ marginRight: 10, borderRadius: 4 }}
+        />
+        <Skeleton
+          animation="wave"
+          width="100%"
+          height={40}
+          // style={{ marginVertical: 10, borderRadius: 4 }}
+        />
+      </View>
+
+      {/* <Skeleton
         animation="wave"
         width="99%"
         height={40}
@@ -156,13 +295,7 @@ const UserHistory = ({ phone_number }) => {
         width="99%"
         height={40}
         style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
+      /> */}
     </View>
   )
 

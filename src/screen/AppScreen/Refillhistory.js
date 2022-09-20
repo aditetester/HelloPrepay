@@ -4,9 +4,17 @@ import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
 
 const RefillHistory = ({ navigation, route }) => {
+  //NOTE: 1. Define Variables
   const params = route.params
   const theme = useSelector(state => state.theme)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
+
+  //NOTE: 2. Helper Method
+  const onBackHandler = () => {
+    navigation.goBack()
+  }
+
+  //NOTE: 3. Life Cycle
 
   useEffect(() => {
     navigation.setOptions({
@@ -38,9 +46,7 @@ const RefillHistory = ({ navigation, route }) => {
     })
   }, [navigation, theme])
 
-  const onBackHandler = () => {
-    navigation.goBack()
-  }
+  //NOTE: 4. Render Method
 
   return (
     <View style={[Layout.fill, Common.backgroundPrimary]}>

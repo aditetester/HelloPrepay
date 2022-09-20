@@ -16,6 +16,7 @@ import { Button } from '@rneui/themed'
 import { useGetRegisterUserMutation } from '@/Services/api'
 
 const About = ({ navigation, route }) => {
+  //NOTE: 1. Define Variables
   let params = route.params
   const theme = useSelector(state => state.theme)
   const [buttonLoading, setButtonLoading] = useState(false)
@@ -33,11 +34,34 @@ const About = ({ navigation, route }) => {
   let lastNameIsValid = !onlyAlphabet.test(lastName) && lastName !== ''
   let valid = check && firstNameIsValid && lastNameIsValid && emailIsValid
 
+  //NOTE: 2. Helper Method
+
   const onBackHandler = () => {
     navigation.goBack()
   }
 
   const [getRegister, { data, isLoading, error }] = useGetRegisterUserMutation()
+
+  const onContinueHandler = () => {
+    getRegister({
+      phone_number: params.phone_number,
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+    })
+  }
+
+  const onFirstNameBlur = () => {
+    setFirstName(firstName.trim())
+  }
+  const onLastNameBlur = () => {
+    setLastName(lastName.trim())
+  }
+  const onEmailBlur = () => {
+    setEmail(email.trim())
+  }
+
+  //NOTE: 3. Life Cycle
 
   useEffect(() => {
     if (isLoading) {
@@ -75,15 +99,6 @@ const About = ({ navigation, route }) => {
     }
   }, [data])
 
-  const onContinueHandler = () => {
-    getRegister({
-      phone_number: params.phone_number,
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-    })
-  }
-
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => null,
@@ -108,15 +123,7 @@ const About = ({ navigation, route }) => {
     phoneFormat(params.phone_number)
   }, [params.phone_number])
 
-  const onFirstNameBlur = () => {
-    setFirstName(firstName.trim())
-  }
-  const onLastNameBlur = () => {
-    setLastName(lastName.trim())
-  }
-  const onEmailBlur = () => {
-    setEmail(email.trim())
-  }
+  //NOTE: 4. Render Method
 
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>

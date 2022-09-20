@@ -5,9 +5,23 @@ import { useTheme } from '@/Hooks'
 import Button from '@/Components/UI/Button'
 
 const PaymentSuccess = ({ navigation, route }) => {
+  //NOTE: 1. Define Variables
   //   const params = route.params
   const theme = useSelector(state => state.theme)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
+
+  //NOTE: 2. Helper Method
+
+  const handleBackButtonClick = () => {
+    navigation.navigate('Home')
+    return true
+  }
+
+  const onContinueHandler = () => {
+    navigation.navigate('Home')
+  }
+
+  //NOTE: 3. Life Cycle
 
   useEffect(() => {
     navigation.setOptions({
@@ -39,11 +53,6 @@ const PaymentSuccess = ({ navigation, route }) => {
     })
   }, [navigation, theme])
 
-  function handleBackButtonClick() {
-    navigation.navigate('Home')
-    return true
-  }
-
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick)
     return () => {
@@ -54,9 +63,7 @@ const PaymentSuccess = ({ navigation, route }) => {
     }
   }, [])
 
-  const onContinueHandler = () => {
-    navigation.navigate('Home')
-  }
+  //NOTE: 4. Render Method
 
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fullHeight]}>

@@ -5,14 +5,17 @@ import { useTheme } from '@/Hooks'
 import Button from '@/Components/UI/Button'
 
 const PaymentFailed = ({ navigation, route }) => {
+  //NOTE: 1. Define Variables
   //   const params = route.params
   const theme = useSelector(state => state.theme)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
 
+  //NOTE: 2. Helper Method
   const onContinueHandler = () => {
     navigation.goBack()
   }
 
+  //NOTE: 3. Render Method
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fullHeight]}>
       <View
