@@ -3,8 +3,8 @@ import { View, Text, Image, FlatList, Pressable } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
 import { CheckBox, Button, Skeleton } from '@rneui/themed'
-import Plans from '@/screen/Data/plans'
 import { useNavigation } from '@react-navigation/native'
+import { useGetPlansMutation } from '@/Services/api'
 
 const CarrierPlans = ({ phone_number, formattedNumber }) => {
   //NOTE: 1 Define Variable
@@ -12,13 +12,15 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
   const theme = useSelector(state => state.theme)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [isSelected, setSelection] = useState('')
+  const [selectedPrice, setSelectedPrice] = useState('')
   const [fetching, setFetching] = useState(true)
-  let phone_numberIsValid = phone_number.length == 10
-  let formattedNumberIsSelected = formattedNumber.length == 14
-  let planIsSelected = isSelected
+  let phone_numberIsValid = phone_number.length === 10
+  let formattedNumberIsSelected = formattedNumber.length === 14
+  let planIsSelected = !isSelected
   let valid =
-    !phone_numberIsValid && !formattedNumberIsSelected && !planIsSelected
-  console.log('Valid', planIsSelected)
+    phone_numberIsValid && formattedNumberIsSelected && !planIsSelected
+
+  const [getPlan, { data, isLoading, error }] = useGetPlansMutation()
 
   //NOTE: 2 HELPER METHODS
   const onContinue = () => {
@@ -26,35 +28,55 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
       phone_number: phone_number,
       carrierId: isSelected,
       formattedNumber: formattedNumber,
+      Price: selectedPrice,
     })
     setSelection('')
+    setSelectedPrice('')
   }
 
-  const onPlanSelect = id => {
+  const onPlanSelect = (id, price) => {
     if (isSelected === '') {
       setSelection(id)
+      setSelectedPrice(price)
       return
     } else if (isSelected === id) {
       setSelection('')
+      setSelectedPrice('')
       return
     } else if (isSelected !== id) {
       setSelection(id)
+      setSelectedPrice(price)
       return
     }
   }
+
+  //NOTE: 3 Life Cycle Methods
+  useEffect(() => {
+    if (fetching) {
+      setTimeout(() => {
+        setFetching(false)
+      }, 2000)
+    }
+  }, [fetching])
+
+  useEffect(() => {
+    getPlan({ data: null })
+  }, [])
+
+  //NOTE: 4 Render Methods
 
   const keyExtractor = (item, index) => index.toString()
 
   const renderPlans = ({ item }) => {
     return (
       <Pressable
-        onPress={() => onPlanSelect(item.id)}
+        onPress={() => onPlanSelect(item.name, item.price)}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={[
           Common.offWhiteSecondaryBorder,
-          item.id === isSelected && Common.primaryPinkBorder,
-          item.id === isSelected && Common.primaryPinkBackground,
+          item.name === isSelected && Common.primaryPinkBorder,
+          item.name === isSelected && Common.primaryPinkBackground,
           Layout.fill,
           Common.borderWidthOne,
           Common.borderRadius,
@@ -66,19 +88,19 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
           <Text
             style={[
               Common.primaryBlueMode,
-              isSelected === item.id && Common.white,
+              isSelected === item.name && Common.white,
               Gutters.fiveRMargin,
               Fonts.fontWeightRegular,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
             ]}
           >
-            {item.title}
+            {item.name}
           </Text>
           <Text
             style={[
               Common.primaryBlueMode,
-              isSelected === item.id && Common.white,
+              isSelected === item.name && Common.white,
               Fonts.fontSizeSmall,
               Fonts.fontWeightRegular,
               Fonts.fontFamilyPrimary,
@@ -88,7 +110,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
           </Text>
           <CheckBox
             center
-            checked={item.id === isSelected}
+            checked={item.name === isSelected}
             onPress={() => onPlanSelect(item.id)}
             checkedIcon={
               <Image
@@ -112,7 +134,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
             }
             containerStyle={[
               Common.backgroundPrimary,
-              item.id === isSelected && Common.primaryPinkBackground,
+              item.name === isSelected && Common.primaryPinkBackground,
               Gutters.onesixzeroLMargin,
               Gutters.twentyFiveMBMargin,
               Layout.center,
@@ -124,16 +146,38 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
         <Text
           style={[
             Common.primaryGrey,
-            isSelected === item.id && Common.white,
+            isSelected === item.name && Common.white,
             Gutters.fiveVMargin,
             Fonts.fontFamilyPrimary,
           ]}
         >
-          {item.info}
+          {item.type}
         </Text>
       </Pressable>
     )
   }
+
+  const errorComponent = (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 50,
+      }}
+    >
+      <Image
+        source={Images.error}
+        style={{ width: '100%', height: 100 }}
+        resizeMode="contain"
+      />
+      <Text
+        style={[Common.textColor, { fontStyle: 'italic', fontWeight: '600' }]}
+      >
+        Data Not Found
+      </Text>
+    </View>
+  )
 
   const loading = (
     <View
@@ -201,65 +245,12 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
         width="100%"
         style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
       />
-
-      {/* <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      /> */}
     </View>
   )
 
-  //NOTE: 3 Life Cycle Methods
-  useEffect(() => {
-    if (fetching) {
-      setTimeout(() => {
-        setFetching(false)
-      }, 2000)
-    }
-  }, [fetching])
-
-  //NOTE: 4 Render Methods
   return (
     <>
-      {fetching ? (
+      {isLoading ? (
         loading
       ) : (
         <>
@@ -322,15 +313,16 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
                 Gutters.eightVMargin,
               ]}
             >
-              {Plans.length} plans available
+              {data && data.length} plans available
             </Text>
           </View>
           <View style={[Layout.flexTen, Gutters.twentyFourHMargin]}>
             <FlatList
               showsVerticalScrollIndicator={false}
               keyExtractor={keyExtractor}
-              data={Plans}
+              data={data}
               renderItem={renderPlans}
+              ListEmptyComponent={error && errorComponent}
             />
           </View>
           <View

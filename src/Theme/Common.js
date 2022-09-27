@@ -204,6 +204,9 @@ export default function ({ Colors, ...args }) {
       keyboardBackGround: {
         backgroundColor: Colors.keyboardBackGround,
       },
+      textColor: {
+        color: Colors.textColor,
+      },
     }),
   }
 }

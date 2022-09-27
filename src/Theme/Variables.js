@@ -27,6 +27,7 @@ export const Colors = {
   offWhiteSecondary: '#EFEFED',
   white: 'white',
   black: 'black',
+  textColor: 'black',
   grey: 'grey',
   red: '#FF3333',
   placeHolder: '#dee2e6',
@@ -111,6 +112,7 @@ const twoP = '2%'
 const twentyP = '20%'
 const hundredP = '100%'
 const fiftyP = '50%'
+const fiftyfiveP = '55%'
 const sixtyP = '60%'
 const seventyP = '70%'
 const thirtyP = '30%'
@@ -193,6 +195,7 @@ export const MetricsSizes = {
   twentyfiveP,
   fiftyP,
   fortyeightP,
+  fiftyfiveP,
   fortyP,
   twoP,
 

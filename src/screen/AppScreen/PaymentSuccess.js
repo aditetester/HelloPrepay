@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, Image, SafeAreaView, BackHandler } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
 import Button from '@/Components/UI/Button'
+import * as Animatable from 'react-native-animatable'
 
 const PaymentSuccess = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
-  //   const params = route.params
   const theme = useSelector(state => state.theme)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
 
@@ -76,7 +76,9 @@ const PaymentSuccess = ({ navigation, route }) => {
         ]}
       >
         {!theme.darkMode === false ? (
-          <Image
+          <Animatable.Image
+            animation="rotate"
+            duration={2000}
             source={Images.whitecheckcircle}
             style={[
               Gutters.eightyWidth,
@@ -104,7 +106,7 @@ const PaymentSuccess = ({ navigation, route }) => {
             Gutters.twentyVMargin,
           ]}
         >
-          Payment succesful
+          Payment successful
         </Text>
         <Text
           style={[
@@ -117,7 +119,7 @@ const PaymentSuccess = ({ navigation, route }) => {
           ]}
         >
           Thank you for trusting CarrierApp. Your money will be available
-          inmediately.
+          immediately.
         </Text>
       </View>
       <View

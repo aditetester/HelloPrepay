@@ -10,10 +10,8 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
-import { CheckBox } from '@rneui/themed'
-import Button from '@/Components/UI/Button'
-import Plans from '../Data/plans'
-import plans from '../Data/plans'
+import { CheckBox, Skeleton, Button } from '@rneui/themed'
+import { useGetPlansMutation } from '@/Services/api'
 
 const Selectplan = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -21,22 +19,23 @@ const Selectplan = ({ navigation, route }) => {
   const theme = useSelector(state => state.theme)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [isSelected, setSelection] = useState('')
-  console.log(params.phone_number)
+  const [PlanLength, setPlanLength] = useState('')
+  const [getPlans, { data, isLoading, error }] = useGetPlansMutation()
 
   //NOTE: 2. Helper Method
   const onBackHandler = () => {
     navigation.goBack()
   }
 
-  const onPlanSelect = id => {
+  const onPlanSelect = name => {
     if (isSelected === '') {
-      setSelection(id)
+      setSelection(name)
       return
-    } else if (isSelected === id) {
+    } else if (isSelected === name) {
       setSelection('')
       return
-    } else if (isSelected !== id) {
-      setSelection(id)
+    } else if (isSelected !== name) {
+      setSelection(name)
       return
     }
   }
@@ -45,100 +44,8 @@ const Selectplan = ({ navigation, route }) => {
     navigation.navigate('AddMoney', {
       planId: isSelected,
       phone_number: params.phone_number,
+      formattedNumber: params.formattedNumber,
     })
-  }
-
-  const keyExtractor = (item, index) => index.toString()
-
-  const renderPlans = ({ item }) => {
-    return (
-      <Pressable
-        onPress={() => onPlanSelect(item.id)}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        style={[
-          Common.offWhiteSecondaryBorder,
-          item.id === isSelected && Common.primaryPinkBorder,
-          item.id === isSelected && Common.primaryPinkBackground,
-          Layout.fill,
-          Common.borderWidth,
-          Common.borderRadius,
-          Gutters.ninePadding,
-          Gutters.sixVMargin,
-        ]}
-      >
-        <View style={[Layout.row]}>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              isSelected === item.id && Common.white,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Gutters.fiveRMargin,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            {item.title}
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              isSelected === item.id && Common.white,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            {item.price}
-          </Text>
-          <CheckBox
-            center
-            checked={item.id === isSelected}
-            onPress={() => onPlanSelect(item.id)}
-            checkedIcon={
-              <Image
-                source={Images.checked}
-                style={[
-                  { resizeMode: 'contain' },
-                  Gutters.twentyfiveHeight,
-                  Gutters.twentyfiveWidth,
-                ]}
-              />
-            }
-            uncheckedIcon={
-              <Image
-                source={Images.unchecked}
-                style={[
-                  { resizeMode: 'contain' },
-                  Gutters.twentyfiveHeight,
-                  Gutters.twentyfiveWidth,
-                ]}
-              />
-            }
-            containerStyle={[
-              Common.backgroundPrimary,
-              item.id === isSelected && Common.primaryPinkBackground,
-              Layout.center,
-              Layout.selfCenter,
-              Gutters.onesixzeroLMargin,
-              Gutters.twentyFiveMBMargin,
-            ]}
-            wrapperStyle={[Layout.center]}
-          />
-        </View>
-        <Text
-          style={[
-            Common.primaryGrey,
-            isSelected === item.id && Common.white,
-            Gutters.fiveVMargin,
-            Fonts.fontFamilyPrimary,
-            Fonts.fontWeightSmall,
-          ]}
-        >
-          {item.info}
-        </Text>
-      </Pressable>
-    )
   }
 
   //NOTE: 3. Life Cycle
@@ -173,7 +80,197 @@ const Selectplan = ({ navigation, route }) => {
     })
   }, [navigation, theme])
 
+  useEffect(() => {
+    getPlans({ body: null })
+  }, [])
+
+  useEffect(() => {
+    if (data && data) {
+      setPlanLength(String(data.length))
+    }
+  }, [data])
+
   //NOTE: 4. Render Method
+
+  const loading = (
+    <View
+      style={[
+        Layout.justifyContentCenter,
+        Gutters.fiveHMargin,
+        Gutters.fiveVMargin,
+        Layout.center,
+        Layout.flex20,
+      ]}
+    >
+      <Skeleton
+        animation="wave"
+        width="100%"
+        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="100%"
+        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="100%"
+        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+      />
+
+      <Skeleton
+        animation="wave"
+        width="100%"
+        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+      >
+        <Skeleton
+          animation="wave"
+          width="100%"
+          style={{ borderRadius: 4, marginVertical: 10, flex: 2 }}
+        />
+      </Skeleton>
+      <Skeleton
+        animation="wave"
+        width="100%"
+        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="100%"
+        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="100%"
+        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="100%"
+        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+      />
+      <Skeleton
+        animation="wave"
+        width="100%"
+        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+      />
+    </View>
+  )
+
+  const keyExtractor = (item, index) => index.toString()
+
+  const renderPlans = ({ item }) => {
+    return (
+      <Pressable
+        onPress={() => onPlanSelect(item.name)}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        style={[
+          Common.offWhiteSecondaryBorder,
+          item.name === isSelected && Common.primaryPinkBorder,
+          item.name === isSelected && Common.primaryPinkBackground,
+          Layout.fill,
+          Common.borderWidth,
+          Common.borderRadius,
+          Gutters.ninePadding,
+          Gutters.sixVMargin,
+        ]}
+      >
+        <View style={[Layout.row]}>
+          <Text
+            style={[
+              Common.primaryBlueMode,
+              isSelected === item.name && Common.white,
+              Fonts.fontWeightRegular,
+              Fonts.fontSizeSmall,
+              Gutters.fiveRMargin,
+              Fonts.fontFamilyPrimary,
+            ]}
+          >
+            {item.name}
+          </Text>
+          <Text
+            style={[
+              Common.primaryBlueMode,
+              isSelected === item.name && Common.white,
+              Fonts.fontWeightRegular,
+              Fonts.fontSizeSmall,
+              Fonts.fontFamilyPrimary,
+            ]}
+          >
+            {item.price}
+          </Text>
+          <CheckBox
+            center
+            checked={item.name === isSelected}
+            onPress={() => onPlanSelect(item.name)}
+            checkedIcon={
+              <Image
+                source={Images.checked}
+                style={[
+                  { resizeMode: 'contain' },
+                  Gutters.twentyfiveHeight,
+                  Gutters.twentyfiveWidth,
+                ]}
+              />
+            }
+            uncheckedIcon={
+              <Image
+                source={Images.unchecked}
+                style={[
+                  { resizeMode: 'contain' },
+                  Gutters.twentyfiveHeight,
+                  Gutters.twentyfiveWidth,
+                ]}
+              />
+            }
+            containerStyle={[
+              Common.backgroundPrimary,
+              item.name === isSelected && Common.primaryPinkBackground,
+              Layout.center,
+              Layout.selfCenter,
+              Gutters.onesixzeroLMargin,
+              Gutters.twentyFiveMBMargin,
+            ]}
+            wrapperStyle={[Layout.center]}
+          />
+        </View>
+        <Text
+          style={[
+            Common.primaryGrey,
+            isSelected === item.name && Common.white,
+            Gutters.fiveVMargin,
+            Fonts.fontFamilyPrimary,
+            Fonts.fontWeightSmall,
+          ]}
+        >
+          {item.type}
+        </Text>
+      </Pressable>
+    )
+  }
+
+  const errorComponent = (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 50,
+      }}
+    >
+      <Image
+        source={Images.error}
+        style={{ width: '100%', height: 100 }}
+        resizeMode="contain"
+      />
+      <Text
+        style={[Common.textColor, { fontStyle: 'italic', fontWeight: '600' }]}
+      >
+        Data Not Found
+      </Text>
+    </View>
+  )
 
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
@@ -249,17 +346,22 @@ const Selectplan = ({ navigation, route }) => {
             Fonts.fontFamilyPrimary,
           ]}
         >
-          {plans.length} plans available
+          {error ? 'Data Not Found' : `${PlanLength} Plans Available`}
         </Text>
       </View>
 
       <View style={[Gutters.twentyFourHMargin, Layout.flexTen]}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          keyExtractor={keyExtractor}
-          data={Plans}
-          renderItem={renderPlans}
-        />
+        {isLoading ? (
+          loading
+        ) : (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            keyExtractor={keyExtractor}
+            data={data}
+            renderItem={renderPlans}
+            ListEmptyComponent={error && errorComponent}
+          />
+        )}
       </View>
       <View
         style={[
@@ -271,16 +373,27 @@ const Selectplan = ({ navigation, route }) => {
         ]}
       >
         <Button
+          title="continue"
+          loading={false}
           onPress={() => {
             onContinueHandler()
           }}
-          title={'continue'}
-          size="sm"
-          fontSize={Fonts.fontSizeMedium.fontSize}
-          backgroundColor={
-            isSelected ? Common.primaryPink.color : Common.greyColor.color
-          }
+          loadingProps={[{ size: 'small' }, Common.whiteColor]}
+          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+          buttonStyle={[
+            Common.primaryPinkBackground,
+            Gutters.fiftyfiveHeight,
+            Common.borderRadius,
+          ]}
+          containerStyle={[
+            Gutters.ninetyfivePWidth,
+            Gutters.twentyTMargin,
+            Layout.selfCenter,
+            Common.borderRadius,
+          ]}
           disabled={!isSelected}
+          disabledStyle={[Common.whiteColor, Common.greyBackground]}
+          disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
         />
       </View>
     </SafeAreaView>

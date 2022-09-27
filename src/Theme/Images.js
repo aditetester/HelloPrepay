@@ -5,7 +5,6 @@
  */
 export default function () {
   return {
-    logo: require('@/Assets/Images/TOM.png'),
     tutorialImage1: require('../Assets/Images/please_be_patient.png'),
     tutorialImage2: require('../Assets/Images/designer.png'),
     tutorialImage3: require('../Assets/Images/technology.png'),
@@ -35,6 +34,7 @@ export default function () {
     checkcircle: require('../Assets/Images/checkcircle.png'),
     whitecheckcircle: require('../Assets/Images/whitecheckcircle.png'),
     modalHandle: require('../Assets/Images/modalHandle.png'),
+    error: require('../Assets/Images/blackError.png'),
 
     carrier1: require('../Assets/CarrierImage/attprepaid.png'),
     carrier2: require('../Assets/CarrierImage/boost.png'),

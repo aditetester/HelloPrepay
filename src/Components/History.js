@@ -10,8 +10,13 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
   const navigation = useNavigation()
   const { Common, Gutters, Layout, Fonts } = useTheme()
   const [fetching, setFetching] = useState(true)
+  const valid = phone_number.length === 10 && formattedNumber.length === 14
+
   const onNewRefillHandler = () => {
-    navigation.navigate('Selectplan', { phone_number: phone_number })
+    navigation.navigate('Selectplan', {
+      phone_number: phone_number,
+      formattedNumber: formattedNumber,
+    })
   }
 
   const onShowHistoryHandler = id => {
@@ -106,7 +111,7 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
   const loading = (
     <View
       style={[
-        { flex: 15, marginHorizontal: 31 },
+        { flex: 20, marginHorizontal: 31 },
         Layout.justifyContentCenter,
         // Gutters.twentyFourHMargin,
         Gutters.fiveVMargin,
@@ -346,6 +351,7 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
             <Button
               title="New refill"
               loading={false}
+              disabled={!valid}
               onPress={() => {
                 onNewRefillHandler()
               }}

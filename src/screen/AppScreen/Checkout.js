@@ -21,6 +21,7 @@ import {
   CardDateTextInput,
 } from 'rn-credit-card-textinput'
 import GestureRecognizer from 'react-native-swipe-gestures'
+import * as Animatable from 'react-native-animatable'
 
 const Checkout = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -534,7 +535,8 @@ const Checkout = ({ navigation, route }) => {
             Layout.selfCenter,
             Common.borderRadius,
           ]}
-          disabled={!dataIsValid}
+          // disabled={!dataIsValid}
+          disabled={false}
           disabledStyle={[Common.whiteColor, Common.greyBackground]}
           disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
         />

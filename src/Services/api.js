@@ -66,6 +66,15 @@ export const api = createApi({
         }
       },
     }),
+    getPlans: builder.mutation({
+      query: payload => {
+        return {
+          url: 'verzion',
+          method: 'POST',
+          // body: payload,
+        }
+      },
+    }),
   }),
 })
 
@@ -76,4 +85,5 @@ export const {
   useGetCarrierListQuery,
   useGetProfileUpdateMutation,
   useSendEmailCodeMutation,
+  useGetPlansMutation,
 } = api

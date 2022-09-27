@@ -14,20 +14,19 @@ import { Avatar } from '@rneui/themed'
 import History from '../Data/history'
 import CarrierPlans from '@/Components/CarrierPlans'
 import UserHistory from '@/Components/History'
+import { useIsFocused } from '@react-navigation/native'
 
 const Home = ({ navigation }) => {
   //NOTE: 1. Define Variables
+  let focus = useIsFocused()
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
-  // console.log('🚀 ~ Home ~ ', user.userData)
   let first_name =
     user.userData.first_name.charAt(0).toUpperCase() +
     user.userData.first_name.slice(1)
-
-  const [number, setNumber] = useState('')
+  const [number, setNumber] = useState(String(user.userData.phone_number))
   const withoutFormateNumber = String(number).replace(/\D/g, '')
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
-
   //NOTE: 2. Helper Method
 
   const onProfileHandler = () => {
@@ -48,9 +47,9 @@ const Home = ({ navigation }) => {
 
   //NOTE: 3. Life Cycle Method
 
-  useEffect(() => {
-    setNumber(user.userData.phone_number)
-  }, [])
+  // useEffect(() => {
+  //   setNumber(user.userData.phone_number)
+  // }, [])
 
   useEffect(() => {
     navigation.setOptions({
@@ -93,7 +92,7 @@ const Home = ({ navigation }) => {
       headerShadowVisible: false,
       headerBackTitleVisible: false,
     })
-  }, [navigation, theme])
+  }, [navigation, theme, focus])
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', onExitApp)
@@ -101,6 +100,12 @@ const Home = ({ navigation }) => {
       BackHandler.removeEventListener('hardwareBackPress', onExitApp)
     }
   }, [])
+
+  // useEffect(() => {
+  //   return () => {
+  //     setNumber(String(user.userData.phone_number))
+  //   }
+  // }, [])
 
   useEffect(() => {
     function phoneFormat(input) {
@@ -188,12 +193,12 @@ const Home = ({ navigation }) => {
             keyboardType="numeric"
             maxLength={14}
             style={[
-              // { backgroundColor: 'red' },
               Fonts.fontFamilyPrimary,
               Common.white,
               Fonts.fontSizeRegular,
               Fonts.fontWeightRegular,
               Gutters.tenHMargin,
+              Gutters.fiftyfivePWidth,
             ]}
           />
           <Image

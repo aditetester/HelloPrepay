@@ -16,6 +16,7 @@ const Colors = {
   searchBarBackgRoundColor: '#F3F5F7',
   white: 'white',
   black: 'black',
+  textColor: 'white',
   grey: 'grey',
   red: '#FF3333',
   placeHolder: '#dee2e6',

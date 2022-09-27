@@ -97,6 +97,9 @@ export default function () {
     flexTen: {
       flex: 10,
     },
+    flex20: {
+      flex: 20,
+    },
     flexFifteen: {
       flex: 15,
     },

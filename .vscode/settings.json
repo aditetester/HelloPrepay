@@ -42,7 +42,12 @@
     "uncheckedround",
     "whitecarrier"
   ],
-  "cSpell.words": ["fiftysix", "twentyfive"],
+  "cSpell.words": [
+    "checkcircle",
+    "fiftysix",
+    "twentyfive",
+    "whitecheckcircle"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
