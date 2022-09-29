@@ -10,7 +10,7 @@ import {
 import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import Button from '@/Components/UI/Button'
+import { Button } from '@rneui/themed'
 
 const AddMoney = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -74,22 +74,12 @@ const AddMoney = ({ navigation, route }) => {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
         height: 70,
       },
-      headerTitle: () =>
-        !theme.darkMode ? (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
-          />
-        ) : (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[
-              { resizeMode: 'contain' },
-              Gutters.headerHeight,
-              Gutters.headerWidthWidth,
-            ]}
-          />
-        ),
+      headerTitle: () => (
+        <Image
+          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+          source={Images.Logo}
+        />
+      ),
 
       headerTitleAlign: 'center',
       headerShadowVisible: false,
@@ -110,11 +100,7 @@ const AddMoney = ({ navigation, route }) => {
           ]}
           onPress={onBackHandler}
         >
-          {!theme.darMode ? (
-            <Image source={Images.greyLeftArrow} />
-          ) : (
-            <Image source={Images.whiteLeftArrow} />
-          )}
+          <Image source={Images.LeftArrow} />
         </TouchableOpacity>
         <View
           style={[
@@ -532,7 +518,7 @@ const AddMoney = ({ navigation, route }) => {
             Gutters.tenVMargin,
           ]}
         >
-          <Button
+          {/* <Button
             title="Continue"
             loading={false}
             onPress={() => {
@@ -556,6 +542,29 @@ const AddMoney = ({ navigation, route }) => {
               Common.borderRadius,
             ]}
             disabled={false}
+            disabledStyle={[Common.whiteColor, Common.greyBackground]}
+            disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
+          /> */}
+          <Button
+            title="Continue"
+            loading={false}
+            disabled={false}
+            onPress={() => {
+              onContinueHandler()
+            }}
+            loadingProps={[{ size: 'small' }, Common.whiteColor]}
+            titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+            buttonStyle={[
+              Common.primaryPinkBackground,
+              Gutters.fiftyfiveHeight,
+              Common.borderRadius,
+            ]}
+            containerStyle={[
+              Gutters.ninetyfivePWidth,
+              Gutters.twentyTMargin,
+              Layout.selfCenter,
+              Common.borderRadius,
+            ]}
             disabledStyle={[Common.whiteColor, Common.greyBackground]}
             disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
           />

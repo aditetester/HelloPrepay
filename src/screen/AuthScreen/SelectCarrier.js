@@ -182,11 +182,7 @@ const SelectCarrier = ({ navigation, route }) => {
         ]}
         onPress={onBackHandler}
       >
-        {!theme.darMode ? (
-          <Image source={Images.greyLeftArrow} />
-        ) : (
-          <Image source={Images.whiteLeftArrow} />
-        )}
+        <Image source={Images.LeftArrow} />
       </TouchableOpacity>
       <View style={[Layout.alignItemsCenter, Gutters.tenVMargin]}>
         <Text

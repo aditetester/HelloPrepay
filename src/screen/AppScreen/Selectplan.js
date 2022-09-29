@@ -19,6 +19,7 @@ const Selectplan = ({ navigation, route }) => {
   const theme = useSelector(state => state.theme)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [isSelected, setSelection] = useState('')
+  const [planPrice, setPlanPrice] = useState('')
   const [PlanLength, setPlanLength] = useState('')
   const [getPlans, { data, isLoading, error }] = useGetPlansMutation()
 
@@ -27,15 +28,18 @@ const Selectplan = ({ navigation, route }) => {
     navigation.goBack()
   }
 
-  const onPlanSelect = name => {
+  const onPlanSelect = (name, price) => {
     if (isSelected === '') {
       setSelection(name)
+      setPlanPrice(price)
       return
     } else if (isSelected === name) {
       setSelection('')
+      setPlanPrice('')
       return
     } else if (isSelected !== name) {
       setSelection(name)
+      setPlanPrice(price)
       return
     }
   }
@@ -43,9 +47,12 @@ const Selectplan = ({ navigation, route }) => {
   const onContinueHandler = () => {
     navigation.navigate('AddMoney', {
       planId: isSelected,
+      planPrice: planPrice,
       phone_number: params.phone_number,
       formattedNumber: params.formattedNumber,
     })
+    setSelection('')
+    setPlanPrice('')
   }
 
   //NOTE: 3. Life Cycle
@@ -57,22 +64,12 @@ const Selectplan = ({ navigation, route }) => {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
         height: 70,
       },
-      headerTitle: () =>
-        !theme.darkMode ? (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
-          />
-        ) : (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[
-              { resizeMode: 'contain' },
-              Gutters.headerHeight,
-              Gutters.headerWidthWidth,
-            ]}
-          />
-        ),
+      headerTitle: () => (
+        <Image
+          source={Images.Logo}
+          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+        />
+      ),
 
       headerTitleAlign: 'center',
       headerShadowVisible: false,
@@ -107,16 +104,6 @@ const Selectplan = ({ navigation, route }) => {
         width="100%"
         style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
       />
-      <Skeleton
-        animation="wave"
-        width="100%"
-        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="100%"
-        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
-      />
 
       <Skeleton
         animation="wave"
@@ -126,14 +113,9 @@ const Selectplan = ({ navigation, route }) => {
         <Skeleton
           animation="wave"
           width="100%"
-          style={{ borderRadius: 4, marginVertical: 10, flex: 2 }}
+          style={{ borderRadius: 4, marginVertical: 10, flex: 5 }}
         />
       </Skeleton>
-      <Skeleton
-        animation="wave"
-        width="100%"
-        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
-      />
       <Skeleton
         animation="wave"
         width="100%"
@@ -162,7 +144,7 @@ const Selectplan = ({ navigation, route }) => {
   const renderPlans = ({ item }) => {
     return (
       <Pressable
-        onPress={() => onPlanSelect(item.name)}
+        onPress={() => onPlanSelect(item.name, item.price)}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={[
@@ -208,9 +190,9 @@ const Selectplan = ({ navigation, route }) => {
               <Image
                 source={Images.checked}
                 style={[
-                  { resizeMode: 'contain' },
                   Gutters.twentyfiveHeight,
                   Gutters.twentyfiveWidth,
+                  Common.resizeModeContain,
                 ]}
               />
             }
@@ -218,9 +200,9 @@ const Selectplan = ({ navigation, route }) => {
               <Image
                 source={Images.unchecked}
                 style={[
-                  { resizeMode: 'contain' },
                   Gutters.twentyfiveHeight,
                   Gutters.twentyfiveWidth,
+                  Common.resizeModeContain,
                 ]}
               />
             }
@@ -278,11 +260,7 @@ const Selectplan = ({ navigation, route }) => {
         style={[Gutters.fifteenPWidth, Gutters.fiveTMargin, Gutters.tenHMargin]}
         onPress={onBackHandler}
       >
-        {!theme.darMode ? (
-          <Image source={Images.greyLeftArrow} />
-        ) : (
-          <Image source={Images.whiteLeftArrow} />
-        )}
+        <Image source={Images.LeftArrow} />
       </TouchableOpacity>
       <View
         style={[

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { View, Text, Image, SafeAreaView, BackHandler } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
-import Button from '@/Components/UI/Button'
+import { Button } from '@rneui/themed'
 import * as Animatable from 'react-native-animatable'
 
 const PaymentSuccess = ({ navigation, route }) => {
@@ -30,22 +30,12 @@ const PaymentSuccess = ({ navigation, route }) => {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
         height: 70,
       },
-      headerTitle: () =>
-        !theme.darkMode ? (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
-          />
-        ) : (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[
-              { resizeMode: 'contain' },
-              Gutters.headerHeight,
-              Gutters.headerWidthWidth,
-            ]}
-          />
-        ),
+      headerTitle: () => (
+        <Image
+          source={Images.Logo}
+          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+        />
+      ),
 
       headerTitleAlign: 'center',
       headerShadowVisible: false,
@@ -75,27 +65,16 @@ const PaymentSuccess = ({ navigation, route }) => {
           Gutters.eightyTMargin,
         ]}
       >
-        {!theme.darkMode === false ? (
-          <Animatable.Image
-            animation="rotate"
-            duration={2000}
-            source={Images.whitecheckcircle}
-            style={[
-              Gutters.eightyWidth,
-              Gutters.eightyHeight,
-              Gutters.twentyVMargin,
-            ]}
-          />
-        ) : (
-          <Image
-            source={Images.checkcircle}
-            style={[
-              Gutters.eightyWidth,
-              Gutters.eightyHeight,
-              Gutters.twentyVMargin,
-            ]}
-          />
-        )}
+        <Animatable.Image
+          animation="bounceIn"
+          duration={2000}
+          source={Images.checkCircle}
+          style={[
+            Gutters.eightyWidth,
+            Gutters.eightyHeight,
+            Gutters.twentyVMargin,
+          ]}
+        />
 
         <Text
           style={[
@@ -132,14 +111,24 @@ const PaymentSuccess = ({ navigation, route }) => {
         ]}
       >
         <Button
+          title="Back to Home"
+          loading={false}
           onPress={() => {
             onContinueHandler()
           }}
-          title={'Back to Home'}
-          size="sm"
-          fontSize={Fonts.fontSizeMedium.fontSize}
-          backgroundColor={Common.primaryPink.color}
-          disabled={false}
+          loadingProps={[{ size: 'small' }, Common.whiteColor]}
+          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+          buttonStyle={[
+            Common.primaryPinkBackground,
+            Gutters.fiftyfiveHeight,
+            Common.borderRadius,
+          ]}
+          containerStyle={[
+            Gutters.ninetyfivePWidth,
+            Gutters.twentyTMargin,
+            Layout.selfCenter,
+            Common.borderRadius,
+          ]}
         />
       </View>
     </SafeAreaView>

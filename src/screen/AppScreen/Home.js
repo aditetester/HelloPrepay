@@ -58,22 +58,12 @@ const Home = ({ navigation }) => {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
         height: 70,
       },
-      headerTitle: () =>
-        !theme.darkMode ? (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
-          />
-        ) : (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[
-              Gutters.headerHeight,
-              Gutters.headerWidthWidth,
-              Common.resizeModeContain,
-            ]}
-          />
-        ),
+      headerTitle: () => (
+        <Image
+          source={Images.Logo}
+          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+        />
+      ),
       headerRight: () => (
         <Avatar
           size={64}

@@ -4,18 +4,17 @@
 
 export default function () {
   return {
-    logo: require('@/Assets/Images/TOM.png'),
+    Logo: require('../../../Assets/Images/black.png'),
+
     tutorialImage1: require('../../../Assets/Images/please_be_patient.png'),
     tutorialImage2: require('../../../Assets/Images/designer.png'),
     tutorialImage3: require('../../../Assets/Images/technology.png'),
     tutorialImage4: require('../../../Assets/Images/finance.png'),
     // whiteThemeLogo: require('../../../Assets/Images/whiteThemeLogo.png'),
-    whiteThemeLogo: require('../../../Assets/Images/white.png'),
     // darkThemeLogo: require('../../../Assets/Images/darkThemeLogo.png'),
-    darkThemeLogo: require('../../../Assets/Images/black.png'),
     greyLeftArrow: require('../../../Assets/Icon/grey_left_arrow.png'),
     whiteRightArrow: require('../../../Assets/Icon/white_right_arrow.png'),
-    whiteLeftArrow: require('../../../Assets/Icon/white_left_arrow.png'),
+    LeftArrow: require('../../../Assets/Icon/white_left_arrow.png'),
     otpPlaceHolder: require('../../../Assets/Images/otpPlaceHolder.png'),
     delete: require('../../../Assets/Images/delete.png'),
     verified: require('../../../Assets/Images/verified.png'),
@@ -31,8 +30,8 @@ export default function () {
     welcome: require('../../../Assets/Images/welcome.png'),
     avatar: require('../../../Assets/Images/avatar.png'),
     profile: require('../../../Assets/Images/profile.png'),
-    checkcircle: require('../../../Assets/Images/checkcircle.png'),
-    whitecheckcircle: require('../../../Assets/Images/whitecheckcircle.png'),
+    // checkcircle: require('../../../Assets/Images/checkcircle.png'),
+    checkCircle: require('../../../Assets/Images/whitecheckcircle.png'),
     modalHandle: require('../../../Assets/Images/modalHandle.png'),
     error: require('../../../Assets/Images/whiteError.png'),
 

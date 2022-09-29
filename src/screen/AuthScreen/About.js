@@ -18,7 +18,6 @@ import { useGetRegisterUserMutation } from '@/Services/api'
 const About = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
   let params = route.params
-  const theme = useSelector(state => state.theme)
   const [buttonLoading, setButtonLoading] = useState(false)
   const { Common, Fonts, Layout, Images, Gutters } = useTheme()
   const [formattedNumber, setFormattedNumber] = useState('')
@@ -40,7 +39,7 @@ const About = ({ navigation, route }) => {
     navigation.goBack()
   }
 
-  const [getRegister, { data, isLoading, error }] = useGetRegisterUserMutation()
+  const [getRegister, { data, isLoading }] = useGetRegisterUserMutation()
 
   const onContinueHandler = () => {
     getRegister({
@@ -136,11 +135,7 @@ const About = ({ navigation, route }) => {
           ]}
           onPress={onBackHandler}
         >
-          {!theme.darMode ? (
-            <Image source={Images.greyLeftArrow} />
-          ) : (
-            <Image source={Images.whiteLeftArrow} />
-          )}
+          <Image source={Images.LeftArrow} />
         </TouchableOpacity>
         <View
           style={[

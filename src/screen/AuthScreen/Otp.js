@@ -307,11 +307,7 @@ const Otp = ({ navigation, route }) => {
           ]}
           onPress={onBackHandler}
         >
-          {!theme.darMode ? (
-            <Image source={Images.greyLeftArrow} />
-          ) : (
-            <Image source={Images.whiteLeftArrow} />
-          )}
+          <Image source={Images.LeftArrow} />
         </TouchableOpacity>
         <View
           style={[
@@ -807,7 +803,7 @@ const Otp = ({ navigation, route }) => {
                 Gutters.tenVMargin,
                 Gutters.tenHMargin,
               ]}
-            ></View>
+            />
             <Pressable
               style={({ pressed }) => [
                 pressed && Common.primaryPinkBackground,

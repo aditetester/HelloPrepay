@@ -251,56 +251,8 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
           height={40}
           style={{ marginRight: 10, borderRadius: 4 }}
         />
-        <Skeleton
-          animation="wave"
-          width="100%"
-          height={40}
-          // style={{ marginVertical: 10, borderRadius: 4 }}
-        />
+        <Skeleton animation="wave" width="100%" height={40} />
       </View>
-
-      {/* <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      />
-      <Skeleton
-        animation="wave"
-        width="99%"
-        height={40}
-        style={{ marginVertical: 10, borderRadius: 4, flex: 1 }}
-      /> */}
     </View>
   )
 

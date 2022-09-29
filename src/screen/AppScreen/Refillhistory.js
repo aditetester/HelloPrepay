@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
@@ -23,22 +23,12 @@ const RefillHistory = ({ navigation, route }) => {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
         height: 70,
       },
-      headerTitle: () =>
-        !theme.darkMode ? (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
-          />
-        ) : (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[
-              { resizeMode: 'contain' },
-              Gutters.headerHeight,
-              Gutters.headerWidthWidth,
-            ]}
-          />
-        ),
+      headerTitle: () => (
+        <Image
+          source={Images.Logo}
+          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+        />
+      ),
 
       headerTitleAlign: 'center',
       headerShadowVisible: false,
@@ -54,11 +44,7 @@ const RefillHistory = ({ navigation, route }) => {
         style={[Gutters.fifteenPWidth, Gutters.fiveTMargin, Gutters.tenHMargin]}
         onPress={onBackHandler}
       >
-        {!theme.darMode ? (
-          <Image source={Images.greyLeftArrow} />
-        ) : (
-          <Image source={Images.whiteLeftArrow} />
-        )}
+        <Image source={Images.LeftArrow} />
       </TouchableOpacity>
       <View style={[Layout.center, Layout.fill]}>
         <Text style={[Common.normalText, Fonts.fontFamilyPrimary]}>

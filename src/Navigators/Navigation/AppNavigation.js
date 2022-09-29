@@ -1,10 +1,7 @@
 import React from 'react'
-import { SafeAreaView, StatusBar, Image, Platform } from 'react-native'
+import { SafeAreaView, StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import {
-  createStackNavigator,
-  TransitionPresets,
-} from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import Home from '@/screen/AppScreen/Home'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
@@ -14,15 +11,13 @@ import AddMoney from '@/screen/AppScreen/AddMoney'
 import Checkout from '@/screen/AppScreen/Checkout'
 import PaymentSuccess from '@/screen/AppScreen/PaymentSuccess'
 import Profile from '@/screen/AppScreen/Profile'
-import PaymentFailed from '@/screen/AppScreen/PaymentFailed'
 import CarrierPlans from '@/Components/CarrierPlans'
 import UserHistory from '@/Components/History'
 
 const Stack = createStackNavigator()
 const AuthNavigation = () => {
   const theme = useSelector(state => state.theme)
-  const { Layout, darkMode, NavigationTheme, Images, Gutters, Common } =
-    useTheme()
+  const { Layout, NavigationTheme, Common } = useTheme()
   const { colors } = NavigationTheme
 
   const forFade = ({ current }) => ({
@@ -33,9 +28,7 @@ const AuthNavigation = () => {
 
   return (
     <SafeAreaView style={[Layout.fill, { backgroundColor: colors.card }]}>
-      <NavigationContainer
-      // theme={NavigationTheme} ref={navigationRef}
-      >
+      <NavigationContainer>
         <StatusBar
           backgroundColor={Common.backgroundPrimary.backgroundColor}
           barStyle={theme.darkMode ? 'light-content' : 'dark-content'}
@@ -58,22 +51,15 @@ const AuthNavigation = () => {
           <Stack.Screen name="Selectplan" component={Selectplan} />
           <Stack.Screen name="AddMoney" component={AddMoney} />
           <Stack.Screen name="Checkout" component={Checkout} />
-          <Stack.Screen name="PaymentSuccess" component={PaymentSuccess} />
+          <Stack.Screen
+            name="PaymentSuccess"
+            component={PaymentSuccess}
+            options={{
+              gestureEnabled: false,
+            }}
+          />
           <Stack.Screen name="CarrierPlans" component={CarrierPlans} />
           <Stack.Screen name="UserHistory" component={UserHistory} />
-          <Stack.Screen
-            options={{
-              gestureEnabled: true,
-              ...(Platform.OS === 'android' &&
-                TransitionPresets.ModalPresentationIOS),
-              presentation: 'modal',
-              headerShown: false,
-              stackPresentation: 'transparentModal',
-              contentStyle: { backgroundColor: 'transparent' },
-            }}
-            name="PaymentFailed"
-            component={PaymentFailed}
-          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

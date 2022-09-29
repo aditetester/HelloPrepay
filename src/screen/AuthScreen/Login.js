@@ -22,18 +22,7 @@ const Login = ({ navigation }) => {
   const [sms, setSms] = useState(true)
   const [email, setEmail] = useState(false)
 
-  const [
-    getVerifyUser,
-    {
-      data,
-      isLoading,
-      error,
-      isSuccess,
-      isUninitialized,
-      originalArgs,
-      status,
-    },
-  ] = useGetVerifyUserMutation()
+  const [getVerifyUser, { data, isLoading, error }] = useGetVerifyUserMutation()
 
   const [
     sendEmailCode,

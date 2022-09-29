@@ -77,11 +77,7 @@ const EnterMobileNumber = ({ navigation }) => {
           ]}
           onPress={onBackHandler}
         >
-          {!theme.darMode ? (
-            <Image source={Images.greyLeftArrow} />
-          ) : (
-            <Image source={Images.whiteLeftArrow} />
-          )}
+          <Image source={Images.LeftArrow} />
         </TouchableOpacity>
         <View
           style={[

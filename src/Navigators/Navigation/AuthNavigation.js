@@ -17,8 +17,6 @@ const AuthNavigation = () => {
   const theme = useSelector(state => state.theme)
   const { Common, Layout, Images } = useTheme()
   return (
-    // style={[Layout.fill, { backgroundColor: colors.card }]}
-    // theme={NavigationTheme} ref={navigationRef}
     <SafeAreaView style={Layout.fill}>
       <NavigationContainer>
         <StatusBar
@@ -33,28 +31,17 @@ const AuthNavigation = () => {
               backgroundColor: Common.backgroundPrimary.backgroundColor,
               height: 70,
             },
-            headerTitle: () =>
-              !theme.darkMode ? (
-                <Image
-                  source={Images.whiteThemeLogo}
-                  style={{
-                    width: 139.13,
-                    height: '100%',
-                    alignSelf: 'center',
-                    resizeMode: 'contain',
-                  }}
-                />
-              ) : (
-                <Image
-                  source={Images.darkThemeLogo}
-                  style={{
-                    width: 139.13,
-                    height: '70%',
-                    alignSelf: 'center',
-                    resizeMode: 'contain',
-                  }}
-                />
-              ),
+            headerTitle: () => (
+              <Image
+                source={Images.Logo}
+                style={{
+                  width: 139.13,
+                  height: '100%',
+                  alignSelf: 'center',
+                  resizeMode: 'contain',
+                }}
+              />
+            ),
             headerTitleAlign: 'center',
             headerShadowVisible: false,
             headerBackTitleVisible: false,

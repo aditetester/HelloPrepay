@@ -180,6 +180,9 @@ export default function ({ Colors, ...args }) {
       errorColor: {
         color: Colors.red,
       },
+      errorBackground: {
+        backgroundColor: Colors.red,
+      },
       redBackground: {
         backgroundColor: Colors.red,
       },
@@ -191,6 +194,9 @@ export default function ({ Colors, ...args }) {
       },
       resizeModeContain: {
         resizeMode: 'contain',
+      },
+      resizeModeCenter: {
+        resizeMode: 'center',
       },
       resizeModeCover: {
         resizeMode: 'cover',
@@ -206,6 +212,12 @@ export default function ({ Colors, ...args }) {
       },
       textColor: {
         color: Colors.textColor,
+      },
+      dimBackground: {
+        backgroundColor: 'rgba(0,0,0,0.5)',
+      },
+      marginTopAuto: {
+        marginTop: 'auto',
       },
     }),
   }

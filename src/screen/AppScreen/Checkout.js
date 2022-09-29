@@ -21,7 +21,6 @@ import {
   CardDateTextInput,
 } from 'rn-credit-card-textinput'
 import GestureRecognizer from 'react-native-swipe-gestures'
-import * as Animatable from 'react-native-animatable'
 
 const Checkout = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -72,8 +71,10 @@ const Checkout = ({ navigation, route }) => {
   const onContinueHandler = async () => {
     setSpinner(true)
     await setTimeout(() => {
-      navigation.navigate('PaymentSuccess')
-    }, 4000)
+      // navigation.navigate('PaymentSuccess')
+      setSpinner(false)
+      setModalVisible(true)
+    }, 1000)
   }
 
   const onBackHandler = () => {
@@ -535,8 +536,8 @@ const Checkout = ({ navigation, route }) => {
             Layout.selfCenter,
             Common.borderRadius,
           ]}
-          // disabled={!dataIsValid}
-          disabled={false}
+          disabled={!dataIsValid}
+          // disabled={false}
           disabledStyle={[Common.whiteColor, Common.greyBackground]}
           disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
         />
@@ -565,16 +566,8 @@ const Checkout = ({ navigation, route }) => {
     </View>
   )
 
-  let modal = (
-    <GestureRecognizer
-      onSwipeDown={() => setModalVisible(false)}
-      style={[
-        {
-          backgroundColor: 'rgba(0,0,0,0.5)',
-        },
-        Layout.fill,
-      ]}
-    >
+  let paymentFailed = (
+    <GestureRecognizer onSwipeDown={() => setModalVisible(false)}>
       <Modal
         animationType="slide"
         transparent
@@ -583,37 +576,24 @@ const Checkout = ({ navigation, route }) => {
           setModalVisible(!modalVisible)
         }}
       >
-        <View
-          style={[
-            { backgroundColor: 'rgba(0,0,0,0.5)' },
-            Layout.center,
-            Layout.fill,
-            Gutters.twentytwoTMargin,
-          ]}
-        >
+        <View style={[Layout.center, Layout.fill, Common.dimBackground]}>
           <View
             style={[
-              { height: '50%' },
+              { height: '40%' },
               Common.whiteColorBackground,
               Common.borderWidthOne,
               Common.secondaryGreyBorder,
-              Common.borderTopLeftRadiusTen,
-              Common.borderTopRightRadiusTen,
+              Common.marginTopAuto,
+              Common.borderRadiusTen,
               Common.elevationFive,
               Gutters.hundredPWidth,
-              // Gutters.foureightzeroTMargin,
-              // Gutters.fortyPHeight,
               Layout.alignItemsCenter,
+              // Layout.halfHeight,
             ]}
           >
             <Image
               source={Images.modalHandle}
-              style={[
-                Gutters.tenPWidth,
-                Gutters.twoPHeight,
-                Gutters.fifteenMargin,
-                Common.borderRadiusMedium,
-              ]}
+              style={[Common.resizeModeCenter, Gutters.fiveTMargin]}
             />
             <Text
               style={[
@@ -695,22 +675,12 @@ const Checkout = ({ navigation, route }) => {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
         height: 70,
       },
-      headerTitle: () =>
-        !theme.darkMode ? (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.headerWidthWidth]}
-          />
-        ) : (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[
-              { resizeMode: 'contain' },
-              Gutters.headerHeight,
-              Gutters.headerWidthWidth,
-            ]}
-          />
-        ),
+      headerTitle: () => (
+        <Image
+          source={Images.Logo}
+          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+        />
+      ),
 
       headerTitleAlign: 'center',
       headerShadowVisible: false,
@@ -732,11 +702,7 @@ const Checkout = ({ navigation, route }) => {
             ]}
             onPress={onBackHandler}
           >
-            {!theme.darMode ? (
-              <Image source={Images.greyLeftArrow} />
-            ) : (
-              <Image source={Images.whiteLeftArrow} />
-            )}
+            <Image source={Images.LeftArrow} />
           </TouchableOpacity>
           <View
             style={[
@@ -746,7 +712,7 @@ const Checkout = ({ navigation, route }) => {
             ]}
           >
             {/* ---------------- Modal ---------------- */}
-            {modal}
+            {paymentFailed}
             {/* ---------------- Modal ---------------- */}
             <Text
               style={[
