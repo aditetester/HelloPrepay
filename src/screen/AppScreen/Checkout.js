@@ -536,8 +536,8 @@ const Checkout = ({ navigation, route }) => {
             Layout.selfCenter,
             Common.borderRadius,
           ]}
-          disabled={!dataIsValid}
-          // disabled={false}
+          // disabled={!dataIsValid}
+          disabled={false}
           disabledStyle={[Common.whiteColor, Common.greyBackground]}
           disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
         />
