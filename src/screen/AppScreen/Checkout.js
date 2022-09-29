@@ -21,6 +21,7 @@ import {
   CardDateTextInput,
 } from 'rn-credit-card-textinput'
 import GestureRecognizer from 'react-native-swipe-gestures'
+import PaymentRequest from 'react-native-payments/js/PaymentRequest'
 
 const Checkout = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
