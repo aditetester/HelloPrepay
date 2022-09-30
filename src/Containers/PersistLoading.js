@@ -22,17 +22,11 @@ const PersistLoading = () => {
           Layout.fullHeight,
         ]}
       >
-        {theme.darkMode ? (
-          <Image
-            source={Images.darkThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.fiftyPWidth]}
-          />
-        ) : (
-          <Image
-            source={Images.whiteThemeLogo}
-            style={[{ resizeMode: 'contain' }, Gutters.fiftyPWidth]}
-          />
-        )}
+        <Image
+          source={Images.Logo}
+          style={[Gutters.fiftyPWidth, Common.resizeModeContain]}
+        />
+
         <LinearProgress
           style={[Gutters.tenMargin, Gutters.seventyPWidth]}
           color={theme.darkMode ? Common.white.color : Common.primaryPink.color}

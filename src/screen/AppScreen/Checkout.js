@@ -12,6 +12,7 @@ import {
   Linking,
   Modal,
   Pressable,
+  Alert,
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
@@ -21,10 +22,10 @@ import {
   CardDateTextInput,
 } from 'rn-credit-card-textinput'
 import GestureRecognizer from 'react-native-swipe-gestures'
-import PaymentRequest from 'react-native-payments/js/PaymentRequest'
+import { PaymentRequest } from 'react-native-payments'
 
 const Checkout = ({ navigation, route }) => {
-  //NOTE: 1. Define Variables
+  //#region Define Variables
   let params = route.params
   console.log('🚀 Checkout', params)
   const platform = Platform.OS
@@ -67,7 +68,249 @@ const Checkout = ({ navigation, route }) => {
     stateIsValid &&
     agree
 
-  //NOTE: 2. Helper Method
+  //#endregion
+
+  //#region Apple Pay Configuration
+
+  const applepay = () => {
+    const IOS_METHOD_DATA = [
+      {
+        supportedMethods: ['apple-pay'],
+        data: {
+          merchantIdentifier: 'merchant.apple.test',
+          supportedNetworks: ['visa', 'mastercard', 'amex'],
+          countryCode: 'US',
+          currencyCode: 'USD',
+        },
+      },
+    ]
+
+    const IOS_DETAILS = {
+      id: 'basic-example',
+      displayItems: [
+        {
+          label: 'Varizon',
+          amount: { currency: 'USD', value: '15.00' },
+        },
+      ],
+      total: {
+        label: 'Hello Prepay',
+        amount: { currency: 'USD', value: '15.00' },
+      },
+    }
+
+    const IOS_OPTIONS = {
+      requestPayerName: false,
+      requestPayerPhone: false,
+      requestPayerEmail: false,
+      requestShipping: false,
+    }
+
+    const paymentRequest = new PaymentRequest(
+      IOS_METHOD_DATA,
+      IOS_DETAILS,
+      IOS_OPTIONS,
+    )
+
+    // paymentRequest.canMakePayments().then(canMakePayment => {
+    //   if (canMakePayment) {
+    //     Alert.alert('Apple Pay', 'Apple Pay is available in this device')
+    //   }
+    // })
+
+    // paymentRequest.addEventListener('shippingaddresschange', e => {
+    //   const updatedDetails = getUpdatedDetailsForShippingAddress(
+    //     paymentRequest.shippingAddress,
+    //   )
+    //   e.updateWith(updatedDetails)
+    // })
+
+    // paymentRequest.addEventListener('shippingoptionchange', e => {
+    //   const updatedDetails = getUpdatedDetailsForShippingOption(
+    //     paymentRequest.shippingOption,
+    //   )
+    //   e.updateWith(updatedDetails)
+    // })
+
+    const applePay = () => {
+      paymentRequest
+        .canMakePayments()
+        .then(canMakePayment => {
+          if (canMakePayment) {
+            paymentRequest
+              .show()
+              .then(paymentResponse => {
+                // Your payment processing code goes here
+                console.log('paymentResponse', paymentResponse)
+                paymentResponse.complete('success')
+              })
+              .catch(error => {
+                // paymentRequest.abort()
+                console.log('Show Error', error)
+              })
+          } else {
+            Alert.alert(
+              'Apple Pay',
+              'Apple Pay is not available in this device',
+            )
+          }
+        })
+        .catch(error => {
+          console.log('Can Make Payments Error', error.message)
+        })
+    }
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() => applePay()}
+          style={[
+            Gutters.sixtyHeight,
+            Layout.row,
+            Gutters.fiveVMargin,
+            Common.offWhiteSecondaryBorder,
+          ]}
+        >
+          <ImageBackground
+            source={Images.applepay}
+            resizeMode="stretch"
+            style={[Layout.fullSize, Common.borderRadius]}
+          />
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  //#endregion
+
+  //#region Google Pay Configuration
+
+  const gpay = () => {
+    const ANDROID_METHOD_DATA = [
+      {
+        supportedMethods: ['android-pay'],
+        data: {
+          supportedNetworks: ['visa', 'mastercard', 'amex'],
+          currencyCode: 'USD',
+          environment: 'TEST', // defaults to production
+          paymentMethodTokenizationParameters: {
+            tokenizationType: 'NETWORK_TOKEN',
+            parameters: {
+              publicKey: 'your-pubic-key',
+            },
+          },
+        },
+      },
+    ]
+
+    const ANDROID_OPTIONS = {
+      requestPayerName: true,
+      requestPayerPhone: true,
+      requestPayerEmail: true,
+    }
+
+    const ANDROID_DETAILS = {
+      id: 'basic-example',
+      displayItems: [
+        {
+          label: 'Movie Ticket',
+          amount: { currency: 'USD', value: '15.00' },
+        },
+      ],
+      total: {
+        label: 'Merchant Name',
+        amount: { currency: 'USD', value: '15.00' },
+      },
+    }
+
+    const googlePay = () => {
+      const ANDROIDPaymentRequest = new PaymentRequest(
+        ANDROID_METHOD_DATA,
+        ANDROID_DETAILS,
+        ANDROID_OPTIONS,
+      )
+      ANDROIDPaymentRequest.canMakePayments()
+        .then(canMakePayment => {
+          if (canMakePayment) {
+            ANDROIDPaymentRequest.show()
+              .then(paymentResponse => {
+                // Your payment processing code goes here
+                const { transactionIdentifier, paymentData } =
+                  paymentResponse.details
+                console.log('paymentData', paymentData)
+                console.log('transactionIdentifier', transactionIdentifier)
+                // paymentResponse.complete('success')
+              })
+              .catch(error => {
+                console.log('Show Error', error)
+              })
+          } else {
+            Alert.alert(
+              'Apple Pay',
+              'Apple Pay is not available in this device',
+            )
+          }
+        })
+        .catch(error => {
+          console.log('Can Make Payments Error', error.message)
+        })
+    }
+    return (
+      <View>
+        <TouchableOpacity
+          // onPress={() => openUrl('https://www.google.com/')}
+          onPress={() => googlePay()}
+          style={[
+            Gutters.sixtyHeight,
+            Layout.row,
+            Gutters.fiveVMargin,
+            Common.offWhiteSecondaryBorder,
+          ]}
+        >
+          <ImageBackground
+            source={Images.gpay}
+            resizeMode="stretch"
+            style={[Layout.fullSize, Common.borderRadius]}
+          />
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  //#endregion
+
+  //#region Samsung Pay Configuration
+
+  const samsungpay = () => {
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() =>
+            Alert.alert(
+              '',
+              'We are working on it \nTry different payment method',
+              [{ text: 'Ok' }],
+            )
+          }
+          style={[
+            Gutters.sixtyHeight,
+            Layout.row,
+            Gutters.fiveVMargin,
+            Common.offWhiteSecondaryBorder,
+          ]}
+        >
+          <ImageBackground
+            source={Images.samsungpay}
+            resizeMode="stretch"
+            style={[Layout.fullSize, Common.borderRadius]}
+          />
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  //#endregion
+
+  //#region Helper Method
 
   const onContinueHandler = async () => {
     setSpinner(true)
@@ -98,65 +341,6 @@ const Checkout = ({ navigation, route }) => {
       >
         <ImageBackground
           source={Images.allcards}
-          resizeMode="stretch"
-          style={[Layout.fullSize, Common.borderRadius]}
-        />
-      </TouchableOpacity>
-    </>
-  )
-
-  const gpay = (
-    <>
-      <TouchableOpacity
-        onPress={() => openUrl('https://www.google.com/')}
-        style={[
-          Gutters.sixtyHeight,
-          Layout.row,
-          Gutters.fiveVMargin,
-          Common.offWhiteSecondaryBorder,
-        ]}
-      >
-        <ImageBackground
-          source={Images.gpay}
-          resizeMode="stretch"
-          style={[Layout.fullSize, Common.borderRadius]}
-        />
-      </TouchableOpacity>
-    </>
-  )
-
-  const applepay = platform === 'ios' && (
-    <>
-      <TouchableOpacity
-        onPress={() => openUrl('https://www.apple.com/apple-pay/')}
-        style={[
-          Gutters.sixtyHeight,
-          Layout.row,
-          Gutters.fiveVMargin,
-          Common.offWhiteSecondaryBorder,
-        ]}
-      >
-        <ImageBackground
-          source={Images.applepay}
-          resizeMode="stretch"
-          style={[Layout.fullSize, Common.borderRadius]}
-        />
-      </TouchableOpacity>
-    </>
-  )
-  const samsungpay = platform === 'android' && (
-    <>
-      <TouchableOpacity
-        onPress={() => openUrl('https://www.samsung.com/in/samsung-pay/')}
-        style={[
-          Gutters.sixtyHeight,
-          Layout.row,
-          Gutters.fiveVMargin,
-          Common.offWhiteSecondaryBorder,
-        ]}
-      >
-        <ImageBackground
-          source={Images.samsungpay}
           resizeMode="stretch"
           style={[Layout.fullSize, Common.borderRadius]}
         />
@@ -659,7 +843,9 @@ const Checkout = ({ navigation, route }) => {
     </GestureRecognizer>
   )
 
-  //NOTE: 3. Life Cycle
+  //#endregion
+
+  //#region Life Cycle
 
   useEffect(() => {
     if (useNumber) {
@@ -689,7 +875,9 @@ const Checkout = ({ navigation, route }) => {
     })
   }, [navigation, theme])
 
-  //NOTE: 4. Render Method
+  //#endregion
+
+  //#region Render Method
 
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>
@@ -812,9 +1000,9 @@ const Checkout = ({ navigation, route }) => {
 
           <View style={[Gutters.twentyFourHMargin]}>
             {number == params.phone_number && cardsPayments}
-            {applepay}
-            {gpay}
-            {samsungpay}
+            {platform === 'ios' && applepay()}
+            {platform === 'android' && gpay()}
+            {platform === 'android' && samsungpay()}
           </View>
           {number == params.phone_number && cardPaymentInfo}
         </ScrollView>
@@ -823,6 +1011,7 @@ const Checkout = ({ navigation, route }) => {
       )}
     </SafeAreaView>
   )
+  //#endregion
 }
 
 export default Checkout

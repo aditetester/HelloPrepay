@@ -1,5 +1,6 @@
 {
   "cSpell.ignoreWords": [
+    "Enappd",
     "GENMOBILE",
     "Ofive",
     "Oseven",
@@ -7,10 +8,13 @@
     "Refillhistory",
     "Selectplan",
     "allcards",
+    "animatable",
+    "antd",
     "applepay",
     "arrayholder",
     "attprepaid",
     "bluetick",
+    "bounceable",
     "carrierwhite",
     "checkedround",
     "ecom",
@@ -20,9 +24,12 @@
     "foureightzero",
     "fourtyfive",
     "fourtythree",
+    "freakycoder",
     "gpay",
+    "jsbundle",
     "lyca",
     "middlewares",
+    "netinfo",
     "ninetyfive",
     "onefivezero",
     "onesixzero",
@@ -34,6 +41,8 @@
     "samsungpay",
     "seventyfour",
     "simplemobile",
+    "spinkit",
+    "styl",
     "textinput",
     "tmobile",
     "twentynine",
@@ -44,8 +53,10 @@
   ],
   "cSpell.words": [
     "checkcircle",
+    "endregion",
     "fiftysix",
     "twentyfive",
+    "Varizon",
     "whitecheckcircle"
   ],
   "editor.codeActionsOnSave": {
@@ -73,7 +84,15 @@
       "border": "1px solid red",
       "borderRadius": "2px",
       "backgroundColor": "rgba(0,0,0,.2)"
-    }
+    },
+    {
+      "text": "#region",
+      "color": "black",
+      "border":"1px solid skyblue",
+      "borderRadius":"3px",
+      "backgroundColor": "white",
+      "overviewRulerColor": "white",
+    },
   ],
   "files.autoSave": "onFocusChange",
   "editor.formatOnSave": true,

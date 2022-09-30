@@ -33,6 +33,7 @@ const AddMoney = ({ navigation, route }) => {
       amount: numFormat,
       phone_number: params.phone_number,
       formattedNumber: params.formattedNumber,
+      totalAmount: keyValue,
     })
     return
   }
