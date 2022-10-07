@@ -7,6 +7,7 @@ import {
   BackHandler,
   Alert,
   TextInput,
+  TouchableOpacity,
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
@@ -21,12 +22,14 @@ const Home = ({ navigation }) => {
   let focus = useIsFocused()
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
+  console.log(user.userData)
   let first_name =
     user.userData.first_name.charAt(0).toUpperCase() +
     user.userData.first_name.slice(1)
   const [number, setNumber] = useState(String(user.userData.phone_number))
   const withoutFormateNumber = String(number).replace(/\D/g, '')
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
+
   //NOTE: 2. Helper Method
 
   const onProfileHandler = () => {
@@ -120,24 +123,54 @@ const Home = ({ navigation }) => {
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
       <View
         style={[
+          {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          },
           Layout.flexTwo,
-          Layout.justifyContentCenter,
+          // Layout.justifyContentCenter,
           Gutters.twentyFourHMargin,
         ]}
       >
-        <Text
-          style={[
-            Common.primaryGrey,
-            Fonts.fontSizeRegular,
-            Fonts.fontWeightRegular,
-            Fonts.fontFamilyPrimary,
-          ]}
+        <View
+          style={{
+            justifyContent: 'center',
+            flex: 1,
+          }}
         >
-          Hello,{' '}
-          <Text style={[Common.titleText, Fonts.fontFamilyPrimary]}>
-            {first_name}.
+          <Text
+            style={[
+              Common.primaryGrey,
+              Fonts.fontSizeRegular,
+              Fonts.fontWeightRegular,
+              Fonts.fontFamilyPrimary,
+            ]}
+          >
+            Hello,{' '}
+            <Text style={[Common.titleText, Fonts.fontFamilyPrimary]}>
+              {first_name}.
+            </Text>
           </Text>
-        </Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Esim')}
+          style={{
+            justifyContent: 'center',
+            flex: 1,
+            alignItems: 'flex-end',
+          }}
+        >
+          <Image
+            source={Images.eSim}
+            style={{
+              width: '30%',
+              height: 40,
+              resizeMode: 'contain',
+              flex: 1,
+              marginRight: 10,
+            }}
+          />
+        </TouchableOpacity>
       </View>
       <View
         style={[
@@ -192,12 +225,19 @@ const Home = ({ navigation }) => {
             ]}
           />
           <Image
-            source={Images.whitecarrier12}
+            // source={Images.whitecarrier12}
+            source={{ uri: user.userData.carrier_image }}
             style={[
+              {
+                height: '90%',
+                width: 70,
+                resizeMode: 'contain',
+                borderRadius: 4,
+              },
               Layout.center,
               Gutters.eightRMargin,
-              Gutters.thirtyPWidth,
-              Common.resizeModeContain,
+              // Gutters.thirtyPWidth,
+              // Common.resizeModeContain,
             ]}
           />
         </View>

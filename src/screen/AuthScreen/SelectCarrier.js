@@ -75,11 +75,22 @@ const SelectCarrier = ({ navigation, route }) => {
   //NOTE: 4. Life Cycle
 
   useEffect(() => {
-    if (data && data.result) {
-      setCarrier(data.result)
-      setSearchable(data.result)
+    if (data && data) {
+      console.log('setCarrier', data.data)
+      setCarrier(data.data)
+      setSearchable(data.data)
     }
   }, [data])
+
+  // useEffect(() => {
+  //   if (data && data.result) {
+  //     console.log('setCarrier', data.data[0])
+  //     setCarrier(data.result)
+  //     setSearchable(data.result)
+  //   }
+  // }, [data])
+
+  console.log('carrier', carrier)
 
   useEffect(() => {
     if (profileUpdateData && profileUpdateData.success === true) {
@@ -256,20 +267,6 @@ const SelectCarrier = ({ navigation, route }) => {
           Layout.selfCenter,
         ]}
       >
-        {/* <Button
-          onPress={() => {
-            onContinueHandler()
-          }}
-          title={'Continue'}
-          size="sm"
-          fontSize={16}
-          disabled={!selectedId}
-          backgroundColor={
-            selectedId
-              ? Common.primaryPinkBackground.backgroundColor
-              : Common.greyBackground.backgroundColor
-          }
-        /> */}
         <Button
           title="Continue"
           loading={profileUpdateLoading}

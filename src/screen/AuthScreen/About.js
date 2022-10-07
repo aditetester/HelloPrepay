@@ -39,7 +39,7 @@ const About = ({ navigation, route }) => {
     navigation.goBack()
   }
 
-  const [getRegister, { data, isLoading }] = useGetRegisterUserMutation()
+  const [getRegister, { data, isLoading, error }] = useGetRegisterUserMutation()
 
   const onContinueHandler = () => {
     getRegister({
@@ -93,6 +93,9 @@ const About = ({ navigation, route }) => {
             'Phone Number !!',
             'The phone number has already been taken.',
           )
+        } else {
+          console.log(error && error)
+          console.log(data && data)
         }
       }
     }

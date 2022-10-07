@@ -23,6 +23,8 @@ export default function () {
     checked: require('../Assets/Images/checked.png'),
     unchecked: require('../Assets/Images/unchecked.png'),
 
+    eSim: require('../Assets/Icon/esim.png'),
+
     checkedround: require('../Assets/PaymentMethodImage/checked.png'),
     uncheckedround: require('../Assets/PaymentMethodImage/unchecked.png'),
 

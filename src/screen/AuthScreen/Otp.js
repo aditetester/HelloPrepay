@@ -22,7 +22,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 
 const Otp = ({ navigation, route }) => {
   const [params, setParams] = useState(route.params)
-  console.log('Params', params)
+  // console.log('Params', params)
   const dispatch = useDispatch()
   const theme = useSelector(state => state.theme)
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
@@ -41,7 +41,7 @@ const Otp = ({ navigation, route }) => {
     {
       data,
       isLoading,
-      isError,
+      error,
       isSuccess,
       isUninitialized,
       originalArgs,
@@ -56,6 +56,16 @@ const Otp = ({ navigation, route }) => {
       setButtonLoading(false)
     }
   }, [isLoading])
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert(
+        'Error!!',
+        `Something Went Wrong Try After Some Time \n Status Code:- ${error.originalStatus}`,
+        [{ text: 'Ok', onPress: () => navigation.navigate('Login') }],
+      )
+    }
+  }, [error])
 
   console.log(data)
 
@@ -500,7 +510,7 @@ const Otp = ({ navigation, route }) => {
         <TouchableOpacity style={[Layout.alignItemsCenter, Layout.flexTwo]}>
           <Timer
             maxRange={59}
-            onPress={(console.log('Send Code Again'), onSendCodeAgainHandler)}
+            // onPress={(console.log('Send Code Again'), onSendCodeAgainHandler)}
             beforeText="Send code again"
             afterText="Send code again in"
           />

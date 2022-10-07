@@ -1,7 +1,11 @@
 {
   "cSpell.ignoreWords": [
+    "Autn",
     "Enappd",
+    "Esim",
     "GENMOBILE",
+    "IMEI",
+    "NNNH",
     "Ofive",
     "Oseven",
     "Pressable",
@@ -52,11 +56,15 @@
     "whitecarrier"
   ],
   "cSpell.words": [
+    "asdfasdfasdfasdfasdf",
+    "braintree",
     "checkcircle",
     "endregion",
     "fiftysix",
+    "planid",
     "twentyfive",
     "Varizon",
+    "verzion",
     "whitecheckcircle"
   ],
   "editor.codeActionsOnSave": {
@@ -94,7 +102,7 @@
       "overviewRulerColor": "white",
     },
   ],
-  "files.autoSave": "onFocusChange",
+  "files.autoSave": "off",
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
   "eslint.enable": true,

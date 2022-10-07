@@ -219,6 +219,9 @@ export default function ({ Colors, ...args }) {
       marginTopAuto: {
         marginTop: 'auto',
       },
+      blackAndWhiteBorderColor: {
+        borderColor: Colors.textColor,
+      },
     }),
   }
 }

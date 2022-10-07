@@ -38,7 +38,8 @@ export const api = createApi({
     }),
     getCarrierList: builder.query({
       query: payload => ({
-        url: 'carrier',
+        // url: 'carrier',
+        url: 'https://portal.prepaidiq.com/api/carriers',
         method: 'GET',
         headers: {
           Authorization: `Bearer ${payload}`,
@@ -75,6 +76,36 @@ export const api = createApi({
         }
       },
     }),
+    getCardPayments: builder.mutation({
+      query: payload => {
+        return {
+          url: 'https://apitest.authorize.net/xml/v1/request.api',
+          method: 'POST',
+          body: payload,
+        }
+      },
+    }),
+    getRecharge: builder.mutation({
+      query: payload => {
+        return {
+          url: 'recharge',
+          method: 'POST',
+          body: payload,
+        }
+      },
+    }),
+    getPrice: builder.mutation({
+      query: ({ body, token }) => {
+        return {
+          url: 'get_pricing',
+          method: 'POST',
+          body: body,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      },
+    }),
   }),
 })
 
@@ -86,4 +117,7 @@ export const {
   useGetProfileUpdateMutation,
   useSendEmailCodeMutation,
   useGetPlansMutation,
+  useGetCardPaymentsMutation,
+  useGetRechargeMutation,
+  useGetPriceMutation,
 } = api

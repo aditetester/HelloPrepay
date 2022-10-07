@@ -23,15 +23,20 @@ import {
 } from 'rn-credit-card-textinput'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import { PaymentRequest } from 'react-native-payments'
+import {
+  useGetCardPaymentsMutation,
+  useGetRechargeMutation,
+} from '@/Services/api'
+import { API_LOGIN_ID, TRANSACTION_KEY } from '../../Config/index'
 
 const Checkout = ({ navigation, route }) => {
   //#region Define Variables
   let params = route.params
-  console.log('🚀 Checkout', params)
+  // console.log('🚀 Checkout', params)
   const platform = Platform.OS
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
-  console.log(userData)
+  // console.log(userData)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [buttonLoading, setButtonLoading] = useState(false)
   const [spinner, setSpinner] = useState(false)
@@ -50,10 +55,10 @@ const Checkout = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   const cardNameIsValid = cardName.length > 1
-  const cardNumberIsValid = cardNumber.length === 20
-  const cardDateIsValid = cardDate.length === 5
+  const cardNumberIsValid = cardNumber.length > 5
+  const cardDateIsValid = cardDate.length !== ''
   const CVVIsValid = CVV.length === 3
-  const addressIsValid = address.length > 10
+  const addressIsValid = address.length > 5
   const aptSuiteIsValid = aptSuite.length > 2
   const cityIsValid = city.length > 2
   const stateIsValid = state.length > 2
@@ -68,9 +73,78 @@ const Checkout = ({ navigation, route }) => {
     stateIsValid &&
     agree
 
+  const currentTime = new Date().getMilliseconds()
+
+  const cardDetails = {
+    createTransactionRequest: {
+      merchantAuthentication: {
+        name: API_LOGIN_ID,
+        transactionKey: TRANSACTION_KEY,
+      },
+      refId: currentTime.toString(),
+      transactionRequest: {
+        transactionType: 'authCaptureTransaction',
+        amount: params.amount.replace(',', '').replace('$', ''),
+        payment: {
+          creditCard: {
+            cardNumber: cardNumber.replaceAll(' ', ''),
+            expirationDate: cardDate,
+            cardCode: CVV,
+          },
+        },
+        lineItems: {
+          lineItem: {
+            itemId: '1',
+            name:
+              // params.planName.toString().length >= 31
+              //   ? params.planName.toString().substring(0, 31)
+              //   : params.planName.toString(),
+              'verizon $10',
+            // description: params.carrierName,
+            description: 'verizon',
+            quantity: '1',
+            unitPrice: params.amount.replace(',', '').replace('$', ''),
+          },
+        },
+        poNumber: params.phone_number,
+        processingOptions: { isSubsequentAuth: 'true' },
+        subsequentAuthInformation: {
+          originalNetworkTransId: '123456789NNNH',
+          originalAuthAmount: params.amount.replace(',', '').replace('$', ''),
+          reason: 'resubmission',
+        },
+        authorizationIndicatorType: {
+          authorizationIndicator: 'final',
+        },
+      },
+    },
+  }
+
+  const rechargeDetail = {
+    phone_number: params.phone_number,
+    planid: 11,
+    price: 200,
+    meta: { a: 'v' },
+    pin: 1111,
+  }
+
+  const [getCardPayments, { data, isLoading, error }] =
+    useGetCardPaymentsMutation()
+
+  const [
+    getRecharge,
+    { data: rechargeData, isLoading: rechargeIsLoading, error: rechargeError },
+  ] = useGetRechargeMutation()
+
   //#endregion
 
   //#region Apple Pay Configuration
+
+  const applePaymentSuccess = async () => {
+    await setTimeout(() => {
+      navigation.navigate('PaymentSuccess')
+    }, 1000)
+  }
 
   const applepay = () => {
     const IOS_METHOD_DATA = [
@@ -89,20 +163,32 @@ const Checkout = ({ navigation, route }) => {
       id: 'basic-example',
       displayItems: [
         {
-          label: 'Varizon',
+          label: 'Movie Ticket',
           amount: { currency: 'USD', value: '15.00' },
+        },
+        {
+          label: 'Grocery',
+          amount: { currency: 'USD', value: '5.00' },
+        },
+      ],
+      shippingOptions: [
+        {
+          id: 'economy',
+          label: 'Economy Shipping',
+          amount: { currency: 'USD', value: '50.00' },
+          detail: 'Arrives in 3-5 days', // `detail` is specific to React Native Payments
         },
       ],
       total: {
-        label: 'Hello Prepay',
-        amount: { currency: 'USD', value: '15.00' },
+        label: 'Enappd Store',
+        amount: { currency: 'USD', value: `${Number(params.totalAmount)}` },
       },
     }
 
     const IOS_OPTIONS = {
-      requestPayerName: false,
-      requestPayerPhone: false,
-      requestPayerEmail: false,
+      requestPayerName: true,
+      requestPayerPhone: true,
+      requestPayerEmail: true,
       requestShipping: false,
     }
 
@@ -111,12 +197,6 @@ const Checkout = ({ navigation, route }) => {
       IOS_DETAILS,
       IOS_OPTIONS,
     )
-
-    // paymentRequest.canMakePayments().then(canMakePayment => {
-    //   if (canMakePayment) {
-    //     Alert.alert('Apple Pay', 'Apple Pay is available in this device')
-    //   }
-    // })
 
     // paymentRequest.addEventListener('shippingaddresschange', e => {
     //   const updatedDetails = getUpdatedDetailsForShippingAddress(
@@ -141,12 +221,13 @@ const Checkout = ({ navigation, route }) => {
               .show()
               .then(paymentResponse => {
                 // Your payment processing code goes here
-                console.log('paymentResponse', paymentResponse)
                 paymentResponse.complete('success')
+                // applePaymentSuccess()
               })
               .catch(error => {
-                // paymentRequest.abort()
+                paymentRequest.abort()
                 console.log('Show Error', error)
+                setModalVisible(true)
               })
           } else {
             Alert.alert(
@@ -195,7 +276,8 @@ const Checkout = ({ navigation, route }) => {
           paymentMethodTokenizationParameters: {
             tokenizationType: 'NETWORK_TOKEN',
             parameters: {
-              publicKey: 'your-pubic-key',
+              publicKey:
+                'BFEC244s+3h7MK8gNkvV1HwlnEpEl7cV5PHNdKRebxlmL6Qz+SCDnMc3SoWDsCX0YWGagDqk5eWhn19UvoeXILQ=',
             },
           },
         },
@@ -206,6 +288,7 @@ const Checkout = ({ navigation, route }) => {
       requestPayerName: true,
       requestPayerPhone: true,
       requestPayerEmail: true,
+      requestShipping: true,
     }
 
     const ANDROID_DETAILS = {
@@ -257,7 +340,6 @@ const Checkout = ({ navigation, route }) => {
     return (
       <View>
         <TouchableOpacity
-          // onPress={() => openUrl('https://www.google.com/')}
           onPress={() => googlePay()}
           style={[
             Gutters.sixtyHeight,
@@ -313,12 +395,8 @@ const Checkout = ({ navigation, route }) => {
   //#region Helper Method
 
   const onContinueHandler = async () => {
-    setSpinner(true)
-    await setTimeout(() => {
-      // navigation.navigate('PaymentSuccess')
-      setSpinner(false)
-      setModalVisible(true)
-    }, 1000)
+    // setSpinner(true)
+    getCardPayments(JSON.stringify(cardDetails))
   }
 
   const onBackHandler = () => {
@@ -628,7 +706,7 @@ const Checkout = ({ navigation, route }) => {
                   Fonts.fontWeightRegular,
                 ]}
               >
-                $67.00
+                ${params.totalAmount}
               </Text>{' '}
               via my credit card. I understand that charge on my credit card is
               not refundable under any circumstances.
@@ -691,7 +769,7 @@ const Checkout = ({ navigation, route }) => {
         ]}
       >
         <Button
-          title="Send payment for $67.00"
+          title={`Send payment for $${params.totalAmount}`}
           icon={{
             name: 'arrow-right',
             type: 'font-awesome-5',
@@ -721,8 +799,7 @@ const Checkout = ({ navigation, route }) => {
             Layout.selfCenter,
             Common.borderRadius,
           ]}
-          // disabled={!dataIsValid}
-          disabled={false}
+          disabled={!dataIsValid}
           disabledStyle={[Common.whiteColor, Common.greyBackground]}
           disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
         />
@@ -846,6 +923,59 @@ const Checkout = ({ navigation, route }) => {
   //#endregion
 
   //#region Life Cycle
+
+  useEffect(() => {
+    if (rechargeData) {
+      if (rechargeData.message === 'Success') {
+        navigation.navigate('PaymentSuccess')
+      } else {
+        setModalVisible(true)
+      }
+    }
+  }, [rechargeData])
+
+  useEffect(() => {
+    if (rechargeError) {
+      setModalVisible(true)
+    }
+  }, [rechargeError])
+
+  // useEffect(() => {
+  //   if (rechargeIsLoading) {
+  //     setSpinner(true)
+  //   } else {
+  //     setSpinner(false)
+  //   }
+  // }, [rechargeIsLoading])
+
+  useEffect(() => {
+    if (data) {
+      try {
+        console.log('DATA', data && data.transactionResponse.errors)
+      } catch (err) {
+        console.log('ERR', err)
+      }
+      if (data.messages && data.messages.resultCode === 'Ok') {
+        getRecharge(rechargeDetail)
+      } else if (data.messages && data.messages.resultCode === 'Error') {
+        setModalVisible(true)
+      }
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (error) {
+      setModalVisible(true)
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (isLoading || rechargeIsLoading) {
+      setSpinner(true)
+    } else {
+      setSpinner(false)
+    }
+  }, [isLoading, rechargeIsLoading])
 
   useEffect(() => {
     if (useNumber) {

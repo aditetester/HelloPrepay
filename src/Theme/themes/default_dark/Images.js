@@ -35,6 +35,8 @@ export default function () {
     modalHandle: require('../../../Assets/Images/modalHandle.png'),
     error: require('../../../Assets/Images/whiteError.png'),
 
+    eSim: require('../../../Assets/Icon/white-eSIM.png'),
+
     carrier1: require('../../../Assets/CarrierImage/attprepaid.png'),
     carrier2: require('../../../Assets/CarrierImage/boost.png'),
     carrier3: require('../../../Assets/CarrierImage/cricket_ecom_new.png'),

@@ -19,7 +19,7 @@ const Colors = {
   textColor: 'white',
   grey: 'grey',
   red: '#FF3333',
-  placeHolder: '#dee2e6',
+  placeHolder: '#7B808D',
   loadingColor: '#DB006A',
   keyboardText: '#ffffff',
   keyboardBackGround: '#45484A',

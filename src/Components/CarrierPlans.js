@@ -10,6 +10,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
   //NOTE: 1 Define Variable
   const navigation = useNavigation()
   const theme = useSelector(state => state.theme)
+  const userData = useSelector(state => state.user.userData)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [isSelected, setSelection] = useState('')
   const [selectedPrice, setSelectedPrice] = useState('')
@@ -293,17 +294,16 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
               Gutters.tenVMargin,
             ]}
           >
-            {!theme.darkMode ? (
-              <Image
-                source={Images.carrier12}
-                style={[Layout.flexTwo, Common.resizeModeContain]}
-              />
-            ) : (
-              <Image
-                source={Images.whitecarrier12}
-                style={[Common.resizeModeContain, Layout.flexTwo]}
-              />
-            )}
+            <Image
+              source={{ uri: userData.carrier_image }}
+              style={{
+                resizeMode: 'contain',
+                width: '50%',
+                height: 80,
+                flex: 1,
+                borderRadius: 4,
+              }}
+            />
             <Text
               style={[
                 Common.primaryGrey,
