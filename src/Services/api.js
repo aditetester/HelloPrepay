@@ -106,6 +106,18 @@ export const api = createApi({
         }
       },
     }),
+    getHistory: builder.mutation({
+      query: ({ body, token }) => {
+        return {
+          url: 'get_history',
+          method: 'POST',
+          body: body,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      },
+    }),
   }),
 })
 
@@ -120,4 +132,5 @@ export const {
   useGetCardPaymentsMutation,
   useGetRechargeMutation,
   useGetPriceMutation,
+  useGetHistoryMutation,
 } = api

@@ -5,13 +5,19 @@ import { Button, Skeleton } from '@rneui/themed'
 import History from '../screen/Data/history'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import { useNavigation } from '@react-navigation/native'
+import { useNetInfo } from '@react-native-community/netinfo'
+import { useGetHistoryMutation } from '@/Services/api'
 
 const UserHistory = ({ phone_number, formattedNumber }) => {
+  //NOTE: 1.Define Variables
   const navigation = useNavigation()
-  const { Common, Gutters, Layout, Fonts } = useTheme()
-  const [fetching, setFetching] = useState(true)
+  const netInfo = useNetInfo()
+  const { Common, Gutters, Layout, Fonts, Images } = useTheme()
+  const [fetching, setFetching] = useState(false)
   const valid = phone_number.length === 10 && formattedNumber.length === 14
+  const [getHistory, { data, isLoading, error }] = useGetHistoryMutation()
 
+  //NOTE: 2.Helper Method
   const onNewRefillHandler = () => {
     navigation.navigate('Selectplan', {
       phone_number: phone_number,
@@ -23,13 +29,53 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
     navigation.navigate('RefillHistory', { refillTransactionId: id })
   }
 
+  //NOTE: 3.Life Cycle
   useEffect(() => {
-    if (fetching) {
-      setTimeout(() => {
-        setFetching(false)
-      }, 2000)
+    getHistory({
+      body: 'null',
+      token: 'null',
+    })
+  }, [, netInfo.isConnected])
+
+  useEffect(() => {
+    if (data) {
+      console.log('DATA', data)
     }
-  }, [])
+  }, [, netInfo.isConnected])
+
+  useEffect(() => {
+    if (isLoading) {
+      setFetching(true)
+    } else {
+      setFetching(false)
+    }
+  }, [isLoading])
+
+  //NOTE: 4.Render Method
+
+  const errorComponent = (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 50,
+      }}
+    >
+      <Image
+        source={Images.error}
+        style={{ width: '100%', height: 100 }}
+        resizeMode="contain"
+      />
+      <Text
+        style={[Common.textColor, { fontStyle: 'italic', fontWeight: '600' }]}
+      >
+        {!netInfo.isConnected
+          ? 'Please Check Your Internet Connection'
+          : 'Data Not Found'}
+      </Text>
+    </View>
+  )
 
   const keyExtractor = (item, index) => index.toString()
   const renderHistory = ({ item }) => {
@@ -256,81 +302,75 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
     </View>
   )
 
-  return (
+  const historyComponent = (
     <>
-      {fetching ? (
-        loading
-      ) : (
-        <>
-          <View
-            style={[
-              Layout.flexTwo,
-              Layout.justifyContentCenter,
-              Gutters.twentyFourHMargin,
-              Gutters.fiveVMargin,
-            ]}
-          >
-            <Text
-              style={[
-                Fonts.fontWeightRegular,
-                Fonts.fontSizeRegular,
-                Fonts.fontFamilyPrimary,
-                Common.titleText,
-              ]}
-            >
-              Refill history
-            </Text>
-          </View>
-          <View style={[Gutters.twentyFourHMargin, Layout.flexFifteen]}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              keyExtractor={keyExtractor}
-              data={History}
-              renderItem={renderHistory}
-            />
-          </View>
-          <View
-            style={[
-              Layout.selfCenter,
-              Layout.flexTwo,
-              Gutters.ninetyfivePWidth,
-              Gutters.fortyBMargin,
-              Gutters.twentyMTMargin,
-              Gutters.fortyBMargin,
-              Gutters.twentyMTMargin,
-            ]}
-          >
-            <Button
-              title="New refill"
-              loading={false}
-              disabled={!valid}
-              onPress={() => {
-                onNewRefillHandler()
-              }}
-              loadingProps={[{ size: 'small' }, Common.whiteColor]}
-              titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
-              buttonStyle={[
-                Common.primaryPinkBackground,
-                Gutters.fiftyfiveHeight,
-                Common.borderRadius,
-              ]}
-              containerStyle={[
-                Gutters.ninetyfivePWidth,
-                Gutters.twentyTMargin,
-                Layout.selfCenter,
-                Common.borderRadius,
-              ]}
-              disabledStyle={[Common.whiteColor, Common.greyBackground]}
-              disabledTitleStyle={[
-                Common.whiteColor,
-                Gutters.zeroOsevenOpacity,
-              ]}
-            />
-          </View>
-        </>
-      )}
+      <View
+        style={[
+          Layout.flexTwo,
+          Layout.justifyContentCenter,
+          Gutters.twentyFourHMargin,
+          Gutters.fiveVMargin,
+        ]}
+      >
+        <Text
+          style={[
+            Fonts.fontWeightRegular,
+            Fonts.fontSizeRegular,
+            Fonts.fontFamilyPrimary,
+            Common.titleText,
+          ]}
+        >
+          Refill history
+        </Text>
+      </View>
+      <View style={[Gutters.twentyFourHMargin, Layout.flexFifteen]}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          keyExtractor={keyExtractor}
+          data={History}
+          renderItem={renderHistory}
+          ListEmptyComponent={error && errorComponent}
+        />
+      </View>
+      <View
+        style={[
+          Layout.selfCenter,
+          Layout.flexTwo,
+          Gutters.ninetyfivePWidth,
+          Gutters.fortyBMargin,
+          Gutters.twentyMTMargin,
+          Gutters.fortyBMargin,
+          Gutters.twentyMTMargin,
+        ]}
+      >
+        <Button
+          title="New refill"
+          loading={false}
+          disabled={!valid}
+          onPress={() => {
+            onNewRefillHandler()
+          }}
+          loadingProps={[{ size: 'small' }, Common.whiteColor]}
+          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+          buttonStyle={[
+            Common.primaryPinkBackground,
+            Gutters.fiftyfiveHeight,
+            Common.borderRadius,
+          ]}
+          containerStyle={[
+            Gutters.ninetyfivePWidth,
+            Gutters.twentyTMargin,
+            Layout.selfCenter,
+            Common.borderRadius,
+          ]}
+          disabledStyle={[Common.whiteColor, Common.greyBackground]}
+          disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
+        />
+      </View>
     </>
   )
+
+  return <>{fetching ? loading : historyComponent}</>
 }
 
 export default UserHistory

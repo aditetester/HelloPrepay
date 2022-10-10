@@ -16,19 +16,22 @@ import History from '../Data/history'
 import CarrierPlans from '@/Components/CarrierPlans'
 import UserHistory from '@/Components/History'
 import { useIsFocused } from '@react-navigation/native'
+import Toast from 'react-native-toast-message'
+import { useNetInfo } from '@react-native-community/netinfo'
 
 const Home = ({ navigation }) => {
   //NOTE: 1. Define Variables
+  const netInfo = useNetInfo()
   let focus = useIsFocused()
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
-  console.log(user.userData)
   let first_name =
     user.userData.first_name.charAt(0).toUpperCase() +
     user.userData.first_name.slice(1)
   const [number, setNumber] = useState(String(user.userData.phone_number))
   const withoutFormateNumber = String(number).replace(/\D/g, '')
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
+  const [connection, setConnection] = useState('')
 
   //NOTE: 2. Helper Method
 
@@ -49,10 +52,6 @@ const Home = ({ navigation }) => {
   }
 
   //NOTE: 3. Life Cycle Method
-
-  // useEffect(() => {
-  //   setNumber(user.userData.phone_number)
-  // }, [])
 
   useEffect(() => {
     navigation.setOptions({
@@ -94,12 +93,6 @@ const Home = ({ navigation }) => {
     }
   }, [])
 
-  // useEffect(() => {
-  //   return () => {
-  //     setNumber(String(user.userData.phone_number))
-  //   }
-  // }, [])
-
   useEffect(() => {
     function phoneFormat(input) {
       input = input.replace(/\D/g, '').substring(0, 10)
@@ -118,7 +111,43 @@ const Home = ({ navigation }) => {
     phoneFormat(String(number))
   }, [number])
 
+  useEffect(() => {
+    if (netInfo.isConnected === false) {
+      errorToast()
+      setConnection(false)
+    }
+  }, [netInfo.isConnected])
+
+  useEffect(() => {
+    if (connection === false && netInfo.isConnected === true) {
+      successToast()
+      setConnection(true)
+    }
+  }, [connection, netInfo.isConnected])
+
   //NOTE: 4. Render Method
+
+  const errorToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'No connection',
+      text2: 'No Internet Connection',
+      autoHide: true,
+      visibilityTime: 2000,
+      topOffset: 15,
+    })
+  }
+  const successToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Back Online',
+      text2: 'You Are Connected',
+      autoHide: true,
+      visibilityTime: 2000,
+      topOffset: 15,
+    })
+  }
+
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
       <View
@@ -128,7 +157,6 @@ const Home = ({ navigation }) => {
             justifyContent: 'space-between',
           },
           Layout.flexTwo,
-          // Layout.justifyContentCenter,
           Gutters.twentyFourHMargin,
         ]}
       >
@@ -225,19 +253,17 @@ const Home = ({ navigation }) => {
             ]}
           />
           <Image
-            // source={Images.whitecarrier12}
             source={{ uri: user.userData.carrier_image }}
             style={[
               {
                 height: '90%',
                 width: 70,
-                resizeMode: 'contain',
                 borderRadius: 4,
               },
               Layout.center,
               Gutters.eightRMargin,
               // Gutters.thirtyPWidth,
-              // Common.resizeModeContain,
+              Common.resizeModeContain,
             ]}
           />
         </View>
@@ -253,6 +279,11 @@ const Home = ({ navigation }) => {
           formattedNumber={number}
         />
       )}
+      <Toast
+        ref={ref => {
+          Toast.setRef(ref)
+        }}
+      />
     </SafeAreaView>
   )
 }

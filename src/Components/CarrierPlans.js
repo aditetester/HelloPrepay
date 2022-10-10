@@ -5,10 +5,12 @@ import { useSelector } from 'react-redux'
 import { CheckBox, Button, Skeleton } from '@rneui/themed'
 import { useNavigation } from '@react-navigation/native'
 import { useGetPlansMutation } from '@/Services/api'
+import { useNetInfo } from '@react-native-community/netinfo'
 
 const CarrierPlans = ({ phone_number, formattedNumber }) => {
   //NOTE: 1 Define Variable
   const navigation = useNavigation()
+  const netInfo = useNetInfo()
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
@@ -62,7 +64,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
 
   useEffect(() => {
     getPlan({ data: null })
-  }, [])
+  }, [, netInfo.isConnected])
 
   //NOTE: 4 Render Methods
 
@@ -175,7 +177,9 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
       <Text
         style={[Common.textColor, { fontStyle: 'italic', fontWeight: '600' }]}
       >
-        Data Not Found
+        {!netInfo.isConnected
+          ? 'Please Check Your Internet Connection'
+          : 'Data Not Found'}
       </Text>
     </View>
   )

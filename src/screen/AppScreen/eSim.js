@@ -16,6 +16,7 @@ import { Button, Dialog, Icon } from '@rneui/themed'
 import CalendarPicker from 'react-native-calendar-picker'
 import moment from 'moment'
 import { useGetPriceMutation } from '@/Services/api'
+import * as Animatable from 'react-native-animatable'
 
 function Esim({ navigation }) {
   // NOTE: 1. Define Variables
@@ -47,6 +48,7 @@ function Esim({ navigation }) {
   let minDate = new global.Date()
   var duration = moment.duration({ days: 59 })
   let maxDate = moment(formattedStartingDate).add(duration)
+  console.log('maxDate', maxDate)
 
   const withoutFormateNumber = String(number).replace(/\D/g, '')
 
@@ -268,7 +270,11 @@ function Esim({ navigation }) {
           {selectDate}
           <Pressable
             android_ripple={8}
-            onPress={() => setDialog(true)}
+            onPress={() => {
+              setDialog(true)
+              setStartDate('')
+              setEndDate('')
+            }}
             style={[
               {
                 justifyContent: 'space-between',
@@ -296,7 +302,7 @@ function Esim({ navigation }) {
               {finalDate}
             </Text>
             <Icon
-              onPress={() => setDialog(true)}
+              // onPress={() => setDialog(true)}
               name={'calendar-alt'}
               type="font-awesome-5"
               color="#517fa4"
@@ -424,19 +430,15 @@ function Esim({ navigation }) {
           ]}
         >
           {priceIsLoading ? (
-            // <LinearProgress
-            //   style={[Gutters.tenMargin, Gutters.seventyPWidth]}
-            //   color={
-            //     theme.darkMode ? Common.white.color : Common.primaryPink.color
-            //   }
-            //   value={10}
-            //   variant="indeterminate"
-            // />
             <ActivityIndicator size="small" color={Common.primaryPink.color} />
           ) : (
-            <Text style={[Common.titleText]}>
-              {price !== '' ? `${price.price}` : ''}
-            </Text>
+            <Animatable.Text
+              animation="bounceIn"
+              duration={1000}
+              style={[Common.errorColor, Fonts.fontWeightSmall]}
+            >
+              {price !== '' ? `${price.price}` : 'Select Date'}
+            </Animatable.Text>
           )}
         </View>
         <View
