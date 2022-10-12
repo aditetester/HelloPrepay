@@ -34,6 +34,10 @@ export const Colors = {
   loadingColor: '#DB006A',
   keyboardText: '#28224B',
   keyboardBackGround: '#F3F5F7',
+  darkGrey: '#212831',
+  lightGrey: '#506176',
+  transactionModalLightGrey: '#0c0f0a',
+  transactionModalTextColor: '#ffffff',
 }
 
 export const NavigationColors = {
@@ -200,6 +204,7 @@ export const MetricsSizes = {
   twoP,
 
   //------ Values Minus -----------
+
   eightM,
   twentyM,
   tenM,

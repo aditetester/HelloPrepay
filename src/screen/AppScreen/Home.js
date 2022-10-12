@@ -16,22 +16,18 @@ import History from '../Data/history'
 import CarrierPlans from '@/Components/CarrierPlans'
 import UserHistory from '@/Components/History'
 import { useIsFocused } from '@react-navigation/native'
-import Toast from 'react-native-toast-message'
-import { useNetInfo } from '@react-native-community/netinfo'
 
 const Home = ({ navigation }) => {
   //NOTE: 1. Define Variables
-  const netInfo = useNetInfo()
   let focus = useIsFocused()
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
-  let first_name =
-    user.userData.first_name.charAt(0).toUpperCase() +
-    user.userData.first_name.slice(1)
   const [number, setNumber] = useState(String(user.userData.phone_number))
   const withoutFormateNumber = String(number).replace(/\D/g, '')
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
-  const [connection, setConnection] = useState('')
+  let first_name =
+    user.userData.first_name.charAt(0).toUpperCase() +
+    user.userData.first_name.slice(1)
 
   //NOTE: 2. Helper Method
 
@@ -111,61 +107,19 @@ const Home = ({ navigation }) => {
     phoneFormat(String(number))
   }, [number])
 
-  useEffect(() => {
-    if (netInfo.isConnected === false) {
-      errorToast()
-      setConnection(false)
-    }
-  }, [netInfo.isConnected])
-
-  useEffect(() => {
-    if (connection === false && netInfo.isConnected === true) {
-      successToast()
-      setConnection(true)
-    }
-  }, [connection, netInfo.isConnected])
-
   //NOTE: 4. Render Method
-
-  const errorToast = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'No connection',
-      text2: 'No Internet Connection',
-      autoHide: true,
-      visibilityTime: 2000,
-      topOffset: 15,
-    })
-  }
-  const successToast = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Back Online',
-      text2: 'You Are Connected',
-      autoHide: true,
-      visibilityTime: 2000,
-      topOffset: 15,
-    })
-  }
 
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
       <View
         style={[
-          {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          },
           Layout.flexTwo,
           Gutters.twentyFourHMargin,
+          Layout.row,
+          Layout.justifyContentBetween,
         ]}
       >
-        <View
-          style={{
-            justifyContent: 'center',
-            flex: 1,
-          }}
-        >
+        <View style={[Layout.justifyContentCenter, Layout.fill]}>
           <Text
             style={[
               Common.primaryGrey,
@@ -182,21 +136,20 @@ const Home = ({ navigation }) => {
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('Esim')}
-          style={{
-            justifyContent: 'center',
-            flex: 1,
-            alignItems: 'flex-end',
-          }}
+          style={[
+            Layout.fill,
+            Layout.justifyContentCenter,
+            Layout.alignItemsEnd,
+          ]}
         >
           <Image
             source={Images.eSim}
-            style={{
-              width: '30%',
-              height: 40,
-              resizeMode: 'contain',
-              flex: 1,
-              marginRight: 10,
-            }}
+            style={[
+              Layout.fill,
+              Gutters.thirtyPWidth,
+              Gutters.fortyHeight,
+              Common.resizeModeContain,
+            ]}
           />
         </TouchableOpacity>
       </View>
@@ -255,15 +208,12 @@ const Home = ({ navigation }) => {
           <Image
             source={{ uri: user.userData.carrier_image }}
             style={[
-              {
-                height: '90%',
-                width: 70,
-                borderRadius: 4,
-              },
               Layout.center,
               Gutters.eightRMargin,
-              // Gutters.thirtyPWidth,
+              Gutters.eightyPHeight,
+              Gutters.seventyWidth,
               Common.resizeModeContain,
+              Common.borderRadius,
             ]}
           />
         </View>
@@ -279,11 +229,6 @@ const Home = ({ navigation }) => {
           formattedNumber={number}
         />
       )}
-      <Toast
-        ref={ref => {
-          Toast.setRef(ref)
-        }}
-      />
     </SafeAreaView>
   )
 }

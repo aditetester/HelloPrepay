@@ -253,121 +253,114 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
     </View>
   )
 
-  return (
+  const carrierPlanComponent = (
     <>
-      {isLoading ? (
-        loading
-      ) : (
-        <>
-          <View
-            style={[
-              Layout.flexTwo,
-              Layout.center,
-              Gutters.twentyHMargin,
-              Gutters.fiveVMargin,
-            ]}
-          >
-            <Text
-              style={[
-                Fonts.fontWeightRegular,
-                Fonts.fontSizeSmall,
-                Fonts.fontFamilyPrimary,
-                Common.titleText,
-              ]}
-            >
-              Let’s make your first refill Anastasia
-            </Text>
-            <Text
-              style={[
-                Fonts.fontSizeExtraSmall,
-                Fonts.fontWeightSmall,
-                Fonts.textCenter,
-                Common.primaryGrey,
-                Fonts.fontFamilyPrimary,
-              ]}
-            >
-              Select one plan from the list available for your carrier and
-              top-up your phone number instantly
-            </Text>
-          </View>
-          <View
-            style={[
-              Layout.flexThree,
-              Layout.alignItemsCenter,
-              Gutters.twentyFourHMargin,
-              Gutters.tenVMargin,
-            ]}
-          >
-            <Image
-              source={{ uri: userData.carrier_image }}
-              style={{
-                resizeMode: 'contain',
-                width: '50%',
-                height: 80,
-                flex: 1,
-                borderRadius: 4,
-              }}
-            />
-            <Text
-              style={[
-                Common.primaryGrey,
-                Fonts.fontWeightSmall,
-                Fonts.fontSizeExtraSmall,
-                Fonts.fontFamilyPrimary,
-                Gutters.eightVMargin,
-              ]}
-            >
-              {data && data.length} plans available
-            </Text>
-          </View>
-          <View style={[Layout.flexTen, Gutters.twentyFourHMargin]}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              keyExtractor={keyExtractor}
-              data={data}
-              renderItem={renderPlans}
-              ListEmptyComponent={error && errorComponent}
-            />
-          </View>
-          <View
-            style={[
-              Layout.selfCenter,
-              Layout.flexTwo,
-              Gutters.ninetyfivePWidth,
-              Gutters.fortyBMargin,
-              Gutters.twentyMTMargin,
-            ]}
-          >
-            <Button
-              title="continue"
-              loading={false}
-              onPress={() => {
-                onContinue()
-              }}
-              loadingProps={[{ size: 'small' }, Common.whiteColor]}
-              titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
-              buttonStyle={[
-                Common.primaryPinkBackground,
-                Gutters.fiftyfiveHeight,
-                Common.borderRadius,
-              ]}
-              containerStyle={[
-                Gutters.ninetyfivePWidth,
-                Gutters.twentyTMargin,
-                Layout.selfCenter,
-                Common.borderRadius,
-              ]}
-              disabled={!valid}
-              disabledStyle={[Common.whiteColor, Common.greyBackground]}
-              disabledTitleStyle={[
-                Common.whiteColor,
-                Gutters.zeroOsevenOpacity,
-              ]}
-            />
-          </View>
-        </>
-      )}
+      <View
+        style={[
+          Layout.flexTwo,
+          Layout.center,
+          Gutters.twentyHMargin,
+          Gutters.fiveVMargin,
+        ]}
+      >
+        <Text
+          style={[
+            Fonts.fontWeightRegular,
+            Fonts.fontSizeSmall,
+            Fonts.fontFamilyPrimary,
+            Common.titleText,
+          ]}
+        >
+          Let’s make your first refill Anastasia
+        </Text>
+        <Text
+          style={[
+            Fonts.fontSizeExtraSmall,
+            Fonts.fontWeightSmall,
+            Fonts.textCenter,
+            Common.primaryGrey,
+            Fonts.fontFamilyPrimary,
+          ]}
+        >
+          Select one plan from the list available for your carrier and top-up
+          your phone number instantly
+        </Text>
+      </View>
+      <View
+        style={[
+          Layout.flexThree,
+          Layout.alignItemsCenter,
+          Gutters.twentyFourHMargin,
+          Gutters.tenVMargin,
+        ]}
+      >
+        <Image
+          source={{ uri: userData.carrier_image }}
+          style={{
+            resizeMode: 'contain',
+            width: '50%',
+            height: 80,
+            flex: 1,
+            borderRadius: 4,
+          }}
+        />
+        <Text
+          style={[
+            Common.primaryGrey,
+            Fonts.fontWeightSmall,
+            Fonts.fontSizeExtraSmall,
+            Fonts.fontFamilyPrimary,
+            Gutters.eightVMargin,
+          ]}
+        >
+          {data && data.length} plans available
+        </Text>
+      </View>
+      <View style={[Layout.flexTen, Gutters.twentyFourHMargin]}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          keyExtractor={keyExtractor}
+          data={data}
+          renderItem={renderPlans}
+          ListEmptyComponent={error && errorComponent}
+        />
+      </View>
+      <View
+        style={[
+          Layout.selfCenter,
+          Layout.flexTwo,
+          Gutters.ninetyfivePWidth,
+          Gutters.fortyBMargin,
+          Gutters.twentyMTMargin,
+        ]}
+      >
+        <Button
+          title="continue"
+          loading={false}
+          onPress={() => {
+            onContinue()
+          }}
+          loadingProps={[{ size: 'small' }, Common.whiteColor]}
+          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+          buttonStyle={[
+            Common.primaryPinkBackground,
+            Gutters.fiftyfiveHeight,
+            Common.borderRadius,
+          ]}
+          containerStyle={[
+            Gutters.ninetyfivePWidth,
+            Gutters.twentyTMargin,
+            Layout.selfCenter,
+            Common.borderRadius,
+          ]}
+          disabled={!valid}
+          disabledStyle={[Common.whiteColor, Common.greyBackground]}
+          disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
+        />
+      </View>
     </>
   )
+
+  return <>{isLoading ? loading : carrierPlanComponent}</>
 }
 export default CarrierPlans

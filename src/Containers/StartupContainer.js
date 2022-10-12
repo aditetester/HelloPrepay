@@ -1,68 +1,79 @@
-import React, { useEffect } from 'react'
-import {
-  ActivityIndicator,
-  View,
-  Text,
-  StyleSheet,
-  Appearance,
-  SafeAreaView,
-} from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Appearance, SafeAreaView } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/Hooks'
-import { Brand } from '@/Components'
-import { setDefaultTheme } from '@/Store/Theme'
-import { navigateAndSimpleReset } from '@/Navigators/utils'
 import AuthNavigation from '@/Navigators/Navigation/AuthNavigation'
 import AppNavigation from '../Navigators/Navigation/AppNavigation'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { changeTheme } from '@/Store/Theme'
+import Toast from 'react-native-toast-message'
+import { useNetInfo } from '@react-native-community/netinfo'
 
 const StartupContainer = () => {
-  const { Common } = useTheme()
+  const netInfo = useNetInfo()
+  const [connection, setConnection] = useState('')
+  const { Common, Layout } = useTheme()
   const user = useSelector(state => state.user)
   const colorScheme = Appearance.getColorScheme()
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
 
-  // const init = async () => {
-  //   await new Promise(resolve =>
-  //     setTimeout(() => {
-  //       resolve(true)
-  //     }, 2000),
-  //   )
-  //   await setDefaultTheme({ theme: 'default', darkMode: false })
-  // }
+  useEffect(() => {
+    if (netInfo.isConnected === false) {
+      errorToast()
+      setConnection(false)
+    }
+  }, [netInfo.isConnected])
 
-  // useEffect(() => {
-  //   init()
-  //   console.log(Appearance.getColorScheme())
-  // })
+  useEffect(() => {
+    if (connection === false && netInfo.isConnected === true) {
+      successToast()
+      setConnection(true)
+    }
+  }, [connection, netInfo.isConnected])
 
-  if (colorScheme === 'dark') {
-    dispatch(changeTheme({ darkMode: true }))
-  } else {
-    dispatch(changeTheme({ darkMode: false }))
+  const errorToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'No connection',
+      text2: 'No Internet Connection',
+      autoHide: true,
+      visibilityTime: 4000,
+      topOffset: 15,
+    })
   }
+  const successToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Back Online',
+      text2: 'You Are Connected',
+      autoHide: true,
+      visibilityTime: 4000,
+      topOffset: 15,
+    })
+  }
+  useEffect(() => {
+    if (colorScheme === 'dark') {
+      dispatch(changeTheme({ darkMode: true }))
+    } else {
+      dispatch(changeTheme({ darkMode: false }))
+    }
+  }, [colorScheme])
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={[styles.container, Common.backgroundPrimary]}>
+    <SafeAreaView style={[Layout.fill]}>
+      <View style={[Common.backgroundPrimary, Layout.fill]}>
         {!user.isAuth ? <AuthNavigation /> : <AppNavigation />}
+        <Toast
+          ref={ref => {
+            Toast.setRef(ref)
+          }}
+        />
       </View>
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  textCenter: {
-    color: 'black',
-  },
-})
 
 export default StartupContainer

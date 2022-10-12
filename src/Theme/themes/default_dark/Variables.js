@@ -23,6 +23,10 @@ const Colors = {
   loadingColor: '#DB006A',
   keyboardText: '#ffffff',
   keyboardBackGround: '#45484A',
+  darkGrey: '#212831',
+  lightGrey: '#506176',
+  transactionModalLightGrey: '#343a40',
+  transactionModalTextColor: '#ffffff',
 }
 
 const NavigationColors = {

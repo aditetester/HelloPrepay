@@ -222,6 +222,18 @@ export default function ({ Colors, ...args }) {
       blackAndWhiteBorderColor: {
         borderColor: Colors.textColor,
       },
+      darkGreyColor: {
+        color: Colors.darkGrey,
+      },
+      lightGreyColor: {
+        color: Colors.lightGrey,
+      },
+      transactionModalBackgroundColor: {
+        backgroundColor: Colors.transactionModalLightGrey,
+      },
+      transactionModalTextColor: {
+        color: Colors.transactionModalTextColor,
+      },
     }),
   }
 }
