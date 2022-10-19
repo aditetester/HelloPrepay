@@ -561,6 +561,7 @@ const AddMoney = ({ navigation, route }) => {
               Common.borderRadius,
             ]}
             containerStyle={[
+              { marginBottom: 20 },
               Gutters.ninetyfivePWidth,
               Gutters.twentyTMargin,
               Layout.selfCenter,

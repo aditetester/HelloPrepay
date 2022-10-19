@@ -22,6 +22,7 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
   const netInfo = useNetInfo()
   const valid = phone_number.length === 10 && formattedNumber.length === 14
   const [fetching, setFetching] = useState(false)
+  const [GrayScreenNone, setGrayScreenNone] = React.useState('none')
   const [modalData, setModalData] = useState({
     id: '',
     image: '',
@@ -646,6 +647,12 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
   const historyBottomSheet = (
     <>
       <BottomSheet
+        onOpenStart={() => {
+          setGrayScreenNone('flex')
+        }}
+        onCloseEnd={() => {
+          setGrayScreenNone('none')
+        }}
         ref={sheetRef}
         snapPoints={[0, 0, 500]}
         borderRadius={15}
