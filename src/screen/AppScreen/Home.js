@@ -22,6 +22,7 @@ const Home = ({ navigation }) => {
   let focus = useIsFocused()
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
+  console.log(user.perpos)
   const [number, setNumber] = useState(String(user.userData.phone_number))
   const withoutFormateNumber = String(number).replace(/\D/g, '')
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
@@ -218,17 +219,17 @@ const Home = ({ navigation }) => {
           />
         </View>
       </View>
-      {History.length !== 0 ? (
+      {/* {History.length !== 0 ? (
         <UserHistory
           phone_number={withoutFormateNumber}
           formattedNumber={number}
         />
-      ) : (
-        <CarrierPlans
-          phone_number={withoutFormateNumber}
-          formattedNumber={number}
-        />
-      )}
+      ) : ( */}
+      <CarrierPlans
+        phone_number={withoutFormateNumber}
+        formattedNumber={number}
+      />
+      {/* )} */}
     </SafeAreaView>
   )
 }

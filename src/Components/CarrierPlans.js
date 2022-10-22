@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, Image, FlatList, Pressable } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
@@ -17,6 +17,8 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
   const [isSelected, setSelection] = useState('')
   const [selectedPrice, setSelectedPrice] = useState('')
   const [fetching, setFetching] = useState(true)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+
   let phone_numberIsValid = phone_number.length === 10
   let formattedNumberIsSelected = formattedNumber.length === 14
   let planIsSelected = !isSelected
@@ -53,6 +55,11 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
     }
   }
 
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true)
+    getPlan({ data: null })
+  }, [])
+
   //NOTE: 3 Life Cycle Methods
   useEffect(() => {
     if (fetching) {
@@ -65,6 +72,15 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
   useEffect(() => {
     getPlan({ data: null })
   }, [, netInfo.isConnected])
+
+  useEffect(() => {
+    if (isLoading) {
+      setFetching(true)
+    } else {
+      setFetching(false)
+      setIsRefreshing(false)
+    }
+  }, [isLoading])
 
   //NOTE: 4 Render Methods
 
@@ -323,6 +339,8 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
           data={data}
           renderItem={renderPlans}
           ListEmptyComponent={error && errorComponent}
+          refreshing={isRefreshing} // Added pull to refesh state
+          onRefresh={onRefresh}
         />
       </View>
       <View

@@ -106,6 +106,18 @@ export const api = createApi({
         }
       },
     }),
+    placeEsimOrder: builder.mutation({
+      query: ({ body, token }) => {
+        return {
+          url: 'place_order',
+          method: 'POST',
+          body: body,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      },
+    }),
     getHistory: builder.mutation({
       query: ({ body, token }) => {
         return {
@@ -133,4 +145,5 @@ export const {
   useGetRechargeMutation,
   useGetPriceMutation,
   useGetHistoryMutation,
+  usePlaceEsimOrderMutation,
 } = api

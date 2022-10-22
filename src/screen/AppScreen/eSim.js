@@ -48,18 +48,13 @@ function Esim({ navigation }) {
   let minDate = new global.Date()
   var duration = moment.duration({ days: 59 })
   let maxDate = moment(formattedStartingDate).add(duration)
-  console.log('maxDate', maxDate)
 
   const withoutFormateNumber = String(number).replace(/\D/g, '')
 
-  const finalDate =
-    startDate && endDate
-      ? `${formattedStartingDate
-          .toISOString()
-          .substring(0, 10)} to ${formattedEndingDate
-          .toISOString()
-          .substring(0, 10)}`
-      : 'Please Select Date Rang'
+  let simpleStartDate = moment(startDate).format('YYYY-MM-DD')
+  let simpleEndDate = moment(endDate).format('YYYY-MM-DD')
+
+  const finalDate = `${simpleStartDate} to ${simpleEndDate}`
 
   var a = moment(formattedEndingDate)
   var b = moment(formattedStartingDate)
@@ -82,11 +77,18 @@ function Esim({ navigation }) {
 
   const onBuyNowHandler = () => {
     navigation.navigate('Checkout', {
-      amount: price.price.slice(17),
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
       phone_number: withoutFormateNumber,
+      sku: 'ATT-ESIM-US-CA-MEX',
+      start_date: simpleStartDate,
+      end_date: simpleEndDate,
+      IMEINumber: '353974107950262',
+      amount: price.price.slice(17),
       formattedNumber: String(number),
       totalAmount: price.price.slice(17),
-      navigateFor: 'eSim',
+      navigateFor: 'eSimOrder',
     })
   }
 
@@ -110,7 +112,6 @@ function Esim({ navigation }) {
 
   const onCheckIMEINumber = () => {
     setIMEIError(true)
-    console.log('IMEI On Blur')
   }
 
   const Date = (date, type) => {
@@ -299,7 +300,7 @@ function Esim({ navigation }) {
                 Fonts.fontFamilyPrimary,
               ]}
             >
-              {finalDate}
+              {startDate && endDate ? finalDate : 'Please Select Date Rang..'}
             </Text>
             <Icon
               // onPress={() => setDialog(true)}

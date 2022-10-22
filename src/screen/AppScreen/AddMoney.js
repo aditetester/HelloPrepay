@@ -15,7 +15,7 @@ import { Button } from '@rneui/themed'
 const AddMoney = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
   let params = route.params
-  console.log('🚀 ~ file: AddMoney.js ~ line 18 ~ AddMoney ~ params', params)
+  // console.log('🚀 ~ file: AddMoney.js ~ line 18 ~ AddMoney ~ params', params)
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
 
@@ -25,6 +25,7 @@ const AddMoney = ({ navigation, route }) => {
     style: 'currency',
     currency: 'USD',
   }).format(keyValue)
+  console.log('Currency', keyValue)
 
   //NOTE: 2. Helper Method
 
@@ -34,6 +35,7 @@ const AddMoney = ({ navigation, route }) => {
       phone_number: params.phone_number,
       formattedNumber: params.formattedNumber,
       totalAmount: keyValue,
+      navigateFor: 'planOrder',
     })
     return
   }

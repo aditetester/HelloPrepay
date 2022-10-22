@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  RefreshControl,
 } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { Button, Icon, Skeleton } from '@rneui/themed'
@@ -16,7 +17,7 @@ import { useNetInfo } from '@react-native-community/netinfo'
 import { useGetHistoryMutation } from '@/Services/api'
 import BottomSheet from 'reanimated-bottom-sheet'
 
-const UserHistory = ({ phone_number, formattedNumber }) => {
+const UserHistory = ({ phone_number, formattedNumber, show }) => {
   //NOTE: 1.Define Variables
   const navigation = useNavigation()
   const netInfo = useNetInfo()
@@ -57,7 +58,18 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
     sheetRef.current.snapTo(2)
   }
 
+  const [isRefreshing, setIsRefreshing] = useState(false)
+
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true)
+    getHistory({
+      body: 'null',
+      token: 'null',
+    })
+  }, [])
+
   //NOTE: 3.Life Cycle
+
   useEffect(() => {
     getHistory({
       body: 'null',
@@ -68,16 +80,24 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
   useEffect(() => {
     if (data) {
       console.log('DATA', data)
+      setIsRefreshing(false)
     }
   }, [, netInfo.isConnected])
 
-  // useEffect(() => {
-  //   if (isLoading) {
-  //     setFetching(true)
-  //   } else {
-  //     setFetching(false)
-  //   }
-  // }, [isLoading])
+  useEffect(() => {
+    if (error) {
+      setIsRefreshing(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isLoading) {
+      setFetching(true)
+    } else {
+      setFetching(false)
+      setIsRefreshing(false)
+    }
+  }, [isLoading])
 
   //NOTE: 4.Render Method
 
@@ -767,6 +787,13 @@ const UserHistory = ({ phone_number, formattedNumber }) => {
           data={History}
           renderItem={renderHistory}
           ListEmptyComponent={error && errorComponent}
+          refreshControl={
+            <RefreshControl
+              colors={['#9Bd35A', '#689F38']}
+              refreshing={isRefreshing} // Added pull to refesh state
+              onRefresh={onRefresh}
+            />
+          }
         />
       </View>
       <View

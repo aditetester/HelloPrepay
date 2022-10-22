@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView, StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -14,12 +14,27 @@ import Profile from '@/screen/AppScreen/Profile'
 import CarrierPlans from '@/Components/CarrierPlans'
 import UserHistory from '@/Components/History'
 import Esim from '@/screen/AppScreen/eSim'
+import ChangeCarrier from '@/screen/AppScreen/ChangeCarrier'
 
 const Stack = createStackNavigator()
 const AuthNavigation = () => {
   const theme = useSelector(state => state.theme)
+  const user = useSelector(state => state.user)
+  const startingScreen = user.perpos === 'Login' ? 'ChangeCarrier' : 'Home'
+  const [startingScreens, setStartingScreen] = useState('')
+  // console.log('User.Perpos', user.perpos)
+  // console.log('startingScreen', startingScreen)
+  console.log('startingScreens', startingScreens)
   const { Layout, NavigationTheme, Common } = useTheme()
   const { colors } = NavigationTheme
+
+  useEffect(() => {
+    if (user.perpos === 'Login') {
+      setStartingScreen('ChangeCarrier')
+    } else {
+      setStartingScreen('Home')
+    }
+  }, [user.perpos])
 
   const forFade = ({ current }) => ({
     cardStyle: {
@@ -35,7 +50,7 @@ const AuthNavigation = () => {
           barStyle={theme.darkMode ? 'light-content' : 'dark-content'}
         />
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName={startingScreen}
           screenOptions={{
             headerStyle: {
               backgroundColor: Common.backgroundPrimary.backgroundColor,
@@ -46,6 +61,7 @@ const AuthNavigation = () => {
             headerBackTitleVisible: false,
           }}
         >
+          <Stack.Screen name="ChangeCarrier" component={ChangeCarrier} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="RefillHistory" component={RefillHistory} />

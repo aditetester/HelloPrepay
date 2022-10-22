@@ -95,7 +95,7 @@ const Otp = ({ navigation, route }) => {
         })
         setButtonLoading(false)
       } else {
-        dispatch(setUser({ userData: data, isAuth: true }))
+        dispatch(setUser({ userData: data, isAuth: true, perpos: 'Login' }))
         setButtonLoading(false)
       }
     }
