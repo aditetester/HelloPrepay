@@ -14,7 +14,7 @@ const Welcome = ({ navigation, route }) => {
 
   //NOTE: 2. Helper Method
   const onContinueHandler = () => {
-    dispatch(setUser({ userData: params.data, isAuth: true }))
+    dispatch(setUser({ userData: params.data, isAuth: true, perpos: null }))
   }
 
   //NOTE: 3. Life Cycle

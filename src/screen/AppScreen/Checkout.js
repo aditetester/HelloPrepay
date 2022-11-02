@@ -26,6 +26,7 @@ import { PaymentRequest } from 'react-native-payments'
 import {
   useGetCardPaymentsMutation,
   useGetRechargeMutation,
+  usePlaceEsimOrderMutation,
 } from '@/Services/api'
 import { API_LOGIN_ID, TRANSACTION_KEY } from '../../Config/index'
 
@@ -36,7 +37,7 @@ const Checkout = ({ navigation, route }) => {
   const platform = Platform.OS
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
-  // console.log(userData)
+  const token = String(userData.token)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [buttonLoading, setButtonLoading] = useState(false)
   const [spinner, setSpinner] = useState(false)
@@ -128,6 +129,18 @@ const Checkout = ({ navigation, route }) => {
     pin: 1111,
   }
 
+  const esimOrderDataObj = {
+    imei_number: params.IMEINumber,
+    sku: params.sku,
+    first_name: params.first_name,
+    last_name: params.last_name,
+    email: params.email,
+    contact: params.phone_number,
+    start_date: params.start_date,
+    end_date: params.end_date,
+    token: token,
+  }
+
   const [getCardPayments, { data, isLoading, error }] =
     useGetCardPaymentsMutation()
 
@@ -135,6 +148,11 @@ const Checkout = ({ navigation, route }) => {
     getRecharge,
     { data: rechargeData, isLoading: rechargeIsLoading, error: rechargeError },
   ] = useGetRechargeMutation()
+
+  const [
+    getEsimOrder,
+    { data: EsimOrderData, isLoading: EsimOrderLoading, error: EsimOrderError },
+  ] = usePlaceEsimOrderMutation()
 
   //#endregion
 
@@ -951,12 +969,21 @@ const Checkout = ({ navigation, route }) => {
   useEffect(() => {
     if (data) {
       try {
-        console.log('DATA', data && data.transactionResponse.errors)
+        console.log('CARD DATA', data && data.transactionResponse.errors)
+        console.log('ONLY CARD DATA', data && data)
+        // Alert.alert(
+        //   'Error',
+        //   JSON.stringify(data.transactionResponse.errors[0].errorText),
+        // )
       } catch (err) {
         console.log('ERR', err)
       }
       if (data.messages && data.messages.resultCode === 'Ok') {
-        getRecharge(rechargeDetail)
+        if (params.navigateFor === 'planOrder') {
+          getRecharge(rechargeDetail)
+        } else {
+          getEsimOrder(esimOrderDataObj)
+        }
       } else if (data.messages && data.messages.resultCode === 'Error') {
         setModalVisible(true)
       }
@@ -970,12 +997,12 @@ const Checkout = ({ navigation, route }) => {
   }, [error])
 
   useEffect(() => {
-    if (isLoading || rechargeIsLoading) {
+    if (isLoading || rechargeIsLoading || EsimOrderLoading) {
       setSpinner(true)
     } else {
       setSpinner(false)
     }
-  }, [isLoading, rechargeIsLoading])
+  }, [isLoading, rechargeIsLoading, EsimOrderLoading])
 
   useEffect(() => {
     if (useNumber) {
@@ -984,6 +1011,19 @@ const Checkout = ({ navigation, route }) => {
       setPhoneNumber('')
     }
   }, [useNumber])
+
+  useEffect(() => {
+    if (EsimOrderData) {
+      // console.log('EsimOrderData', EsimOrderData)
+      navigation.navigate('PaymentSuccess')
+    }
+  }, [EsimOrderData])
+
+  useEffect(() => {
+    if (EsimOrderError) {
+      setModalVisible(true)
+    }
+  }, [EsimOrderError])
 
   useEffect(() => {
     navigation.setOptions({

@@ -25,7 +25,6 @@ const SelectCarrier = ({ navigation, route }) => {
   const [selectedId, setSelectedId] = useState()
   const [carrier, setCarrier] = useState()
   const [searchable, setSearchable] = useState(carrier)
-  const arrayholder = searchable
   const [searchText, setSearchText] = useState('')
 
   //NOTE: 2. API
@@ -63,7 +62,7 @@ const SelectCarrier = ({ navigation, route }) => {
   }
 
   const searchFunction = text => {
-    const updatedData = arrayholder.filter(item => {
+    const updatedData = data.data.filter(item => {
       const item_data = `${item.name.toUpperCase()})`
       const text_data = text.toUpperCase()
       return item_data.indexOf(text_data) > -1
@@ -76,7 +75,7 @@ const SelectCarrier = ({ navigation, route }) => {
 
   useEffect(() => {
     if (data && data) {
-      console.log('setCarrier', data.data)
+      // console.log('setCarrier', data.data)
       setCarrier(data.data)
       setSearchable(data.data)
     }
@@ -90,8 +89,6 @@ const SelectCarrier = ({ navigation, route }) => {
   //   }
   // }, [data])
 
-  console.log('carrier', carrier)
-
   useEffect(() => {
     if (profileUpdateData && profileUpdateData.success === true) {
       navigation.navigate('Welcome', {
@@ -104,11 +101,11 @@ const SelectCarrier = ({ navigation, route }) => {
     }
   }, [profileUpdateData])
 
-  useEffect(() => {
-    if (searchText.length === 0) {
-      setSearchable(carrier)
-    }
-  }, [searchText])
+  // useEffect(() => {
+  //   if (searchText.length === 0) {
+  //     setSearchable(carrier)
+  //   }
+  // }, [searchText])
 
   useEffect(() => {
     navigation.setOptions({
@@ -179,6 +176,8 @@ const SelectCarrier = ({ navigation, route }) => {
       </>
     )
   }
+
+  console.log('searchable', searchable)
 
   return (
     <View style={[Common.backgroundPrimary, Layout.fill]}>

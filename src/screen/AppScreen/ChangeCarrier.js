@@ -30,7 +30,6 @@ const ChangeCarrier = ({ navigation, route }) => {
   const [selectedId, setSelectedId] = useState()
   const [carrier, setCarrier] = useState()
   const [searchable, setSearchable] = useState(carrier)
-  const arrayholder = searchable
   const [searchText, setSearchText] = useState('')
 
   //NOTE: 2. API
@@ -72,11 +71,12 @@ const ChangeCarrier = ({ navigation, route }) => {
   }
 
   const searchFunction = text => {
-    const updatedData = arrayholder.filter(item => {
-      const item_data = `${item.name.toUpperCase()})`
+    const updatedData = data.data.filter(item => {
+      const item_data = `${item.name.toUpperCase()}`
       const text_data = text.toUpperCase()
       return item_data.indexOf(text_data) > -1
     })
+    console.log(updatedData)
     setSearchable(updatedData)
     setSearchText(text)
   }
@@ -84,7 +84,7 @@ const ChangeCarrier = ({ navigation, route }) => {
   const updateState = () => {
     dispatch(
       setUser({
-        userData: profileUpdateData.data,
+        userData: profileUpdateData,
         isAuth: true,
         perpos: null,
       }),

@@ -12,9 +12,7 @@ import {
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
 import { Avatar } from '@rneui/themed'
-import History from '../Data/history'
 import CarrierPlans from '@/Components/CarrierPlans'
-import UserHistory from '@/Components/History'
 import { useIsFocused } from '@react-navigation/native'
 
 const Home = ({ navigation }) => {
@@ -22,7 +20,6 @@ const Home = ({ navigation }) => {
   let focus = useIsFocused()
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
-  console.log(user.perpos)
   const [number, setNumber] = useState(String(user.userData.phone_number))
   const withoutFormateNumber = String(number).replace(/\D/g, '')
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()

@@ -1,8 +1,8 @@
 export const Config = {
-  API_URL: 'https://d2c.prepaidiq.com/api/',
+  API_URL: 'https://helloprepay.com/api/',
 }
 
-export const BASE_URL = 'https://d2c.prepaidiq.com/api/'
+export const BASE_URL = 'https://helloprepay.com/api/'
 
 export const API_LOGIN_ID = '7y6bAQ3Autn'
 

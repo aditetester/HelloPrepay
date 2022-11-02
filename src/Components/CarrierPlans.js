@@ -11,11 +11,13 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
   //NOTE: 1 Define Variable
   const navigation = useNavigation()
   const netInfo = useNetInfo()
-  const theme = useSelector(state => state.theme)
+  // const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
+
   const [isSelected, setSelection] = useState('')
   const [selectedPrice, setSelectedPrice] = useState('')
+  console.log(selectedPrice)
   const [fetching, setFetching] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
 
@@ -26,6 +28,8 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
     phone_numberIsValid && formattedNumberIsSelected && !planIsSelected
 
   const [getPlan, { data, isLoading, error }] = useGetPlansMutation()
+
+  console.log(userData)
 
   //NOTE: 2 HELPER METHODS
   const onContinue = () => {
@@ -57,7 +61,10 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true)
-    getPlan({ data: null })
+    getPlan({
+      ID: userData.carrier_id,
+      token: 'TzZSsHQVMb5j47lPPNowxG507dOD5Qw6fkSCUxYp',
+    })
   }, [])
 
   //NOTE: 3 Life Cycle Methods
@@ -70,7 +77,10 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
   }, [fetching])
 
   useEffect(() => {
-    getPlan({ data: null })
+    getPlan({
+      ID: userData.carrier_id,
+      token: 'TzZSsHQVMb5j47lPPNowxG507dOD5Qw6fkSCUxYp',
+    })
   }, [, netInfo.isConnected])
 
   useEffect(() => {
@@ -87,15 +97,21 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
   const keyExtractor = (item, index) => index.toString()
 
   const renderPlans = ({ item }) => {
+    const str = item.plan_name
+    const result = str.replace(/[^\d-]/g, '')
+    const price = item.price == 0 ? result : item.price
+    const name = item.plan_name.split(' ')[0]
+    const description =
+      item.description === '' ? item.plan_name : item.description
     return (
       <Pressable
-        onPress={() => onPlanSelect(item.name, item.price)}
+        onPress={() => onPlanSelect(item.id, price)}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={[
           Common.offWhiteSecondaryBorder,
-          item.name === isSelected && Common.primaryPinkBorder,
-          item.name === isSelected && Common.primaryPinkBackground,
+          item.id === isSelected && Common.primaryPinkBorder,
+          item.id === isSelected && Common.primaryPinkBackground,
           Layout.fill,
           Common.borderWidthOne,
           Common.borderRadius,
@@ -107,29 +123,29 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
           <Text
             style={[
               Common.primaryBlueMode,
-              isSelected === item.name && Common.white,
+              isSelected === item.id && Common.white,
               Gutters.fiveRMargin,
               Fonts.fontWeightRegular,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
             ]}
           >
-            {item.name}
+            {name}
           </Text>
           <Text
             style={[
               Common.primaryBlueMode,
-              isSelected === item.name && Common.white,
+              isSelected === item.id && Common.white,
               Fonts.fontSizeSmall,
               Fonts.fontWeightRegular,
               Fonts.fontFamilyPrimary,
             ]}
           >
-            {item.price}
+            {`$${price}`}
           </Text>
           <CheckBox
             center
-            checked={item.name === isSelected}
+            checked={item.id === isSelected}
             onPress={() => onPlanSelect(item.id)}
             checkedIcon={
               <Image
@@ -153,7 +169,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
             }
             containerStyle={[
               Common.backgroundPrimary,
-              item.name === isSelected && Common.primaryPinkBackground,
+              item.id === isSelected && Common.primaryPinkBackground,
               Gutters.onesixzeroLMargin,
               Gutters.twentyFiveMBMargin,
               Layout.center,
@@ -165,7 +181,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
         <Text
           style={[
             Common.primaryGrey,
-            isSelected === item.name && Common.white,
+            isSelected === item.id && Common.white,
             Gutters.fiveVMargin,
             Fonts.fontFamilyPrimary,
           ]}
@@ -203,7 +219,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
   const loading = (
     <View
       style={[
-        { flex: 20, marginHorizontal: 31 },
+        { flex: 18, marginHorizontal: 31 },
         Layout.justifyContentCenter,
         Gutters.twentyFourHMargin,
         Gutters.fiveVMargin,
@@ -336,10 +352,10 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           keyExtractor={keyExtractor}
-          data={data}
+          data={data && data.data}
           renderItem={renderPlans}
           ListEmptyComponent={error && errorComponent}
-          refreshing={isRefreshing} // Added pull to refesh state
+          refreshing={isRefreshing} // Added pull to refresh state
           onRefresh={onRefresh}
         />
       </View>

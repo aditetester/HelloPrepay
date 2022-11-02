@@ -15,14 +15,14 @@ import { useSelector } from 'react-redux'
 import { Button, Dialog, Icon } from '@rneui/themed'
 import CalendarPicker from 'react-native-calendar-picker'
 import moment from 'moment'
-import { useGetPriceMutation } from '@/Services/api'
+import { useCheckIMEINumberMutation, useGetPriceMutation } from '@/Services/api'
 import * as Animatable from 'react-native-animatable'
 
 function Esim({ navigation }) {
   // NOTE: 1. Define Variables
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
-  const userDate = useSelector(state => state.user.userData)
+  const userData = useSelector(state => state.user.userData)
 
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
@@ -63,6 +63,7 @@ function Esim({ navigation }) {
   let allDataIsValid =
     !validDate &&
     IMEINumber !== '' &&
+    IMEIError !== true &&
     firstName !== '' &&
     lastName !== '' &&
     email !== '' &&
@@ -72,6 +73,11 @@ function Esim({ navigation }) {
     getPrice,
     { data: priceData, isLoading: priceLoading, error: priceError },
   ] = useGetPriceMutation()
+
+  const [
+    checkIMEI,
+    { data: IMEIData, isLoading: IMEIIsLoading, error: IMEIErrors },
+  ] = useCheckIMEINumberMutation()
 
   // NOTE: 2. Handler Method
 
@@ -111,7 +117,7 @@ function Esim({ navigation }) {
   }
 
   const onCheckIMEINumber = () => {
-    setIMEIError(true)
+    checkIMEI({ body: { imei: IMEINumber }, token: userData.token })
   }
 
   const Date = (date, type) => {
@@ -141,7 +147,7 @@ function Esim({ navigation }) {
 
   useEffect(() => {
     if (priceError) {
-      Alert.alert('Error!', `Server Down ${priceError.originalStatus}`)
+      Alert.alert('Error!', 'Could note found data, try again later', ['Ok'])
     }
   }, [priceError])
 
@@ -175,6 +181,14 @@ function Esim({ navigation }) {
       headerTitleAlign: 'center',
     })
   }, [navigation, theme])
+
+  useEffect(() => {
+    if (IMEIData && IMEIData.status === 'error') {
+      setIMEIError(true)
+    } else if (IMEIData && IMEIData.status === 'success') {
+      setIMEIError(false)
+    }
+  }, [IMEIData])
 
   // NOTE: 4. Render Method
 

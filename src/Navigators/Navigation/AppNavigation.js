@@ -21,20 +21,19 @@ const AuthNavigation = () => {
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
   const startingScreen = user.perpos === 'Login' ? 'ChangeCarrier' : 'Home'
-  const [startingScreens, setStartingScreen] = useState('')
+  // const [startingScreens, setStartingScreen] = useState('')
   // console.log('User.Perpos', user.perpos)
   // console.log('startingScreen', startingScreen)
-  console.log('startingScreens', startingScreens)
   const { Layout, NavigationTheme, Common } = useTheme()
   const { colors } = NavigationTheme
 
-  useEffect(() => {
-    if (user.perpos === 'Login') {
-      setStartingScreen('ChangeCarrier')
-    } else {
-      setStartingScreen('Home')
-    }
-  }, [user.perpos])
+  // useEffect(() => {
+  //   if (user.perpos === 'Login') {
+  //     setStartingScreen('ChangeCarrier')
+  //   } else {
+  //     setStartingScreen('Home')
+  //   }
+  // }, [user.perpos])
 
   const forFade = ({ current }) => ({
     cardStyle: {

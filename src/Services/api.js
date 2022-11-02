@@ -68,11 +68,15 @@ export const api = createApi({
       },
     }),
     getPlans: builder.mutation({
-      query: payload => {
+      query: ({ ID, token }) => {
         return {
-          url: 'verzion',
+          // url: 'verzion',
+          url: `https://portal.prepaidiq.com/api/plans/refill/${ID}`,
           method: 'POST',
           // body: payload,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       },
     }),
@@ -107,9 +111,21 @@ export const api = createApi({
       },
     }),
     placeEsimOrder: builder.mutation({
-      query: ({ body, token }) => {
+      query: body => {
         return {
           url: 'place_order',
+          method: 'POST',
+          body: body,
+          headers: {
+            Authorization: `Bearer ${body.token}`,
+          },
+        }
+      },
+    }),
+    getHistory: builder.mutation({
+      query: ({ body, token }) => {
+        return {
+          url: 'order_history',
           method: 'POST',
           body: body,
           headers: {
@@ -118,10 +134,10 @@ export const api = createApi({
         }
       },
     }),
-    getHistory: builder.mutation({
+    checkIMEINumber: builder.mutation({
       query: ({ body, token }) => {
         return {
-          url: 'get_history',
+          url: 'imei_check',
           method: 'POST',
           body: body,
           headers: {
@@ -146,4 +162,5 @@ export const {
   useGetPriceMutation,
   useGetHistoryMutation,
   usePlaceEsimOrderMutation,
+  useCheckIMEINumberMutation,
 } = api

@@ -22,9 +22,9 @@ const Profile = ({ navigation, route }) => {
   //   const params = route.params
   const netInfo = useNetInfo()
   const theme = useSelector(state => state.theme)
+  const userData = useSelector(state => state.user.userData)
   const dispatch = useDispatch()
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
-  const [getHistory, { data, isLoading, error }] = useGetHistoryMutation()
   const sheetRef = React.useRef(null)
   const [GrayScreenNone, setGrayScreenNone] = React.useState('none')
   const [modalData, setModalData] = useState({
@@ -42,6 +42,7 @@ const Profile = ({ navigation, route }) => {
     Sent: '',
     Transaction_Hash: '',
   })
+  const [getHistory, { data, isLoading, error }] = useGetHistoryMutation()
 
   //NOTE: 2. Helper Method
 
@@ -65,7 +66,7 @@ const Profile = ({ navigation, route }) => {
     setIsRefreshing(true)
     getHistory({
       body: 'null',
-      token: 'null',
+      token: userData.token,
     })
   }, [])
 
@@ -74,7 +75,7 @@ const Profile = ({ navigation, route }) => {
   useEffect(() => {
     getHistory({
       body: 'null',
-      token: 'null',
+      token: userData.token,
     })
   }, [, netInfo.isConnected])
 
@@ -665,9 +666,10 @@ const Profile = ({ navigation, route }) => {
             showsVerticalScrollIndicator={false}
             keyExtractor={keyExtractor}
             data={History}
+            // data={data}
             renderItem={renderHistory}
             ListEmptyComponent={error && errorComponent}
-            refreshing={isRefreshing} // Added pull to refesh state
+            refreshing={isRefreshing} // Added pull to refresh state
             onRefresh={onRefresh}
           />
         </View>

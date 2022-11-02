@@ -15,9 +15,11 @@ import { Button } from '@rneui/themed'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/Store/User'
 import Timer from '@/Components/UI/Timer'
-import { useGetLoginUserMutation } from '@/Services/api'
+import {
+  useGetLoginUserMutation,
+  useGetVerifyUserMutation,
+} from '@/Services/api'
 import auth from '@react-native-firebase/auth'
-import { useGetVerifyUserMutation } from '@/Services/api'
 import Spinner from 'react-native-loading-spinner-overlay'
 
 const Otp = ({ navigation, route }) => {
@@ -67,7 +69,7 @@ const Otp = ({ navigation, route }) => {
     }
   }, [error])
 
-  console.log(data)
+  // console.log(data)
 
   useEffect(() => {
     if (data && data.message === 'otp has been expired') {
