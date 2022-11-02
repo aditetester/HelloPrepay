@@ -1014,8 +1014,9 @@ const Checkout = ({ navigation, route }) => {
 
   useEffect(() => {
     if (EsimOrderData) {
-      // console.log('EsimOrderData', EsimOrderData)
-      navigation.navigate('PaymentSuccess')
+      if (JSON.parse(EsimOrderData.response).message === 'Success') {
+        navigation.navigate('PaymentSuccess')
+      }
     }
   }, [EsimOrderData])
 
