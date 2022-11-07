@@ -17,13 +17,13 @@ import CalendarPicker from 'react-native-calendar-picker'
 import moment from 'moment'
 import { useCheckIMEINumberMutation, useGetPriceMutation } from '@/Services/api'
 import * as Animatable from 'react-native-animatable'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 function Esim({ navigation }) {
   // NOTE: 1. Define Variables
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
-
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [IMEINumber, setIMEINumber] = useState('')
@@ -34,10 +34,13 @@ function Esim({ navigation }) {
   const [price, setPrice] = useState('')
   const [dialog, setDialog] = useState(false)
 
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  let emailIsValid = emailRegex.test(email)
+
   const [IMEIError, setIMEIError] = useState(false)
   const [EmailError, setEmailError] = useState(false)
 
-  const [imeiLoading, setIMEILoading] = useState(false)
   const [priceIsLoading, setPriceIsLoading] = useState(false)
 
   const validDate = (startDate === '' && endDate === '') || endDate === null
@@ -66,7 +69,7 @@ function Esim({ navigation }) {
     IMEIError !== true &&
     firstName !== '' &&
     lastName !== '' &&
-    email !== '' &&
+    emailIsValid &&
     number.length === 14
 
   const [
@@ -117,6 +120,9 @@ function Esim({ navigation }) {
   }
 
   const onCheckIMEINumber = () => {
+    if (IMEINumber.length === 0) {
+      return
+    }
     checkIMEI({ body: { imei: IMEINumber }, token: userData.token })
   }
 
@@ -126,6 +132,14 @@ function Esim({ navigation }) {
     } else {
       setEndDate(null)
       setStartDate(date)
+    }
+  }
+
+  const emailCheck = () => {
+    if (emailIsValid) {
+      setEmailError(false)
+    } else {
+      setEmailError(true)
     }
   }
 
@@ -144,12 +158,6 @@ function Esim({ navigation }) {
       setPriceIsLoading(false)
     }
   }, [priceLoading])
-
-  useEffect(() => {
-    if (priceError) {
-      Alert.alert('Error!', 'Could note found data, try again later', ['Ok'])
-    }
-  }, [priceError])
 
   useEffect(() => {
     function phoneFormat(input) {
@@ -185,12 +193,30 @@ function Esim({ navigation }) {
   useEffect(() => {
     if (IMEIData && IMEIData.status === 'error') {
       setIMEIError(true)
+      Alert.alert('Invalid IMEI Number', IMEIData.message, ['OK'])
     } else if (IMEIData && IMEIData.status === 'success') {
       setIMEIError(false)
     }
   }, [IMEIData])
 
+  useEffect(() => {
+    if (IMEIErrors || priceError) {
+      Alert.alert(
+        'Opps!',
+        'Something went wrong...\nPlease check your internet connection or \nTry again later',
+      )
+    }
+  }, [IMEIErrors, priceError])
+
   // NOTE: 4. Render Method
+
+  const loadingSpinner = (
+    <Spinner
+      visible={IMEIIsLoading}
+      textContent={'Loading...'}
+      textStyle={{ color: '#FFF', alignItems: 'center' }}
+    />
+  )
 
   let selectDate = (
     <View>
@@ -243,6 +269,7 @@ function Esim({ navigation }) {
         >
           <Image source={Images.LeftArrow} />
         </Pressable>
+        {loadingSpinner}
         <View style={[Gutters.twentyFourHMargin, Gutters.tenTMargin]}>
           <Text
             style={[
@@ -382,6 +409,7 @@ function Esim({ navigation }) {
             placeholder="Email"
             placeholderTextColor={Common.placeHolderText.color}
             onChangeText={text => setEmail(text)}
+            onBlur={() => emailCheck()}
             keyboardType="email-address"
             style={[
               Common.primaryBlue,

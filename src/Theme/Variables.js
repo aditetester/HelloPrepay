@@ -94,6 +94,7 @@ const twentyFour = 24
 const onefivezero = 150
 const onesixzero = 160
 const onetwozero = 120
+const twozerozero = 200
 const twofivezero = 250
 const foureightzero = 480
 
@@ -179,6 +180,7 @@ export const MetricsSizes = {
 
   zeroOfive,
   zeroOseven,
+  twozerozero,
 
   //--------Values in %--------
 

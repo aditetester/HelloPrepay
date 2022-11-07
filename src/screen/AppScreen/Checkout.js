@@ -54,6 +54,7 @@ const Checkout = ({ navigation, route }) => {
   const [agree, setAgree] = useState(false)
   const [number, setNumber] = useState(userData.phone_number)
   const [modalVisible, setModalVisible] = useState(false)
+  const [cardPaymentResponse, setCardPaymentResponse] = useState('')
 
   const cardNameIsValid = cardName.length > 1
   const cardNumberIsValid = cardNumber.length > 5
@@ -123,8 +124,8 @@ const Checkout = ({ navigation, route }) => {
 
   const rechargeDetail = {
     phone_number: params.phone_number,
-    planid: 11,
-    price: 200,
+    planid: params.planId,
+    price: params.totalAmount,
     meta: { a: 'v' },
     pin: 1111,
   }
@@ -139,6 +140,17 @@ const Checkout = ({ navigation, route }) => {
     start_date: params.start_date,
     end_date: params.end_date,
     token: token,
+    transaction_details: cardPaymentResponse,
+  }
+
+  const priceRange = () => {
+    if (params.priceRange) {
+      let mode = params.priceRange.split('-').map(item => (item = '$' + item))
+      let result = mode.join(' - ')
+      return result
+    } else {
+      return `$${params.totalAmount}`
+    }
   }
 
   const [getCardPayments, { data, isLoading, error }] =
@@ -239,12 +251,14 @@ const Checkout = ({ navigation, route }) => {
               .show()
               .then(paymentResponse => {
                 // Your payment processing code goes here
+                console.log('Apple pay Success', paymentResponse)
                 paymentResponse.complete('success')
-                // applePaymentSuccess()
+                applePaymentSuccess()
               })
-              .catch(error => {
+              .catch(errors => {
                 paymentRequest.abort()
-                console.log('Show Error', error)
+                console.log('Apple pay Error', errors)
+                Alert.alert('Opps!', 'Something went wrong', ['OK'])
                 setModalVisible(true)
               })
           } else {
@@ -958,19 +972,11 @@ const Checkout = ({ navigation, route }) => {
     }
   }, [rechargeError])
 
-  // useEffect(() => {
-  //   if (rechargeIsLoading) {
-  //     setSpinner(true)
-  //   } else {
-  //     setSpinner(false)
-  //   }
-  // }, [rechargeIsLoading])
-
   useEffect(() => {
     if (data) {
       try {
-        console.log('CARD DATA', data && data.transactionResponse.errors)
-        console.log('ONLY CARD DATA', data && data)
+        console.log('CARD ERROR', data && data.messages.resultCode)
+        // console.log('ONLY CARD DATA', data && data)
         // Alert.alert(
         //   'Error',
         //   JSON.stringify(data.transactionResponse.errors[0].errorText),
@@ -982,10 +988,14 @@ const Checkout = ({ navigation, route }) => {
         if (params.navigateFor === 'planOrder') {
           getRecharge(rechargeDetail)
         } else {
+          setCardPaymentResponse(data.toString())
           getEsimOrder(esimOrderDataObj)
         }
       } else if (data.messages && data.messages.resultCode === 'Error') {
         setModalVisible(true)
+        Alert.alert('Opps!', data.transactionResponse.errors[0].errorText, [
+          'Ok',
+        ])
       }
     }
   }, [data])
@@ -1023,6 +1033,7 @@ const Checkout = ({ navigation, route }) => {
   useEffect(() => {
     if (EsimOrderError) {
       setModalVisible(true)
+      Alert.alert('Server Problem', 'Server down for Esim transaction')
     }
   }, [EsimOrderError])
 
@@ -1043,8 +1054,21 @@ const Checkout = ({ navigation, route }) => {
       headerTitleAlign: 'center',
       headerShadowVisible: false,
       headerBackTitleVisible: false,
+      gestureEnabled: false,
     })
   }, [navigation, theme])
+
+  useEffect(() => {
+    if (spinner) {
+      navigation.setOptions({
+        gestureEnabled: false,
+      })
+    } else {
+      navigation.setOptions({
+        gestureEnabled: true,
+      })
+    }
+  }, [spinner])
 
   //#endregion
 
@@ -1145,7 +1169,9 @@ const Checkout = ({ navigation, route }) => {
                   Fonts.fontFamilyPrimary,
                 ]}
               >
-                Verizon $10 - $120 — One payment of $67
+                {`${
+                  params.planName ? params.planName : 'Esim'
+                } ${priceRange()} — One payment of $${params.totalAmount}`}
               </Text>
             </View>
           </View>
@@ -1172,7 +1198,7 @@ const Checkout = ({ navigation, route }) => {
           <View style={[Gutters.twentyFourHMargin]}>
             {number == params.phone_number && cardsPayments}
             {platform === 'ios' && applepay()}
-            {platform === 'android' && gpay()}
+            {gpay()}
             {platform === 'android' && samsungpay()}
           </View>
           {number == params.phone_number && cardPaymentInfo}

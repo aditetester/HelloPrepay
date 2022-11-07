@@ -556,10 +556,12 @@ const Profile = ({ navigation, route }) => {
   const keyExtractor = (item, index) => index.toString()
 
   const renderHistory = ({ item }) => {
+    const image = JSON.parse(item.response).order_response[0].qr_image
+    console.log(item)
     return (
       <TouchableOpacity
         onPress={() => {
-          onShowHistoryHandler(item.id)
+          // onShowHistoryHandler(item.id)
         }}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
@@ -574,7 +576,7 @@ const Profile = ({ navigation, route }) => {
         <View style={[Layout.justifyContentCenter, Gutters.tenBMargin]}>
           <View style={[Layout.row]}>
             <Image
-              source={item.image}
+              source={{ uri: image }}
               style={[
                 Common.resizeModeContain,
                 Gutters.fiftyHeight,
@@ -641,6 +643,7 @@ const Profile = ({ navigation, route }) => {
       >
         <Image source={Images.LeftArrow} />
       </TouchableOpacity>
+
       <View style={[Layout.fill]}>
         <View
           style={[
@@ -665,8 +668,8 @@ const Profile = ({ navigation, route }) => {
           <FlatList
             showsVerticalScrollIndicator={false}
             keyExtractor={keyExtractor}
-            data={History}
-            // data={data}
+            // data={History}
+            data={data}
             renderItem={renderHistory}
             ListEmptyComponent={error && errorComponent}
             refreshing={isRefreshing} // Added pull to refresh state

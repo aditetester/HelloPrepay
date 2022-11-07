@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useGetPlansMutation } from '@/Services/api'
 import { useNetInfo } from '@react-native-community/netinfo'
 
-const CarrierPlans = ({ phone_number, formattedNumber }) => {
+const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   //NOTE: 1 Define Variable
   const navigation = useNavigation()
   const netInfo = useNetInfo()
@@ -17,7 +17,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
 
   const [isSelected, setSelection] = useState('')
   const [selectedPrice, setSelectedPrice] = useState('')
-  console.log(selectedPrice)
+  const [selectedName, setSelectedName] = useState('')
   const [fetching, setFetching] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
 
@@ -29,38 +29,60 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
 
   const [getPlan, { data, isLoading, error }] = useGetPlansMutation()
 
-  console.log(userData)
-
   //NOTE: 2 HELPER METHODS
   const onContinue = () => {
-    navigation.navigate('AddMoney', {
-      phone_number: phone_number,
-      carrierId: isSelected,
-      formattedNumber: formattedNumber,
-      Price: selectedPrice,
-    })
-    setSelection('')
-    setSelectedPrice('')
+    if (selectedPrice.split('-').length == 1) {
+      navigation.navigate('Checkout', {
+        amount: selectedPrice,
+        phone_number: phone_number,
+        formattedNumber: formattedNumber,
+        totalAmount: selectedPrice,
+        planId: isSelected,
+        planName: selectedName,
+        navigateFor: 'planOrder',
+      })
+      setSelection('')
+      setSelectedPrice('')
+      setSelectedName('')
+    } else {
+      navigation.navigate('AddMoney', {
+        phone_number: phone_number,
+        planId: isSelected,
+        planName: selectedName,
+        formattedNumber: formattedNumber,
+        Price: selectedPrice,
+        priceRange: selectedPrice,
+      })
+      setSelection('')
+      setSelectedPrice('')
+      setSelectedName('')
+    }
   }
 
-  const onPlanSelect = (id, price) => {
+  const onPlanSelect = (id, price, name) => {
     if (isSelected === '') {
       setSelection(id)
       setSelectedPrice(price)
+      setSelectedName(name)
       return
     } else if (isSelected === id) {
       setSelection('')
       setSelectedPrice('')
+      setSelectedName('')
       return
     } else if (isSelected !== id) {
       setSelection(id)
       setSelectedPrice(price)
+      setSelectedName(name)
       return
     }
   }
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true)
+    setSelection('')
+    setSelectedPrice('')
+    setSelectedName('')
     getPlan({
       ID: userData.carrier_id,
       token: 'TzZSsHQVMb5j47lPPNowxG507dOD5Qw6fkSCUxYp',
@@ -100,12 +122,21 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
     const str = item.plan_name
     const result = str.replace(/[^\d-]/g, '')
     const price = item.price == 0 ? result : item.price
+    const priceRange = () => {
+      if (item.price == 0) {
+        let mode = result.split('-').map(items => (items = '$' + items))
+        let results = mode.join(' - ')
+        return results
+      } else {
+        return `$${item.price}`
+      }
+    }
     const name = item.plan_name.split(' ')[0]
     const description =
       item.description === '' ? item.plan_name : item.description
     return (
       <Pressable
-        onPress={() => onPlanSelect(item.id, price)}
+        onPress={() => onPlanSelect(item.id, price, name, item.cid)}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={[
@@ -119,64 +150,69 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
           Gutters.sixVMargin,
         ]}
       >
-        <View style={[Layout.row]}>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              isSelected === item.id && Common.white,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            {name}
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              isSelected === item.id && Common.white,
-              Fonts.fontSizeSmall,
-              Fonts.fontWeightRegular,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            {`$${price}`}
-          </Text>
-          <CheckBox
-            center
-            checked={item.id === isSelected}
-            onPress={() => onPlanSelect(item.id)}
-            checkedIcon={
-              <Image
-                source={Images.checked}
-                style={[
-                  Common.resizeModeContain,
-                  Gutters.twentyfiveHeight,
-                  Gutters.twentyfiveWidth,
-                ]}
-              />
-            }
-            uncheckedIcon={
-              <Image
-                source={Images.unchecked}
-                style={[
-                  Common.resizeModeContain,
-                  Gutters.twentyfiveHeight,
-                  Gutters.twentyfiveWidth,
-                ]}
-              />
-            }
-            containerStyle={[
-              Common.backgroundPrimary,
-              item.id === isSelected && Common.primaryPinkBackground,
-              Gutters.onesixzeroLMargin,
-              Gutters.twentyFiveMBMargin,
-              Layout.center,
-              Layout.selfCenter,
-            ]}
-            wrapperStyle={[Layout.center]}
-          />
+        <View style={[Layout.row, { justifyContent: 'space-between' }]}>
+          <View style={{ width: '80%', flexDirection: 'row' }}>
+            <Text
+              style={[
+                Common.primaryBlueMode,
+                isSelected === item.id && Common.white,
+                Gutters.fiveRMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+              ]}
+            >
+              {/* {name} */}
+              {item.plan_name}
+            </Text>
+            {/* <Text
+              style={[
+                Common.primaryBlueMode,
+                isSelected === item.id && Common.white,
+                Fonts.fontSizeSmall,
+                Fonts.fontWeightRegular,
+                Fonts.fontFamilyPrimary,
+              ]}
+            >
+              {priceRange()}
+            </Text> */}
+          </View>
+          <View>
+            <CheckBox
+              center
+              checked={item.id === isSelected}
+              onPress={() => onPlanSelect(item.id)}
+              checkedIcon={
+                <Image
+                  source={Images.checked}
+                  style={[
+                    Common.resizeModeContain,
+                    Gutters.twentyfiveHeight,
+                    Gutters.twentyfiveWidth,
+                  ]}
+                />
+              }
+              uncheckedIcon={
+                <Image
+                  source={Images.unchecked}
+                  style={[
+                    Common.resizeModeContain,
+                    Gutters.twentyfiveHeight,
+                    Gutters.twentyfiveWidth,
+                  ]}
+                />
+              }
+              containerStyle={[
+                Common.backgroundPrimary,
+                item.id === isSelected && Common.primaryPinkBackground,
+                // Gutters.twozerozeroLMargin,
+                Gutters.twentyFiveMBMargin,
+                Layout.center,
+                Layout.selfCenter,
+              ]}
+              wrapperStyle={[Layout.center]}
+            />
+          </View>
         </View>
         <Text
           style={[
@@ -219,7 +255,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
   const loading = (
     <View
       style={[
-        { flex: 18, marginHorizontal: 31 },
+        { flex: 18.6, marginHorizontal: 31 },
         Layout.justifyContentCenter,
         Gutters.twentyFourHMargin,
         Gutters.fiveVMargin,
@@ -303,7 +339,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
             Common.titleText,
           ]}
         >
-          Let’s make your first refill Anastasia
+          {`Let’s make your first refill ${first_name}`}
         </Text>
         <Text
           style={[
@@ -345,7 +381,7 @@ const CarrierPlans = ({ phone_number, formattedNumber }) => {
             Gutters.eightVMargin,
           ]}
         >
-          {data && data.length} plans available
+          {data && data.data.length} plans available
         </Text>
       </View>
       <View style={[Layout.flexTen, Gutters.twentyFourHMargin]}>

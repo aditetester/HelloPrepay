@@ -225,6 +225,7 @@ const Home = ({ navigation }) => {
       <CarrierPlans
         phone_number={withoutFormateNumber}
         formattedNumber={number}
+        first_name={first_name}
       />
       {/* )} */}
     </SafeAreaView>

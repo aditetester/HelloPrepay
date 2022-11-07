@@ -15,7 +15,7 @@ import { Button } from '@rneui/themed'
 const AddMoney = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
   let params = route.params
-  // console.log('🚀 ~ file: AddMoney.js ~ line 18 ~ AddMoney ~ params', params)
+  console.log('🚀 ~ AddMoney ~ params', params)
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
 
@@ -25,7 +25,10 @@ const AddMoney = ({ navigation, route }) => {
     style: 'currency',
     currency: 'USD',
   }).format(keyValue)
-  console.log('Currency', keyValue)
+  const validPrice =
+    keyValue >= Number(params.Price.split('-')[0]) &&
+    keyValue <= Number(params.Price.split('-')[1])
+  console.log(validPrice)
 
   //NOTE: 2. Helper Method
 
@@ -36,6 +39,9 @@ const AddMoney = ({ navigation, route }) => {
       formattedNumber: params.formattedNumber,
       totalAmount: keyValue,
       navigateFor: 'planOrder',
+      planId: params.planId,
+      planName: params.planName,
+      priceRange: params.priceRange,
     })
     return
   }
@@ -521,37 +527,10 @@ const AddMoney = ({ navigation, route }) => {
             Gutters.tenVMargin,
           ]}
         >
-          {/* <Button
-            title="Continue"
-            loading={false}
-            onPress={() => {
-              onContinueHandler()
-            }}
-            loadingProps={[{ size: 'small' }, Common.whiteColor]}
-            titleStyle={[
-              Fonts.fontWeightRegular,
-              Fonts.fontFamilyPrimary,
-              Gutters.fiftyLMargin,
-            ]}
-            buttonStyle={[
-              Common.primaryPinkBackground,
-              Gutters.fiftyfiveHeight,
-              Common.borderRadius,
-              Layout.justifyContentBetween,
-            ]}
-            containerStyle={[
-              Gutters.ninetyfivePWidth,
-              Layout.selfCenter,
-              Common.borderRadius,
-            ]}
-            disabled={false}
-            disabledStyle={[Common.whiteColor, Common.greyBackground]}
-            disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
-          /> */}
           <Button
             title="Continue"
             loading={false}
-            disabled={false}
+            disabled={!validPrice}
             onPress={() => {
               onContinueHandler()
             }}

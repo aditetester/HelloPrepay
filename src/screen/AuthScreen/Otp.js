@@ -18,13 +18,14 @@ import Timer from '@/Components/UI/Timer'
 import {
   useGetLoginUserMutation,
   useGetVerifyUserMutation,
+  useSendEmailCodeMutation,
 } from '@/Services/api'
 import auth from '@react-native-firebase/auth'
 import Spinner from 'react-native-loading-spinner-overlay'
 
 const Otp = ({ navigation, route }) => {
   const [params, setParams] = useState(route.params)
-  // console.log('Params', params)
+  console.log('Params', params)
   const dispatch = useDispatch()
   const theme = useSelector(state => state.theme)
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
@@ -37,6 +38,15 @@ const Otp = ({ navigation, route }) => {
   const [key5, setKey5] = useState('')
   const [key6, setKey6] = useState('')
   const [OTPCode, setOTPCode] = useState('')
+
+  const [
+    sendMailCode,
+    {
+      data: sendMailCodeData,
+      isLoading: sendMailCodeIsLoading,
+      error: sendMailCodeError,
+    },
+  ] = useSendEmailCodeMutation()
 
   const [
     getLogin,
@@ -171,12 +181,13 @@ const Otp = ({ navigation, route }) => {
   const signInUsingFirebase = async () => {
     setSendCodeAgainSpinner(true)
     await auth()
-      .signInWithPhoneNumber(`+1${route.params.phone_number}`)
+      .signInWithPhoneNumber(`+1${params.phone_number}`)
       .then(res => {
         setParams({
           navigateFor: 'Registration',
-          phone_number: route.params.phone_number,
+          phone_number: params.phone_number,
           OTP: res,
+          flag: 1,
         })
         setSendCodeAgainSpinner(false)
       })
@@ -192,6 +203,7 @@ const Otp = ({ navigation, route }) => {
           )
         } else {
           console.log(err)
+          setSendCodeAgainSpinner(false)
         }
       })
   }
@@ -221,10 +233,12 @@ const Otp = ({ navigation, route }) => {
 
   useEffect(() => {
     if (verifyUserData && verifyUserData.status === 'active') {
+      console.log('verifyUserData', verifyUserData)
       setParams({
         navigateFor: 'Login',
         OTP: verifyUserData.otp,
         phone_number: route.params.phone_number,
+        flag: 2,
       })
       setSendCodeAgainSpinner(false)
     } else if (verifyUserData && verifyUserData) {
@@ -232,15 +246,35 @@ const Otp = ({ navigation, route }) => {
       console.log('Something Went Wrong...', verifyUserData)
     }
   }, [verifyUserData])
+
+  useEffect(() => {
+    if (sendMailCodeData && sendMailCodeData.success === true) {
+      setParams({
+        navigateFor: 'Login',
+        OTP: verifyUserData.otp,
+        phone_number: route.params.phone_number,
+        flag: 2,
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (sendMailCodeIsLoading) {
+      setSendCodeAgainSpinner(true)
+    } else {
+      setSendCodeAgainSpinner(false)
+    }
+  }, [sendMailCodeIsLoading])
   //--------Login--------//
 
   const onSendCodeAgainHandler = () => {
     setSendCodeAgainSpinner(true)
-    if (params.navigateFor === 'Registration') {
+    if (params.flag == 1) {
       signInUsingFirebase()
-    } else if (params.navigateFor === 'Login') {
+    } else if (params.flag == 2) {
       setSendCodeAgainSpinner(true)
-      getVerifyUser({ phone_number: route.params.phone_number })
+      // getVerifyUser({ phone_number: route.params.phone_number })
+      sendMailCode({ phone_number: params.phone_number })
     }
   }
 
@@ -512,7 +546,7 @@ const Otp = ({ navigation, route }) => {
         <TouchableOpacity style={[Layout.alignItemsCenter, Layout.flexTwo]}>
           <Timer
             maxRange={59}
-            // onPress={(console.log('Send Code Again'), onSendCodeAgainHandler)}
+            onPress={(console.log('Send Code Again'), onSendCodeAgainHandler)}
             beforeText="Send code again"
             afterText="Send code again in"
           />
