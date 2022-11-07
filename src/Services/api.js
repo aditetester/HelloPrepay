@@ -83,7 +83,8 @@ export const api = createApi({
     getCardPayments: builder.mutation({
       query: payload => {
         return {
-          url: 'https://apitest.authorize.net/xml/v1/request.api',
+          // url: 'https://apitest.authorize.net/xml/v1/request.api',
+          url: 'https://secure.nmi.com/api/transact.php',
           method: 'POST',
           body: payload,
         }
