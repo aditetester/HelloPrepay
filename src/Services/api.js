@@ -82,11 +82,31 @@ export const api = createApi({
     }),
     getCardPayments: builder.mutation({
       query: payload => {
+        // console.log('🚀 ~ api.js - Card Payments', payload)
+        let formDataObj = new FormData()
+        formDataObj.append('security_key', payload.security_key)
+        formDataObj.append('type', payload.type)
+        formDataObj.append('first_name', payload.first_name)
+        formDataObj.append('amount', payload.amount)
+        formDataObj.append('ccnumber', payload.ccnumber)
+        formDataObj.append('ccexp', payload.ccexp)
+        formDataObj.append('cvv', payload.cvv)
+        formDataObj.append('address1', payload.address1)
+        formDataObj.append('city', payload.city)
+        formDataObj.append('phone', payload.phone)
+        formDataObj.append('plan_id', payload.plan_id)
+        formDataObj.append('state', payload.state)
+        formDataObj.append('zip', payload.zip)
         return {
           // url: 'https://apitest.authorize.net/xml/v1/request.api',
           url: 'https://secure.nmi.com/api/transact.php',
           method: 'POST',
-          body: payload,
+          body: formDataObj,
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+          // responseHandler: 'text',
+          responseHandler: response => response.text(),
         }
       },
     }),

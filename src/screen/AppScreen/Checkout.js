@@ -9,7 +9,6 @@ import {
   ScrollView,
   TextInput,
   Platform,
-  Linking,
   Modal,
   Pressable,
   Alert,
@@ -28,7 +27,7 @@ import {
   useGetRechargeMutation,
   usePlaceEsimOrderMutation,
 } from '@/Services/api'
-import { API_LOGIN_ID, TRANSACTION_KEY } from '../../Config/index'
+import { NMI_SECURITY_KEY } from '../../Config/index'
 
 const Checkout = ({ navigation, route }) => {
   //#region Define Variables
@@ -78,48 +77,19 @@ const Checkout = ({ navigation, route }) => {
   const currentTime = new Date().getMilliseconds()
 
   const cardDetails = {
-    createTransactionRequest: {
-      merchantAuthentication: {
-        name: API_LOGIN_ID,
-        transactionKey: TRANSACTION_KEY,
-      },
-      refId: currentTime.toString(),
-      transactionRequest: {
-        transactionType: 'authCaptureTransaction',
-        amount: params.amount.replace(',', '').replace('$', ''),
-        payment: {
-          creditCard: {
-            cardNumber: cardNumber.replaceAll(' ', ''),
-            expirationDate: cardDate,
-            cardCode: CVV,
-          },
-        },
-        lineItems: {
-          lineItem: {
-            itemId: '1',
-            name:
-              // params.planName.toString().length >= 31
-              //   ? params.planName.toString().substring(0, 31)
-              //   : params.planName.toString(),
-              'verizon $10',
-            // description: params.carrierName,
-            description: 'verizon',
-            quantity: '1',
-            unitPrice: params.amount.replace(',', '').replace('$', ''),
-          },
-        },
-        poNumber: params.phone_number,
-        processingOptions: { isSubsequentAuth: 'true' },
-        subsequentAuthInformation: {
-          originalNetworkTransId: '123456789NNNH',
-          originalAuthAmount: params.amount.replace(',', '').replace('$', ''),
-          reason: 'resubmission',
-        },
-        authorizationIndicatorType: {
-          authorizationIndicator: 'final',
-        },
-      },
-    },
+    type: 'sale',
+    security_key: NMI_SECURITY_KEY,
+    ccnumber: cardNumber.replaceAll(' ', ''),
+    ccexp: cardDate,
+    cvv: CVV,
+    amount: params.amount.replace(',', '').replace('$', ''),
+    first_name: cardName,
+    address1: address,
+    city: city,
+    state: state,
+    zip: aptSuite,
+    phone: params.phone_number,
+    plan_id: params.planId,
   }
 
   const rechargeDetail = {
@@ -427,16 +397,11 @@ const Checkout = ({ navigation, route }) => {
   //#region Helper Method
 
   const onContinueHandler = async () => {
-    // setSpinner(true)
-    getCardPayments(JSON.stringify(cardDetails))
+    getCardPayments(cardDetails)
   }
 
   const onBackHandler = () => {
     navigation.goBack()
-  }
-
-  const openUrl = url => {
-    Linking.openURL(url)
   }
 
   const cardsPayments = (
@@ -494,6 +459,7 @@ const Checkout = ({ navigation, route }) => {
             Fonts.fontFamilyPrimary,
             Gutters.tenHPadding,
           ]}
+          value={cardName}
           onChangeText={text => setCardName(text)}
         />
 
@@ -592,6 +558,7 @@ const Checkout = ({ navigation, route }) => {
           />
           <TextInput
             keyboardType="numeric"
+            value={CVV}
             secureTextEntry={true}
             maxLength={3}
             style={[
@@ -646,6 +613,7 @@ const Checkout = ({ navigation, route }) => {
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
             ]}
+            value={address}
             onChangeText={text => setAddress(text)}
           />
           <Text
@@ -670,6 +638,7 @@ const Checkout = ({ navigation, route }) => {
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
             ]}
+            value={aptSuite}
             onChangeText={text => setAptSuite(text)}
           />
           <Text
@@ -694,6 +663,7 @@ const Checkout = ({ navigation, route }) => {
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
             ]}
+            value={city}
             onChangeText={text => setCity(text)}
           />
           <Text
@@ -718,6 +688,7 @@ const Checkout = ({ navigation, route }) => {
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
             ]}
+            value={state}
             onChangeText={text => setState(text)}
           />
 
@@ -972,30 +943,23 @@ const Checkout = ({ navigation, route }) => {
     }
   }, [rechargeError])
 
+  // console.log('CARD', data && data)
+  // console.log('CARD ERROR', error && error)
+
   useEffect(() => {
     if (data) {
-      try {
-        console.log('CARD ERROR', data && data.messages.resultCode)
-        // console.log('ONLY CARD DATA', data && data)
-        // Alert.alert(
-        //   'Error',
-        //   JSON.stringify(data.transactionResponse.errors[0].errorText),
-        // )
-      } catch (err) {
-        console.log('ERR', err)
-      }
-      if (data.messages && data.messages.resultCode === 'Ok') {
+      let split = data.split('&')[1].split('=')[1]
+      console.log(String(data))
+      if (split === 'SUCCESS') {
         if (params.navigateFor === 'planOrder') {
           getRecharge(rechargeDetail)
         } else {
-          setCardPaymentResponse(data.toString())
+          setCardPaymentResponse(String(data))
           getEsimOrder(esimOrderDataObj)
         }
-      } else if (data.messages && data.messages.resultCode === 'Error') {
+      } else {
         setModalVisible(true)
-        Alert.alert('Opps!', data.transactionResponse.errors[0].errorText, [
-          'Ok',
-        ])
+        Alert.alert('Opps!', split, ['Ok'])
       }
     }
   }, [data])
@@ -1003,6 +967,7 @@ const Checkout = ({ navigation, route }) => {
   useEffect(() => {
     if (error) {
       setModalVisible(true)
+      // console.log('Card Payment Error', error.data)
     }
   }, [error])
 

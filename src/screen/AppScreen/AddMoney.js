@@ -15,7 +15,7 @@ import { Button } from '@rneui/themed'
 const AddMoney = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
   let params = route.params
-  console.log('🚀 ~ AddMoney ~ params', params)
+  // console.log('🚀 ~ AddMoney ~ params', params)
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
 

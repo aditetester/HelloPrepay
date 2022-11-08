@@ -25,7 +25,7 @@ const AuthNavigation = () => {
         />
 
         <Stack.Navigator
-          // initialRouteName="About"
+          initialRouteName="Tutorial"
           screenOptions={{
             headerStyle: {
               backgroundColor: Common.backgroundPrimary.backgroundColor,
