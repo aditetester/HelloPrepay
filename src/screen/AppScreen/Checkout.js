@@ -933,6 +933,7 @@ const Checkout = ({ navigation, route }) => {
         navigation.navigate('PaymentSuccess')
       } else {
         setModalVisible(true)
+        console.log('rechargeData', rechargeData)
       }
     }
   }, [rechargeData])
@@ -940,6 +941,7 @@ const Checkout = ({ navigation, route }) => {
   useEffect(() => {
     if (rechargeError) {
       setModalVisible(true)
+      Alert.alert('Server Problem!!', 'Server problem in plan purchasing')
     }
   }, [rechargeError])
 
@@ -998,7 +1000,7 @@ const Checkout = ({ navigation, route }) => {
   useEffect(() => {
     if (EsimOrderError) {
       setModalVisible(true)
-      Alert.alert('Server Problem', 'Server down for Esim transaction')
+      Alert.alert('Server Problem!!', 'Server down for Esim transaction!')
     }
   }, [EsimOrderError])
 
