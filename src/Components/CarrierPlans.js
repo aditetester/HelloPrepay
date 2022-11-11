@@ -8,7 +8,7 @@ import { useGetPlansMutation } from '@/Services/api'
 import { useNetInfo } from '@react-native-community/netinfo'
 
 const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
-  //NOTE: 1 Define Variable
+  //#region NOTE: 1 Define Variable
   const navigation = useNavigation()
   const netInfo = useNetInfo()
   // const theme = useSelector(state => state.theme)
@@ -18,6 +18,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   const [isSelected, setSelection] = useState('')
   const [selectedPrice, setSelectedPrice] = useState('')
   const [selectedName, setSelectedName] = useState('')
+  const [selectFullPlanName, setSelectFullPlanName] = useState('')
   const [fetching, setFetching] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
 
@@ -29,16 +30,19 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
 
   const [getPlan, { data, isLoading, error }] = useGetPlansMutation()
 
-  //NOTE: 2 HELPER METHODS
+  //#endregion
+
+  //#region NOTE: 2 HELPER METHODS
   const onContinue = () => {
     if (selectedPrice.split('-').length == 1) {
       navigation.navigate('Checkout', {
-        amount: selectedPrice,
+        amount: `$${selectedPrice}`,
         phone_number: phone_number,
         formattedNumber: formattedNumber,
         totalAmount: selectedPrice,
         planId: isSelected,
         planName: selectedName,
+        FullPlanName: selectFullPlanName,
         navigateFor: 'planOrder',
       })
       setSelection('')
@@ -52,6 +56,8 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
         formattedNumber: formattedNumber,
         Price: selectedPrice,
         priceRange: selectedPrice,
+        FullPlanName: selectFullPlanName,
+        navigateFor: 'planOrder',
       })
       setSelection('')
       setSelectedPrice('')
@@ -59,21 +65,24 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
     }
   }
 
-  const onPlanSelect = (id, price, name) => {
+  const onPlanSelect = (id, price, name, cID, fullName) => {
     if (isSelected === '') {
       setSelection(id)
       setSelectedPrice(price)
       setSelectedName(name)
+      setSelectFullPlanName(fullName)
       return
     } else if (isSelected === id) {
       setSelection('')
       setSelectedPrice('')
       setSelectedName('')
+      setSelectFullPlanName('')
       return
     } else if (isSelected !== id) {
       setSelection(id)
       setSelectedPrice(price)
       setSelectedName(name)
+      setSelectFullPlanName(fullName)
       return
     }
   }
@@ -89,7 +98,9 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
     })
   }, [])
 
-  //NOTE: 3 Life Cycle Methods
+  //#endregion
+
+  //#region NOTE: 3 Life Cycle Methods
   useEffect(() => {
     if (fetching) {
       setTimeout(() => {
@@ -114,7 +125,9 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
     }
   }, [isLoading])
 
-  //NOTE: 4 Render Methods
+  //#endregion
+
+  //#region NOTE: 4 Render Methods
 
   const keyExtractor = (item, index) => index.toString()
 
@@ -122,21 +135,12 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
     const str = item.plan_name
     const result = str.replace(/[^\d-]/g, '')
     const price = item.price == 0 ? result : item.price
-    const priceRange = () => {
-      if (item.price == 0) {
-        let mode = result.split('-').map(items => (items = '$' + items))
-        let results = mode.join(' - ')
-        return results
-      } else {
-        return `$${item.price}`
-      }
-    }
     const name = item.plan_name.split(' ')[0]
-    const description =
-      item.description === '' ? item.plan_name : item.description
     return (
       <Pressable
-        onPress={() => onPlanSelect(item.id, price, name, item.cid)}
+        onPress={() =>
+          onPlanSelect(item.id, price, name, item.cid, item.plan_name)
+        }
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={[
@@ -248,6 +252,11 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
         {!netInfo.isConnected
           ? 'Please Check Your Internet Connection'
           : 'Data Not Found'}
+      </Text>
+      <Text
+        style={[Common.textColor, { fontStyle: 'italic', fontWeight: '600' }]}
+      >
+        Pull down to retry
       </Text>
     </View>
   )
@@ -381,7 +390,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
             Gutters.eightVMargin,
           ]}
         >
-          {data && data.data.length} plans available
+          {data ? `${data.data.length} plans available` : 'network error!'}
         </Text>
       </View>
       <View style={[Layout.flexTen, Gutters.twentyFourHMargin]}>
@@ -430,6 +439,8 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
       </View>
     </>
   )
+
+  //#endregion
 
   return <>{isLoading ? loading : carrierPlanComponent}</>
 }

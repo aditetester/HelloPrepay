@@ -6,16 +6,17 @@ import {
   TouchableOpacity,
   FlatList,
   Text,
+  Pressable,
+  ScrollView,
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTheme } from '@/Hooks'
 import { Button, Icon } from '@rneui/themed'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import { setUser } from '@/Store/User'
-import History from '../Data/history'
 import { useNetInfo } from '@react-native-community/netinfo'
 import { useGetHistoryMutation } from '@/Services/api'
-import BottomSheet from 'reanimated-bottom-sheet'
+import RBSheet from 'react-native-raw-bottom-sheet'
 
 const Profile = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -27,21 +28,7 @@ const Profile = ({ navigation, route }) => {
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const sheetRef = React.useRef(null)
   const [GrayScreenNone, setGrayScreenNone] = React.useState('none')
-  const [modalData, setModalData] = useState({
-    id: '',
-    image: '',
-    title: '',
-    price: '',
-    date: '',
-    Transaction_ID: '',
-    Address: '',
-    Currency: '',
-    Coin: '',
-    Rate: '',
-    Inserted: '',
-    Sent: '',
-    Transaction_Hash: '',
-  })
+  const [bottomSheetData, setBottomSheetData] = useState('')
   const [getHistory, { data, isLoading, error }] = useGetHistoryMutation()
 
   //NOTE: 2. Helper Method
@@ -55,9 +42,10 @@ const Profile = ({ navigation, route }) => {
   }
 
   const onShowHistoryHandler = async id => {
-    let transaction = await History.filter(value => value.id === id)
-    setModalData(...transaction)
-    sheetRef.current.snapTo(2)
+    let transaction = await data.filter(value => value.id === id)
+    setBottomSheetData(...transaction)
+    // sheetRef.current.snapTo(2)
+    this.Scrollable.open()
   }
 
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -81,7 +69,7 @@ const Profile = ({ navigation, route }) => {
 
   useEffect(() => {
     if (data) {
-      console.log('DATA', data)
+      // console.log('DATA', data)
       setIsRefreshing(false)
     }
   }, [, netInfo.isConnected])
@@ -121,412 +109,172 @@ const Profile = ({ navigation, route }) => {
 
   //NOTE: 4. Render Method
 
-  const renderBottomSheet = () => (
-    <SafeAreaView>
-      <View
-        style={[
-          {
-            height: 500,
-            borderTopRightRadius: 15,
-            borderTopLeftRadius: 15,
-            borderWidth: 1,
-          },
-          Common.transactionModalBackgroundColor,
-        ]}
-      >
-        <View style={{ alignItems: 'center', marginVertical: 5, flex: 1 }}>
-          <Image
-            source={Images.modalHandle}
-            style={[Common.resizeModeCenter, Gutters.fiveTMargin]}
-          />
-        </View>
-        <View
-          style={{
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            borderTopColor: 'black',
-            borderTopWidth: 0.5,
-            flex: 1,
-          }}
-        >
+  const bottomSheet = () => (
+    <ScrollView>
+      <View style={{ alignItems: 'center' }}>
+        <Text style={[Fonts.fontSizeRegular]}>Transaction Details</Text>
+      </View>
+      <View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text
             style={[
-              { marginVertical: 15, marginLeft: 20 },
-              Common.transactionModalTextColor,
+              Common.primaryBlue,
+              Gutters.fiveLMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Gutters.tenTMargin,
-              Gutters.fiveHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            Transaction Details
+            ID
           </Text>
           <Text
             style={[
-              { marginVertical: 15, marginRight: 20 },
-              Common.darkGreyColor,
+              Common.primaryBlueMode,
+              Gutters.fiveRMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              // Gutters.tenTMargin,
-              Gutters.fiveHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            <Icon
-              onPress={() => sheetRef.current.snapTo(0)}
-              name="times"
-              type="font-awesome-5"
-              size={15}
-              color={Common.transactionModalTextColor.color}
-            />
+            {bottomSheetData.id}
           </Text>
         </View>
-        <View
-          style={[
-            {
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              borderTopColor: 'black',
-              borderTopWidth: 0.5,
-              alignItems: 'center',
-              // height: 40,
-              flex: 1,
-            },
-          ]}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveLMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            Date
+            First Name
           </Text>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveRMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            {modalData.date}
+            {bottomSheetData.first_name}
           </Text>
         </View>
-        <View
-          style={[
-            {
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              borderTopColor: 'black',
-              borderTopWidth: 0.5,
-              alignItems: 'center',
-              // height: 40,
-              flex: 1,
-            },
-          ]}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveLMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            Transaction_ID
+            Last Name
           </Text>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveRMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            {modalData.Transaction_ID}
+            {bottomSheetData.last_name}
           </Text>
         </View>
-        <View
-          style={[
-            {
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              borderTopColor: 'black',
-              borderTopWidth: 0.5,
-              alignItems: 'center',
-              // height: 40,
-              flex: 1,
-            },
-          ]}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveLMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            Address
+            Transaction Date
           </Text>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveRMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            {modalData.Address}
+            {String(bottomSheetData.created_at).slice(0, 10)}
           </Text>
         </View>
-        <View
-          style={[
-            {
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              borderTopColor: 'black',
-              borderTopWidth: 0.5,
-              alignItems: 'center',
-              // height: 40,
-              flex: 1,
-            },
-          ]}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveLMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            Currency
+            Carrier Name
           </Text>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveRMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            {modalData.Currency}
+            {bottomSheetData.carrier_name
+              ? bottomSheetData.carrier_name
+              : 'Not specify'}
           </Text>
         </View>
-        <View
-          style={[
-            {
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              borderTopColor: 'black',
-              borderTopWidth: 0.5,
-              alignItems: 'center',
-              // height: 40,
-              flex: 1,
-            },
-          ]}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveLMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            Coin
+            Price
           </Text>
           <Text
             style={[
-              Common.transactionModalTextColor,
+              Common.primaryBlueMode,
+              Gutters.fiveRMargin,
               Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
+              Fonts.fontSizeMedium,
               Fonts.fontFamilyPrimary,
+              Gutters.tenVMargin,
             ]}
           >
-            {modalData.Coin}
-          </Text>
-        </View>
-        <View
-          style={[
-            {
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              borderTopColor: 'black',
-              borderTopWidth: 0.5,
-              alignItems: 'center',
-              // height: 40,
-              flex: 1,
-            },
-          ]}
-        >
-          <Text
-            style={[
-              Common.transactionModalTextColor,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            Rate
-          </Text>
-          <Text
-            style={[
-              Common.transactionModalTextColor,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            {modalData.Rate}
-          </Text>
-        </View>
-        <View
-          style={[
-            {
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              borderTopColor: 'black',
-              borderTopWidth: 0.5,
-              alignItems: 'center',
-              // height: 40,
-              flex: 1,
-            },
-          ]}
-        >
-          <Text
-            style={[
-              Common.transactionModalTextColor,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            Inserted
-          </Text>
-          <Text
-            style={[
-              Common.transactionModalTextColor,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            {modalData.Inserted}
-          </Text>
-        </View>
-        <View
-          style={[
-            {
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              borderTopColor: 'black',
-              borderTopWidth: 0.5,
-              alignItems: 'center',
-              // height: 40,
-              flex: 1,
-            },
-          ]}
-        >
-          <Text
-            style={[
-              Common.transactionModalTextColor,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            Sent
-          </Text>
-          <Text
-            style={[
-              Common.transactionModalTextColor,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            {modalData.Sent}
-          </Text>
-        </View>
-        <View
-          style={[
-            {
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              borderTopColor: 'black',
-              borderTopWidth: 0.5,
-              borderBottomColor: 'black',
-              borderBottomWidth: 0.5,
-              alignItems: 'center',
-              // height: 40,
-              flex: 1,
-            },
-          ]}
-        >
-          <Text
-            style={[
-              Common.transactionModalTextColor,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            Transaction Hash
-          </Text>
-          <Text
-            style={[
-              Common.transactionModalTextColor,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeExtraSmall,
-              Gutters.twentyHMargin,
-              Fonts.fontFamilyPrimary,
-            ]}
-          >
-            {modalData.Transaction_Hash}
+            {`$${bottomSheetData.price}`}
           </Text>
         </View>
       </View>
-    </SafeAreaView>
-  )
-
-  const historyBottomSheet = (
-    <>
-      <BottomSheet
-        onOpenStart={() => {
-          setGrayScreenNone('flex')
-        }}
-        onCloseEnd={() => {
-          setGrayScreenNone('none')
-        }}
-        ref={sheetRef}
-        snapPoints={[0, 0, 500]}
-        borderRadius={15}
-        renderContent={renderBottomSheet}
-      />
-    </>
+    </ScrollView>
   )
 
   const errorComponent = (
@@ -557,24 +305,24 @@ const Profile = ({ navigation, route }) => {
 
   const renderHistory = ({ item }) => {
     const image = JSON.parse(item.response).order_response[0].qr_image
-    console.log(item)
+      ? JSON.parse(item.response).order_response[0].qr_image
+      : 'https://cdn-icons-png.flaticon.com/512/753/753345.png'
     return (
-      <TouchableOpacity
-        onPress={() => {
-          // onShowHistoryHandler(item.id)
-        }}
+      <Pressable
+        onPress={() => onShowHistoryHandler(item.id)}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={[
           Common.offWhiteSecondaryBorder,
           Layout.fill,
           Common.borderWidthOne,
-          Gutters.sixVMargin,
           Common.borderRadius,
+          Gutters.ninePadding,
+          Gutters.sixVMargin,
         ]}
       >
-        <View style={[Layout.justifyContentCenter, Gutters.tenBMargin]}>
-          <View style={[Layout.row]}>
+        <View style={[Layout.row, { justifyContent: 'space-between' }]}>
+          <View style={{ width: '80%', flexDirection: 'row' }}>
             <Image
               source={{ uri: image }}
               style={[
@@ -584,54 +332,38 @@ const Profile = ({ navigation, route }) => {
                 Gutters.fiveVMargin,
               ]}
             />
-            <View style={[Layout.row]}>
+            <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
               <Text
                 style={[
+                  // { alignSelf: 'center' },
                   Common.primaryBlueMode,
+                  Gutters.fiveRMargin,
                   Fonts.fontWeightRegular,
                   Fonts.fontSizeSmall,
-                  Gutters.tenTMargin,
-                  Gutters.fiveHMargin,
                   Fonts.fontFamilyPrimary,
                 ]}
               >
-                {item.title}
+                {item.carrier_name ? item.carrier_name : 'Transaction Details'}
               </Text>
               <Text
                 style={[
+                  // { alignSelf: 'center' },
                   Common.primaryBlueMode,
+                  Gutters.fiveRMargin,
                   Fonts.fontWeightRegular,
                   Fonts.fontSizeSmall,
-                  Gutters.tenTMargin,
                   Fonts.fontFamilyPrimary,
                 ]}
               >
-                {item.price}
+                {`$${item.price}`}
               </Text>
-              <View
-                style={[
-                  Gutters.onetwozeroLMargin,
-                  Gutters.twentyTMargin,
-                  Gutters.zeroOfiveOpacity,
-                ]}
-              >
-                <AntIcon
-                  name="right"
-                  color={Common.normalText.color}
-                  size={15}
-                />
-              </View>
             </View>
           </View>
-          <View
-            style={[Gutters.twentyFiveMTMargin, Gutters.seventyfourLMargin]}
-          >
-            <Text style={[Common.primaryGrey, Fonts.fontFamilyPrimary]}>
-              {item.date}
-            </Text>
+          <View style={{ justifyContent: 'center' }}>
+            <AntIcon name="right" color={Common.normalText.color} size={15} />
           </View>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     )
   }
 
@@ -668,7 +400,6 @@ const Profile = ({ navigation, route }) => {
           <FlatList
             showsVerticalScrollIndicator={false}
             keyExtractor={keyExtractor}
-            // data={History}
             data={data}
             renderItem={renderHistory}
             ListEmptyComponent={error && errorComponent}
@@ -716,7 +447,25 @@ const Profile = ({ navigation, route }) => {
             disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
           />
         </View>
-        {historyBottomSheet}
+        <RBSheet
+          ref={ref => {
+            this.Scrollable = ref
+          }}
+          height={430}
+          closeOnDragDown
+          customStyles={{
+            container: {
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            },
+          }}
+        >
+          <ScrollView>
+            <TouchableOpacity activeOpacity={1}>
+              {bottomSheet()}
+            </TouchableOpacity>
+          </ScrollView>
+        </RBSheet>
       </View>
     </SafeAreaView>
   )

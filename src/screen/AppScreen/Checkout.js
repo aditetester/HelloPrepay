@@ -38,7 +38,6 @@ const Checkout = ({ navigation, route }) => {
   const userData = useSelector(state => state.user.userData)
   const token = String(userData.token)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
-  const [buttonLoading, setButtonLoading] = useState(false)
   const [spinner, setSpinner] = useState(false)
   const [cardName, setCardName] = useState('')
   const [cardNumber, setCardNumber] = useState('')
@@ -75,6 +74,7 @@ const Checkout = ({ navigation, route }) => {
     agree
 
   const currentTime = new Date().getMilliseconds()
+  const tax = (params.amount.replace('$', '') * 7.25) / 100
 
   const cardDetails = {
     type: 'sale',
@@ -110,7 +110,7 @@ const Checkout = ({ navigation, route }) => {
     start_date: params.start_date,
     end_date: params.end_date,
     token: token,
-    transaction_details: cardPaymentResponse,
+    transaction_details: String(cardPaymentResponse),
   }
 
   const priceRange = () => {
@@ -163,54 +163,18 @@ const Checkout = ({ navigation, route }) => {
       id: 'basic-example',
       displayItems: [
         {
-          label: 'Movie Ticket',
-          amount: { currency: 'USD', value: '15.00' },
-        },
-        {
-          label: 'Grocery',
-          amount: { currency: 'USD', value: '5.00' },
+          label: params.FullPlanName,
+          amount: { currency: 'USD', value: params.amount.replace('$', '') },
         },
       ],
-      shippingOptions: [
-        {
-          id: 'economy',
-          label: 'Economy Shipping',
-          amount: { currency: 'USD', value: '50.00' },
-          detail: 'Arrives in 3-5 days', // `detail` is specific to React Native Payments
-        },
-      ],
+
       total: {
-        label: 'Enappd Store',
-        amount: { currency: 'USD', value: `${Number(params.totalAmount)}` },
+        label: 'to Helloprepay',
+        amount: { currency: 'USD', value: `${params.amount.replace('$', '')}` },
       },
     }
 
-    const IOS_OPTIONS = {
-      requestPayerName: true,
-      requestPayerPhone: true,
-      requestPayerEmail: true,
-      requestShipping: false,
-    }
-
-    const paymentRequest = new PaymentRequest(
-      IOS_METHOD_DATA,
-      IOS_DETAILS,
-      IOS_OPTIONS,
-    )
-
-    // paymentRequest.addEventListener('shippingaddresschange', e => {
-    //   const updatedDetails = getUpdatedDetailsForShippingAddress(
-    //     paymentRequest.shippingAddress,
-    //   )
-    //   e.updateWith(updatedDetails)
-    // })
-
-    // paymentRequest.addEventListener('shippingoptionchange', e => {
-    //   const updatedDetails = getUpdatedDetailsForShippingOption(
-    //     paymentRequest.shippingOption,
-    //   )
-    //   e.updateWith(updatedDetails)
-    // })
+    const paymentRequest = new PaymentRequest(IOS_METHOD_DATA, IOS_DETAILS)
 
     const applePay = () => {
       paymentRequest
@@ -220,15 +184,17 @@ const Checkout = ({ navigation, route }) => {
             paymentRequest
               .show()
               .then(paymentResponse => {
-                // Your payment processing code goes here
+                // // Your payment processing code goes here
                 console.log('Apple pay Success', paymentResponse)
                 paymentResponse.complete('success')
                 applePaymentSuccess()
               })
               .catch(errors => {
-                paymentRequest.abort()
+                // paymentRequest.abort()
                 console.log('Apple pay Error', errors)
-                Alert.alert('Opps!', 'Something went wrong', ['OK'])
+                Alert.alert('Opps!', 'Something went wrong Apple-Pay', [
+                  { title: 'Ok' },
+                ])
                 setModalVisible(true)
               })
           } else {
@@ -238,8 +204,8 @@ const Checkout = ({ navigation, route }) => {
             )
           }
         })
-        .catch(error => {
-          console.log('Can Make Payments Error', error.message)
+        .catch(errors => {
+          console.log('Can Make Payments Error', errors.message)
         })
     }
     return (
@@ -286,12 +252,12 @@ const Checkout = ({ navigation, route }) => {
       },
     ]
 
-    const ANDROID_OPTIONS = {
-      requestPayerName: true,
-      requestPayerPhone: true,
-      requestPayerEmail: true,
-      requestShipping: true,
-    }
+    // const ANDROID_OPTIONS = {
+    //   requestPayerName: true,
+    //   requestPayerPhone: true,
+    //   requestPayerEmail: true,
+    //   requestShipping: true,
+    // }
 
     const ANDROID_DETAILS = {
       id: 'basic-example',
@@ -311,7 +277,7 @@ const Checkout = ({ navigation, route }) => {
       const ANDROIDPaymentRequest = new PaymentRequest(
         ANDROID_METHOD_DATA,
         ANDROID_DETAILS,
-        ANDROID_OPTIONS,
+        // ANDROID_OPTIONS,
       )
       ANDROIDPaymentRequest.canMakePayments()
         .then(canMakePayment => {
@@ -319,11 +285,13 @@ const Checkout = ({ navigation, route }) => {
             ANDROIDPaymentRequest.show()
               .then(paymentResponse => {
                 // Your payment processing code goes here
-                const { transactionIdentifier, paymentData } =
-                  paymentResponse.details
-                console.log('paymentData', paymentData)
-                console.log('transactionIdentifier', transactionIdentifier)
+                // const { transactionIdentifier, paymentData } =
+                //   paymentResponse.details
+                // console.log('paymentData', paymentData)
+                // console.log('transactionIdentifier', transactionIdentifier)
                 // paymentResponse.complete('success')
+                console.log('Android Pay', paymentResponse)
+                paymentResponse.complete('success')
               })
               .catch(error => {
                 console.log('Show Error', error)
@@ -772,7 +740,7 @@ const Checkout = ({ navigation, route }) => {
         ]}
       >
         <Button
-          title={`Send payment for $${params.totalAmount}`}
+          title={`Send payment for ${params.amount}`}
           icon={{
             name: 'arrow-right',
             type: 'font-awesome-5',
@@ -781,7 +749,7 @@ const Checkout = ({ navigation, route }) => {
           }}
           iconRight
           iconContainerStyle={[Gutters.fiftyRMargin]}
-          loading={buttonLoading}
+          loading={false}
           onPress={() => {
             onContinueHandler()
           }}
@@ -948,10 +916,12 @@ const Checkout = ({ navigation, route }) => {
   // console.log('CARD', data && data)
   // console.log('CARD ERROR', error && error)
 
+  // console.log('ENV', process)
+
   useEffect(() => {
     if (data) {
       let split = data.split('&')[1].split('=')[1]
-      console.log(String(data))
+      console.log(split)
       if (split === 'SUCCESS') {
         if (params.navigateFor === 'planOrder') {
           getRecharge(rechargeDetail)
@@ -961,7 +931,7 @@ const Checkout = ({ navigation, route }) => {
         }
       } else {
         setModalVisible(true)
-        Alert.alert('Opps!', split, ['Ok'])
+        Alert.alert('Opps!', `${split}\nNMI Payments`, [{ text: 'Ok' }])
       }
     }
   }, [data])
@@ -992,6 +962,7 @@ const Checkout = ({ navigation, route }) => {
   useEffect(() => {
     if (EsimOrderData) {
       if (JSON.parse(EsimOrderData.response).message === 'Success') {
+        console.log('EsimOrderData', EsimOrderData)
         navigation.navigate('PaymentSuccess')
       }
     }
@@ -1138,7 +1109,7 @@ const Checkout = ({ navigation, route }) => {
               >
                 {`${
                   params.planName ? params.planName : 'Esim'
-                } ${priceRange()} — One payment of $${params.totalAmount}`}
+                } ${priceRange()} — One payment of ${params.amount}`}
               </Text>
             </View>
           </View>
@@ -1166,7 +1137,8 @@ const Checkout = ({ navigation, route }) => {
             {number == params.phone_number && cardsPayments}
             {platform === 'ios' && applepay()}
             {gpay()}
-            {platform === 'android' && samsungpay()}
+            {/* {platform === 'android' && samsungpay()} */}
+            {/* {samsungpay()} */}
           </View>
           {number == params.phone_number && cardPaymentInfo}
         </ScrollView>

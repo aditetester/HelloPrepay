@@ -28,7 +28,6 @@ const AddMoney = ({ navigation, route }) => {
   const validPrice =
     keyValue >= Number(params.Price.split('-')[0]) &&
     keyValue <= Number(params.Price.split('-')[1])
-  console.log(validPrice)
 
   //NOTE: 2. Helper Method
 
@@ -42,6 +41,7 @@ const AddMoney = ({ navigation, route }) => {
       planId: params.planId,
       planName: params.planName,
       priceRange: params.priceRange,
+      FullPlanName: params.FullPlanName,
     })
     return
   }

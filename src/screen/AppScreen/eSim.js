@@ -20,17 +20,17 @@ import * as Animatable from 'react-native-animatable'
 import Spinner from 'react-native-loading-spinner-overlay'
 
 function Esim({ navigation }) {
-  // NOTE: 1. Define Variables
+  //#region NOTE: 1. Define Variables
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
-  const [IMEINumber, setIMEINumber] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [number, setNumber] = useState('')
+  const [IMEINumber, setIMEINumber] = useState('353974107950262')
+  const [firstName, setFirstName] = useState('Testing')
+  const [lastName, setLastName] = useState('Tesing')
+  const [email, setEmail] = useState('Testing@gmail.com')
+  const [number, setNumber] = useState('8888888888')
   const [price, setPrice] = useState('')
   const [dialog, setDialog] = useState(false)
 
@@ -82,7 +82,9 @@ function Esim({ navigation }) {
     { data: IMEIData, isLoading: IMEIIsLoading, error: IMEIErrors },
   ] = useCheckIMEINumberMutation()
 
-  // NOTE: 2. Handler Method
+  //#endregion
+
+  //#region NOTE: 2. Handler Method
 
   const onBuyNowHandler = () => {
     navigation.navigate('Checkout', {
@@ -94,10 +96,11 @@ function Esim({ navigation }) {
       start_date: simpleStartDate,
       end_date: simpleEndDate,
       IMEINumber: '353974107950262',
-      amount: price.price.slice(17),
+      amount: `$${price.price.slice(17)}`,
       formattedNumber: String(number),
       totalAmount: price.price.slice(17),
       navigateFor: 'eSimOrder',
+      FullPlanName: `Esim ${price.price.slice(17)}`,
     })
   }
 
@@ -143,7 +146,9 @@ function Esim({ navigation }) {
     }
   }
 
-  // NOTE: 3. Life Cycle Method
+  //#endregion
+
+  //#region NOTE: 3. Life Cycle Method
 
   useEffect(() => {
     if (priceData) {
@@ -208,7 +213,9 @@ function Esim({ navigation }) {
     }
   }, [IMEIErrors, priceError])
 
-  // NOTE: 4. Render Method
+  //#endregion
+
+  //#region NOTE: 4. Render Method
 
   const loadingSpinner = (
     <Spinner
@@ -259,6 +266,8 @@ function Esim({ navigation }) {
       </Dialog>
     </View>
   )
+
+  //#endregion
 
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
@@ -352,6 +361,7 @@ function Esim({ navigation }) {
           </Pressable>
           <TextInput
             value={IMEINumber}
+            // defaultValue="353974107950262"
             placeholder="Enter IMEI Number"
             keyboardType="phone-pad"
             onBlur={() => onCheckIMEINumber()}

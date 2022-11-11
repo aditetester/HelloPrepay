@@ -8,12 +8,15 @@ import {
   Alert,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
 import { Avatar } from '@rneui/themed'
 import CarrierPlans from '@/Components/CarrierPlans'
 import { useIsFocused } from '@react-navigation/native'
+import History from '../Data/history'
+import UserHistory from '../../Components/History'
 
 const Home = ({ navigation }) => {
   //NOTE: 1. Define Variables
@@ -216,18 +219,18 @@ const Home = ({ navigation }) => {
           />
         </View>
       </View>
-      {/* {History.length !== 0 ? (
-        <UserHistory
-          phone_number={withoutFormateNumber}
-          formattedNumber={number}
-        />
-      ) : ( */}
+      {/* {UserHistory.length !== 0 ? ( */}
+      {/* // <UserHistory */}
+      {/* // phone_number={withoutFormateNumber} */}
+      {/* // formattedNumber={number} */}
+      {/* // /> */}
+      {/* // ) : ( */}
       <CarrierPlans
         phone_number={withoutFormateNumber}
         formattedNumber={number}
         first_name={first_name}
       />
-      {/* )} */}
+      {/* // )} */}
     </SafeAreaView>
   )
 }
