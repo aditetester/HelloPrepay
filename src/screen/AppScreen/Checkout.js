@@ -39,20 +39,19 @@ const Checkout = ({ navigation, route }) => {
   const token = String(userData.token)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [spinner, setSpinner] = useState(false)
-  const [cardName, setCardName] = useState('')
-  const [cardNumber, setCardNumber] = useState('')
-  const [cardDate, setCardDate] = useState('')
-  const [CVV, setCVV] = useState('')
-  const [address, setAddress] = useState('')
-  const [aptSuite, setAptSuite] = useState('')
-  const [city, setCity] = useState('')
-  const [state, setState] = useState('')
+  const [cardName, setCardName] = useState('Testing')
+  const [cardNumber, setCardNumber] = useState('5555 5555 4444 5555')
+  const [cardDate, setCardDate] = useState('02/24')
+  const [CVV, setCVV] = useState('123')
+  const [address, setAddress] = useState('Bhavnagar Gujarat')
+  const [aptSuite, setAptSuite] = useState('123123')
+  const [city, setCity] = useState('Bhavnagar')
+  const [state, setState] = useState('Gujarat')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [useNumber, setUseNumber] = useState(false)
   const [agree, setAgree] = useState(false)
   const [number, setNumber] = useState(userData.phone_number)
   const [modalVisible, setModalVisible] = useState(false)
-  const [cardPaymentResponse, setCardPaymentResponse] = useState('')
 
   const cardNameIsValid = cardName.length > 1
   const cardNumberIsValid = cardNumber.length > 5
@@ -90,27 +89,6 @@ const Checkout = ({ navigation, route }) => {
     zip: aptSuite,
     phone: params.phone_number,
     plan_id: params.planId,
-  }
-
-  const rechargeDetail = {
-    phone_number: params.phone_number,
-    planid: params.planId,
-    price: params.totalAmount,
-    meta: { a: 'v' },
-    pin: 1111,
-  }
-
-  const esimOrderDataObj = {
-    imei_number: params.IMEINumber,
-    sku: params.sku,
-    first_name: params.first_name,
-    last_name: params.last_name,
-    email: params.email,
-    contact: params.phone_number,
-    start_date: params.start_date,
-    end_date: params.end_date,
-    token: token,
-    transaction_details: String(cardPaymentResponse),
   }
 
   const priceRange = () => {
@@ -901,7 +879,7 @@ const Checkout = ({ navigation, route }) => {
         navigation.navigate('PaymentSuccess')
       } else {
         setModalVisible(true)
-        console.log('rechargeData', rechargeData)
+        // console.log('rechargeData', rechargeData)
       }
     }
   }, [rechargeData])
@@ -913,21 +891,37 @@ const Checkout = ({ navigation, route }) => {
     }
   }, [rechargeError])
 
-  // console.log('CARD', data && data)
-  // console.log('CARD ERROR', error && error)
-
-  // console.log('ENV', process)
-
+  //Card Payment
   useEffect(() => {
     if (data) {
       let split = data.split('&')[1].split('=')[1]
       console.log(split)
       if (split === 'SUCCESS') {
         if (params.navigateFor === 'planOrder') {
-          getRecharge(rechargeDetail)
+          //Call API for plan order
+          getRecharge({
+            phone_number: params.phone_number,
+            planid: params.planId,
+            price: params.totalAmount,
+            meta: { a: 'v' },
+            pin: 1111,
+          })
+        } else if (params.navigateFor === 'eSimOrder') {
+          //Call API for eSim Order
+          getEsimOrder({
+            imei_number: params.IMEINumber,
+            sku: params.sku,
+            first_name: params.first_name,
+            last_name: params.last_name,
+            email: params.email,
+            contact: params.phone_number,
+            start_date: params.start_date,
+            end_date: params.end_date,
+            token: token,
+            transaction_details: data,
+          })
         } else {
-          setCardPaymentResponse(String(data))
-          getEsimOrder(esimOrderDataObj)
+          Alert.alert('Opps!', 'Something Went Wrong')
         }
       } else {
         setModalVisible(true)
@@ -962,7 +956,7 @@ const Checkout = ({ navigation, route }) => {
   useEffect(() => {
     if (EsimOrderData) {
       if (JSON.parse(EsimOrderData.response).message === 'Success') {
-        console.log('EsimOrderData', EsimOrderData)
+        // console.log('EsimOrderData', EsimOrderData)
         navigation.navigate('PaymentSuccess')
       }
     }

@@ -15,6 +15,7 @@ import CarrierPlans from '@/Components/CarrierPlans'
 import UserHistory from '@/Components/History'
 import Esim from '@/screen/AppScreen/eSim'
 import ChangeCarrier from '@/screen/AppScreen/ChangeCarrier'
+import OrderHistory from '@/screen/AppScreen/OrderHistory'
 
 const Stack = createStackNavigator()
 const AuthNavigation = () => {
@@ -77,6 +78,7 @@ const AuthNavigation = () => {
           <Stack.Screen name="CarrierPlans" component={CarrierPlans} />
           <Stack.Screen name="UserHistory" component={UserHistory} />
           <Stack.Screen name="Esim" component={Esim} />
+          <Stack.Screen name="OrderHistory" component={OrderHistory} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

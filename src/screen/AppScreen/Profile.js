@@ -1,95 +1,59 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import {
   View,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-  FlatList,
   Text,
   Pressable,
-  ScrollView,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Alert,
 } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
 import { useTheme } from '@/Hooks'
-import { Button, Icon } from '@rneui/themed'
-import AntIcon from 'react-native-vector-icons/AntDesign'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '@/Store/User'
-import { useNetInfo } from '@react-native-community/netinfo'
-import { useGetHistoryMutation } from '@/Services/api'
-import RBSheet from 'react-native-raw-bottom-sheet'
-
-const Profile = ({ navigation, route }) => {
-  //NOTE: 1. Define Variables
-  //   const params = route.params
-  const netInfo = useNetInfo()
+import { Avatar, Icon } from '@rneui/themed'
+const Profile = ({ navigation }) => {
+  //#region NOTE: Define Variable
+  const { Common, Layout, Fonts, Gutters, Images } = useTheme()
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
   const dispatch = useDispatch()
-  const { Common, Layout, Images, Gutters, Fonts } = useTheme()
-  const sheetRef = React.useRef(null)
-  const [GrayScreenNone, setGrayScreenNone] = React.useState('none')
-  const [bottomSheetData, setBottomSheetData] = useState('')
-  const [getHistory, { data, isLoading, error }] = useGetHistoryMutation()
+  //#endregion
 
-  //NOTE: 2. Helper Method
-
-  const onLogoutHandler = async () => {
-    dispatch(setUser({ userData: null, isAuth: false }))
-  }
+  //#region NOTE: Helper Method
 
   const onBackHandler = () => {
     navigation.goBack()
   }
 
-  const onShowHistoryHandler = async id => {
-    let transaction = await data.filter(value => value.id === id)
-    setBottomSheetData(...transaction)
-    // sheetRef.current.snapTo(2)
-    this.Scrollable.open()
+  const onLogoutHandler = () => {
+    Alert.alert('Are you sure!!', 'You want to logout?', [
+      {
+        text: 'Yes',
+        style: 'default',
+        onPress: () => dispatch(setUser({ userData: null, isAuth: false })),
+      },
+      { text: 'No', style: 'destructive' },
+    ])
   }
 
-  const [isRefreshing, setIsRefreshing] = useState(false)
+  //#endregion
 
-  const onRefresh = useCallback(() => {
-    setIsRefreshing(true)
-    getHistory({
-      body: 'null',
-      token: userData.token,
-    })
-  }, [])
-
-  //NOTE: 3. Life Cycle
-
-  useEffect(() => {
-    getHistory({
-      body: 'null',
-      token: userData.token,
-    })
-  }, [, netInfo.isConnected])
-
-  useEffect(() => {
-    if (data) {
-      // console.log('DATA', data)
-      setIsRefreshing(false)
-    }
-  }, [, netInfo.isConnected])
-
-  useEffect(() => {
-    if (isLoading === false) {
-      setIsRefreshing(false)
-    }
-  }, [isLoading])
-
-  useEffect(() => {
-    if (error) {
-      console.log('error', error.originalStatus)
-      setIsRefreshing(false)
-    }
-  }, [error])
-
+  //#region NOTE: Life Cycle
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => null,
+      headerLeft: () => (
+        <TouchableOpacity
+          style={[
+            Gutters.fifteenPWidth,
+            Gutters.fiveTMargin,
+            Gutters.tenHMargin,
+          ]}
+          onPress={onBackHandler}
+        >
+          <Image source={Images.LeftArrow} />
+        </TouchableOpacity>
+      ),
       headerStyle: {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
         height: 70,
@@ -100,372 +64,148 @@ const Profile = ({ navigation, route }) => {
           style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
         />
       ),
-
       headerTitleAlign: 'center',
       headerShadowVisible: false,
       headerBackTitleVisible: false,
     })
   }, [navigation, theme])
-
-  //NOTE: 4. Render Method
-
-  const bottomSheet = () => (
-    <ScrollView>
-      <View style={{ alignItems: 'center' }}>
-        <Text style={[Fonts.fontSizeRegular]}>Transaction Details</Text>
-      </View>
-      <View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            ID
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {bottomSheetData.id}
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            First Name
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {bottomSheetData.first_name}
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            Last Name
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {bottomSheetData.last_name}
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            Transaction Date
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {String(bottomSheetData.created_at).slice(0, 10)}
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            Carrier Name
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {bottomSheetData.carrier_name
-              ? bottomSheetData.carrier_name
-              : 'Not specify'}
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            Price
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlueMode,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeMedium,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {`$${bottomSheetData.price}`}
-          </Text>
-        </View>
-      </View>
-    </ScrollView>
-  )
-
-  const errorComponent = (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 50,
-      }}
-    >
-      <Image
-        source={Images.error}
-        style={{ width: '100%', height: 100 }}
-        resizeMode="contain"
-      />
-      <Text
-        style={[Common.textColor, { fontStyle: 'italic', fontWeight: '600' }]}
-      >
-        {!netInfo.isConnected
-          ? 'Please Check Your Internet Connection'
-          : 'History Not Found'}
-      </Text>
-    </View>
-  )
-
-  const keyExtractor = (item, index) => index.toString()
-
-  const renderHistory = ({ item }) => {
-    const image = JSON.parse(item.response).order_response[0].qr_image
-      ? JSON.parse(item.response).order_response[0].qr_image
-      : 'https://cdn-icons-png.flaticon.com/512/753/753345.png'
-    return (
-      <Pressable
-        onPress={() => onShowHistoryHandler(item.id)}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        style={[
-          Common.offWhiteSecondaryBorder,
-          Layout.fill,
-          Common.borderWidthOne,
-          Common.borderRadius,
-          Gutters.ninePadding,
-          Gutters.sixVMargin,
-        ]}
-      >
-        <View style={[Layout.row, { justifyContent: 'space-between' }]}>
-          <View style={{ width: '80%', flexDirection: 'row' }}>
-            <Image
-              source={{ uri: image }}
-              style={[
-                Common.resizeModeContain,
-                Gutters.fiftyHeight,
-                Gutters.twentyPWidth,
-                Gutters.fiveVMargin,
-              ]}
-            />
-            <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
-              <Text
-                style={[
-                  // { alignSelf: 'center' },
-                  Common.primaryBlueMode,
-                  Gutters.fiveRMargin,
-                  Fonts.fontWeightRegular,
-                  Fonts.fontSizeSmall,
-                  Fonts.fontFamilyPrimary,
-                ]}
-              >
-                {item.carrier_name ? item.carrier_name : 'Transaction Details'}
-              </Text>
-              <Text
-                style={[
-                  // { alignSelf: 'center' },
-                  Common.primaryBlueMode,
-                  Gutters.fiveRMargin,
-                  Fonts.fontWeightRegular,
-                  Fonts.fontSizeSmall,
-                  Fonts.fontFamilyPrimary,
-                ]}
-              >
-                {`$${item.price}`}
-              </Text>
-            </View>
-          </View>
-          <View style={{ justifyContent: 'center' }}>
-            <AntIcon name="right" color={Common.normalText.color} size={15} />
-          </View>
-        </View>
-      </Pressable>
-    )
-  }
+  //#endregion
 
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[Gutters.fifteenPWidth, Gutters.fiveTMargin, Gutters.tenHMargin]}
         onPress={onBackHandler}
       >
         <Image source={Images.LeftArrow} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
-      <View style={[Layout.fill]}>
-        <View
-          style={[
-            Layout.flexTwo,
-            Layout.justifyContentCenter,
-            Gutters.twentyFourHMargin,
-            Gutters.fiveVMargin,
-          ]}
-        >
+      {/* User Card Info */}
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          flexDirection: 'row',
+          marginHorizontal: 24,
+          borderColor: 'rgba(158, 150, 150, .5)',
+          borderWidth: 1,
+          borderRadius: 10,
+          marginTop: 15,
+        }}
+      >
+        <View>
+          <Image
+            source={Images.avatar}
+            style={{
+              height: '80%',
+              marginLeft: -15,
+              marginRight: -5,
+            }}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={{ flexDirection: 'column' }}>
           <Text
             style={[
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeRegular,
+              Fonts.fontSizeExtraSmall,
+              Fonts.fontWeightSmall,
+              Common.primaryBlueMode,
               Fonts.fontFamilyPrimary,
-              Common.titleText,
             ]}
           >
-            Refill history
+            {userData.first_name} {userData.last_name}
           </Text>
-        </View>
-        <View style={[Gutters.twentyFourHMargin, Layout.flexFifteen]}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            keyExtractor={keyExtractor}
-            data={data}
-            renderItem={renderHistory}
-            ListEmptyComponent={error && errorComponent}
-            refreshing={isRefreshing} // Added pull to refresh state
-            onRefresh={onRefresh}
-          />
-        </View>
-        <View
-          style={[
-            Layout.selfCenter,
-            Layout.flexTwo,
-            Gutters.ninetyfivePWidth,
-            Gutters.fortyBMargin,
-            Gutters.twentyMTMargin,
-            Gutters.fortyBMargin,
-            Gutters.twentyMTMargin,
-          ]}
-        >
-          <Button
-            title="Logout"
-            loading={false}
-            disabled={false}
-            onPress={() => onLogoutHandler()}
-            loadingProps={[{ size: 'small' }, Common.whiteColor]}
-            titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
-            buttonStyle={[
-              Common.redBackground,
-              Gutters.fiftyfiveHeight,
-              Common.borderRadius,
+          <Text
+            style={[
+              Fonts.fontSizeExtraSmall,
+              Fonts.fontWeightSmall,
+              Common.primaryBlueMode,
+              Fonts.fontFamilyPrimary,
             ]}
-            containerStyle={[
-              Gutters.ninetyfivePWidth,
-              Gutters.twentyTMargin,
-              Layout.selfCenter,
-              Common.borderRadius,
+          >
+            {userData.email}
+          </Text>
+          <Text
+            style={[
+              Fonts.fontSizeExtraSmall,
+              Fonts.fontWeightSmall,
+              Common.primaryBlueMode,
+              Fonts.fontFamilyPrimary,
             ]}
-            icon={{
-              name: 'logout',
-              size: 15,
-              color: 'white',
-            }}
-            iconContainerStyle={{ marginLeft: 10 }}
-            iconRight
-            disabledStyle={[Common.whiteColor, Common.greyBackground]}
-            disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
-          />
+          >{`+1 ${userData.phone_number}`}</Text>
         </View>
-        <RBSheet
-          ref={ref => {
-            this.Scrollable = ref
-          }}
-          height={430}
-          closeOnDragDown
-          customStyles={{
-            container: {
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-            },
+      </View>
+
+      {/* Display Information */}
+      <View
+        style={{
+          flex: 6,
+          marginHorizontal: 20,
+          marginTop: 5,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => navigation.navigate('OrderHistory')}
+          style={{
+            flexDirection: 'row',
+            borderWidth: 1,
+            borderColor: 'rgba(158, 150, 150, .5)',
+            padding: 15,
+            margin: 5,
+            borderRadius: 10,
+            alignItems: 'center',
           }}
         >
-          <ScrollView>
-            <TouchableOpacity activeOpacity={1}>
-              {bottomSheet()}
-            </TouchableOpacity>
-          </ScrollView>
-        </RBSheet>
+          <Icon
+            size={24}
+            name={'history'}
+            type="font-awesome-5"
+            color={Common.primaryPink.color}
+          />
+          <Text
+            style={[
+              Fonts.fontSizeMedium,
+              Fonts.fontWeightSmall,
+              Common.primaryBlueMode,
+              Gutters.tenLMargin,
+              Fonts.fontFamilyPrimary,
+              Gutters.fifteenLMargin,
+            ]}
+          >
+            Order History
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onLogoutHandler}
+          style={{
+            flexDirection: 'row',
+            borderWidth: 1,
+            borderColor: 'rgba(158, 150, 150, .5)',
+            padding: 15,
+            margin: 5,
+            borderRadius: 10,
+            alignItems: 'center',
+          }}
+        >
+          <Icon
+            // onPress={() => setDialog(true)}
+            name={'sign-out-alt'}
+            type="font-awesome-5"
+            color="red"
+          />
+          <Text
+            style={[
+              Fonts.fontSizeMedium,
+              Fonts.fontWeightSmall,
+              Common.primaryBlueMode,
+              Gutters.tenLMargin,
+              Fonts.fontFamilyPrimary,
+              Gutters.fifteenLMargin,
+            ]}
+          >
+            Logout
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )

@@ -87,21 +87,25 @@ function Esim({ navigation }) {
   //#region NOTE: 2. Handler Method
 
   const onBuyNowHandler = () => {
-    navigation.navigate('Checkout', {
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      phone_number: withoutFormateNumber,
-      sku: 'ATT-ESIM-US-CA-MEX',
-      start_date: simpleStartDate,
-      end_date: simpleEndDate,
-      IMEINumber: '353974107950262',
-      amount: `$${price.price.slice(17)}`,
-      formattedNumber: String(number),
-      totalAmount: price.price.slice(17),
-      navigateFor: 'eSimOrder',
-      FullPlanName: `Esim ${price.price.slice(17)}`,
-    })
+    try {
+      navigation.navigate('Checkout', {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone_number: withoutFormateNumber,
+        sku: 'ATT-ESIM-US-CA-MEX',
+        start_date: simpleStartDate,
+        end_date: simpleEndDate,
+        IMEINumber: '353974107950262',
+        amount: `$${price.price.slice(17)}`,
+        formattedNumber: String(number),
+        totalAmount: price.price.slice(17),
+        navigateFor: 'eSimOrder',
+        FullPlanName: `Esim ${price.price.slice(17)}`,
+      })
+    } catch {
+      Alert.alert('Opps!', 'Select date again')
+    }
   }
 
   const GetPriceHandler = () => {
