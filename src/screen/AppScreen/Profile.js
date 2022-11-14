@@ -29,11 +29,11 @@ const Profile = ({ navigation }) => {
   const onLogoutHandler = () => {
     Alert.alert('Are you sure!!', 'You want to logout?', [
       {
-        text: 'Yes',
-        style: 'default',
+        text: 'Logout',
+        style: 'destructive',
         onPress: () => dispatch(setUser({ userData: null, isAuth: false })),
       },
-      { text: 'No', style: 'destructive' },
+      { text: 'Cancel', style: 'default' },
     ])
   }
 

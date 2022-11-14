@@ -80,6 +80,7 @@ export const api = createApi({
         }
       },
     }),
+    //NMI Payment Method
     getCardPayments: builder.mutation({
       query: payload => {
         // console.log('🚀 ~ api.js - Card Payments', payload)

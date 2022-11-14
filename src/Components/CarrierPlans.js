@@ -264,18 +264,13 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   const loading = (
     <View
       style={[
-        { flex: 18.6, marginHorizontal: 31 },
+        { flex: 12.4, marginHorizontal: 31 },
         Layout.justifyContentCenter,
         Gutters.twentyFourHMargin,
         Gutters.fiveVMargin,
         Layout.center,
       ]}
     >
-      <Skeleton
-        animation="wave"
-        width="100%"
-        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
-      />
       <Skeleton
         animation="wave"
         width="100%"
@@ -325,7 +320,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
       <Skeleton
         animation="wave"
         width="100%"
-        style={{ borderRadius: 4, marginVertical: 10, flex: 1 }}
+        style={{ borderRadius: 4, marginVertical: 10, flex: 5 }}
       />
     </View>
   )
@@ -393,55 +388,66 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
           {data ? `${data.data.length} plans available` : 'network error!'}
         </Text>
       </View>
-      <View style={[Layout.flexTen, Gutters.twentyFourHMargin]}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          keyExtractor={keyExtractor}
-          data={data && data.data}
-          renderItem={renderPlans}
-          ListEmptyComponent={error && errorComponent}
-          refreshing={isRefreshing} // Added pull to refresh state
-          onRefresh={onRefresh}
-        />
-      </View>
-      <View
-        style={[
-          Layout.selfCenter,
-          Layout.flexTwo,
-          Gutters.ninetyfivePWidth,
-          Gutters.fortyBMargin,
-          Gutters.twentyMTMargin,
-        ]}
-      >
-        <Button
-          title="continue"
-          loading={false}
-          onPress={() => {
-            onContinue()
-          }}
-          loadingProps={[{ size: 'small' }, Common.whiteColor]}
-          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
-          buttonStyle={[
-            Common.primaryPinkBackground,
-            Gutters.fiftyfiveHeight,
-            Common.borderRadius,
-          ]}
-          containerStyle={[
-            Gutters.ninetyfivePWidth,
-            Gutters.twentyTMargin,
-            Layout.selfCenter,
-            Common.borderRadius,
-          ]}
-          disabled={!valid}
-          disabledStyle={[Common.whiteColor, Common.greyBackground]}
-          disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
-        />
-      </View>
+
+      {isLoading ? (
+        loading
+      ) : (
+        <React.Fragment>
+          <View style={[Layout.flexTen, Gutters.twentyFourHMargin]}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              keyExtractor={keyExtractor}
+              data={data && data.data}
+              renderItem={renderPlans}
+              ListEmptyComponent={error && errorComponent}
+              refreshing={isRefreshing} // Added pull to refresh state
+              onRefresh={onRefresh}
+            />
+          </View>
+          <View
+            style={[
+              Layout.selfCenter,
+              Layout.flexTwo,
+              Gutters.ninetyfivePWidth,
+              Gutters.fortyBMargin,
+              Gutters.twentyMTMargin,
+            ]}
+          >
+            <Button
+              title="continue"
+              loading={false}
+              onPress={() => {
+                onContinue()
+              }}
+              loadingProps={[{ size: 'small' }, Common.whiteColor]}
+              titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+              buttonStyle={[
+                Common.primaryPinkBackground,
+                Gutters.fiftyfiveHeight,
+                Common.borderRadius,
+              ]}
+              containerStyle={[
+                Gutters.ninetyfivePWidth,
+                Gutters.twentyTMargin,
+                Layout.selfCenter,
+                Common.borderRadius,
+              ]}
+              disabled={!valid}
+              disabledStyle={[Common.whiteColor, Common.greyBackground]}
+              disabledTitleStyle={[
+                Common.whiteColor,
+                Gutters.zeroOsevenOpacity,
+              ]}
+            />
+          </View>
+        </React.Fragment>
+      )}
     </>
   )
 
   //#endregion
 
-  return <>{isLoading ? loading : carrierPlanComponent}</>
+  // return <>{isLoading ? loading : carrierPlanComponent}</>
+  return <>{carrierPlanComponent}</>
 }
 export default CarrierPlans

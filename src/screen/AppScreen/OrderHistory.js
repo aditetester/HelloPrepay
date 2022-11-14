@@ -28,9 +28,8 @@ const Profile = ({ navigation, route }) => {
   const userData = useSelector(state => state.user.userData)
   const dispatch = useDispatch()
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
-  const sheetRef = React.useRef(null)
-  const [GrayScreenNone, setGrayScreenNone] = React.useState('none')
   const [bottomSheetData, setBottomSheetData] = useState('')
+
   const [getHistory, { data, isLoading, error }] = useGetHistoryMutation()
 
   //NOTE: 2. Helper Method
@@ -46,7 +45,6 @@ const Profile = ({ navigation, route }) => {
   const onShowHistoryHandler = async id => {
     let transaction = await data.filter(value => value.id === id)
     setBottomSheetData(...transaction)
-    // sheetRef.current.snapTo(2)
     this.Scrollable.open()
   }
 
@@ -335,7 +333,9 @@ const Profile = ({ navigation, route }) => {
     </View>
   )
 
-  const keyExtractor = (item, index) => index.toString()
+  const keyExtractor = (item, index) => {
+    return item.id.toString()
+  }
 
   const renderHistory = ({ item }) => {
     const image = JSON.parse(item.response).order_response[0].qr_image

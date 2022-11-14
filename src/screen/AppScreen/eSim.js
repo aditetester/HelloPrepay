@@ -223,7 +223,7 @@ function Esim({ navigation }) {
 
   const loadingSpinner = (
     <Spinner
-      visible={IMEIIsLoading}
+      visible={IMEIIsLoading || priceLoading}
       textContent={'Loading...'}
       textStyle={{ color: '#FFF', alignItems: 'center' }}
     />
@@ -247,7 +247,7 @@ function Esim({ navigation }) {
           allowRangeSelection={true}
           minDate={minDate}
           maxDate={maxDate}
-          todayBackgroundColor="#f2e6ff"
+          todayBackgroundColor="#ffafcc"
           selectedDayColor="#DB006A"
           selectedDayTextColor="#FFFFFF"
           onDateChange={Date}

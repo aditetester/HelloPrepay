@@ -18,6 +18,7 @@ import ChangeCarrier from '@/screen/AppScreen/ChangeCarrier'
 import OrderHistory from '@/screen/AppScreen/OrderHistory'
 
 const Stack = createStackNavigator()
+
 const AuthNavigation = () => {
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
@@ -27,14 +28,6 @@ const AuthNavigation = () => {
   // console.log('startingScreen', startingScreen)
   const { Layout, NavigationTheme, Common } = useTheme()
   const { colors } = NavigationTheme
-
-  // useEffect(() => {
-  //   if (user.perpos === 'Login') {
-  //     setStartingScreen('ChangeCarrier')
-  //   } else {
-  //     setStartingScreen('Home')
-  //   }
-  // }, [user.perpos])
 
   const forFade = ({ current }) => ({
     cardStyle: {
