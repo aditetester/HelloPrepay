@@ -54,16 +54,16 @@ const StartupContainer = () => {
       topOffset: 15,
     })
   }
-  useEffect(() => {
-    if (colorScheme === 'dark') {
-      dispatch(changeTheme({ darkMode: true }))
-    } else {
-      dispatch(changeTheme({ darkMode: false }))
-    }
-  }, [colorScheme])
+  // useEffect(() => {
+  //   if (colorScheme === 'dark') {
+  //     dispatch(changeTheme({ darkMode: true }))
+  //   } else {
+  //     dispatch(changeTheme({ darkMode: false }))
+  //   }
+  // }, [colorScheme])
 
   return (
-    <SafeAreaView style={[Layout.fill]}>
+    <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
       <View style={[Common.backgroundPrimary, Layout.fill]}>
         {!user.isAuth ? <AuthNavigation /> : <AppNavigation />}
         <Toast
