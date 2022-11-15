@@ -28,11 +28,12 @@ const Profile = ({ navigation, route }) => {
   const userData = useSelector(state => state.user.userData)
   const dispatch = useDispatch()
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
+  const [isRefreshing, setIsRefreshing] = useState(false)
   const [bottomSheetData, setBottomSheetData] = useState('')
 
   const [getHistory, { data, isLoading, error }] = useGetHistoryMutation()
 
-  //NOTE: 2. Helper Method
+  //#region NOTE: 2. Helper Method
 
   // const onLogoutHandler = async () => {
   //   dispatch(setUser({ userData: null, isAuth: false }))
@@ -48,8 +49,6 @@ const Profile = ({ navigation, route }) => {
     this.Scrollable.open()
   }
 
-  const [isRefreshing, setIsRefreshing] = useState(false)
-
   const onRefresh = useCallback(() => {
     setIsRefreshing(true)
     getHistory({
@@ -58,7 +57,9 @@ const Profile = ({ navigation, route }) => {
     })
   }, [])
 
-  //NOTE: 3. Life Cycle
+  //#endregion
+
+  //#region NOTE: 3. Life Cycle
 
   useEffect(() => {
     getHistory({
@@ -118,7 +119,9 @@ const Profile = ({ navigation, route }) => {
     })
   }, [navigation, theme])
 
-  //NOTE: 4. Render Method
+  //#endregion
+
+  //#region NOTE: 4. Render Method
 
   const loadingSpinner = (
     <Spinner
@@ -128,175 +131,228 @@ const Profile = ({ navigation, route }) => {
     />
   )
 
-  const bottomSheet = () => (
-    <ScrollView>
-      <View style={{ alignItems: 'center' }}>
-        <Text style={[Fonts.fontSizeRegular, Common.primaryBlue]}>
-          Transaction Details
-        </Text>
-      </View>
-      <View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+  const bottomSheet = () => {
+    const transaction_ID =
+      bottomSheetData &&
+      bottomSheetData.transaction_details &&
+      bottomSheetData.transaction_details.split('&')[3].split('=')[1]
+    return (
+      <ScrollView>
+        <View style={{ alignItems: 'center', borderBottomWidth: 1 }}>
           <Text
             style={[
+              Fonts.fontSizeRegular,
               Common.primaryBlue,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
+              { marginBottom: 10 },
             ]}
           >
-            ID
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {bottomSheetData.id}
+            Transaction Details
           </Text>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
+        <View>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
           >
-            First Name
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveLMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              ID
+            </Text>
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveRMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              {bottomSheetData.id}
+            </Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
           >
-            {bottomSheetData.first_name}
-          </Text>
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveLMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              First Name
+            </Text>
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveRMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              {bottomSheetData.first_name}
+            </Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveLMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              Last Name
+            </Text>
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveRMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              {bottomSheetData.last_name}
+            </Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveLMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              Transaction Date
+            </Text>
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveRMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              {String(bottomSheetData.created_at).slice(0, 10)}
+            </Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveLMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              Transaction ID
+            </Text>
+            <Text
+              style={[
+                !transaction_ID && Common.errorColor,
+                transaction_ID && Common.primaryBlue,
+                Gutters.fiveRMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              {transaction_ID ? transaction_ID : 'Transaction Failed'}
+            </Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveLMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              Carrier Name
+            </Text>
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveRMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              {bottomSheetData.carrier_name
+                ? bottomSheetData.carrier_name
+                : 'Not specify'}
+            </Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveLMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              Price
+            </Text>
+            <Text
+              style={[
+                Common.primaryBlue,
+                Gutters.fiveRMargin,
+                Fonts.fontWeightRegular,
+                Fonts.fontSizeSmall,
+                Fonts.fontFamilyPrimary,
+                Gutters.tenVMargin,
+              ]}
+            >
+              {`$${bottomSheetData.price}`}
+            </Text>
+          </View>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            Last Name
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {bottomSheetData.last_name}
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            Transaction Date
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {String(bottomSheetData.created_at).slice(0, 10)}
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            Carrier Name
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {bottomSheetData.carrier_name
-              ? bottomSheetData.carrier_name
-              : 'Not specify'}
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveLMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            Price
-          </Text>
-          <Text
-            style={[
-              Common.primaryBlue,
-              Gutters.fiveRMargin,
-              Fonts.fontWeightRegular,
-              Fonts.fontSizeSmall,
-              Fonts.fontFamilyPrimary,
-              Gutters.tenVMargin,
-            ]}
-          >
-            {`$${bottomSheetData.price}`}
-          </Text>
-        </View>
-      </View>
-    </ScrollView>
-  )
+      </ScrollView>
+    )
+  }
 
   const errorComponent = (
     <View
@@ -338,9 +394,12 @@ const Profile = ({ navigation, route }) => {
   }
 
   const renderHistory = ({ item }) => {
-    const image = JSON.parse(item.response).order_response[0].qr_image
-      ? JSON.parse(item.response).order_response[0].qr_image
-      : 'https://cdn-icons-png.flaticon.com/512/1828/1828666.png'
+    const transaction_ID = item.transaction_details
+
+    const image =
+      JSON.parse(item.response).order_response[0].qr_image && transaction_ID
+        ? JSON.parse(item.response).order_response[0].qr_image
+        : 'https://cdn-icons-png.flaticon.com/512/4441/4441973.png'
     return (
       <Pressable
         onPress={() => onShowHistoryHandler(item.id)}
@@ -357,15 +416,6 @@ const Profile = ({ navigation, route }) => {
       >
         <View style={[Layout.row, { justifyContent: 'space-between' }]}>
           <View style={{ width: '80%', flexDirection: 'row' }}>
-            {/* <Image
-              source={{ uri: image }}
-              style={[
-                Common.resizeModeContain,
-                Gutters.fiftyHeight,
-                Gutters.twentyPWidth,
-                Gutters.fiveVMargin,
-              ]}
-            /> */}
             <Image
               source={{ uri: image }}
               style={[
@@ -374,21 +424,8 @@ const Profile = ({ navigation, route }) => {
                 Gutters.twentyPWidth,
                 Gutters.fiveVMargin,
               ]}
-              containerStyle={[
-                Layout.selfCenter,
-                Gutters.ninetyPWidth,
-                Layout.fill,
-                Common.whiteColorBackground,
-                // Common.resizeModeContain,
-              ]}
-              placeholderStyle={{ backgroundColor: 'white' }}
-              PlaceholderContent={
-                <ActivityIndicator
-                  size="small"
-                  color={Common.loadingColor.color}
-                />
-              }
             />
+
             <View
               style={[
                 { flexDirection: 'column', justifyContent: 'center' },
@@ -428,6 +465,8 @@ const Profile = ({ navigation, route }) => {
       </Pressable>
     )
   }
+
+  //#endregion
 
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>

@@ -104,7 +104,7 @@ function Esim({ navigation }) {
         FullPlanName: `Esim ${price.price.slice(17)}`,
       })
     } catch {
-      Alert.alert('Opps!', 'Select date again')
+      Alert.alert('Opps!', 'Please select date again')
     }
   }
 
@@ -510,11 +510,9 @@ function Esim({ navigation }) {
             disabled={!allDataIsValid}
             disabledStyle={[Common.whiteColor, Common.greyBackground]}
             disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
+            raised={false}
             buttonStyle={[
-              {
-                borderRadius: 5,
-                height: 50,
-              },
+              { borderRadius: 5, height: 50 },
               Common.primaryPinkBackground,
             ]}
           />

@@ -350,6 +350,142 @@ const Checkout = ({ navigation, route }) => {
     navigation.goBack()
   }
 
+  //#endregion
+
+  //#region Life Cycle
+
+  useEffect(() => {
+    if (rechargeData) {
+      if (rechargeData.message === 'Success') {
+        navigation.navigate('PaymentSuccess')
+      } else {
+        setModalVisible(true)
+        // console.log('rechargeData', rechargeData)
+      }
+    }
+  }, [rechargeData])
+
+  useEffect(() => {
+    if (rechargeError) {
+      setModalVisible(true)
+      Alert.alert('Server Problem!!', 'Server problem in plan purchasing')
+    }
+  }, [rechargeError])
+
+  //Card Payment
+  useEffect(() => {
+    if (data) {
+      let split = data.split('&')[1].split('=')[1]
+      console.log(split)
+      if (split === 'SUCCESS') {
+        if (params.navigateFor === 'planOrder') {
+          //Call API for plan order
+          getRecharge({
+            phone_number: params.phone_number,
+            planid: params.planId,
+            price: params.totalAmount,
+            meta: { a: 'v' },
+            pin: 1111,
+          })
+        } else if (params.navigateFor === 'eSimOrder') {
+          //Call API for eSim Order
+          getEsimOrder({
+            imei_number: params.IMEINumber,
+            sku: params.sku,
+            first_name: params.first_name,
+            last_name: params.last_name,
+            email: params.email,
+            contact: params.phone_number,
+            start_date: params.start_date,
+            end_date: params.end_date,
+            token: token,
+            transaction_details: data,
+          })
+        } else {
+          Alert.alert('Opps!', 'Something Went Wrong')
+        }
+      } else {
+        setModalVisible(true)
+        Alert.alert('Opps!', `${split}\nNMI Payments`, [{ text: 'Ok' }])
+      }
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (error) {
+      setModalVisible(true)
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (isLoading || rechargeIsLoading || EsimOrderLoading) {
+      setSpinner(true)
+    } else {
+      setSpinner(false)
+    }
+  }, [isLoading, rechargeIsLoading, EsimOrderLoading])
+
+  useEffect(() => {
+    if (useNumber) {
+      setPhoneNumber(number)
+    } else if (!useNumber) {
+      setPhoneNumber('')
+    }
+  }, [useNumber])
+
+  useEffect(() => {
+    if (EsimOrderData) {
+      if (JSON.parse(EsimOrderData.response).message === 'Success') {
+        // console.log('EsimOrderData', EsimOrderData)
+        navigation.navigate('PaymentSuccess')
+      }
+    }
+  }, [EsimOrderData])
+
+  useEffect(() => {
+    if (EsimOrderError) {
+      setModalVisible(true)
+      Alert.alert('Server Problem!!', 'Server down for Esim transaction!')
+    }
+  }, [EsimOrderError])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+      headerStyle: {
+        backgroundColor: Common.backgroundPrimary.backgroundColor,
+        height: 70,
+      },
+      headerTitle: () => (
+        <Image
+          source={Images.Logo}
+          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+        />
+      ),
+
+      headerTitleAlign: 'center',
+      headerShadowVisible: false,
+      headerBackTitleVisible: false,
+      gestureEnabled: false,
+    })
+  }, [navigation, theme])
+
+  useEffect(() => {
+    if (spinner) {
+      navigation.setOptions({
+        gestureEnabled: false,
+      })
+    } else {
+      navigation.setOptions({
+        gestureEnabled: true,
+      })
+    }
+  }, [spinner])
+
+  //#endregion
+
+  //#region Render Method
+
   const cardsPayments = (
     <>
       <TouchableOpacity
@@ -868,143 +1004,6 @@ const Checkout = ({ navigation, route }) => {
       </Modal>
     </GestureRecognizer>
   )
-
-  //#endregion
-
-  //#region Life Cycle
-
-  useEffect(() => {
-    if (rechargeData) {
-      if (rechargeData.message === 'Success') {
-        navigation.navigate('PaymentSuccess')
-      } else {
-        setModalVisible(true)
-        // console.log('rechargeData', rechargeData)
-      }
-    }
-  }, [rechargeData])
-
-  useEffect(() => {
-    if (rechargeError) {
-      setModalVisible(true)
-      Alert.alert('Server Problem!!', 'Server problem in plan purchasing')
-    }
-  }, [rechargeError])
-
-  //Card Payment
-  useEffect(() => {
-    if (data) {
-      let split = data.split('&')[1].split('=')[1]
-      console.log(split)
-      if (split === 'SUCCESS') {
-        if (params.navigateFor === 'planOrder') {
-          //Call API for plan order
-          getRecharge({
-            phone_number: params.phone_number,
-            planid: params.planId,
-            price: params.totalAmount,
-            meta: { a: 'v' },
-            pin: 1111,
-          })
-        } else if (params.navigateFor === 'eSimOrder') {
-          //Call API for eSim Order
-          getEsimOrder({
-            imei_number: params.IMEINumber,
-            sku: params.sku,
-            first_name: params.first_name,
-            last_name: params.last_name,
-            email: params.email,
-            contact: params.phone_number,
-            start_date: params.start_date,
-            end_date: params.end_date,
-            token: token,
-            transaction_details: data,
-          })
-        } else {
-          Alert.alert('Opps!', 'Something Went Wrong')
-        }
-      } else {
-        setModalVisible(true)
-        Alert.alert('Opps!', `${split}\nNMI Payments`, [{ text: 'Ok' }])
-      }
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (error) {
-      setModalVisible(true)
-      // console.log('Card Payment Error', error.data)
-    }
-  }, [error])
-
-  useEffect(() => {
-    if (isLoading || rechargeIsLoading || EsimOrderLoading) {
-      setSpinner(true)
-    } else {
-      setSpinner(false)
-    }
-  }, [isLoading, rechargeIsLoading, EsimOrderLoading])
-
-  useEffect(() => {
-    if (useNumber) {
-      setPhoneNumber(number)
-    } else if (!useNumber) {
-      setPhoneNumber('')
-    }
-  }, [useNumber])
-
-  useEffect(() => {
-    if (EsimOrderData) {
-      if (JSON.parse(EsimOrderData.response).message === 'Success') {
-        // console.log('EsimOrderData', EsimOrderData)
-        navigation.navigate('PaymentSuccess')
-      }
-    }
-  }, [EsimOrderData])
-
-  useEffect(() => {
-    if (EsimOrderError) {
-      setModalVisible(true)
-      Alert.alert('Server Problem!!', 'Server down for Esim transaction!')
-    }
-  }, [EsimOrderError])
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-      headerStyle: {
-        backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
-      },
-      headerTitle: () => (
-        <Image
-          source={Images.Logo}
-          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
-        />
-      ),
-
-      headerTitleAlign: 'center',
-      headerShadowVisible: false,
-      headerBackTitleVisible: false,
-      gestureEnabled: false,
-    })
-  }, [navigation, theme])
-
-  useEffect(() => {
-    if (spinner) {
-      navigation.setOptions({
-        gestureEnabled: false,
-      })
-    } else {
-      navigation.setOptions({
-        gestureEnabled: true,
-      })
-    }
-  }, [spinner])
-
-  //#endregion
-
-  //#region Render Method
 
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>
