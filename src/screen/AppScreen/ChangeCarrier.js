@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import {
   View,
   Text,
@@ -33,7 +33,9 @@ const ChangeCarrier = ({ navigation, route }) => {
   const [searchText, setSearchText] = useState('')
 
   //NOTE: 2. API
-  const { data, isLoading, error } = useGetCarrierListQuery(userData.token)
+  const { data, isLoading, error, refetch } = useGetCarrierListQuery(
+    userData.token,
+  )
   const [
     getProfileUpdate,
     {
@@ -69,6 +71,10 @@ const ChangeCarrier = ({ navigation, route }) => {
     }
     setSelectedId(id)
   }
+
+  const onRefresh = useCallback(() => {
+    refetch()
+  }, [])
 
   const searchFunction = text => {
     const updatedData = data.data.filter(item => {
@@ -306,6 +312,8 @@ const ChangeCarrier = ({ navigation, route }) => {
           renderItem={renderItem}
           keyExtractor={item => item.id}
           numColumns={2}
+          refreshing={isLoading} // Added pull to refresh state
+          onRefresh={onRefresh}
         />
       )}
       <View

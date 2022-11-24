@@ -470,13 +470,6 @@ const Profile = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>
-      {/* <TouchableOpacity
-        style={[Gutters.fifteenPWidth, Gutters.fiveTMargin, Gutters.tenHMargin]}
-        onPress={onBackHandler}
-      >
-        <Image source={Images.LeftArrow} />
-      </TouchableOpacity> */}
-
       <View style={[Layout.fill]}>
         <View
           style={[
@@ -509,51 +502,11 @@ const Profile = ({ navigation, route }) => {
             onRefresh={onRefresh}
           />
         </View>
-        {/* <View
-          style={[
-            Layout.selfCenter,
-            Layout.flexTwo,
-            Gutters.ninetyfivePWidth,
-            Gutters.fortyBMargin,
-            Gutters.twentyMTMargin,
-            Gutters.fortyBMargin,
-            Gutters.twentyMTMargin,
-          ]}
-        >
-          <Button
-            title="Logout"
-            loading={false}
-            disabled={false}
-            onPress={() => onLogoutHandler()}
-            loadingProps={[{ size: 'small' }, Common.whiteColor]}
-            titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
-            buttonStyle={[
-              Common.redBackground,
-              Gutters.fiftyfiveHeight,
-              Common.borderRadius,
-            ]}
-            containerStyle={[
-              Gutters.ninetyfivePWidth,
-              Gutters.twentyTMargin,
-              Layout.selfCenter,
-              Common.borderRadius,
-            ]}
-            icon={{
-              name: 'logout',
-              size: 15,
-              color: 'white',
-            }}
-            iconContainerStyle={{ marginLeft: 10 }}
-            iconRight
-            disabledStyle={[Common.whiteColor, Common.greyBackground]}
-            disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
-          />
-        </View> */}
         <RBSheet
           ref={ref => {
             this.Scrollable = ref
           }}
-          height={430}
+          height={350}
           closeOnDragDown
           customStyles={{
             container: {

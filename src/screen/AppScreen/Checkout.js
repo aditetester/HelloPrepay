@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   View,
   Text,
@@ -23,11 +23,9 @@ import {
 import GestureRecognizer from 'react-native-swipe-gestures'
 import { PaymentRequest } from 'react-native-payments'
 import {
-  useGetCardPaymentsMutation,
   useGetRechargeMutation,
   usePlaceEsimOrderMutation,
 } from '@/Services/api'
-import { NMI_SECURITY_KEY } from '../../Config/index'
 
 const Checkout = ({ navigation, route }) => {
   //#region Define Variables
@@ -38,9 +36,11 @@ const Checkout = ({ navigation, route }) => {
   const userData = useSelector(state => state.user.userData)
   const token = String(userData.token)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
+  const [scrollRef, setScrollRef] = useState(null)
+
   const [spinner, setSpinner] = useState(false)
   const [cardName, setCardName] = useState('Testing')
-  const [cardNumber, setCardNumber] = useState('5555 5555 4444 5555')
+  const [cardNumber, setCardNumber] = useState('')
   const [cardDate, setCardDate] = useState('02/24')
   const [CVV, setCVV] = useState('123')
   const [address, setAddress] = useState('Bhavnagar Gujarat')
@@ -72,38 +72,6 @@ const Checkout = ({ navigation, route }) => {
     stateIsValid &&
     agree
 
-  const currentTime = new Date().getMilliseconds()
-  const tax = (params.amount.replace('$', '') * 7.25) / 100
-
-  const cardDetails = {
-    type: 'sale',
-    security_key: NMI_SECURITY_KEY,
-    ccnumber: cardNumber.replaceAll(' ', ''),
-    ccexp: cardDate,
-    cvv: CVV,
-    amount: params.amount.replace(',', '').replace('$', ''),
-    first_name: cardName,
-    address1: address,
-    city: city,
-    state: state,
-    zip: aptSuite,
-    phone: params.phone_number,
-    plan_id: params.planId,
-  }
-
-  const priceRange = () => {
-    if (params.priceRange) {
-      let mode = params.priceRange.split('-').map(item => (item = '$' + item))
-      let result = mode.join(' - ')
-      return result
-    } else {
-      return `$${params.totalAmount}`
-    }
-  }
-
-  const [getCardPayments, { data, isLoading, error }] =
-    useGetCardPaymentsMutation()
-
   const [
     getRecharge,
     { data: rechargeData, isLoading: rechargeIsLoading, error: rechargeError },
@@ -124,37 +92,41 @@ const Checkout = ({ navigation, route }) => {
     }, 1000)
   }
 
-  const applepay = () => {
-    const IOS_METHOD_DATA = [
-      {
-        supportedMethods: ['apple-pay'],
-        data: {
-          merchantIdentifier: 'merchant.apple.test',
-          supportedNetworks: ['visa', 'mastercard', 'amex'],
-          countryCode: 'US',
-          currencyCode: 'USD',
-        },
-      },
-    ]
-
-    const IOS_DETAILS = {
-      id: 'basic-example',
-      displayItems: [
-        {
-          label: params.FullPlanName,
-          amount: { currency: 'USD', value: params.amount.replace('$', '') },
-        },
-      ],
-
-      total: {
-        label: 'to Helloprepay',
-        amount: { currency: 'USD', value: `${params.amount.replace('$', '')}` },
-      },
-    }
-
-    const paymentRequest = new PaymentRequest(IOS_METHOD_DATA, IOS_DETAILS)
-
+  const applepayComponent = () => {
     const applePay = () => {
+      const IOS_METHOD_DATA = [
+        {
+          supportedMethods: ['apple-pay'],
+          data: {
+            merchantIdentifier: 'merchant.com.prepaidiq.d2c',
+            // merchantIdentifier: 'merchant.apple.test',
+            supportedNetworks: ['visa', 'mastercard', 'amex'],
+            countryCode: 'US',
+            currencyCode: 'USD',
+          },
+        },
+      ]
+
+      const IOS_DETAILS = {
+        id: 'basic-example',
+        displayItems: [
+          {
+            label: params.FullPlanName,
+            amount: { currency: 'USD', value: params.amount.replace('$', '') },
+          },
+        ],
+
+        total: {
+          label: 'to Helloprepay',
+          amount: {
+            currency: 'USD',
+            value: `${params.amount.replace('$', '')}`,
+          },
+        },
+      }
+
+      const paymentRequest = new PaymentRequest(IOS_METHOD_DATA, IOS_DETAILS)
+
       paymentRequest
         .canMakePayments()
         .then(canMakePayment => {
@@ -170,10 +142,11 @@ const Checkout = ({ navigation, route }) => {
               .catch(errors => {
                 // paymentRequest.abort()
                 console.log('Apple pay Error', errors)
-                Alert.alert('Opps!', 'Something went wrong Apple-Pay', [
-                  { title: 'Ok' },
-                ])
-                setModalVisible(true)
+                // paymentRequest.complete('fail')
+                // Alert.alert('Opps!', 'Something went wrong Apple-Pay', [
+                //   { title: 'Ok' },
+                // ])
+                // setModalVisible(true)
               })
           } else {
             Alert.alert(
@@ -211,47 +184,47 @@ const Checkout = ({ navigation, route }) => {
 
   //#region Google Pay Configuration
 
-  const gpay = () => {
-    const ANDROID_METHOD_DATA = [
-      {
-        supportedMethods: ['android-pay'],
-        data: {
-          supportedNetworks: ['visa', 'mastercard', 'amex'],
-          currencyCode: 'USD',
-          environment: 'TEST', // defaults to production
-          paymentMethodTokenizationParameters: {
-            tokenizationType: 'NETWORK_TOKEN',
-            parameters: {
-              publicKey:
-                'BFEC244s+3h7MK8gNkvV1HwlnEpEl7cV5PHNdKRebxlmL6Qz+SCDnMc3SoWDsCX0YWGagDqk5eWhn19UvoeXILQ=',
+  const googlePayComponent = () => {
+    const googlePay = () => {
+      const ANDROID_METHOD_DATA = [
+        {
+          supportedMethods: ['android-pay'],
+          data: {
+            supportedNetworks: ['visa', 'mastercard', 'amex'],
+            currencyCode: 'USD',
+            environment: 'TEST', // defaults to production
+            paymentMethodTokenizationParameters: {
+              tokenizationType: 'NETWORK_TOKEN',
+              parameters: {
+                publicKey:
+                  'BFEC244s+3h7MK8gNkvV1HwlnEpEl7cV5PHNdKRebxlmL6Qz+SCDnMc3SoWDsCX0YWGagDqk5eWhn19UvoeXILQ=',
+              },
             },
           },
         },
-      },
-    ]
+      ]
 
-    // const ANDROID_OPTIONS = {
-    //   requestPayerName: true,
-    //   requestPayerPhone: true,
-    //   requestPayerEmail: true,
-    //   requestShipping: true,
-    // }
+      // const ANDROID_OPTIONS = {
+      //   requestPayerName: true,
+      //   requestPayerPhone: true,
+      //   requestPayerEmail: true,
+      //   requestShipping: true,
+      // }
 
-    const ANDROID_DETAILS = {
-      id: 'basic-example',
-      displayItems: [
-        {
-          label: 'Movie Ticket',
+      const ANDROID_DETAILS = {
+        id: 'basic-example',
+        displayItems: [
+          {
+            label: 'Movie Ticket',
+            amount: { currency: 'USD', value: '15.00' },
+          },
+        ],
+        total: {
+          label: 'Merchant Name',
           amount: { currency: 'USD', value: '15.00' },
         },
-      ],
-      total: {
-        label: 'Merchant Name',
-        amount: { currency: 'USD', value: '15.00' },
-      },
-    }
+      }
 
-    const googlePay = () => {
       const ANDROIDPaymentRequest = new PaymentRequest(
         ANDROID_METHOD_DATA,
         ANDROID_DETAILS,
@@ -343,11 +316,61 @@ const Checkout = ({ navigation, route }) => {
   //#region Helper Method
 
   const onContinueHandler = async () => {
-    getCardPayments(cardDetails)
+    if (params.navigateFor === 'planOrder') {
+      //Call API for plan order
+      getRecharge({
+        contact: params.phone_number,
+        name_on_card: cardName,
+        card_number: cardNumber.split(' ').join(''),
+        expiry_month: cardDate.split('/')[0],
+        expiry_year: cardDate.split('/')[1],
+        cvv: CVV,
+        address: address,
+        apt: aptSuite,
+        city: city,
+        state: state,
+        plan_id: params.planId,
+        price: params.amount.slice(1),
+        token: token,
+      })
+    } else if (params.navigateFor === 'eSimOrder') {
+      //Call API for eSim Order
+      getEsimOrder({
+        imei_number: params.IMEINumber,
+        sku: params.sku,
+        first_name: params.first_name,
+        last_name: params.last_name,
+        email: params.email,
+        contact: params.phone_number,
+        start_date: params.start_date,
+        end_date: params.end_date,
+        name_on_card: cardName,
+        card_number: cardNumber.split(' ').join(''),
+        expiry_month: cardDate.split('/')[0],
+        expiry_year: cardDate.split('/')[1],
+        cvv: CVV,
+        address: address,
+        apt: aptSuite,
+        city: city,
+        state: state,
+        price: params.amount.slice(1),
+        token: token,
+      })
+    } else {
+      Alert.alert('Opps!', 'Something Went Wrong')
+    }
   }
 
   const onBackHandler = () => {
     navigation.goBack()
+  }
+
+  const onScrollHandle = () => {
+    scrollRef.scrollTo({
+      x: 0,
+      y: 410,
+      animated: true,
+    })
   }
 
   //#endregion
@@ -356,74 +379,29 @@ const Checkout = ({ navigation, route }) => {
 
   useEffect(() => {
     if (rechargeData) {
-      if (rechargeData.message === 'Success') {
+      if (rechargeData.order.payment_status === 'success') {
         navigation.navigate('PaymentSuccess')
-      } else {
+      } else if (rechargeData.order.payment_status === 'fail') {
         setModalVisible(true)
-        // console.log('rechargeData', rechargeData)
       }
     }
   }, [rechargeData])
 
   useEffect(() => {
     if (rechargeError) {
+      console.log('rechargeError', rechargeError)
       setModalVisible(true)
       Alert.alert('Server Problem!!', 'Server problem in plan purchasing')
     }
   }, [rechargeError])
 
-  //Card Payment
   useEffect(() => {
-    if (data) {
-      let split = data.split('&')[1].split('=')[1]
-      console.log(split)
-      if (split === 'SUCCESS') {
-        if (params.navigateFor === 'planOrder') {
-          //Call API for plan order
-          getRecharge({
-            phone_number: params.phone_number,
-            planid: params.planId,
-            price: params.totalAmount,
-            meta: { a: 'v' },
-            pin: 1111,
-          })
-        } else if (params.navigateFor === 'eSimOrder') {
-          //Call API for eSim Order
-          getEsimOrder({
-            imei_number: params.IMEINumber,
-            sku: params.sku,
-            first_name: params.first_name,
-            last_name: params.last_name,
-            email: params.email,
-            contact: params.phone_number,
-            start_date: params.start_date,
-            end_date: params.end_date,
-            token: token,
-            transaction_details: data,
-          })
-        } else {
-          Alert.alert('Opps!', 'Something Went Wrong')
-        }
-      } else {
-        setModalVisible(true)
-        Alert.alert('Opps!', `${split}\nNMI Payments`, [{ text: 'Ok' }])
-      }
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (error) {
-      setModalVisible(true)
-    }
-  }, [error])
-
-  useEffect(() => {
-    if (isLoading || rechargeIsLoading || EsimOrderLoading) {
+    if (rechargeIsLoading || EsimOrderLoading) {
       setSpinner(true)
     } else {
       setSpinner(false)
     }
-  }, [isLoading, rechargeIsLoading, EsimOrderLoading])
+  }, [rechargeIsLoading, EsimOrderLoading])
 
   useEffect(() => {
     if (useNumber) {
@@ -435,9 +413,10 @@ const Checkout = ({ navigation, route }) => {
 
   useEffect(() => {
     if (EsimOrderData) {
-      if (JSON.parse(EsimOrderData.response).message === 'Success') {
-        // console.log('EsimOrderData', EsimOrderData)
+      if (EsimOrderData.order.payment_status === 'success') {
         navigation.navigate('PaymentSuccess')
+      } else if (EsimOrderData.order.payment_status === 'fail') {
+        setModalVisible(true)
       }
     }
   }, [EsimOrderData])
@@ -489,6 +468,7 @@ const Checkout = ({ navigation, route }) => {
   const cardsPayments = (
     <>
       <TouchableOpacity
+        onPress={() => onScrollHandle()}
         style={[
           Gutters.sixtyHeight,
           Layout.row,
@@ -1008,7 +988,12 @@ const Checkout = ({ navigation, route }) => {
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>
       {!spinner ? (
-        <ScrollView contentContainerStyle={[Common.backgroundPrimary]}>
+        <ScrollView
+          contentContainerStyle={[Common.backgroundPrimary]}
+          ref={ref => {
+            setScrollRef(ref)
+          }}
+        >
           <TouchableOpacity
             style={[
               Gutters.fifteenPWidth,
@@ -1081,14 +1066,17 @@ const Checkout = ({ navigation, route }) => {
                 >
                   {params.formattedNumber}
                 </Text>
+
                 <Image
-                  source={Images.whitecarrier12}
-                  style={[
-                    Common.resizeModeContain,
-                    Layout.center,
-                    Gutters.tenRMargin,
-                    Gutters.thirtyPWidth,
-                  ]}
+                  source={{ uri: userData.carrier_image }}
+                  style={{
+                    resizeMode: 'contain',
+                    width: '30%',
+                    height: 40,
+                    borderRadius: 4,
+                    margin: 5,
+                    marginRight: 5,
+                  }}
                 />
               </View>
               <Text
@@ -1100,9 +1088,9 @@ const Checkout = ({ navigation, route }) => {
                   Fonts.fontFamilyPrimary,
                 ]}
               >
-                {`${
-                  params.planName ? params.planName : 'Esim'
-                } ${priceRange()} — One payment of ${params.amount}`}
+                {`${params.planName ? params.planName : 'Esim'} ${
+                  params.amount
+                } — One payment of ${params.amount}`}
               </Text>
             </View>
           </View>
@@ -1128,10 +1116,8 @@ const Checkout = ({ navigation, route }) => {
 
           <View style={[Gutters.twentyFourHMargin]}>
             {number == params.phone_number && cardsPayments}
-            {platform === 'ios' && applepay()}
-            {gpay()}
-            {/* {platform === 'android' && samsungpay()} */}
-            {/* {samsungpay()} */}
+            {platform === 'ios' && applepayComponent()}
+            {platform === 'android' && googlePayComponent()}
           </View>
           {number == params.phone_number && cardPaymentInfo}
         </ScrollView>

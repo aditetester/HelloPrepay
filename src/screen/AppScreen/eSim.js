@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   View,
   Text,
@@ -24,6 +24,7 @@ function Esim({ navigation }) {
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
+  const [scrollRef, setScrollRef] = useState(null)
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [IMEINumber, setIMEINumber] = useState('353974107950262')
@@ -97,7 +98,7 @@ function Esim({ navigation }) {
         start_date: simpleStartDate,
         end_date: simpleEndDate,
         IMEINumber: '353974107950262',
-        amount: `$${price.price.slice(17)}`,
+        amount: String(price.price.split(',')[1].trim().slice(7)),
         formattedNumber: String(number),
         totalAmount: price.price.slice(17),
         navigateFor: 'eSimOrder',
@@ -106,6 +107,14 @@ function Esim({ navigation }) {
     } catch {
       Alert.alert('Opps!', 'Please select date again')
     }
+  }
+
+  const onScrollHandle = () => {
+    scrollRef.scrollTo({
+      x: 0,
+      y: 500,
+      animation: true,
+    })
   }
 
   const GetPriceHandler = () => {
@@ -120,8 +129,8 @@ function Esim({ navigation }) {
           end_date: formattedEndingDate.toISOString().substring(0, 10),
           start_date: formattedStartingDate.toISOString().substring(0, 10),
         },
-        token: '577|oIBmnTxn7pjuxyn1NB6MqpOKl7wKEnhyDJAkQ6nk',
-        // token: userDate.token,
+        // token: '577|oIBmnTxn7pjuxyn1NB6MqpOKl7wKEnhyDJAkQ6nk',
+        token: userData.token,
       })
     }
   }
@@ -157,6 +166,7 @@ function Esim({ navigation }) {
   useEffect(() => {
     if (priceData) {
       setPrice(priceData)
+      onScrollHandle()
     }
   }, [priceData])
 
@@ -275,7 +285,10 @@ function Esim({ navigation }) {
 
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
-      <ScrollView style={[Layout.fill, Common.backgroundPrimary]}>
+      <ScrollView
+        style={[Layout.fill, Common.backgroundPrimary]}
+        ref={ref => setScrollRef(ref)}
+      >
         <Pressable
           onPress={() => navigation.goBack()}
           style={[Gutters.twentyHMargin]}
@@ -292,8 +305,8 @@ function Esim({ navigation }) {
               Fonts.fontWeightSmall,
             ]}
           >
-            AT&T eSIM Unlimited Talk (calls) and Internet for USA, Canada and
-            Mexico and Puerto Rico (ATT Prepaid)
+            {userData.carrier_name} eSIM Unlimited Talk (calls) and Internet for
+            USA, Canada and Mexico and Puerto Rico (ATT Prepaid)
           </Text>
           <Text
             style={[

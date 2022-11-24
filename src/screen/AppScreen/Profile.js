@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   View,
   Text,
@@ -15,25 +15,32 @@ import { setUser } from '@/Store/User'
 import { Icon, CheckBox } from '@rneui/themed'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import { changeTheme } from '@/Store/Theme'
+import { useGetPlansMutation } from '@/Services/api'
 
 const Profile = ({ navigation }) => {
   //#region NOTE: Define Variable
   const { Common, Layout, Fonts, Gutters, Images } = useTheme()
   const dispatch = useDispatch()
+  const refRBSheet = useRef()
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
 
   const [lightTheme, setLightTheme] = useState(false)
   const [darkTheme, setDarkTheme] = useState(false)
 
-  console.log(theme.darkMode)
+  const [getPlan, { data, isLoading, error }] = useGetPlansMutation()
+  console.log('Profile', data)
 
   //#endregion
 
   //#region NOTE: Helper Method
 
   const onChangeTheme = () => {
-    this.Scrollable.open()
+    try {
+      refRBSheet.current.open()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const onBackHandler = () => {
@@ -107,11 +114,11 @@ const Profile = ({ navigation }) => {
 
   //#region NOTE: Render Method
 
-  const bottomSheet = () => {
+  const themeChangeBottomSheet = () => {
     return (
       <View>
         <CheckBox
-          title={'DARK'}
+          title={'Dark theme'}
           textStyle={[darkTheme && Common.white, !darkTheme && Common.black]}
           containerStyle={[
             darkTheme && Common.primaryPinkBackground,
@@ -138,11 +145,11 @@ const Profile = ({ navigation }) => {
           onPress={() => {
             setDarkTheme(true)
             setLightTheme(false)
-            this.Scrollable.close()
+            refRBSheet.current.close()
           }}
         />
         <CheckBox
-          title={'Light'}
+          title={'Light theme'}
           textStyle={[lightTheme && Common.white, !lightTheme && Common.black]}
           containerStyle={[
             lightTheme && Common.primaryPinkBackground,
@@ -169,7 +176,7 @@ const Profile = ({ navigation }) => {
           onPress={() => {
             setLightTheme(true)
             setDarkTheme(false)
-            this.Scrollable.close()
+            refRBSheet.current.close()
           }}
         />
       </View>
@@ -178,17 +185,17 @@ const Profile = ({ navigation }) => {
 
   const bottomSheetConfig = (
     <RBSheet
-      ref={ref => {
-        this.Scrollable = ref
-      }}
-      height={200}
+      ref={refRBSheet}
+      height={160}
       closeOnDragDown
       customStyles={{
         container: [{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }],
       }}
     >
       <ScrollView>
-        <TouchableOpacity activeOpacity={1}>{bottomSheet()}</TouchableOpacity>
+        <TouchableOpacity activeOpacity={1}>
+          {themeChangeBottomSheet()}
+        </TouchableOpacity>
       </ScrollView>
     </RBSheet>
   )
@@ -292,7 +299,7 @@ const Profile = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={onChangeTheme}
+          onPress={() => onChangeTheme()}
           style={{
             flexDirection: 'row',
             borderWidth: 1,

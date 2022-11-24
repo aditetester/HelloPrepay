@@ -146,8 +146,9 @@ const Home = ({ navigation }) => {
           <Image
             source={Images.eSim}
             style={[
+              { maxWidth: 60 },
               Layout.fill,
-              Gutters.thirtyPWidth,
+              // Gutters.thirtyPWidth,
               Gutters.fortyHeight,
               Common.resizeModeContain,
             ]}
@@ -184,6 +185,7 @@ const Home = ({ navigation }) => {
         </View>
         <View
           style={[
+            { maxHeight: 60 },
             Layout.flexTwo,
             Layout.row,
             Layout.alignItemsCenter,

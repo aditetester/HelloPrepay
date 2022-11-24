@@ -70,6 +70,8 @@ const About = ({ navigation, route }) => {
     }
   }, [isLoading])
 
+  console.log('Registration', data && data)
+
   useEffect(() => {
     if (data && data.register === 'Registration successful') {
       navigation.navigate('SelectCarrier', {
@@ -80,7 +82,10 @@ const About = ({ navigation, route }) => {
       return
     } else {
       if (data) {
-        if (String(data.message.email) === 'Email Should Be Unique ') {
+        if (
+          String(data.message.email[0]) === 'Email Should Be Unique ' ||
+          String(data.message.email[0]) === 'The email has already been taken.'
+        ) {
           Alert.alert(
             'Email !!',
             'This Email is already in use!! \n Use Different Email',

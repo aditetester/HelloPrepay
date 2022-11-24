@@ -166,20 +166,8 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
                 Fonts.fontFamilyPrimary,
               ]}
             >
-              {/* {name} */}
               {item.plan_name}
             </Text>
-            {/* <Text
-              style={[
-                Common.primaryBlueMode,
-                isSelected === item.id && Common.white,
-                Fonts.fontSizeSmall,
-                Fonts.fontWeightRegular,
-                Fonts.fontFamilyPrimary,
-              ]}
-            >
-              {priceRange()}
-            </Text> */}
           </View>
           <View>
             <CheckBox
@@ -360,9 +348,9 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
       </View>
       <View
         style={[
+          { width: '100%' },
           Layout.flexThree,
           Layout.alignItemsCenter,
-          Gutters.twentyFourHMargin,
           Gutters.tenVMargin,
         ]}
       >
@@ -374,6 +362,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
             height: 80,
             flex: 1,
             borderRadius: 4,
+            maxWidth: 200,
           }}
         />
         <Text
@@ -385,7 +374,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
             Gutters.eightVMargin,
           ]}
         >
-          {data ? `${data.data.length} plans available` : 'network error!'}
+          {data ? `${data.data.length} plans available` : 'Hello Prepay'}
         </Text>
       </View>
 
@@ -447,7 +436,6 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
 
   //#endregion
 
-  // return <>{isLoading ? loading : carrierPlanComponent}</>
   return <>{carrierPlanComponent}</>
 }
 export default CarrierPlans
