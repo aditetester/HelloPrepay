@@ -21,6 +21,7 @@ const Login = ({ navigation }) => {
   const [dialog, setDialog] = useState(false)
   const [sms, setSms] = useState(true)
   const [email, setEmail] = useState(false)
+  const [registrationDialogs, setRegistrationDialogs] = useState(false)
 
   const [getVerifyUser, { data, isLoading, error }] = useGetVerifyUserMutation()
 
@@ -75,7 +76,9 @@ const Login = ({ navigation }) => {
       setButtonLoading(false)
       console.log(data)
     } else if (data && data.status !== 'active') {
-      signInUsingFirebase(withoutFormateNumber, 'Registration')
+      setRegistrationDialogs(true)
+      // signInUsingFirebase(withoutFormateNumber, 'Registration')
+      setRegistrationDialogs(true)
     } else if (
       data &&
       data.message.phone_number[0] ===
@@ -114,6 +117,7 @@ const Login = ({ navigation }) => {
   const signInUsingFirebase = async (phoneNumber, mode) => {
     setButtonLoading(true)
     setDialog(false)
+    setRegistrationDialogs(false)
     await auth()
       .signInWithPhoneNumber(`+1${phoneNumber}`)
       .then(res => {
@@ -186,6 +190,36 @@ const Login = ({ navigation }) => {
     })
   }, [navigation])
 
+  let registrationDialog = (
+    <View>
+      <Dialog
+        isVisible={registrationDialogs}
+        onBackdropPress={() => setRegistrationDialogs(false)}
+        overlayStyle={[Common.offWhiteBackground, Common.borderRadiusTen]}
+      >
+        {/* <Dialog.Title title="Opps!!" titleStyle={[{}, Common.black]} /> */}
+        <Text
+          style={[Fonts.fontWeightSmall, Fonts.fontSizeSmall, Common.black]}
+        >{`You'r not registered with this number +1 ${withoutFormateNumber} click on continue to register`}</Text>
+
+        <Dialog.Actions>
+          <Dialog.Button
+            title="CONTINUE"
+            onPress={() =>
+              signInUsingFirebase(withoutFormateNumber, 'Registration')
+            }
+            titleStyle={[Common.black]}
+          />
+          <Dialog.Button
+            title="CANCEL"
+            onPress={() => setRegistrationDialogs(false)}
+            titleStyle={[Common.black]}
+          />
+        </Dialog.Actions>
+      </Dialog>
+    </View>
+  )
+
   let selectDialog = (
     <View>
       <Dialog
@@ -194,7 +228,7 @@ const Login = ({ navigation }) => {
         overlayStyle={[Common.offWhiteBackground, Common.borderRadiusTen]}
       >
         <Dialog.Title
-          title="Select Verification Mode"
+          title="Select Verification mode for Login"
           titleStyle={[{}, Common.black, Fonts.textCenter]}
         />
         <CheckBox
@@ -282,6 +316,7 @@ const Login = ({ navigation }) => {
     <SafeAreaView style={Layout.fill}>
       <View style={[Common.backgroundPrimary, Layout.fill]}>
         {selectDialog}
+        {registrationDialog}
         <View style={[Gutters.tenTMargin, Gutters.twentyfiveLMargin]}>
           <Text
             style={[

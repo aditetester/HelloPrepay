@@ -103,6 +103,12 @@ const Checkout = ({ navigation, route }) => {
             supportedNetworks: ['visa', 'mastercard', 'amex'],
             countryCode: 'US',
             currencyCode: 'USD',
+            // paymentMethodTokenizationParameters: {
+            //   // parameters: {
+            //   //   gateway: 'nmi',
+            //   //   'nmi:publishableKey': 'STRIPE-PK-KEY',
+            //   // },
+            // },
           },
         },
       ]

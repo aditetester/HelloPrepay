@@ -89,7 +89,7 @@ const Profile = ({ navigation }) => {
             Gutters.fiveTMargin,
             Gutters.tenHMargin,
           ]}
-          onPress={onBackHandler}
+          onPress={() => navigation.navigate('Home')}
         >
           <Image source={Images.LeftArrow} />
         </TouchableOpacity>
@@ -268,7 +268,9 @@ const Profile = ({ navigation }) => {
         }}
       >
         <TouchableOpacity
-          onPress={() => navigation.navigate('OrderHistory')}
+          onPress={() =>
+            navigation.navigate('OrderHistory', { navigateFrom: 'Profile' })
+          }
           style={{
             flexDirection: 'row',
             borderWidth: 1,
@@ -296,6 +298,35 @@ const Profile = ({ navigation }) => {
             ]}
           >
             Order History
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('ChangeCarrier', { navigateFrom: 'Profile' })
+          }
+          style={{
+            flexDirection: 'row',
+            borderWidth: 1,
+            borderColor: 'rgba(158, 150, 150, .5)',
+            padding: 15,
+            margin: 5,
+            borderRadius: 10,
+            alignItems: 'center',
+          }}
+        >
+          <Icon name={'undo'} type="font-awesome-5" color="#DB006A" />
+          <Text
+            style={[
+              Fonts.fontSizeMedium,
+              Fonts.fontWeightSmall,
+              Common.primaryBlueMode,
+              Gutters.tenLMargin,
+              Fonts.fontFamilyPrimary,
+              Gutters.fifteenLMargin,
+            ]}
+          >
+            Change Carrier
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

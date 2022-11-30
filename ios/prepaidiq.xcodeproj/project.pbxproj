@@ -757,7 +757,7 @@
 				CODE_SIGN_ENTITLEMENTS = prepaidiq/prepaidiq.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = ARCS7WUK7Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = prepaidiq/Info.plist;
@@ -788,7 +788,7 @@
 				CODE_SIGN_ENTITLEMENTS = prepaidiq/prepaidiq.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = ARCS7WUK7Y;
 				INFOPLIST_FILE = prepaidiq/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;

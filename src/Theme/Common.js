@@ -34,7 +34,7 @@ export default function ({ Colors, ...args }) {
         color: Colors.primaryPink,
       },
       primaryPinkBorder: {
-        borderWidth: 1,
+        borderWidth: 3,
         borderColor: Colors.primaryPink,
       },
       primaryPinkBackground: {

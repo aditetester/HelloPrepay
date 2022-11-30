@@ -5,7 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Home from '@/screen/AppScreen/Home'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
-import RefillHistory from '@/screen/AppScreen/Refillhistory'
 import Selectplan from '@/screen/AppScreen/Selectplan'
 import AddMoney from '@/screen/AppScreen/AddMoney'
 import Checkout from '@/screen/AppScreen/Checkout'
@@ -23,9 +22,6 @@ const AuthNavigation = () => {
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
   const startingScreen = user.perpos === 'Login' ? 'ChangeCarrier' : 'Home'
-  // const [startingScreens, setStartingScreen] = useState('')
-  // console.log('User.Perpos', user.perpos)
-  // console.log('startingScreen', startingScreen)
   const { Layout, NavigationTheme, Common } = useTheme()
   const { colors } = NavigationTheme
 
@@ -54,10 +50,13 @@ const AuthNavigation = () => {
             headerBackTitleVisible: false,
           }}
         >
-          <Stack.Screen name="ChangeCarrier" component={ChangeCarrier} />
+          <Stack.Screen
+            name="ChangeCarrier"
+            initialParams={{ navigateFrom: 'Otp' }}
+            component={ChangeCarrier}
+          />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="RefillHistory" component={RefillHistory} />
           <Stack.Screen name="Selectplan" component={Selectplan} />
           <Stack.Screen name="AddMoney" component={AddMoney} />
           <Stack.Screen name="Checkout" component={Checkout} />

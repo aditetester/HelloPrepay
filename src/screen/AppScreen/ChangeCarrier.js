@@ -7,21 +7,23 @@ import {
   TouchableHighlight,
   ActivityIndicator,
   Alert,
+  Image as RImage,
 } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { SearchBar, Image, Button } from '@rneui/themed'
+import { SearchBar, Image, Button, Avatar } from '@rneui/themed'
 import {
   useGetCarrierListQuery,
   useGetProfileUpdateMutation,
 } from '@/Services/api'
-import { Avatar } from '@rneui/themed'
 import { useIsFocused } from '@react-navigation/native'
 import { setUser } from '@/Store/User'
 
 const ChangeCarrier = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
+  let params = route.params
+  console.log(params)
   let focus = useIsFocused()
   const dispatch = useDispatch()
   const userData = useSelector(state => state.user.userData)
@@ -29,13 +31,12 @@ const ChangeCarrier = ({ navigation, route }) => {
   const theme = useSelector(state => state.theme)
   const [selectedId, setSelectedId] = useState()
   const [carrier, setCarrier] = useState()
-  const [searchable, setSearchable] = useState(carrier)
+  const [searchable, setSearchable] = useState('')
   const [searchText, setSearchText] = useState('')
 
   //NOTE: 2. API
-  const { data, isLoading, error, refetch } = useGetCarrierListQuery(
-    userData.token,
-  )
+  const { data, isLoading, error, refetch, isFetching } =
+    useGetCarrierListQuery(userData.token)
   const [
     getProfileUpdate,
     {
@@ -56,14 +57,6 @@ const ChangeCarrier = ({ navigation, route }) => {
     })
   }
 
-  const onBackHandler = () => {
-    navigation.goBack()
-  }
-
-  const onProfileHandler = () => {
-    navigation.navigate('Profile')
-  }
-
   const onSelectCarrier = id => {
     if (selectedId === id) {
       setSelectedId('')
@@ -82,7 +75,6 @@ const ChangeCarrier = ({ navigation, route }) => {
       const text_data = text.toUpperCase()
       return item_data.indexOf(text_data) > -1
     })
-    console.log(updatedData)
     setSearchable(updatedData)
     setSearchText(text)
   }
@@ -101,32 +93,46 @@ const ChangeCarrier = ({ navigation, route }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => null,
-      headerStyle: {
-        backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
-      },
+      headerLeft: () => (
+        <View>
+          {params.navigateFrom !== 'Otp' ? (
+            <TouchableOpacity
+              style={[
+                Common.borderRadius,
+                Layout.justifyContentCenter,
+                Layout.center,
+                Gutters.sixtyWidth,
+                Gutters.thirtyHeight,
+                Gutters.tenHMargin,
+              ]}
+              onPress={() => navigation.navigate('Profile')}
+            >
+              <RImage source={Images.LeftArrow} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+      ),
       headerTitle: () => (
-        <Image
+        <RImage
           source={Images.Logo}
           style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
         />
       ),
-      headerRight: () => (
-        <Avatar
-          size={64}
-          rounded
-          onPress={onProfileHandler}
-          source={Images.avatar}
-          containerStyle={[
-            Gutters.twentyRMargin,
-            Gutters.fortyHeight,
-            Gutters.fortyWidth,
-            Common.greyColor,
-          ]}
-        />
-      ),
-      headerTitleAlign: 'left',
+      headerRight: () =>
+        // <Avatar
+        //   size={64}
+        //   rounded
+        //   onPress={() => navigation.navigate('Profile')}
+        //   source={Images.avatar}
+        //   containerStyle={[
+        //     Gutters.twentyRMargin,
+        //     Gutters.fortyHeight,
+        //     Gutters.fortyWidth,
+        //     Common.greyColor,
+        //   ]}
+        // />
+        null,
+      headerTitleAlign: 'center',
       headerShadowVisible: false,
       headerBackTitleVisible: false,
     })
@@ -135,17 +141,8 @@ const ChangeCarrier = ({ navigation, route }) => {
   useEffect(() => {
     if (data) {
       setCarrier(data.data)
-      setSearchable(data.data)
     }
   }, [data])
-
-  // useEffect(() => {
-  //   if (data && data.result) {
-  //     console.log('setCarrier', data.data[0])
-  //     setCarrier(data.result)
-  //     setSearchable(data.result)
-  //   }
-  // }, [data])
 
   useEffect(() => {
     if (profileUpdateData && profileUpdateData.success === true) {
@@ -166,12 +163,6 @@ const ChangeCarrier = ({ navigation, route }) => {
     }
   }, [searchText])
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-    })
-  }, [navigation])
-
   //NOTE: 5. Render Method
 
   const renderItem = ({ item }) => (
@@ -190,24 +181,13 @@ const ChangeCarrier = ({ navigation, route }) => {
             Gutters.fourtythreePWidth,
             Common.borderRadius,
             Common.offWhiteBorder,
-            // selectedId !== id && Common.whiteColorBackground,
             Common.whiteColorBackground,
-            // selectedId === id && Common.primaryPinkBackground,
             selectedId === id && Common.primaryPinkBorder,
             Gutters.eighteenLMargin,
             Common.whiteBackground,
           ]}
           onPress={() => onSelectCarrier(id)}
         >
-          {/* <Image
-            source={{ uri: image }}
-            style={[
-              Layout.selfCenter,
-              Gutters.ninetyPWidth,
-              Layout.fill,
-              Common.resizeModeContain,
-            ]}
-          /> */}
           <Image
             source={{ uri: image }}
             style={[
@@ -221,7 +201,6 @@ const ChangeCarrier = ({ navigation, route }) => {
               Gutters.ninetyPWidth,
               Layout.fill,
               Common.whiteColorBackground,
-              // Common.resizeModeContain,
             ]}
             placeholderStyle={{ backgroundColor: 'white' }}
             PlaceholderContent={
@@ -238,19 +217,6 @@ const ChangeCarrier = ({ navigation, route }) => {
 
   return (
     <View style={[Common.backgroundPrimary, Layout.fill]}>
-      <TouchableOpacity
-        style={[
-          Common.borderRadius,
-          Layout.justifyContentCenter,
-          Layout.center,
-          Gutters.sixtyWidth,
-          Gutters.thirtyHeight,
-          Gutters.tenHMargin,
-        ]}
-        onPress={onBackHandler}
-      >
-        <Image source={Images.LeftArrow} />
-      </TouchableOpacity>
       <View style={[Layout.alignItemsCenter, Gutters.tenVMargin]}>
         <Text
           style={[
@@ -308,7 +274,7 @@ const ChangeCarrier = ({ navigation, route }) => {
         <ActivityIndicator size="small" color={Common.loadingColor.color} />
       ) : (
         <FlatList
-          data={searchable && searchable}
+          data={searchable ? searchable : data.data}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           numColumns={2}

@@ -59,5 +59,8 @@ export default function () {
     paypal: require('../Assets/PaymentMethodImage/paypal.png'),
     samsungpay: require('../Assets/PaymentMethodImage/samsungpay.png'),
     allcards: require('../Assets/PaymentMethodImage/allcards.png'),
+
+    success: require('../Assets/Images/success.png'),
+    fail: require('../Assets/Images/failed.png'),
   }
 }

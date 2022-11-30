@@ -19,6 +19,7 @@ import { useNetInfo } from '@react-native-community/netinfo'
 import { useGetHistoryMutation } from '@/Services/api'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import Spinner from 'react-native-loading-spinner-overlay'
+import moment from 'moment'
 
 const Profile = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -35,6 +36,9 @@ const Profile = ({ navigation, route }) => {
 
   //#region NOTE: 2. Helper Method
 
+  // console.log(data && data.order)
+  // __DEV__ && console.log(data && data.payment)
+
   // const onLogoutHandler = async () => {
   //   dispatch(setUser({ userData: null, isAuth: false }))
   // }
@@ -44,10 +48,12 @@ const Profile = ({ navigation, route }) => {
   }
 
   const onShowHistoryHandler = async id => {
-    let transaction = await data.filter(value => value.id === id)
+    let transaction = await data.order.filter(value => value.id === id)
     setBottomSheetData(...transaction)
     this.Scrollable.open()
   }
+
+  console.log(setBottomSheetData)
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true)
@@ -132,13 +138,21 @@ const Profile = ({ navigation, route }) => {
   )
 
   const bottomSheet = () => {
-    const transaction_ID =
-      bottomSheetData &&
-      bottomSheetData.transaction_details &&
-      bottomSheetData.transaction_details.split('&')[3].split('=')[1]
+    const transactionStatus =
+      bottomSheetData.payment_status === 'success'
+        ? 'Transaction Success'
+        : 'Transaction Failed'
+    const totalAmount = bottomSheetData.total_amt
+      ? `$${bottomSheetData.total_amt}`
+      : '...'
     return (
-      <ScrollView>
-        <View style={{ alignItems: 'center', borderBottomWidth: 1 }}>
+      <ScrollView style={{ marginHorizontal: 10 }}>
+        <View
+          style={{
+            alignItems: 'center',
+            borderBottomWidth: 1,
+          }}
+        >
           <Text
             style={[
               Fonts.fontSizeRegular,
@@ -275,12 +289,13 @@ const Profile = ({ navigation, route }) => {
                 Gutters.tenVMargin,
               ]}
             >
-              Transaction ID
+              Transaction Status
             </Text>
             <Text
               style={[
-                !transaction_ID && Common.errorColor,
-                transaction_ID && Common.primaryBlue,
+                bottomSheetData.payment_status === 'fail' && Common.errorColor,
+                bottomSheetData.payment_status === 'success' &&
+                  Common.primaryBlue,
                 Gutters.fiveRMargin,
                 Fonts.fontWeightRegular,
                 Fonts.fontSizeSmall,
@@ -288,7 +303,7 @@ const Profile = ({ navigation, route }) => {
                 Gutters.tenVMargin,
               ]}
             >
-              {transaction_ID ? transaction_ID : 'Transaction Failed'}
+              {transactionStatus}
             </Text>
           </View>
           <View
@@ -346,7 +361,7 @@ const Profile = ({ navigation, route }) => {
                 Gutters.tenVMargin,
               ]}
             >
-              {`$${bottomSheetData.price}`}
+              {totalAmount}
             </Text>
           </View>
         </View>
@@ -376,7 +391,7 @@ const Profile = ({ navigation, route }) => {
       >
         {!netInfo.isConnected
           ? 'Please Check Your Internet Connection'
-          : 'History Not Found'}
+          : `You don't have any history`}
       </Text>
       <Text
         style={[
@@ -394,12 +409,10 @@ const Profile = ({ navigation, route }) => {
   }
 
   const renderHistory = ({ item }) => {
-    const transaction_ID = item.transaction_details
-
+    let date = moment(item.created_at).format('lll')
     const image =
-      JSON.parse(item.response).order_response[0].qr_image && transaction_ID
-        ? JSON.parse(item.response).order_response[0].qr_image
-        : 'https://cdn-icons-png.flaticon.com/512/4441/4441973.png'
+      item.payment_status === 'success' ? Images.success : Images.fail
+
     return (
       <Pressable
         onPress={() => onShowHistoryHandler(item.id)}
@@ -417,7 +430,7 @@ const Profile = ({ navigation, route }) => {
         <View style={[Layout.row, { justifyContent: 'space-between' }]}>
           <View style={{ width: '80%', flexDirection: 'row' }}>
             <Image
-              source={{ uri: image }}
+              source={image}
               style={[
                 Common.resizeModeContain,
                 Gutters.fiftyHeight,
@@ -434,27 +447,26 @@ const Profile = ({ navigation, route }) => {
             >
               <Text
                 style={[
-                  // { alignSelf: 'center' },
                   Common.primaryBlueMode,
-                  Gutters.fiveRMargin,
+                  Gutters.fiveLMargin,
                   Fonts.fontWeightRegular,
                   Fonts.fontSizeSmall,
                   Fonts.fontFamilyPrimary,
                 ]}
               >
-                {item.carrier_name ? item.carrier_name : 'Transaction Details'}
+                {item.carrier_name}
+                {item.total_amt ? `   $${item.total_amt}` : 'Error'}
               </Text>
               <Text
                 style={[
-                  // { alignSelf: 'center' },
                   Common.primaryBlueMode,
-                  Gutters.fiveRMargin,
+                  Gutters.fiveLMargin,
                   Fonts.fontWeightRegular,
                   Fonts.fontSizeSmall,
                   Fonts.fontFamilyPrimary,
                 ]}
               >
-                {`$${item.price}`}
+                {date}
               </Text>
             </View>
           </View>
@@ -495,9 +507,11 @@ const Profile = ({ navigation, route }) => {
           <FlatList
             showsVerticalScrollIndicator={false}
             keyExtractor={keyExtractor}
-            data={data}
+            data={data && data.order}
             renderItem={renderHistory}
-            ListEmptyComponent={error && errorComponent}
+            ListEmptyComponent={
+              error || (data && data.order.length === 0 && errorComponent)
+            }
             refreshing={isRefreshing} // Added pull to refresh state
             onRefresh={onRefresh}
           />
@@ -506,13 +520,10 @@ const Profile = ({ navigation, route }) => {
           ref={ref => {
             this.Scrollable = ref
           }}
-          height={350}
+          height={400}
           closeOnDragDown
           customStyles={{
-            container: {
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-            },
+            container: { borderTopLeftRadius: 10, borderTopRightRadius: 10 },
           }}
         >
           <ScrollView>
