@@ -39,14 +39,14 @@ const Checkout = ({ navigation, route }) => {
   const [scrollRef, setScrollRef] = useState(null)
 
   const [spinner, setSpinner] = useState(false)
-  const [cardName, setCardName] = useState('Testing')
+  const [cardName, setCardName] = useState('')
   const [cardNumber, setCardNumber] = useState('')
-  const [cardDate, setCardDate] = useState('02/24')
-  const [CVV, setCVV] = useState('123')
-  const [address, setAddress] = useState('Bhavnagar Gujarat')
-  const [aptSuite, setAptSuite] = useState('123123')
-  const [city, setCity] = useState('Bhavnagar')
-  const [state, setState] = useState('Gujarat')
+  const [cardDate, setCardDate] = useState('')
+  const [CVV, setCVV] = useState('')
+  const [address, setAddress] = useState('')
+  const [aptSuite, setAptSuite] = useState('')
+  const [city, setCity] = useState('')
+  const [state, setState] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [useNumber, setUseNumber] = useState(false)
   const [agree, setAgree] = useState(false)
@@ -287,38 +287,6 @@ const Checkout = ({ navigation, route }) => {
 
   //#endregion
 
-  //#region Samsung Pay Configuration
-
-  const samsungpay = () => {
-    return (
-      <View>
-        <TouchableOpacity
-          onPress={() =>
-            Alert.alert(
-              '',
-              'We are working on it \nTry different payment method',
-              [{ text: 'Ok' }],
-            )
-          }
-          style={[
-            Gutters.sixtyHeight,
-            Layout.row,
-            Gutters.fiveVMargin,
-            Common.offWhiteSecondaryBorder,
-          ]}
-        >
-          <ImageBackground
-            source={Images.samsungpay}
-            resizeMode="stretch"
-            style={[Layout.fullSize, Common.borderRadius]}
-          />
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  //#endregion
-
   //#region Helper Method
 
   const onContinueHandler = async () => {
@@ -374,7 +342,7 @@ const Checkout = ({ navigation, route }) => {
   const onScrollHandle = () => {
     scrollRef.scrollTo({
       x: 0,
-      y: 410,
+      y: 340,
       animated: true,
     })
   }
@@ -1121,11 +1089,12 @@ const Checkout = ({ navigation, route }) => {
           </View>
 
           <View style={[Gutters.twentyFourHMargin]}>
-            {number == params.phone_number && cardsPayments}
-            {platform === 'ios' && applepayComponent()}
-            {platform === 'android' && googlePayComponent()}
+            {cardsPayments}
+            {/* {platform === 'ios' && applepayComponent()} */}
+            {/* {platform === 'android' && googlePayComponent()} */}
           </View>
-          {number == params.phone_number && cardPaymentInfo}
+          {/* {number == params.phone_number && cardPaymentInfo} */}
+          {cardPaymentInfo}
         </ScrollView>
       ) : (
         loading

@@ -8,6 +8,7 @@ const slice = createSlice({
       // state.userData = userData
       // state.isAuth = isAuth
       if (typeof userData !== 'undefined') {
+        state.userData = null
         state.userData = userData
       }
       if (typeof isAuth !== 'undefined') {
@@ -16,6 +17,7 @@ const slice = createSlice({
       if (typeof perpos !== 'undefined') {
         state.perpos = perpos
       }
+      console.log('Redux', state.userData)
     },
   },
 })

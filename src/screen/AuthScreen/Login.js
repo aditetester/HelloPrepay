@@ -158,6 +158,7 @@ const Login = ({ navigation }) => {
   }
 
   const onConfirmMode = () => {
+    console.log('Confirm')
     if (sms) {
       signInUsingFirebase(withoutFormateNumber, 'Login')
     } else if (email) {

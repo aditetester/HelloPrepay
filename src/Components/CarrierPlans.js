@@ -6,6 +6,7 @@ import { CheckBox, Button, Skeleton } from '@rneui/themed'
 import { useNavigation } from '@react-navigation/native'
 import { useGetPlansMutation } from '@/Services/api'
 import { useNetInfo } from '@react-native-community/netinfo'
+import {useIsFocused} from '@react-navigation/native'
 
 const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   //#region NOTE: 1 Define Variable
@@ -13,6 +14,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   const netInfo = useNetInfo()
   // const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
+  console.log('Carrier Plan', userData)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
 
   const [isSelected, setSelection] = useState('')
@@ -87,7 +89,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
     }
   }
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = () => {
     setIsRefreshing(true)
     setSelection('')
     setSelectedPrice('')
@@ -96,7 +98,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
       ID: userData.carrier_id,
       token: 'TzZSsHQVMb5j47lPPNowxG507dOD5Qw6fkSCUxYp',
     })
-  }, [])
+  }
 
   //#endregion
 
@@ -114,7 +116,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
       ID: userData.carrier_id,
       token: 'TzZSsHQVMb5j47lPPNowxG507dOD5Qw6fkSCUxYp',
     })
-  }, [, netInfo.isConnected])
+  }, [,netInfo.isConnected, userData])
 
   useEffect(() => {
     if (isLoading) {

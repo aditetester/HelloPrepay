@@ -79,8 +79,8 @@ const ChangeCarrier = ({ navigation, route }) => {
     setSearchText(text)
   }
 
-  const updateState = () => {
-    dispatch(
+  const updateState = async () => {
+    await dispatch(
       setUser({
         userData: profileUpdateData,
         isAuth: true,
@@ -257,7 +257,7 @@ const ChangeCarrier = ({ navigation, route }) => {
         }}
         inputContainerStyle={[
           {
-            height: 56,
+            height: 40,
             backgroundColor: Common.offWhiteBackground.backgroundColor,
             borderRadius: Common.borderRadius.borderRadius,
           },

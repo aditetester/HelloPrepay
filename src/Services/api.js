@@ -70,6 +70,7 @@ export const api = createApi({
     }),
     getPlans: builder.mutation({
       query: ({ ID, token }) => {
+        console.log('ID ', ID)
         return {
           // url: 'verzion',
           url: `https://portal.prepaidiq.com/api/plans/refill/${ID}`,
