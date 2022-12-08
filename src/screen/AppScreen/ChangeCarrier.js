@@ -105,7 +105,8 @@ const ChangeCarrier = ({ navigation, route }) => {
                 Gutters.thirtyHeight,
                 Gutters.tenHMargin,
               ]}
-              onPress={() => navigation.navigate('Profile')}
+              // onPress={() => navigation.navigate('Profile')}
+              onPress={() => navigation.goBack()}
             >
               <RImage source={Images.LeftArrow} />
             </TouchableOpacity>

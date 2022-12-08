@@ -12,7 +12,7 @@ import {
 import { useTheme } from '@/Hooks'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '@/Store/User'
-import { Icon, CheckBox } from '@rneui/themed'
+import { Icon, CheckBox, Avatar } from '@rneui/themed'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import { changeTheme } from '@/Store/Theme'
 import { useGetPlansMutation } from '@/Services/api'
@@ -217,15 +217,18 @@ const Profile = ({ navigation }) => {
         }}
       >
         <View>
-          <Image
-            source={Images.avatar}
-            style={{
-              height: '80%',
-              marginLeft: -15,
-              marginRight: -5,
-            }}
-            resizeMode="contain"
-          />
+          <Avatar
+            size={60}
+            rounded
+            title={userData.first_name.charAt(0)}
+            containerStyle={[
+              Gutters.twentyRMargin,
+              Gutters.tenLMargin,
+              Common.primaryPinkBackground,
+            ]}
+          >
+            <Avatar.Accessory size={20} />
+          </Avatar>
         </View>
         <View style={{ flexDirection: 'column' }}>
           <Text

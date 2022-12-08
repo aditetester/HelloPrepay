@@ -234,6 +234,9 @@ export default function ({ Colors, ...args }) {
       transactionModalTextColor: {
         color: Colors.transactionModalTextColor,
       },
+      blackAndWhite: {
+        color: Colors.textColor,
+      },
     }),
   }
 }

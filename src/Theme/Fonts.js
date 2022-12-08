@@ -13,6 +13,9 @@ export default function ({ FontSize, Colors }) {
     fontFamilyPrimary: {
       fontFamily: 'Satoshi-Regular',
     },
+    fontSize12: {
+      fontSize: 12,
+    },
     fontSizeSmall: {
       fontSize: 16,
     },
