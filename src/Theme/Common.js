@@ -94,6 +94,12 @@ export default function ({ Colors, ...args }) {
         borderColor: Colors.offWhite,
         borderWidth: 1,
       },
+      offWhiteBorderWithoutBottom: {
+        borderTopColor: Colors.offWhite,
+        borderWidth: 1,
+        borderLeftColor: Colors.offWhite,
+        borderRightColor: Colors.offWhite,
+      },
       offWhiteSecondary: {
         color: Colors.offWhiteSecondary,
       },

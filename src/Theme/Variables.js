@@ -111,6 +111,7 @@ const twentyM = -20
 const tenM = -10
 const fifteenM = -15
 const twentyFiveM = -25
+const sixtyM = -60
 
 //---------Width and Height-------------
 const twoP = '2%'

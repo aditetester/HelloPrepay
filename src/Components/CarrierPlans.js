@@ -1,12 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, Text, Image, FlatList, Pressable } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  Pressable,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
 import { CheckBox, Button, Skeleton } from '@rneui/themed'
 import { useNavigation } from '@react-navigation/native'
 import { useGetPlansMutation } from '@/Services/api'
 import { useNetInfo } from '@react-native-community/netinfo'
-import {useIsFocused} from '@react-navigation/native'
+import { useIsFocused } from '@react-navigation/native'
 
 const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   //#region NOTE: 1 Define Variable
@@ -14,7 +22,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   const netInfo = useNetInfo()
   // const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
-  console.log('Carrier Plan', userData)
+  const theme = useSelector(state => state.theme)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
 
   const [isSelected, setSelection] = useState('')
@@ -116,7 +124,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
       ID: userData.carrier_id,
       token: 'TzZSsHQVMb5j47lPPNowxG507dOD5Qw6fkSCUxYp',
     })
-  }, [,netInfo.isConnected, userData])
+  }, [, netInfo.isConnected, userData])
 
   useEffect(() => {
     if (isLoading) {
@@ -149,15 +157,14 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
           Common.offWhiteSecondaryBorder,
           item.id === isSelected && Common.primaryPinkBorder,
           item.id === isSelected && Common.primaryPinkBackground,
-          Layout.fill,
+          // Layout.fill,
           Common.borderWidthOne,
           Common.borderRadius,
-          Gutters.ninePadding,
           Gutters.sixVMargin,
         ]}
       >
         <View style={[Layout.row, { justifyContent: 'space-between' }]}>
-          <View style={{ width: '80%', flexDirection: 'row' }}>
+          <View style={{ width: '80%', flexDirection: 'row', marginLeft: 10 }}>
             <Text
               style={[
                 Common.primaryBlueMode,
@@ -210,6 +217,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
         </View>
         <Text
           style={[
+            { marginLeft: 10 },
             Common.primaryGrey,
             isSelected === item.id && Common.white,
             Gutters.fiveVMargin,
@@ -254,7 +262,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   const loading = (
     <View
       style={[
-        { flex: 12.4, marginHorizontal: 31 },
+        { flex: 12.5, marginHorizontal: 31 },
         Layout.justifyContentCenter,
         Gutters.twentyFourHMargin,
         Gutters.fiveVMargin,
@@ -384,52 +392,90 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
         loading
       ) : (
         <React.Fragment>
-          <View style={[Layout.flexTen, Gutters.twentyFourHMargin]}>
+          <View style={[Layout.flexTen, Gutters.twentyHMargin]}>
             <FlatList
               showsVerticalScrollIndicator={false}
               keyExtractor={keyExtractor}
               data={data && data.data}
               renderItem={renderPlans}
               ListEmptyComponent={error && errorComponent}
-              refreshing={isRefreshing} // Added pull to refresh state
-              onRefresh={onRefresh}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={onRefresh}
+                  tintColor={theme.darkMode ? 'white' : 'black'}
+                />
+              }
             />
           </View>
           <View
             style={[
+              {
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '90%',
+                flex: 3,
+              },
               Layout.selfCenter,
-              Layout.flexTwo,
-              Gutters.ninetyfivePWidth,
-              Gutters.fortyBMargin,
+              Gutters.twentyBMargin,
               Gutters.twentyMTMargin,
             ]}
           >
-            <Button
-              title="continue"
-              loading={false}
-              onPress={() => {
-                onContinue()
-              }}
-              loadingProps={[{ size: 'small' }, Common.whiteColor]}
-              titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
-              buttonStyle={[
-                Common.primaryPinkBackground,
-                Gutters.fiftyfiveHeight,
-                Common.borderRadius,
-              ]}
-              containerStyle={[
-                Gutters.ninetyfivePWidth,
-                Gutters.twentyTMargin,
-                Layout.selfCenter,
-                Common.borderRadius,
-              ]}
-              disabled={!valid}
-              disabledStyle={[Common.whiteColor, Common.greyBackground]}
-              disabledTitleStyle={[
-                Common.whiteColor,
-                Gutters.zeroOsevenOpacity,
-              ]}
-            />
+            <View style={{ width: '48%' }}>
+              <Button
+                title="Change carrier"
+                loading={false}
+                onPress={() =>
+                  navigation.navigate('ChangeCarrier', { navigateFrom: 'Home' })
+                }
+                loadingProps={[{ size: 'small' }, Common.whiteColor]}
+                titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+                buttonStyle={[
+                  Common.primaryPinkBackground,
+                  Gutters.fiftyfiveHeight,
+                  Gutters.hundredPWidth,
+                  Common.borderRadius,
+                ]}
+                containerStyle={[
+                  Gutters.twentyTMargin,
+                  Layout.selfCenter,
+                  Common.borderRadius,
+                  Gutters.hundredPWidth,
+                ]}
+                disabled={false}
+              />
+            </View>
+            <View style={{ width: '48%' }}>
+              <Button
+                title="Continue"
+                loading={false}
+                onPress={() => {
+                  onContinue()
+                }}
+                loadingProps={[{ size: 'small' }, Common.whiteColor]}
+                titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+                buttonStyle={[
+                  Common.primaryPinkBackground,
+                  Gutters.fiftyfiveHeight,
+                  Common.borderRadius,
+                  Gutters.hundredPWidth,
+                ]}
+                containerStyle={[
+                  // Gutters.fortyPWidth,
+                  Gutters.twentyTMargin,
+                  Layout.selfCenter,
+                  Common.borderRadius,
+                  Gutters.hundredPWidth,
+                ]}
+                disabled={!valid}
+                disabledStyle={[Common.whiteColor, Common.greyBackground]}
+                disabledTitleStyle={[
+                  Common.whiteColor,
+                  Gutters.zeroOsevenOpacity,
+                ]}
+              />
+            </View>
           </View>
         </React.Fragment>
       )}

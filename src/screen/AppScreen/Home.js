@@ -52,30 +52,7 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('ChangeCarrier', { navigateFrom: 'Home' })
-          }
-          style={{
-            borderColor: '#DB006A',
-            borderWidth: 1,
-            borderRadius: 5,
-            padding: 5,
-            marginLeft: 20,
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            style={[
-              Fonts.fontSize12,
-              Fonts.textCenter,
-              Common.textColor,
-              Fonts.fontWeightSmall,
-            ]}
-          >{`Change \ncarrier`}</Text>
-        </TouchableOpacity>
-      ),
+      headerLeft: () => null,
       headerStyle: {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
         height: 70,
@@ -83,7 +60,8 @@ const Home = ({ navigation }) => {
       headerTitle: () => (
         <Image
           source={Images.Logo}
-          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+          resizeMode="contain"
+          style={[Gutters.headerWidthWidth]}
         />
       ),
       headerRight: () => (
@@ -97,7 +75,7 @@ const Home = ({ navigation }) => {
           <Avatar.Accessory size={20} />
         </Avatar>
       ),
-      headerTitleAlign: 'center',
+      headerTitleAlign: 'left',
       headerShadowVisible: false,
       headerBackTitleVisible: false,
     })

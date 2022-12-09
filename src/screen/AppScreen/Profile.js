@@ -116,14 +116,14 @@ const Profile = ({ navigation }) => {
 
   const themeChangeBottomSheet = () => {
     return (
-      <View>
+      <View style={[Common.backgroundPrimary]}>
         <CheckBox
           title={'Dark theme'}
           textStyle={[darkTheme && Common.white, !darkTheme && Common.black]}
           containerStyle={[
             darkTheme && Common.primaryPinkBackground,
             Common.borderRadiusTen,
-            Common.borderWidthFour,
+            Common.offWhiteBorder,
           ]}
           checkedIcon={
             <Icon
@@ -154,7 +154,7 @@ const Profile = ({ navigation }) => {
           containerStyle={[
             lightTheme && Common.primaryPinkBackground,
             Common.borderRadiusTen,
-            Common.borderWidthFour,
+            Common.offWhiteBorder,
           ]}
           checkedIcon={
             <Icon
@@ -189,10 +189,14 @@ const Profile = ({ navigation }) => {
       height={160}
       closeOnDragDown
       customStyles={{
-        container: [{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }],
+        container: [
+          { borderTopLeftRadius: 10, borderTopRightRadius: 10 },
+          Common.backgroundPrimary,
+          Common.offWhiteBorderWithoutBottom,
+        ],
       }}
     >
-      <ScrollView>
+      <ScrollView style={[Common.backgroundPrimary]}>
         <TouchableOpacity activeOpacity={1}>
           {themeChangeBottomSheet()}
         </TouchableOpacity>
