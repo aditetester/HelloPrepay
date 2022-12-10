@@ -17,6 +17,7 @@ import CarrierPlans from '@/Components/CarrierPlans'
 import { useIsFocused } from '@react-navigation/native'
 import History from '../Data/history'
 import UserHistory from '../../Components/History'
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
 const Home = ({ navigation }) => {
   //NOTE: 1. Define Variables
@@ -155,18 +156,20 @@ const Home = ({ navigation }) => {
       </View>
       <View
         style={[
+          { marginVertical: verticalScale(5) },
           Layout.flexThree,
-          Gutters.fiveVMargin,
+          // Gutters.fiveVMargin,
           Gutters.twentyFourHMargin,
         ]}
       >
         <View style={[Layout.row]}>
           <Text
             style={[
+              { marginBottom: scale(10) },
               Common.primaryGrey,
               Fonts.fontWeightSmall,
               Fonts.fontFamilyPrimary,
-              Gutters.tenBMargin,
+              // Gutters.tenBMargin,
               Fonts.fontFamilyPrimary,
             ]}
           >
@@ -175,15 +178,16 @@ const Home = ({ navigation }) => {
           <Image
             source={Images.bluetick}
             style={[
+              { marginLeft: scale(10) },
               Gutters.twentyHeight,
               Gutters.twentyWidth,
-              Gutters.tenLMargin,
+              // Gutters.tenLMargin,
             ]}
           />
         </View>
         <View
           style={[
-            { maxHeight: 60 },
+            { maxHeight: scale(60) },
             Layout.flexTwo,
             Layout.row,
             Layout.alignItemsCenter,
@@ -198,19 +202,21 @@ const Home = ({ navigation }) => {
             keyboardType="numeric"
             maxLength={14}
             style={[
+              { marginHorizontal: scale(10) },
               Fonts.fontFamilyPrimary,
               Common.white,
               Fonts.fontSizeRegular,
               Fonts.fontWeightRegular,
-              Gutters.tenHMargin,
+              // Gutters.tenHMargin,
               Gutters.fiftyfivePWidth,
             ]}
           />
           <Image
             source={{ uri: user.userData.carrier_image }}
             style={[
+              { marginRight: scale(8) },
               Layout.center,
-              Gutters.eightRMargin,
+              // Gutters.eightRMargin,
               Gutters.eightyPHeight,
               Gutters.seventyWidth,
               Common.resizeModeContain,

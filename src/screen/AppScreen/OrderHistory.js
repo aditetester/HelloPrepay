@@ -20,6 +20,8 @@ import { useGetHistoryMutation } from '@/Services/api'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import Spinner from 'react-native-loading-spinner-overlay'
 import moment from 'moment'
+import * as Animatable from 'react-native-animatable'
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
 const Profile = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -52,8 +54,6 @@ const Profile = ({ navigation, route }) => {
     setBottomSheetData(...transaction)
     this.Scrollable.open()
   }
-
-  console.log(setBottomSheetData)
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true)
@@ -146,7 +146,7 @@ const Profile = ({ navigation, route }) => {
       ? `$${bottomSheetData.total_amt}`
       : '...'
     return (
-      <ScrollView style={{ marginHorizontal: 10 }}>
+      <ScrollView style={{ marginHorizontal: scale(10) }}>
         <View
           style={{
             alignItems: 'center',
@@ -157,7 +157,7 @@ const Profile = ({ navigation, route }) => {
             style={[
               Fonts.fontSizeRegular,
               Common.primaryBlue,
-              { marginBottom: 10 },
+              { marginBottom: scale(10) },
             ]}
           >
             Transaction Details
@@ -408,7 +408,7 @@ const Profile = ({ navigation, route }) => {
     return item.id.toString()
   }
 
-  const renderHistory = ({ item }) => {
+  const renderHistory = ({ item, index }) => {
     let date = moment(item.created_at).format('lll')
     const image =
       item.payment_status === 'success' ? Images.success : Images.fail
@@ -427,13 +427,19 @@ const Profile = ({ navigation, route }) => {
           Gutters.sixVMargin,
         ]}
       >
-        <View style={[Layout.row, { justifyContent: 'space-between' }]}>
+        <Animatable.View
+          duration={1000}
+          animation="fadeInUp"
+          delay={index * 50}
+          style={[Layout.row, { justifyContent: 'space-between' }]}
+        >
           <View style={{ width: '80%', flexDirection: 'row' }}>
             <Image
               source={image}
               style={[
+                { height: verticalScale(50) },
                 Common.resizeModeContain,
-                Gutters.fiftyHeight,
+                // Gutters.fiftyHeight,
                 Gutters.twentyPWidth,
                 Gutters.fiveVMargin,
               ]}
@@ -471,9 +477,13 @@ const Profile = ({ navigation, route }) => {
             </View>
           </View>
           <View style={{ justifyContent: 'center' }}>
-            <AntIcon name="right" color={Common.normalText.color} size={15} />
+            <AntIcon
+              name="right"
+              color={Common.normalText.color}
+              size={scale(15)}
+            />
           </View>
-        </View>
+        </Animatable.View>
       </Pressable>
     )
   }
@@ -520,7 +530,7 @@ const Profile = ({ navigation, route }) => {
           ref={ref => {
             this.Scrollable = ref
           }}
-          height={400}
+          height={verticalScale(400)}
           closeOnDragDown
           customStyles={{
             container: { borderTopLeftRadius: 10, borderTopRightRadius: 10 },

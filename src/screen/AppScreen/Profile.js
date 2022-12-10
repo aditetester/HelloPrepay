@@ -16,6 +16,7 @@ import { Icon, CheckBox, Avatar } from '@rneui/themed'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import { changeTheme } from '@/Store/Theme'
 import { useGetPlansMutation } from '@/Services/api'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const Profile = ({ navigation }) => {
   //#region NOTE: Define Variable
@@ -129,7 +130,7 @@ const Profile = ({ navigation }) => {
             <Icon
               name="check-circle"
               type="font-awesome-5"
-              size={20}
+              size={scale(20)}
               color={darkTheme ? 'white' : 'white'}
             />
           }
@@ -137,7 +138,7 @@ const Profile = ({ navigation }) => {
             <Icon
               name="circle"
               type="font-awesome-5"
-              size={20}
+              size={scale(20)}
               color={!darkTheme ? 'grey' : '#DB006A'}
             />
           }
@@ -160,7 +161,7 @@ const Profile = ({ navigation }) => {
             <Icon
               name="check-circle"
               type="font-awesome-5"
-              size={20}
+              size={scale(20)}
               color={lightTheme ? 'white' : 'white'}
             />
           }
@@ -168,7 +169,7 @@ const Profile = ({ navigation }) => {
             <Icon
               name="circle"
               type="font-awesome-5"
-              size={20}
+              size={scale(20)}
               color={!lightTheme ? 'grey' : '#DB006A'}
             />
           }
@@ -186,7 +187,7 @@ const Profile = ({ navigation }) => {
   const bottomSheetConfig = (
     <RBSheet
       ref={refRBSheet}
-      height={160}
+      height={verticalScale(160)}
       closeOnDragDown
       customStyles={{
         container: [
@@ -213,16 +214,16 @@ const Profile = ({ navigation }) => {
           flex: 1,
           alignItems: 'center',
           flexDirection: 'row',
-          marginHorizontal: 24,
+          marginHorizontal: scale(24),
           borderColor: 'rgba(158, 150, 150, .5)',
           borderWidth: 1,
           borderRadius: 10,
-          marginTop: 15,
+          marginTop: scale(15),
         }}
       >
         <View>
           <Avatar
-            size={60}
+            size={scale(60)}
             rounded
             title={userData.first_name.charAt(0)}
             containerStyle={[
@@ -231,7 +232,7 @@ const Profile = ({ navigation }) => {
               Common.primaryPinkBackground,
             ]}
           >
-            <Avatar.Accessory size={20} />
+            <Avatar.Accessory size={scale(20)} />
           </Avatar>
         </View>
         <View style={{ flexDirection: 'column' }}>
@@ -270,8 +271,8 @@ const Profile = ({ navigation }) => {
       <View
         style={{
           flex: 6,
-          marginHorizontal: 20,
-          marginTop: 5,
+          marginHorizontal: scale(20),
+          marginTop: verticalScale(5),
         }}
       >
         <TouchableOpacity
@@ -282,14 +283,14 @@ const Profile = ({ navigation }) => {
             flexDirection: 'row',
             borderWidth: 1,
             borderColor: 'rgba(158, 150, 150, .5)',
-            padding: 15,
-            margin: 5,
+            padding: scale(15),
+            margin: scale(5),
             borderRadius: 10,
             alignItems: 'center',
           }}
         >
           <Icon
-            size={24}
+            size={scale(24)}
             name={'history'}
             type="font-awesome-5"
             color={Common.primaryPink.color}
@@ -316,13 +317,18 @@ const Profile = ({ navigation }) => {
             flexDirection: 'row',
             borderWidth: 1,
             borderColor: 'rgba(158, 150, 150, .5)',
-            padding: 15,
-            margin: 5,
+            padding: scale(15),
+            margin: scale(5),
             borderRadius: 10,
             alignItems: 'center',
           }}
         >
-          <Icon name={'undo'} type="font-awesome-5" color="#DB006A" />
+          <Icon
+            size={scale(24)}
+            name={'undo'}
+            type="font-awesome-5"
+            color="#DB006A"
+          />
           <Text
             style={[
               Fonts.fontSizeMedium,
@@ -342,14 +348,15 @@ const Profile = ({ navigation }) => {
             flexDirection: 'row',
             borderWidth: 1,
             borderColor: 'rgba(158, 150, 150, .5)',
-            padding: 15,
-            margin: 5,
+            padding: scale(15),
+            margin: scale(5),
             borderRadius: 10,
             alignItems: 'center',
           }}
         >
           <Icon
             // onPress={() => setDialog(true)}
+            size={scale(24)}
             name={'moon'}
             type="font-awesome-5"
             color="#DB006A"
@@ -373,14 +380,15 @@ const Profile = ({ navigation }) => {
             flexDirection: 'row',
             borderWidth: 1,
             borderColor: 'rgba(158, 150, 150, .5)',
-            padding: 15,
-            margin: 5,
+            padding: scale(15),
+            margin: scale(5),
             borderRadius: 10,
             alignItems: 'center',
           }}
         >
           <Icon
             // onPress={() => setDialog(true)}
+            size={scale(24)}
             name={'sign-out-alt'}
             type="font-awesome-5"
             color="red"

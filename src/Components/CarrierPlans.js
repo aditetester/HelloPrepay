@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, Fragment } from 'react'
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useGetPlansMutation } from '@/Services/api'
 import { useNetInfo } from '@react-native-community/netinfo'
 import { useIsFocused } from '@react-navigation/native'
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
 const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   //#region NOTE: 1 Define Variable
@@ -154,22 +155,30 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={[
+          { marginVertical: scale(6) },
           Common.offWhiteSecondaryBorder,
           item.id === isSelected && Common.primaryPinkBorder,
           item.id === isSelected && Common.primaryPinkBackground,
           // Layout.fill,
           Common.borderWidthOne,
           Common.borderRadius,
-          Gutters.sixVMargin,
+          // Gutters.sixVMargin,
         ]}
       >
         <View style={[Layout.row, { justifyContent: 'space-between' }]}>
-          <View style={{ width: '80%', flexDirection: 'row', marginLeft: 10 }}>
+          <View
+            style={{
+              width: '80%',
+              flexDirection: 'column',
+              marginLeft: scale(10),
+            }}
+          >
             <Text
               style={[
+                // { marginRight: scale(5) },
                 Common.primaryBlueMode,
                 isSelected === item.id && Common.white,
-                Gutters.fiveRMargin,
+                // Gutters.fiveRMargin,
                 Fonts.fontWeightRegular,
                 Fonts.fontSizeSmall,
                 Fonts.fontFamilyPrimary,
@@ -177,8 +186,20 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
             >
               {item.plan_name}
             </Text>
+            <Text
+              style={[
+                // { marginLeft: scale(10) },
+                Common.primaryGrey,
+                isSelected === item.id && Common.white,
+                Gutters.fiveVMargin,
+                Fonts.fontFamilyPrimary,
+                Fonts.fontSize12,
+              ]}
+            >
+              {item.type}
+            </Text>
           </View>
-          <View>
+          <View style={{ justifyContent: 'center' }}>
             <CheckBox
               center
               checked={item.id === isSelected}
@@ -187,9 +208,8 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
                 <Image
                   source={Images.checked}
                   style={[
+                    { height: verticalScale(25), width: scale(25) },
                     Common.resizeModeContain,
-                    Gutters.twentyfiveHeight,
-                    Gutters.twentyfiveWidth,
                   ]}
                 />
               }
@@ -207,7 +227,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
                 Common.backgroundPrimary,
                 item.id === isSelected && Common.primaryPinkBackground,
                 // Gutters.twozerozeroLMargin,
-                Gutters.twentyFiveMBMargin,
+                // Gutters.twentyMBMargin,
                 Layout.center,
                 Layout.selfCenter,
               ]}
@@ -215,17 +235,18 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
             />
           </View>
         </View>
-        <Text
+        {/* <Text
           style={[
-            { marginLeft: 10 },
+            { marginLeft: scale(10) },
             Common.primaryGrey,
             isSelected === item.id && Common.white,
             Gutters.fiveVMargin,
             Fonts.fontFamilyPrimary,
+            Fonts.fontSize12,
           ]}
         >
           {item.type}
-        </Text>
+        </Text> */}
       </Pressable>
     )
   }
@@ -324,7 +345,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   )
 
   const carrierPlanComponent = (
-    <>
+    <Fragment>
       <View
         style={[
           Layout.flexTwo,
@@ -432,8 +453,9 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
                 loadingProps={[{ size: 'small' }, Common.whiteColor]}
                 titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
                 buttonStyle={[
+                  { height: verticalScale(55) },
                   Common.primaryPinkBackground,
-                  Gutters.fiftyfiveHeight,
+                  // Gutters.fiftyfiveHeight,
                   Gutters.hundredPWidth,
                   Common.borderRadius,
                 ]}
@@ -456,8 +478,9 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
                 loadingProps={[{ size: 'small' }, Common.whiteColor]}
                 titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
                 buttonStyle={[
+                  { height: verticalScale(55) },
                   Common.primaryPinkBackground,
-                  Gutters.fiftyfiveHeight,
+                  // Gutters.fiftyfiveHeight,
                   Common.borderRadius,
                   Gutters.hundredPWidth,
                 ]}
@@ -479,11 +502,11 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
           </View>
         </React.Fragment>
       )}
-    </>
+    </Fragment>
   )
 
   //#endregion
 
-  return <>{carrierPlanComponent}</>
+  return <Fragment>{carrierPlanComponent}</Fragment>
 }
 export default CarrierPlans

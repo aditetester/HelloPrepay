@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, Fragment } from 'react'
 import {
   View,
   Text,
@@ -26,6 +26,7 @@ import {
   useGetRechargeMutation,
   usePlaceEsimOrderMutation,
 } from '@/Services/api'
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
 const Checkout = ({ navigation, route }) => {
   //#region Define Variables
@@ -170,7 +171,8 @@ const Checkout = ({ navigation, route }) => {
         <TouchableOpacity
           onPress={() => applePay()}
           style={[
-            Gutters.sixtyHeight,
+            { height: scale(60) },
+            // Gutters.sixtyHeight,
             Layout.row,
             Gutters.fiveVMargin,
             Common.offWhiteSecondaryBorder,
@@ -269,7 +271,8 @@ const Checkout = ({ navigation, route }) => {
         <TouchableOpacity
           onPress={() => googlePay()}
           style={[
-            Gutters.sixtyHeight,
+            { height: scale(60) },
+            // Gutters.sixtyHeight,
             Layout.row,
             Gutters.fiveVMargin,
             Common.offWhiteSecondaryBorder,
@@ -444,7 +447,8 @@ const Checkout = ({ navigation, route }) => {
       <TouchableOpacity
         onPress={() => onScrollHandle()}
         style={[
-          Gutters.sixtyHeight,
+          { height: scale(60) },
+          // Gutters.sixtyHeight,
           Layout.row,
           Gutters.fiveVMargin,
           Common.offWhiteSecondaryBorder,
@@ -460,7 +464,7 @@ const Checkout = ({ navigation, route }) => {
   )
 
   const cardPaymentInfo = (
-    <>
+    <Fragment>
       <View style={[Gutters.twentyFourHMargin]}>
         <Text
           style={[
@@ -485,12 +489,13 @@ const Checkout = ({ navigation, route }) => {
         </Text>
         <TextInput
           style={[
+            { height: verticalScale(56) },
             Common.primaryBlue,
             Fonts.fontWeightSmall,
             Common.borderRadius,
             Common.offWhiteBackground,
             Gutters.tenVMargin,
-            Gutters.fiftysixHeight,
+            // Gutters.fiftysixHeight,
             Fonts.fontSizeSmall,
             Fonts.fontFamilyPrimary,
             Gutters.tenHPadding,
@@ -519,9 +524,11 @@ const Checkout = ({ navigation, route }) => {
           inputWrapStyle={[
             Common.offWhiteBackground,
             Common.borderRadius,
-            Gutters.twentyMBMargin,
+            // Gutters.twentyMBMargin,
+            { height: verticalScale(56) },
           ]}
           inputStyle={[
+            { height: verticalScale(56) },
             Common.primaryBlue,
             Fonts.fontSizeSmall,
             Fonts.fontWeightSmall,
@@ -529,7 +536,7 @@ const Checkout = ({ navigation, route }) => {
           ]}
         />
 
-        <View style={[Layout.row]}>
+        <View style={[Layout.row, { marginTop: verticalScale(-20) }]}>
           <View style={[Gutters.fiftyPWidth]}>
             <Text
               style={[
@@ -558,6 +565,7 @@ const Checkout = ({ navigation, route }) => {
         </View>
         <View
           style={[
+            // { marginTop: -10 },
             Layout.justifyContentBetween,
             Layout.alignItemsCenter,
             Layout.row,
@@ -574,9 +582,10 @@ const Checkout = ({ navigation, route }) => {
               setCardDate(t)
             }}
             inputWrapStyle={[
+              { height: verticalScale(55) },
               Common.offWhiteBackground,
               Common.borderRadius,
-              Gutters.fiftyfiveHeight,
+              // Gutters.fiftyfiveHeight,
               Gutters.onefivezeroWidth,
               Gutters.tenMTMargin,
               Gutters.fifteenMBMargin,
@@ -598,9 +607,10 @@ const Checkout = ({ navigation, route }) => {
             secureTextEntry={true}
             maxLength={3}
             style={[
+              { height: verticalScale(56) },
               Common.primaryBlue,
               Common.offWhiteBackground,
-              Gutters.fiftysixHeight,
+              // Gutters.fiftysixHeight,
               Gutters.tenVMargin,
               Common.borderRadius,
               Gutters.fortyeightPWidth,
@@ -639,12 +649,13 @@ const Checkout = ({ navigation, route }) => {
           </Text>
           <TextInput
             style={[
+              { height: verticalScale(56) },
               Common.primaryBlue,
               Fonts.fontWeightSmall,
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              Gutters.fiftysixHeight,
+              // Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -664,12 +675,13 @@ const Checkout = ({ navigation, route }) => {
           </Text>
           <TextInput
             style={[
+              { height: verticalScale(56) },
               Common.primaryBlue,
               Fonts.fontWeightSmall,
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              Gutters.fiftysixHeight,
+              // Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -689,12 +701,13 @@ const Checkout = ({ navigation, route }) => {
           </Text>
           <TextInput
             style={[
+              { height: verticalScale(56) },
               Common.primaryBlue,
               Fonts.fontWeightSmall,
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              Gutters.fiftysixHeight,
+              // Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -714,12 +727,13 @@ const Checkout = ({ navigation, route }) => {
           </Text>
           <TextInput
             style={[
+              { height: verticalScale(56) },
               Common.primaryBlue,
               Fonts.fontWeightSmall,
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              Gutters.fiftysixHeight,
+              // Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -763,7 +777,8 @@ const Checkout = ({ navigation, route }) => {
                 <Image
                   source={Images.check}
                   style={[
-                    Gutters.twentyfiveHeight,
+                    { height: verticalScale(25) },
+                    // Gutters.twentyfiveHeight,
                     Gutters.twentyfiveWidth,
                     Common.resizeModeContain,
                   ]}
@@ -773,7 +788,8 @@ const Checkout = ({ navigation, route }) => {
                 <Image
                   source={Images.uncheck}
                   style={[
-                    Gutters.twentyfiveHeight,
+                    { height: verticalScale(25) },
+                    // Gutters.twentyfiveHeight,
                     Gutters.twentyfiveWidth,
                     Common.resizeModeContain,
                   ]}
@@ -828,8 +844,9 @@ const Checkout = ({ navigation, route }) => {
             Gutters.fiftyLMargin,
           ]}
           buttonStyle={[
+            { height: verticalScale(55) },
             Common.primaryPinkBackground,
-            Gutters.fiftyfiveHeight,
+            // Gutters.fiftyfiveHeight,
             Common.borderRadius,
             Layout.justifyContentBetween,
           ]}
@@ -843,7 +860,7 @@ const Checkout = ({ navigation, route }) => {
           disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
         />
       </View>
-    </>
+    </Fragment>
   )
 
   const loading = (
@@ -941,8 +958,9 @@ const Checkout = ({ navigation, route }) => {
               loadingProps={[{ size: 'small' }, Common.whiteColor]}
               titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
               buttonStyle={[
+                { height: verticalScale(55) },
                 Common.primaryPinkBackground,
-                Gutters.fiftyfiveHeight,
+                // Gutters.fiftyfiveHeight,
                 Common.borderRadius,
               ]}
               containerStyle={[
@@ -1014,7 +1032,8 @@ const Checkout = ({ navigation, route }) => {
               <Image
                 source={Images.bluetick}
                 style={[
-                  Gutters.twentyHeight,
+                  { height: verticalScale(18) },
+                  // Gutters.twentyHeight,
                   Gutters.twentyWidth,
                   Gutters.tenLMargin,
                   Common.resizeModeContain,
@@ -1022,50 +1041,113 @@ const Checkout = ({ navigation, route }) => {
               />
             </View>
             <View style={[Common.borderRadius, Common.primaryBlueBackground]}>
+              {/* <View
+                style={
+                  [
+                    // Layout.alignItemsCenter,
+                    // Layout.row,
+                    // Layout.justifyContentBetween,
+                  ]
+                }
+              >
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text
+                    style={[
+                      Fonts.fontFamilyPrimary,
+                      Common.white,
+                      Fonts.fontSizeRegular,
+                      Fonts.fontWeightRegular,
+                      Gutters.fifteenLMargin,
+                    ]}
+                  >
+                    {params.formattedNumber}
+                  </Text>
+                  <Image
+                    source={{ uri: userData.carrier_image }}
+                    style={{
+                      resizeMode: 'contain',
+                      width: '30%',
+                      height: 40,
+                      borderRadius: 4,
+                      marginTop: 25,
+                    }}
+                  />
+                </View>
+                <View style={{ width: '70%' }}>
+                  <Text
+                    style={[
+                      Common.white,
+                      Gutters.twentyVMargin,
+                      Gutters.sixteenHMargin,
+                      Gutters.eightMTMargin,
+                      Fonts.fontFamilyPrimary,
+                    ]}
+                  >
+                    {`${params.planName ? params.planName : 'Esim'} ${
+                      params.amount
+                    } — One payment of ${params.amount}`}
+                  </Text>
+                </View>
+              </View> */}
               <View
                 style={[
-                  Layout.alignItemsCenter,
+                  { maxHeight: verticalScale(80) },
+                  Layout.flexTwo,
                   Layout.row,
+                  Layout.alignItemsCenter,
                   Layout.justifyContentBetween,
+                  Common.borderRadius,
+                  Common.primaryBlueBackground,
                 ]}
               >
-                <Text
-                  style={[
-                    Fonts.fontFamilyPrimary,
-                    Common.white,
-                    Fonts.fontSizeRegular,
-                    Fonts.fontWeightRegular,
-                    Gutters.fifteenLMargin,
-                  ]}
-                >
-                  {params.formattedNumber}
-                </Text>
-
-                <Image
-                  source={{ uri: userData.carrier_image }}
-                  style={{
-                    resizeMode: 'contain',
-                    width: '30%',
-                    height: 40,
-                    borderRadius: 4,
-                    margin: 5,
-                    marginRight: 5,
-                  }}
-                />
+                <View style={{ flexDirection: 'column' }}>
+                  <Text
+                    style={[
+                      { paddingTop: verticalScale(20) },
+                      Fonts.fontFamilyPrimary,
+                      Common.white,
+                      Fonts.fontSizeMedium,
+                      Fonts.fontWeightRegular,
+                      Gutters.fifteenLMargin,
+                    ]}
+                  >
+                    {params.formattedNumber}
+                  </Text>
+                  <Text
+                    style={[
+                      { maxWidth: '70%', paddingBottom: verticalScale(25) },
+                      Common.white,
+                      Gutters.fifteenLMargin,
+                      Fonts.fontFamilyPrimary,
+                      Fonts.fontSize12,
+                    ]}
+                  >
+                    {`${params.planName ? params.planName : 'Esim'} ${
+                      params.amount
+                    } — One payment of ${params.amount}`}
+                  </Text>
+                </View>
+                <View>
+                  <Image
+                    source={{ uri: userData.carrier_image }}
+                    style={[
+                      { width: scale(70) },
+                      Layout.center,
+                      Gutters.eightRMargin,
+                      Gutters.eightyPHeight,
+                      Common.resizeModeContain,
+                      Common.borderRadius,
+                    ]}
+                  />
+                </View>
               </View>
-              <Text
-                style={[
-                  Common.white,
-                  Gutters.twentyVMargin,
-                  Gutters.sixteenHMargin,
-                  Gutters.eightMTMargin,
-                  Fonts.fontFamilyPrimary,
-                ]}
-              >
-                {`${params.planName ? params.planName : 'Esim'} ${
-                  params.amount
-                } — One payment of ${params.amount}`}
-              </Text>
             </View>
           </View>
           <View

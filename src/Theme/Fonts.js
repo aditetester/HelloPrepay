@@ -2,6 +2,7 @@
  * This file contains all application's style relative to fonts
  */
 import { StyleSheet } from 'react-native'
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
 /**
  *
@@ -14,22 +15,22 @@ export default function ({ FontSize, Colors }) {
       fontFamily: 'Satoshi-Regular',
     },
     fontSize12: {
-      fontSize: 12,
+      fontSize: scale(12),
     },
     fontSizeSmall: {
-      fontSize: 16,
+      fontSize: scale(16),
     },
     fontSizeExtraSmall: {
-      fontSize: 14,
+      fontSize: scale(14),
     },
     fontSizeSmaller: {
-      fontSize: 13,
+      fontSize: scale(13),
     },
     fontSizeMedium: {
-      fontSize: 19,
+      fontSize: scale(19),
     },
     fontSizeRegular: {
-      fontSize: 24,
+      fontSize: scale(24),
     },
     fontSizeLarge: {
       fontSize: 32,

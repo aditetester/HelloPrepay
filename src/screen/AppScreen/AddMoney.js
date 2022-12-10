@@ -11,6 +11,7 @@ import { useTheme } from '@/Hooks'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from '@rneui/themed'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const AddMoney = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -159,6 +160,7 @@ const AddMoney = ({ navigation, route }) => {
               Fonts.fontWeightSmall,
               Fonts.fontSizeLarge,
               Fonts.fontFamilyPrimary,
+              Fonts.fontSizeRegular,
             ]}
           >
             {numFormat}
@@ -509,8 +511,9 @@ const AddMoney = ({ navigation, route }) => {
                 <Image
                   source={Images.delete}
                   style={[
-                    Gutters.thirtyHeight,
-                    Gutters.thirtyWidth,
+                    { height: verticalScale(30), width: scale(30) },
+                    // Gutters.thirtyHeight,
+                    // Gutters.thirtyWidth,
                     Layout.selfCenter,
                   ]}
                 />
@@ -537,8 +540,9 @@ const AddMoney = ({ navigation, route }) => {
             loadingProps={[{ size: 'small' }, Common.whiteColor]}
             titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
             buttonStyle={[
+              { height: verticalScale(55) },
               Common.primaryPinkBackground,
-              Gutters.fiftyfiveHeight,
+              // Gutters.fiftyfiveHeight,
               Common.borderRadius,
             ]}
             containerStyle={[

@@ -19,6 +19,7 @@ import {
 } from '@/Services/api'
 import { useIsFocused } from '@react-navigation/native'
 import { setUser } from '@/Store/User'
+import { verticalScale } from 'react-native-size-matters'
 
 const ChangeCarrier = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -176,9 +177,10 @@ const ChangeCarrier = ({ navigation, route }) => {
         <TouchableHighlight
           underlayColor={[Common.white.color]}
           style={[
-            Gutters.twentyPadding,
+            { alignSelf: 'center', height: verticalScale(116) },
+            // Gutters.twentyPadding,
             Gutters.eightVMargin,
-            Gutters.oosHeight,
+            // Gutters.oosHeight,
             Gutters.fourtythreePWidth,
             Common.borderRadius,
             Common.offWhiteBorder,
@@ -217,7 +219,7 @@ const ChangeCarrier = ({ navigation, route }) => {
   }
 
   return (
-    <View style={[Common.backgroundPrimary, Layout.fill]}>
+    <View style={[Common.backgroundPrimary, Layout.fill, Layout.center]}>
       <View style={[Layout.alignItemsCenter, Gutters.tenVMargin]}>
         <Text
           style={[
@@ -258,7 +260,8 @@ const ChangeCarrier = ({ navigation, route }) => {
         }}
         inputContainerStyle={[
           {
-            height: 40,
+            height: verticalScale(40),
+            width: '95%',
             backgroundColor: Common.offWhiteBackground.backgroundColor,
             borderRadius: Common.borderRadius.borderRadius,
           },
@@ -301,9 +304,10 @@ const ChangeCarrier = ({ navigation, route }) => {
           loadingProps={[{ size: 'small' }, Common.whiteColor]}
           titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
           buttonStyle={[
+            { height: verticalScale(60) },
             Common.primaryPinkBackground,
             // Gutters.fiftyfiveHeight,
-            Gutters.sixtyHeight,
+            // Gutters.sixtyHeight,
             Common.borderRadius,
           ]}
           containerStyle={[

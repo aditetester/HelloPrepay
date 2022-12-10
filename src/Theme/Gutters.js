@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
 /**
  * Generate Styles depending on MetricsSizes vars availabled at ./Theme/Variables
@@ -25,25 +26,25 @@ export default function ({ MetricsSizes }) {
         ...acc,
         /* Margins */
         [`${key}Margin`]: {
-          margin: value,
+          margin: scale(value),
         },
         [`${key}BMargin`]: {
-          marginBottom: value,
+          marginBottom: scale(value),
         },
         [`${key}TMargin`]: {
-          marginTop: value,
+          marginTop: scale(value),
         },
         [`${key}RMargin`]: {
-          marginRight: value,
+          marginRight: scale(value),
         },
         [`${key}LMargin`]: {
-          marginLeft: value,
+          marginLeft: scale(value),
         },
         [`${key}VMargin`]: {
-          marginVertical: value,
+          marginVertical: verticalScale(value),
         },
         [`${key}HMargin`]: {
-          marginHorizontal: value,
+          marginHorizontal: scale(value),
         },
         /* Paddings */
         [`${key}Padding`]: {

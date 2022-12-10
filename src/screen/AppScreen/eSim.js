@@ -39,7 +39,7 @@ function Esim({ navigation }) {
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   let emailIsValid = emailRegex.test(email)
 
-  const [IMEIError, setIMEIError] = useState(false)
+  const [IMEIError, setIMEIError] = useState(true)
   const [EmailError, setEmailError] = useState(false)
 
   const [priceIsLoading, setPriceIsLoading] = useState(false)
@@ -67,11 +67,13 @@ function Esim({ navigation }) {
   let allDataIsValid =
     !validDate &&
     IMEINumber !== '' &&
-    IMEIError !== true &&
+    IMEIError !== false &&
     firstName !== '' &&
     lastName !== '' &&
     emailIsValid &&
     number.length === 14
+
+  console.log('allDataIsValid', allDataIsValid)
 
   const [
     getPrice,
@@ -211,10 +213,10 @@ function Esim({ navigation }) {
 
   useEffect(() => {
     if (IMEIData && IMEIData.status === 'error') {
-      setIMEIError(true)
+      setIMEIError(false)
       Alert.alert('Invalid IMEI Number', IMEIData.message, ['OK'])
     } else if (IMEIData && IMEIData.status === 'success') {
-      setIMEIError(false)
+      setIMEIError(true)
     }
   }, [IMEIData])
 
@@ -389,7 +391,7 @@ function Esim({ navigation }) {
               Fonts.fontWeightSmall,
               Common.borderRadius,
               Common.offWhiteBackground,
-              IMEIError && Common.errorBorder,
+              !IMEIError && Common.errorBorder,
               Gutters.tenVMargin,
               Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
