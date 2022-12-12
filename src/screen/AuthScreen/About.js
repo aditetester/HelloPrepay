@@ -8,12 +8,14 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  Linking,
 } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
 import { CheckBox } from '@rneui/themed'
 import { Button } from '@rneui/themed'
 import { useGetRegisterUserMutation } from '@/Services/api'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const About = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -136,14 +138,14 @@ const About = ({ navigation, route }) => {
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
       <ScrollView contentContainerStyle={Layout.fill}>
         <TouchableOpacity
-          style={[
-            Gutters.fifteenPWidth,
-            Gutters.fiveTMargin,
-            Gutters.tenHMargin,
-          ]}
-          onPress={onBackHandler}
+          onPress={() => navigation.goBack()}
+          style={[Gutters.twentyHMargin]}
         >
-          <Image source={Images.LeftArrow} />
+          <Image
+            source={Images.LeftArrow}
+            style={{ height: verticalScale(19), width: '10%' }}
+            resizeMode="cover"
+          />
         </TouchableOpacity>
         <View
           style={[
@@ -180,6 +182,7 @@ const About = ({ navigation, route }) => {
           <TextInput
             value={firstName}
             style={[
+              { height: verticalScale(56), paddingLeft: 15 },
               !firstNameIsValid && Common.errorBorder,
               Common.offWhiteBackground,
               Common.borderRadius,
@@ -187,7 +190,6 @@ const About = ({ navigation, route }) => {
               Layout.selfCenter,
               Layout.flexTwo,
               Gutters.tenHMargin,
-              Gutters.fiftysixHeight,
               Gutters.ninetyfivePWidth,
               Gutters.tenHPadding,
               Fonts.fontSizeSmall,
@@ -213,11 +215,11 @@ const About = ({ navigation, route }) => {
           <TextInput
             value={lastName}
             style={[
+              { height: verticalScale(56), paddingLeft: 15 },
               Common.offWhiteBackground,
               Common.borderRadius,
               Gutters.tenHMargin,
               Layout.selfCenter,
-              Gutters.fiftysixHeight,
               Gutters.ninetyfivePWidth,
               Layout.flexTwo,
               Fonts.fontSizeSmall,
@@ -247,11 +249,11 @@ const About = ({ navigation, route }) => {
             keyboardType="email-address"
             value={email}
             style={[
+              { height: verticalScale(56), paddingLeft: 15 },
               Common.offWhiteBackground,
               Common.borderRadius,
               Gutters.tenHMargin,
               Layout.selfCenter,
-              Gutters.fiftysixHeight,
               Gutters.ninetyfivePWidth,
               Layout.flexTwo,
               Fonts.fontSizeSmall,
@@ -304,11 +306,11 @@ const About = ({ navigation, route }) => {
             </Text>
             <Image
               source={Images.verified}
+              resizeMode="contain"
               style={[
                 Gutters.fourtyfivePHeight,
                 Gutters.twentyfivePWidth,
                 Gutters.tenHMargin,
-                Common.resizeModeCover,
               ]}
             />
           </View>
@@ -334,7 +336,7 @@ const About = ({ navigation, route }) => {
             >
               By sending this information you are agreeing the{' '}
               <Text
-                onPress={() => console.log('pressed')}
+                onPress={() => Linking.openURL('https://www.google.com/')}
                 style={[
                   Common.textColor,
                   Common.innerText,
@@ -368,13 +370,15 @@ const About = ({ navigation, route }) => {
               checkedIcon={
                 <Image
                   source={Images.check}
-                  style={[Gutters.twentyfiveHeight, Gutters.twentyfiveWidth]}
+                  resizeMode="contain"
+                  style={[{ height: verticalScale(25), width: scale(25) }]}
                 />
               }
               uncheckedIcon={
                 <Image
                   source={Images.uncheck}
-                  style={[Gutters.twentyfiveHeight, Gutters.twentyfiveWidth]}
+                  resizeMode="contain"
+                  style={[{ height: verticalScale(25), width: scale(25) }]}
                 />
               }
               title="I agree to terms and conditions"
@@ -399,10 +403,10 @@ const About = ({ navigation, route }) => {
                 onContinueHandler()
               }}
               loadingProps={[{ size: 'small' }, Common.whiteColor]}
-              titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+              titleStyle={[Fonts.fontSize12, Fonts.fontFamilyPrimary]}
               buttonStyle={[
+                { height: verticalScale(55) },
                 Common.primaryPinkBackground,
-                Gutters.fiftyfiveHeight,
                 Common.borderRadius,
               ]}
               containerStyle={[

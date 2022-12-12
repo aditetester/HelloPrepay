@@ -11,6 +11,7 @@ import Otp from '@/screen/AuthScreen/Otp'
 import EnterMobileNumber from '@/screen/AuthScreen/MobileNumber'
 import About from '@/screen/AuthScreen/About'
 import Welcome from '@/screen/AuthScreen/Welcome'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const Stack = createStackNavigator()
 const AuthNavigation = () => {
@@ -29,17 +30,12 @@ const AuthNavigation = () => {
           screenOptions={{
             headerStyle: {
               backgroundColor: Common.backgroundPrimary.backgroundColor,
-              height: 70,
+              height: verticalScale(50),
             },
             headerTitle: () => (
               <Image
                 source={Images.Logo}
-                style={{
-                  width: 139.13,
-                  height: '100%',
-                  alignSelf: 'center',
-                  resizeMode: 'contain',
-                }}
+                style={[{ width: scale(100) }, Common.resizeModeContain]}
               />
             ),
             headerTitleAlign: 'center',

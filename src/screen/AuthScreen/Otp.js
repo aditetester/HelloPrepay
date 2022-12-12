@@ -22,6 +22,7 @@ import {
 } from '@/Services/api'
 import auth from '@react-native-firebase/auth'
 import Spinner from 'react-native-loading-spinner-overlay'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const Otp = ({ navigation, route }) => {
   const [params, setParams] = useState(route.params)
@@ -346,14 +347,14 @@ const Otp = ({ navigation, route }) => {
       {loading}
       <View style={Layout.fill}>
         <TouchableOpacity
-          style={[
-            Gutters.fifteenPWidth,
-            Gutters.fiveTMargin,
-            Gutters.tenHMargin,
-          ]}
-          onPress={onBackHandler}
+          onPress={() => navigation.goBack()}
+          style={[Gutters.twentyHMargin]}
         >
-          <Image source={Images.LeftArrow} />
+          <Image
+            source={Images.LeftArrow}
+            style={{ height: verticalScale(19), width: '10%' }}
+            resizeMode="cover"
+          />
         </TouchableOpacity>
         <View
           style={[
@@ -410,7 +411,10 @@ const Otp = ({ navigation, route }) => {
           ]}
         >
           <View
-            style={[Gutters.thirtyWidth, Gutters.fiftyHeight, Layout.center]}
+            style={[
+              Layout.center,
+              { height: verticalScale(50), width: scale(30) },
+            ]}
           >
             {key1 ? (
               <Text
@@ -427,12 +431,18 @@ const Otp = ({ navigation, route }) => {
             ) : (
               <Image
                 source={Images.otpPlaceHolder}
-                style={[Gutters.tenWidth, Gutters.tenHeight, Layout.selfCenter]}
+                style={[
+                  { width: scale(10), height: verticalScale(10) },
+                  Layout.selfCenter,
+                ]}
               />
             )}
           </View>
           <View
-            style={[Gutters.thirtyWidth, Gutters.fiftyHeight, Layout.center]}
+            style={[
+              Layout.center,
+              { height: verticalScale(50), width: scale(30) },
+            ]}
           >
             {key2 ? (
               <Text
@@ -449,12 +459,18 @@ const Otp = ({ navigation, route }) => {
             ) : (
               <Image
                 source={Images.otpPlaceHolder}
-                style={[Gutters.tenWidth, Gutters.tenHeight, Layout.selfCenter]}
+                style={[
+                  { width: scale(10), height: verticalScale(10) },
+                  Layout.selfCenter,
+                ]}
               />
             )}
           </View>
           <View
-            style={[Gutters.thirtyWidth, Gutters.fiftyHeight, Layout.center]}
+            style={[
+              Layout.center,
+              { height: verticalScale(50), width: scale(30) },
+            ]}
           >
             {key3 ? (
               <Text
@@ -471,12 +487,18 @@ const Otp = ({ navigation, route }) => {
             ) : (
               <Image
                 source={Images.otpPlaceHolder}
-                style={[Gutters.tenWidth, Gutters.tenHeight, Layout.selfCenter]}
+                style={[
+                  { width: scale(10), height: verticalScale(10) },
+                  Layout.selfCenter,
+                ]}
               />
             )}
           </View>
           <View
-            style={[Gutters.thirtyWidth, Gutters.fiftyHeight, Layout.center]}
+            style={[
+              Layout.center,
+              { height: verticalScale(50), width: scale(30) },
+            ]}
           >
             {key4 ? (
               <Text
@@ -493,12 +515,18 @@ const Otp = ({ navigation, route }) => {
             ) : (
               <Image
                 source={Images.otpPlaceHolder}
-                style={[Gutters.tenWidth, Gutters.tenHeight, Layout.selfCenter]}
+                style={[
+                  { width: scale(10), height: verticalScale(10) },
+                  Layout.selfCenter,
+                ]}
               />
             )}
           </View>
           <View
-            style={[Gutters.thirtyWidth, Gutters.fiftyHeight, Layout.center]}
+            style={[
+              Layout.center,
+              { height: verticalScale(50), width: scale(30) },
+            ]}
           >
             {key5 ? (
               <Text
@@ -515,12 +543,18 @@ const Otp = ({ navigation, route }) => {
             ) : (
               <Image
                 source={Images.otpPlaceHolder}
-                style={[Gutters.tenWidth, Gutters.tenHeight, Layout.selfCenter]}
+                style={[
+                  { width: scale(10), height: verticalScale(10) },
+                  Layout.selfCenter,
+                ]}
               />
             )}
           </View>
           <View
-            style={[Gutters.thirtyWidth, Gutters.fiftyHeight, Layout.center]}
+            style={[
+              Layout.center,
+              { height: verticalScale(50), width: scale(30) },
+            ]}
           >
             {key6 ? (
               <Text
@@ -537,7 +571,10 @@ const Otp = ({ navigation, route }) => {
             ) : (
               <Image
                 source={Images.otpPlaceHolder}
-                style={[Gutters.tenWidth, Gutters.tenHeight, Layout.selfCenter]}
+                style={[
+                  { width: scale(10), height: verticalScale(10) },
+                  Layout.selfCenter,
+                ]}
               />
             )}
           </View>
@@ -898,8 +935,7 @@ const Otp = ({ navigation, route }) => {
               <Image
                 source={Images.delete}
                 style={[
-                  Gutters.thirtyHeight,
-                  Gutters.thirtyWidth,
+                  { height: verticalScale(25), width: scale(25) },
                   Layout.selfCenter,
                 ]}
               />
@@ -922,10 +958,14 @@ const Otp = ({ navigation, route }) => {
               onContinueHandler(params)
             }}
             loadingProps={[{ size: 'small' }, Common.whiteColor]}
-            titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+            titleStyle={[
+              Fonts.fontSize12,
+              Fonts.fontWeightRegular,
+              Fonts.fontFamilyPrimary,
+            ]}
             buttonStyle={[
+              { height: verticalScale(55) },
               Common.primaryPinkBackground,
-              Gutters.fiftyfiveHeight,
               Common.borderRadius,
               // Layout.fullHeight,
             ]}

@@ -86,23 +86,27 @@ const Profile = ({ navigation }) => {
       headerLeft: () => (
         <TouchableOpacity
           style={[
-            Gutters.fifteenPWidth,
+            // Gutters.fifteenPWidth,
             Gutters.fiveTMargin,
             Gutters.tenHMargin,
           ]}
           onPress={() => navigation.navigate('Home')}
         >
-          <Image source={Images.LeftArrow} />
+          <Image
+            source={Images.LeftArrow}
+            style={{ height: verticalScale(20), width: scale(30) }}
+            resizeMode="cover"
+          />
         </TouchableOpacity>
       ),
       headerStyle: {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
+        height: verticalScale(50),
       },
       headerTitle: () => (
         <Image
           source={Images.Logo}
-          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+          style={[{ width: scale(100) }, Common.resizeModeContain]}
         />
       ),
       headerTitleAlign: 'center',
@@ -223,7 +227,7 @@ const Profile = ({ navigation }) => {
       >
         <View>
           <Avatar
-            size={scale(60)}
+            size={verticalScale(60)}
             rounded
             title={userData.first_name.charAt(0)}
             containerStyle={[
@@ -232,7 +236,7 @@ const Profile = ({ navigation }) => {
               Common.primaryPinkBackground,
             ]}
           >
-            <Avatar.Accessory size={scale(20)} />
+            <Avatar.Accessory size={verticalScale(20)} />
           </Avatar>
         </View>
         <View style={{ flexDirection: 'column' }}>

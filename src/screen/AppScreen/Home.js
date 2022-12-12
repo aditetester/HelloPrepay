@@ -56,24 +56,24 @@ const Home = ({ navigation }) => {
       headerLeft: () => null,
       headerStyle: {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
+        height: verticalScale(50),
       },
       headerTitle: () => (
         <Image
           source={Images.Logo}
           resizeMode="contain"
-          style={[Gutters.headerWidthWidth]}
+          style={[{ width: scale(90) }, Common.resizeModeContain]}
         />
       ),
       headerRight: () => (
         <Avatar
-          size={50}
+          size={verticalScale(40)}
           rounded
           onPress={onProfileHandler}
           title={user.userData.first_name.charAt(0)}
           containerStyle={[Gutters.twentyRMargin, Common.primaryPinkBackground]}
         >
-          <Avatar.Accessory size={20} />
+          <Avatar.Accessory size={verticalScale(10)} />
         </Avatar>
       ),
       headerTitleAlign: 'left',
@@ -129,25 +129,26 @@ const Home = ({ navigation }) => {
             ]}
           >
             Hello,{' '}
-            <Text style={[Common.titleText, Fonts.fontFamilyPrimary]}>
+            <Text
+              style={[
+                Common.titleText,
+                Fonts.fontFamilyPrimary,
+                Fonts.fontSizeRegular,
+              ]}
+            >
               {first_name}.
             </Text>
           </Text>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('Esim')}
-          style={[
-            Layout.fill,
-            Layout.justifyContentCenter,
-            Layout.alignItemsEnd,
-          ]}
+          style={[Layout.justifyContentCenter, Layout.alignItemsEnd]}
         >
           <Image
             source={Images.eSim}
             style={[
-              { maxWidth: 60 },
+              { maxWidth: scale(40) },
               Layout.fill,
-              // Gutters.thirtyPWidth,
               Gutters.fortyHeight,
               Common.resizeModeContain,
             ]}
@@ -156,32 +157,34 @@ const Home = ({ navigation }) => {
       </View>
       <View
         style={[
-          { marginVertical: verticalScale(5) },
           Layout.flexThree,
-          // Gutters.fiveVMargin,
+          Gutters.fiveVMargin,
           Gutters.twentyFourHMargin,
         ]}
       >
-        <View style={[Layout.row]}>
+        <View style={[Layout.row, { alignItems: 'center', marginVertical: 5 }]}>
           <Text
             style={[
-              { marginBottom: scale(10) },
+              { marginBottom: 3 },
               Common.primaryGrey,
               Fonts.fontWeightSmall,
               Fonts.fontFamilyPrimary,
               // Gutters.tenBMargin,
-              Fonts.fontFamilyPrimary,
+              Fonts.fontSize12,
             ]}
           >
             Phone Number
           </Text>
           <Image
             source={Images.bluetick}
+            resizeMode="contain"
             style={[
-              { marginLeft: scale(10) },
-              Gutters.twentyHeight,
-              Gutters.twentyWidth,
-              // Gutters.tenLMargin,
+              {
+                marginLeft: scale(5),
+                alignSelf: 'center',
+                height: verticalScale(20),
+                width: scale(20),
+              },
             ]}
           />
         </View>
@@ -202,25 +205,23 @@ const Home = ({ navigation }) => {
             keyboardType="numeric"
             maxLength={14}
             style={[
-              { marginHorizontal: scale(10) },
               Fonts.fontFamilyPrimary,
               Common.white,
-              Fonts.fontSizeRegular,
+              Fonts.fontSizeMedium,
               Fonts.fontWeightRegular,
-              // Gutters.tenHMargin,
+              Gutters.tenHMargin,
               Gutters.fiftyfivePWidth,
             ]}
           />
           <Image
             source={{ uri: user.userData.carrier_image }}
             style={[
-              { marginRight: scale(8) },
-              Layout.center,
-              // Gutters.eightRMargin,
+              { width: scale(70) },
+              // Layout.center,
+              Gutters.eightRMargin,
               Gutters.eightyPHeight,
-              Gutters.seventyWidth,
-              Common.resizeModeContain,
               Common.borderRadius,
+              Common.resizeModeContain,
             ]}
           />
         </View>

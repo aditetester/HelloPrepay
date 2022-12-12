@@ -15,6 +15,7 @@ import {
 } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const { width, height } = Dimensions.get('window')
 
@@ -60,13 +61,7 @@ const Slide = ({ item }) => {
         }}
         source={item?.image}
       />
-      <View
-        style={[
-          { flex: 1, alignItems: 'center' },
-          // Layout.center,
-          Fonts.textCenter,
-        ]}
-      >
+      <View style={[{ flex: 1, alignItems: 'center' }, Fonts.textCenter]}>
         <Text
           style={[
             styles.title,
@@ -154,8 +149,8 @@ const Tutorial = ({ navigation }) => {
                 Common.indicatorBackground,
                 currentSlideIndex == index && [
                   {
-                    width: 25,
-                    height: 4,
+                    width: scale(25),
+                    height: verticalScale(4),
                     borderRadius: 2,
                   },
                   Common.primaryPinkBackground,
@@ -174,8 +169,8 @@ const Tutorial = ({ navigation }) => {
                 activeOpacity={0.8}
                 style={[
                   {
-                    width: 341,
-                    height: 64,
+                    width: scale(341),
+                    height: verticalScale(64),
                   },
                   Common.primaryPinkBackground,
                   Common.primaryPinkBorder,
@@ -209,8 +204,8 @@ const Tutorial = ({ navigation }) => {
                 activeOpacity={0.8}
                 style={[
                   {
-                    width: 60,
-                    height: 60,
+                    width: scale(60),
+                    height: verticalScale(60),
                   },
                   Layout.center,
                 ]}

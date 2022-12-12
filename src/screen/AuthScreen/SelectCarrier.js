@@ -16,6 +16,7 @@ import {
   useGetCarrierListQuery,
   useGetProfileUpdateMutation,
 } from '@/Services/api'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const SelectCarrier = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -125,30 +126,24 @@ const SelectCarrier = ({ navigation, route }) => {
         <TouchableHighlight
           underlayColor={[Common.white.color]}
           style={[
+            {
+              alignSelf: 'center',
+              height: verticalScale(116),
+              width: scale(150),
+            },
             Gutters.twentyPadding,
             Gutters.eightVMargin,
-            Gutters.oosHeight,
-            Gutters.fourtythreePWidth,
+            // Gutters.oosHeight,
+            // Gutters.fourtythreePWidth,
             Common.borderRadius,
             Common.offWhiteBorder,
-            // selectedId !== id && Common.whiteColorBackground,
             Common.whiteColorBackground,
-            // selectedId === id && Common.primaryPinkBackground,
             selectedId === id && Common.primaryPinkBorder,
             Gutters.eighteenLMargin,
             Common.whiteBackground,
           ]}
           onPress={() => onSelectCarrier(id)}
         >
-          {/* <Image
-            source={{ uri: image }}
-            style={[
-              Layout.selfCenter,
-              Gutters.ninetyPWidth,
-              Layout.fill,
-              Common.resizeModeContain,
-            ]}
-          /> */}
           <Image
             source={{ uri: image }}
             style={[
@@ -162,7 +157,6 @@ const SelectCarrier = ({ navigation, route }) => {
               Gutters.ninetyPWidth,
               Layout.fill,
               Common.whiteColorBackground,
-              // Common.resizeModeContain,
             ]}
             placeholderStyle={{ backgroundColor: 'white' }}
             PlaceholderContent={
@@ -176,8 +170,6 @@ const SelectCarrier = ({ navigation, route }) => {
       </>
     )
   }
-
-  console.log('searchable', searchable)
 
   return (
     <View style={[Common.backgroundPrimary, Layout.fill]}>
@@ -199,7 +191,7 @@ const SelectCarrier = ({ navigation, route }) => {
           style={[
             Common.titleText,
             Fonts.fontWeightRegular,
-            Fonts.fontSizeLarge,
+            Fonts.fontSizeSmall,
             Fonts.fontFamilyPrimary,
           ]}
         >
@@ -211,7 +203,7 @@ const SelectCarrier = ({ navigation, route }) => {
           style={[
             Common.innerText,
             Fonts.fontWeightSmall,
-            Fonts.fontSizeSmall,
+            Fonts.fontSize12,
             Fonts.fontFamilyPrimary,
           ]}
         >
@@ -225,6 +217,12 @@ const SelectCarrier = ({ navigation, route }) => {
         onChangeText={text => searchFunction(text)}
         autoCorrect={false}
         placeholder="Search by name..."
+        searchIcon={{
+          size: verticalScale(20),
+        }}
+        clearIcon={{
+          size: verticalScale(20),
+        }}
         inputStyle={{
           // color: theme.darkMode ? Common.black : '#B6C2CE',
           fontSize: Fonts.fontSizeSmall.fontSize,
@@ -234,7 +232,8 @@ const SelectCarrier = ({ navigation, route }) => {
         }}
         inputContainerStyle={[
           {
-            height: 56,
+            height: verticalScale(40),
+            width: '95%',
             backgroundColor: Common.offWhiteBackground.backgroundColor,
             borderRadius: Common.borderRadius.borderRadius,
           },
@@ -244,6 +243,8 @@ const SelectCarrier = ({ navigation, route }) => {
           backgroundColor: Common.offWhiteBackground.backgroundColor,
           borderRadius: Common.borderRadius.borderRadius,
           margin: 15,
+          width: '90%',
+          alignSelf: 'center',
         }}
         lightTheme={theme.darkMode ? false : true}
       />
@@ -273,11 +274,14 @@ const SelectCarrier = ({ navigation, route }) => {
             onContinueHandler(params)
           }}
           loadingProps={[{ size: 'small' }, Common.whiteColor]}
-          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+          titleStyle={[
+            Fonts.fontSize12,
+            Fonts.fontWeightRegular,
+            Fonts.fontFamilyPrimary,
+          ]}
           buttonStyle={[
+            { height: verticalScale(60) },
             Common.primaryPinkBackground,
-            // Gutters.fiftyfiveHeight,
-            Gutters.sixtyHeight,
             Common.borderRadius,
           ]}
           containerStyle={[

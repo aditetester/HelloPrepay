@@ -19,7 +19,7 @@ import {
 } from '@/Services/api'
 import { useIsFocused } from '@react-navigation/native'
 import { setUser } from '@/Store/User'
-import { verticalScale } from 'react-native-size-matters'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const ChangeCarrier = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
@@ -94,22 +94,32 @@ const ChangeCarrier = ({ navigation, route }) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerStyle: {
+        backgroundColor: Common.backgroundPrimary.backgroundColor,
+        height: verticalScale(50),
+      },
       headerLeft: () => (
         <View>
           {params.navigateFrom !== 'Otp' ? (
             <TouchableOpacity
               style={[
+                {
+                  width: scale(45),
+                  height: verticalScale(30),
+                },
                 Common.borderRadius,
                 Layout.justifyContentCenter,
                 Layout.center,
-                Gutters.sixtyWidth,
-                Gutters.thirtyHeight,
                 Gutters.tenHMargin,
               ]}
               // onPress={() => navigation.navigate('Profile')}
               onPress={() => navigation.goBack()}
             >
-              <RImage source={Images.LeftArrow} />
+              <RImage
+                source={Images.LeftArrow}
+                resizeMode="cover"
+                style={{ height: '80%', width: '80%' }}
+              />
             </TouchableOpacity>
           ) : null}
         </View>
@@ -117,7 +127,7 @@ const ChangeCarrier = ({ navigation, route }) => {
       headerTitle: () => (
         <RImage
           source={Images.Logo}
-          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+          style={[{ width: scale(90) }, Common.resizeModeContain]}
         />
       ),
       headerRight: () =>
@@ -177,11 +187,15 @@ const ChangeCarrier = ({ navigation, route }) => {
         <TouchableHighlight
           underlayColor={[Common.white.color]}
           style={[
-            { alignSelf: 'center', height: verticalScale(116) },
-            // Gutters.twentyPadding,
+            {
+              alignSelf: 'center',
+              height: verticalScale(116),
+              width: scale(150),
+            },
+            Gutters.twentyPadding,
             Gutters.eightVMargin,
             // Gutters.oosHeight,
-            Gutters.fourtythreePWidth,
+            // Gutters.fourtythreePWidth,
             Common.borderRadius,
             Common.offWhiteBorder,
             Common.whiteColorBackground,
@@ -225,7 +239,7 @@ const ChangeCarrier = ({ navigation, route }) => {
           style={[
             Common.titleText,
             Fonts.fontWeightRegular,
-            Fonts.fontSizeLarge,
+            Fonts.fontSizeSmall,
             Fonts.fontFamilyPrimary,
           ]}
         >
@@ -237,7 +251,7 @@ const ChangeCarrier = ({ navigation, route }) => {
           style={[
             Common.innerText,
             Fonts.fontWeightSmall,
-            Fonts.fontSizeSmall,
+            Fonts.fontSize12,
             Fonts.fontFamilyPrimary,
           ]}
         >
@@ -258,6 +272,12 @@ const ChangeCarrier = ({ navigation, route }) => {
           backgroundColor: Common.searchBarBackgRoundColor,
           borderRadius: Common.borderRadius.borderRadius,
         }}
+        searchIcon={{
+          size: verticalScale(20),
+        }}
+        clearIcon={{
+          size: verticalScale(20),
+        }}
         inputContainerStyle={[
           {
             height: verticalScale(40),
@@ -275,16 +295,22 @@ const ChangeCarrier = ({ navigation, route }) => {
         lightTheme={theme.darkMode ? false : true}
       />
       {isLoading ? (
-        <ActivityIndicator size="small" color={Common.loadingColor.color} />
-      ) : (
-        <FlatList
-          data={searchable ? searchable : data.data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          numColumns={2}
-          refreshing={isLoading} // Added pull to refresh state
-          onRefresh={onRefresh}
+        <ActivityIndicator
+          size="small"
+          style={{ flex: 10 }}
+          color={Common.loadingColor.color}
         />
+      ) : (
+        <View style={{ flex: 10, width: '100%' }}>
+          <FlatList
+            data={searchable ? searchable : data.data}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            numColumns={2}
+            refreshing={isLoading} // Added pull to refresh state
+            onRefresh={onRefresh}
+          />
+        </View>
       )}
       <View
         style={[
@@ -302,7 +328,11 @@ const ChangeCarrier = ({ navigation, route }) => {
             onContinueHandler(userData)
           }}
           loadingProps={[{ size: 'small' }, Common.whiteColor]}
-          titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+          titleStyle={[
+            Fonts.fontWeightRegular,
+            Fonts.fontSize12,
+            Fonts.fontFamilyPrimary,
+          ]}
           buttonStyle={[
             { height: verticalScale(60) },
             Common.primaryPinkBackground,

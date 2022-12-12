@@ -15,7 +15,7 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
-import { CheckBox, LinearProgress, Button } from '@rneui/themed'
+import { CheckBox, LinearProgress, Button, Icon } from '@rneui/themed'
 import {
   CardNumberTextInput,
   CardDateTextInput,
@@ -338,14 +338,10 @@ const Checkout = ({ navigation, route }) => {
     }
   }
 
-  const onBackHandler = () => {
-    navigation.goBack()
-  }
-
   const onScrollHandle = () => {
     scrollRef.scrollTo({
       x: 0,
-      y: 340,
+      y: verticalScale(330),
       animated: true,
     })
   }
@@ -410,12 +406,12 @@ const Checkout = ({ navigation, route }) => {
       headerLeft: () => null,
       headerStyle: {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
+        height: verticalScale(50),
       },
       headerTitle: () => (
         <Image
           source={Images.Logo}
-          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+          style={[{ width: scale(100) }, Common.resizeModeContain]}
         />
       ),
 
@@ -442,12 +438,12 @@ const Checkout = ({ navigation, route }) => {
 
   //#region Render Method
 
-  const cardsPayments = (
-    <>
+  const CardsPayments = () => (
+    <Fragment>
       <TouchableOpacity
         onPress={() => onScrollHandle()}
         style={[
-          { height: scale(60) },
+          { height: scale(50) },
           // Gutters.sixtyHeight,
           Layout.row,
           Gutters.fiveVMargin,
@@ -460,10 +456,10 @@ const Checkout = ({ navigation, route }) => {
           style={[Layout.fullSize, Common.borderRadius]}
         />
       </TouchableOpacity>
-    </>
+    </Fragment>
   )
 
-  const cardPaymentInfo = (
+  const CardPaymentInfo = () => (
     <Fragment>
       <View style={[Gutters.twentyFourHMargin]}>
         <Text
@@ -518,13 +514,12 @@ const Checkout = ({ navigation, route }) => {
           ]}
           touched={true}
           defaultValue={cardNumber}
-          updateTextVal={t => {
-            setCardNumber(t)
+          updateTextVal={text => {
+            setCardNumber(text)
           }}
           inputWrapStyle={[
             Common.offWhiteBackground,
             Common.borderRadius,
-            // Gutters.twentyMBMargin,
             { height: verticalScale(56) },
           ]}
           inputStyle={[
@@ -565,7 +560,7 @@ const Checkout = ({ navigation, route }) => {
         </View>
         <View
           style={[
-            // { marginTop: -10 },
+            {},
             Layout.justifyContentBetween,
             Layout.alignItemsCenter,
             Layout.row,
@@ -582,11 +577,12 @@ const Checkout = ({ navigation, route }) => {
               setCardDate(t)
             }}
             inputWrapStyle={[
-              { height: verticalScale(55) },
+              {
+                height: verticalScale(55),
+                width: scale(150),
+              },
               Common.offWhiteBackground,
               Common.borderRadius,
-              // Gutters.fiftyfiveHeight,
-              Gutters.onefivezeroWidth,
               Gutters.tenMTMargin,
               Gutters.fifteenMBMargin,
             ]}
@@ -681,7 +677,6 @@ const Checkout = ({ navigation, route }) => {
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              // Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -707,7 +702,6 @@ const Checkout = ({ navigation, route }) => {
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              // Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -733,7 +727,6 @@ const Checkout = ({ navigation, route }) => {
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              // Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -767,7 +760,11 @@ const Checkout = ({ navigation, route }) => {
           </View>
           <Pressable
             onPress={() => setAgree(!agree)}
-            style={[Layout.row, Layout.alignItemsCenter, Gutters.fiftyHeight]}
+            style={[
+              Layout.row,
+              Layout.alignItemsCenter,
+              { height: verticalScale(50) },
+            ]}
           >
             <CheckBox
               center
@@ -777,9 +774,9 @@ const Checkout = ({ navigation, route }) => {
                 <Image
                   source={Images.check}
                   style={[
-                    { height: verticalScale(25) },
+                    { height: verticalScale(25), width: scale(25) },
                     // Gutters.twentyfiveHeight,
-                    Gutters.twentyfiveWidth,
+                    // Gutters.twentyfiveWidth,
                     Common.resizeModeContain,
                   ]}
                 />
@@ -788,9 +785,9 @@ const Checkout = ({ navigation, route }) => {
                 <Image
                   source={Images.uncheck}
                   style={[
-                    { height: verticalScale(25) },
+                    { height: verticalScale(25), width: scale(25) },
                     // Gutters.twentyfiveHeight,
-                    Gutters.twentyfiveWidth,
+                    // Gutters.twentyfiveWidth,
                     Common.resizeModeContain,
                   ]}
                 />
@@ -828,7 +825,7 @@ const Checkout = ({ navigation, route }) => {
           icon={{
             name: 'arrow-right',
             type: 'font-awesome-5',
-            size: 20,
+            size: scale(20),
             color: 'white',
           }}
           iconRight
@@ -839,7 +836,7 @@ const Checkout = ({ navigation, route }) => {
           }}
           loadingProps={[{ size: 'small' }, Common.whiteColor]}
           titleStyle={[
-            Fonts.fontWeightRegular,
+            Fonts.fontSize12,
             Fonts.fontFamilyPrimary,
             Gutters.fiftyLMargin,
           ]}
@@ -986,16 +983,16 @@ const Checkout = ({ navigation, route }) => {
             setScrollRef(ref)
           }}
         >
-          <TouchableOpacity
-            style={[
-              Gutters.fifteenPWidth,
-              Gutters.fiveTMargin,
-              Gutters.tenHMargin,
-            ]}
-            onPress={onBackHandler}
+          <Pressable
+            onPress={() => navigation.goBack()}
+            style={[Gutters.twentyHMargin]}
           >
-            <Image source={Images.LeftArrow} />
-          </TouchableOpacity>
+            <Image
+              source={Images.LeftArrow}
+              style={{ height: verticalScale(19), width: '10%' }}
+              resizeMode="cover"
+            />
+          </Pressable>
           <View
             style={[
               Gutters.twentyFourHMargin,
@@ -1018,84 +1015,35 @@ const Checkout = ({ navigation, route }) => {
             </Text>
           </View>
           <View style={[Gutters.twentyFourHMargin, Gutters.fiveVMargin]}>
-            <View style={[Layout.row]}>
+            <View
+              style={[Layout.row, { alignItems: 'center', marginVertical: 5 }]}
+            >
               <Text
                 style={[
+                  { marginBottom: 3 },
                   Common.primaryGrey,
                   Fonts.fontWeightSmall,
                   Fonts.fontFamilyPrimary,
-                  Gutters.tenBMargin,
+                  // Gutters.tenBMargin,
+                  Fonts.fontSize12,
                 ]}
               >
                 Phone Number
               </Text>
               <Image
                 source={Images.bluetick}
+                resizeMode="contain"
                 style={[
-                  { height: verticalScale(18) },
-                  // Gutters.twentyHeight,
-                  Gutters.twentyWidth,
-                  Gutters.tenLMargin,
-                  Common.resizeModeContain,
+                  {
+                    marginLeft: scale(5),
+                    alignSelf: 'center',
+                    height: verticalScale(20),
+                    width: scale(20),
+                  },
                 ]}
               />
             </View>
             <View style={[Common.borderRadius, Common.primaryBlueBackground]}>
-              {/* <View
-                style={
-                  [
-                    // Layout.alignItemsCenter,
-                    // Layout.row,
-                    // Layout.justifyContentBetween,
-                  ]
-                }
-              >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text
-                    style={[
-                      Fonts.fontFamilyPrimary,
-                      Common.white,
-                      Fonts.fontSizeRegular,
-                      Fonts.fontWeightRegular,
-                      Gutters.fifteenLMargin,
-                    ]}
-                  >
-                    {params.formattedNumber}
-                  </Text>
-                  <Image
-                    source={{ uri: userData.carrier_image }}
-                    style={{
-                      resizeMode: 'contain',
-                      width: '30%',
-                      height: 40,
-                      borderRadius: 4,
-                      marginTop: 25,
-                    }}
-                  />
-                </View>
-                <View style={{ width: '70%' }}>
-                  <Text
-                    style={[
-                      Common.white,
-                      Gutters.twentyVMargin,
-                      Gutters.sixteenHMargin,
-                      Gutters.eightMTMargin,
-                      Fonts.fontFamilyPrimary,
-                    ]}
-                  >
-                    {`${params.planName ? params.planName : 'Esim'} ${
-                      params.amount
-                    } — One payment of ${params.amount}`}
-                  </Text>
-                </View>
-              </View> */}
               <View
                 style={[
                   { maxHeight: verticalScale(80) },
@@ -1108,37 +1056,41 @@ const Checkout = ({ navigation, route }) => {
                 ]}
               >
                 <View style={{ flexDirection: 'column' }}>
-                  <Text
-                    style={[
-                      { paddingTop: verticalScale(20) },
-                      Fonts.fontFamilyPrimary,
-                      Common.white,
-                      Fonts.fontSizeMedium,
-                      Fonts.fontWeightRegular,
-                      Gutters.fifteenLMargin,
-                    ]}
-                  >
-                    {params.formattedNumber}
-                  </Text>
-                  <Text
-                    style={[
-                      { maxWidth: '70%', paddingBottom: verticalScale(25) },
-                      Common.white,
-                      Gutters.fifteenLMargin,
-                      Fonts.fontFamilyPrimary,
-                      Fonts.fontSize12,
-                    ]}
-                  >
-                    {`${params.planName ? params.planName : 'Esim'} ${
-                      params.amount
-                    } — One payment of ${params.amount}`}
-                  </Text>
+                  <View>
+                    <Text
+                      style={[
+                        { paddingTop: verticalScale(40) },
+                        Fonts.fontFamilyPrimary,
+                        Common.white,
+                        Fonts.fontSizeMedium,
+                        Fonts.fontWeightRegular,
+                        Gutters.fifteenLMargin,
+                      ]}
+                    >
+                      {params.formattedNumber}
+                    </Text>
+                  </View>
+                  <View style={{}}>
+                    <Text
+                      style={[
+                        { paddingBottom: verticalScale(40) },
+                        Common.white,
+                        Gutters.fifteenLMargin,
+                        Fonts.fontFamilyPrimary,
+                        Fonts.fontSize12,
+                      ]}
+                    >
+                      {`${params.planName ? params.planName : 'Esim'} ${
+                        params.amount
+                      } — One payment of ${params.amount}`}
+                    </Text>
+                  </View>
                 </View>
                 <View>
                   <Image
                     source={{ uri: userData.carrier_image }}
                     style={[
-                      { width: scale(70) },
+                      { width: scale(50) },
                       Layout.center,
                       Gutters.eightRMargin,
                       Gutters.eightyPHeight,
@@ -1171,12 +1123,12 @@ const Checkout = ({ navigation, route }) => {
           </View>
 
           <View style={[Gutters.twentyFourHMargin]}>
-            {cardsPayments}
+            <CardsPayments />
             {/* {platform === 'ios' && applepayComponent()} */}
             {/* {platform === 'android' && googlePayComponent()} */}
           </View>
           {/* {number == params.phone_number && cardPaymentInfo} */}
-          {cardPaymentInfo}
+          <CardPaymentInfo />
         </ScrollView>
       ) : (
         loading

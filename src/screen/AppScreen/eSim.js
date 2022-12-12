@@ -9,6 +9,7 @@ import {
   Pressable,
   Alert,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
@@ -18,6 +19,7 @@ import moment from 'moment'
 import { useCheckIMEINumberMutation, useGetPriceMutation } from '@/Services/api'
 import * as Animatable from 'react-native-animatable'
 import Spinner from 'react-native-loading-spinner-overlay'
+import { verticalScale, scale } from 'react-native-size-matters'
 
 function Esim({ navigation }) {
   //#region NOTE: 1. Define Variables
@@ -200,11 +202,30 @@ function Esim({ navigation }) {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => null,
+      headerStyle: {
+        backgroundColor: Common.backgroundPrimary.backgroundColor,
+        height: verticalScale(50),
+      },
+      headerLeft: () => (
+        <TouchableOpacity
+          style={[
+            // Gutters.fifteenPWidth,
+            Gutters.fiveTMargin,
+            Gutters.tenHMargin,
+          ]}
+          onPress={() => navigation.navigate('Home')}
+        >
+          <Image
+            source={Images.LeftArrow}
+            style={{ height: verticalScale(20), width: scale(30) }}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+      ),
       headerTitle: () => (
         <Image
           source={Images.Logo}
-          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+          style={[{ width: scale(100) }, Common.resizeModeContain]}
         />
       ),
       headerTitleAlign: 'center',
@@ -276,7 +297,7 @@ function Esim({ navigation }) {
               setDialog(false)
               GetPriceHandler()
             }}
-            titleStyle={[Common.black]}
+            titleStyle={[Fonts.fontSize12, Common.black]}
           />
         </Dialog.Actions>
       </Dialog>
@@ -291,12 +312,6 @@ function Esim({ navigation }) {
         style={[Layout.fill, Common.backgroundPrimary]}
         ref={ref => setScrollRef(ref)}
       >
-        <Pressable
-          onPress={() => navigation.goBack()}
-          style={[Gutters.twentyHMargin]}
-        >
-          <Image source={Images.LeftArrow} />
-        </Pressable>
         {loadingSpinner}
         <View style={[Gutters.twentyFourHMargin, Gutters.tenTMargin]}>
           <Text
@@ -350,12 +365,12 @@ function Esim({ navigation }) {
                 justifyContent: 'space-between',
                 flexDirection: 'row',
                 alignItems: 'center',
+                height: verticalScale(56),
               },
               Common.primaryBlue,
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              Gutters.fiftysixHeight,
               Gutters.tenHPadding,
             ]}
           >
@@ -373,6 +388,7 @@ function Esim({ navigation }) {
             </Text>
             <Icon
               // onPress={() => setDialog(true)}
+              size={scale(20)}
               name={'calendar-alt'}
               type="font-awesome-5"
               color="#517fa4"
@@ -387,13 +403,13 @@ function Esim({ navigation }) {
             placeholderTextColor={Common.placeHolderText.color}
             onChangeText={text => setIMEINumber(text)}
             style={[
+              { height: verticalScale(56) },
               Common.primaryBlue,
               Fonts.fontWeightSmall,
               Common.borderRadius,
               Common.offWhiteBackground,
               !IMEIError && Common.errorBorder,
               Gutters.tenVMargin,
-              Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -405,12 +421,12 @@ function Esim({ navigation }) {
             placeholderTextColor={Common.placeHolderText.color}
             onChangeText={text => setFirstName(text)}
             style={[
+              { height: verticalScale(56) },
               Common.primaryBlue,
               Fonts.fontWeightSmall,
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -422,12 +438,14 @@ function Esim({ navigation }) {
             placeholderTextColor={Common.placeHolderText.color}
             onChangeText={text => setLastName(text)}
             style={[
+              {
+                height: verticalScale(56),
+              },
               Common.primaryBlue,
               Fonts.fontWeightSmall,
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -441,13 +459,15 @@ function Esim({ navigation }) {
             onBlur={() => emailCheck()}
             keyboardType="email-address"
             style={[
+              {
+                height: verticalScale(56),
+              },
               Common.primaryBlue,
               Fonts.fontWeightSmall,
               Common.borderRadius,
               Common.offWhiteBackground,
               EmailError && Common.errorBorder,
               Gutters.tenVMargin,
-              Gutters.fiftysixHeight,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
@@ -458,6 +478,7 @@ function Esim({ navigation }) {
               defaultValue="+1"
               editable={false}
               style={[
+                { height: verticalScale(56) },
                 Common.primaryBlue,
                 Fonts.fontWeightSmall,
                 Fonts.fontSizeMedium,
@@ -467,7 +488,6 @@ function Esim({ navigation }) {
                 Common.borderTopLeftRadius,
                 Common.borderBottomLeftRadius,
                 Gutters.twentyPWidth,
-                Gutters.fiftysixHeight,
                 Gutters.tenVMargin,
               ]}
             />
@@ -479,6 +499,7 @@ function Esim({ navigation }) {
               onChangeText={num => setNumber(num)}
               placeholderTextColor={Common.placeHolderText.color}
               style={[
+                { height: verticalScale(56) },
                 Common.primaryBlue,
                 Fonts.fontWeightSmall,
                 Fonts.fontSizeMedium,
@@ -487,7 +508,6 @@ function Esim({ navigation }) {
                 Common.borderTopRightRadius,
                 Common.borderBottomRightRadius,
                 Gutters.eightyPWidth,
-                Gutters.fiftysixHeight,
                 Layout.alignItemsCenter,
                 Gutters.tenVMargin,
               ]}
@@ -507,7 +527,11 @@ function Esim({ navigation }) {
             <Animatable.Text
               animation="bounceIn"
               duration={1000}
-              style={[Common.errorColor, Fonts.fontWeightSmall]}
+              style={[
+                Common.errorColor,
+                Fonts.fontWeightSmall,
+                Fonts.fontSizeSmall,
+              ]}
             >
               {price !== '' ? `${price.price}` : 'Select Date'}
             </Animatable.Text>
@@ -522,12 +546,13 @@ function Esim({ navigation }) {
           <Button
             title={'Buy Now'}
             onPress={() => onBuyNowHandler()}
+            titleStyle={[Fonts.fontSizeSmall]}
             disabled={!allDataIsValid}
             disabledStyle={[Common.whiteColor, Common.greyBackground]}
             disabledTitleStyle={[Common.whiteColor, Gutters.zeroOsevenOpacity]}
             raised={false}
             buttonStyle={[
-              { borderRadius: 5, height: 50 },
+              { borderRadius: 5, height: scale(50) },
               Common.primaryPinkBackground,
             ]}
           />

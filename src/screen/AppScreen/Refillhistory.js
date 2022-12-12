@@ -26,12 +26,12 @@ const RefillHistory = ({ navigation, route }) => {
       headerLeft: () => null,
       headerStyle: {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
+        height: verticalScale(50),
       },
       headerTitle: () => (
         <Image
           source={Images.Logo}
-          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+          style={[{ width: scale(100) }, Common.resizeModeContain]}
         />
       ),
 

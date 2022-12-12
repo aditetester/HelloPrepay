@@ -170,7 +170,8 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
             style={{
               width: '80%',
               flexDirection: 'column',
-              marginLeft: scale(10),
+              marginLeft: scale(5),
+              padding: 5,
             }}
           >
             <Text
@@ -208,7 +209,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
                 <Image
                   source={Images.checked}
                   style={[
-                    { height: verticalScale(25), width: scale(25) },
+                    { height: verticalScale(20), width: scale(20) },
                     Common.resizeModeContain,
                   ]}
                 />
@@ -217,9 +218,10 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
                 <Image
                   source={Images.unchecked}
                   style={[
+                    { height: verticalScale(20), width: scale(20) },
                     Common.resizeModeContain,
-                    Gutters.twentyfiveHeight,
-                    Gutters.twentyfiveWidth,
+                    // Gutters.twentyfiveHeight,
+                    // Gutters.twentyfiveWidth,
                   ]}
                 />
               }
@@ -348,10 +350,9 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
     <Fragment>
       <View
         style={[
-          Layout.flexTwo,
+          { marginVertical: 5, flex: 3 },
           Layout.center,
           Gutters.twentyHMargin,
-          Gutters.fiveVMargin,
         ]}
       >
         <Text
@@ -390,10 +391,10 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
           style={{
             resizeMode: 'contain',
             width: '50%',
-            height: 80,
+            height: verticalScale(80),
             flex: 1,
             borderRadius: 4,
-            maxWidth: 200,
+            maxWidth: scale(200),
           }}
         />
         <Text
@@ -451,7 +452,11 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
                   navigation.navigate('ChangeCarrier', { navigateFrom: 'Home' })
                 }
                 loadingProps={[{ size: 'small' }, Common.whiteColor]}
-                titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+                titleStyle={[
+                  Fonts.fontWeightRegular,
+                  Fonts.fontSize12,
+                  Fonts.fontFamilyPrimary,
+                ]}
                 buttonStyle={[
                   { height: verticalScale(55) },
                   Common.primaryPinkBackground,
@@ -476,16 +481,18 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
                   onContinue()
                 }}
                 loadingProps={[{ size: 'small' }, Common.whiteColor]}
-                titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+                titleStyle={[
+                  Fonts.fontWeightRegular,
+                  Fonts.fontSize12,
+                  Fonts.fontFamilyPrimary,
+                ]}
                 buttonStyle={[
                   { height: verticalScale(55) },
                   Common.primaryPinkBackground,
-                  // Gutters.fiftyfiveHeight,
                   Common.borderRadius,
                   Gutters.hundredPWidth,
                 ]}
                 containerStyle={[
-                  // Gutters.fortyPWidth,
                   Gutters.twentyTMargin,
                   Layout.selfCenter,
                   Common.borderRadius,

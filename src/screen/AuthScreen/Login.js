@@ -8,6 +8,7 @@ import {
   useGetVerifyUserMutation,
   useSendEmailCodeMutation,
 } from '../../Services/api'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const Login = ({ navigation }) => {
   //NOTE: 1. Define Variables
@@ -209,12 +210,12 @@ const Login = ({ navigation }) => {
             onPress={() =>
               signInUsingFirebase(withoutFormateNumber, 'Registration')
             }
-            titleStyle={[Common.black]}
+            titleStyle={[Common.black, Fonts.fontSize12]}
           />
           <Dialog.Button
             title="CANCEL"
             onPress={() => setRegistrationDialogs(false)}
-            titleStyle={[Common.black]}
+            titleStyle={[Common.black, Fonts.fontSize12]}
           />
         </Dialog.Actions>
       </Dialog>
@@ -230,11 +231,15 @@ const Login = ({ navigation }) => {
       >
         <Dialog.Title
           title="Select Verification mode for Login"
-          titleStyle={[{}, Common.black, Fonts.textCenter]}
+          titleStyle={[{}, Common.black, Fonts.textCenter, Fonts.fontSize12]}
         />
         <CheckBox
           title={'SMS'}
-          textStyle={[sms && Common.white, !sms && Common.black]}
+          textStyle={[
+            sms && Common.white,
+            !sms && Common.black,
+            Fonts.fontSize12,
+          ]}
           containerStyle={[
             sms && Common.primaryPinkBackground,
             Common.borderRadiusTen,
@@ -244,7 +249,7 @@ const Login = ({ navigation }) => {
             <Icon
               name="check-circle"
               type="font-awesome-5"
-              size={20}
+              size={verticalScale(20)}
               color={sms ? 'white' : 'white'}
             />
           }
@@ -252,7 +257,7 @@ const Login = ({ navigation }) => {
             <Icon
               name="circle"
               type="font-awesome-5"
-              size={20}
+              size={verticalScale(20)}
               color={!sms ? 'grey' : '#DB006A'}
             />
           }
@@ -266,7 +271,11 @@ const Login = ({ navigation }) => {
         />
         <CheckBox
           title={'Email'}
-          textStyle={[email && Common.white, !email && Common.black]}
+          textStyle={[
+            email && Common.white,
+            !email && Common.black,
+            Fonts.fontSize12,
+          ]}
           containerStyle={[
             email && Common.primaryPinkBackground,
             Common.borderRadiusTen,
@@ -276,7 +285,7 @@ const Login = ({ navigation }) => {
             <Icon
               name="check-circle"
               type="font-awesome-5"
-              size={20}
+              size={verticalScale(20)}
               color={email ? 'white' : 'white'}
             />
           }
@@ -284,7 +293,7 @@ const Login = ({ navigation }) => {
             <Icon
               name="circle"
               type="font-awesome-5"
-              size={20}
+              size={verticalScale(20)}
               color={!email ? 'grey' : '#DB006A'}
             />
           }
@@ -301,12 +310,12 @@ const Login = ({ navigation }) => {
           <Dialog.Button
             title="CONFIRM"
             onPress={() => onConfirmMode()}
-            titleStyle={[Common.black]}
+            titleStyle={[Common.black, Fonts.fontSize12]}
           />
           <Dialog.Button
             title="CANCEL"
             onPress={() => setDialog(false)}
-            titleStyle={[Common.black]}
+            titleStyle={[Common.black, Fonts.fontSize12]}
           />
         </Dialog.Actions>
       </Dialog>
@@ -352,6 +361,7 @@ const Login = ({ navigation }) => {
               Common.innerText,
               Gutters.tenVMargin,
               Fonts.fontFamilyPrimary,
+              Fonts.fontSize12,
             ]}
           >
             Phone Number
@@ -361,6 +371,7 @@ const Login = ({ navigation }) => {
               defaultValue="+1"
               editable={false}
               style={[
+                { height: verticalScale(56) },
                 Common.secondaryGrey,
                 Fonts.fontWeightSmall,
                 Fonts.fontSizeRegular,
@@ -370,7 +381,6 @@ const Login = ({ navigation }) => {
                 Common.borderTopLeftRadius,
                 Common.borderBottomLeftRadius,
                 Gutters.twentyPWidth,
-                Gutters.fiftysixHeight,
               ]}
             />
             <TextInput
@@ -383,6 +393,7 @@ const Login = ({ navigation }) => {
               onChangeText={num => setNumber(num)}
               placeholderTextColor={Common.placeHolderText.color}
               style={[
+                { height: verticalScale(56) },
                 Common.secondaryGrey,
                 Fonts.fontWeightSmall,
                 Fonts.fontSizeRegular,
@@ -391,7 +402,7 @@ const Login = ({ navigation }) => {
                 Common.borderTopRightRadius,
                 Common.borderBottomRightRadius,
                 Gutters.eightyPWidth,
-                Gutters.fiftysixHeight,
+                // Gutters.fiftysixHeight,
                 Layout.alignItemsCenter,
               ]}
             />
@@ -411,10 +422,10 @@ const Login = ({ navigation }) => {
               onContinueHandler()
             }}
             loadingProps={[{ size: 'small' }, Common.whiteColor]}
-            titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+            titleStyle={[Fonts.fontSize12, Fonts.fontFamilyPrimary]}
             buttonStyle={[
+              { height: verticalScale(55) },
               Common.primaryPinkBackground,
-              Gutters.fiftyfiveHeight,
               Common.borderRadius,
             ]}
             containerStyle={[

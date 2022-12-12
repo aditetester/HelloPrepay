@@ -99,23 +99,27 @@ const Profile = ({ navigation, route }) => {
       headerLeft: () => (
         <TouchableOpacity
           style={[
-            Gutters.fifteenPWidth,
+            // Gutters.fifteenPWidth,
             Gutters.fiveTMargin,
             Gutters.tenHMargin,
           ]}
-          onPress={onBackHandler}
+          onPress={() => navigation.navigate('Home')}
         >
-          <Image source={Images.LeftArrow} />
+          <Image
+            source={Images.LeftArrow}
+            style={{ height: verticalScale(20), width: scale(30) }}
+            resizeMode="cover"
+          />
         </TouchableOpacity>
       ),
       headerStyle: {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
+        height: verticalScale(50),
       },
       headerTitle: () => (
         <Image
           source={Images.Logo}
-          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
+          style={[{ width: scale(100) }, Common.resizeModeContain]}
         />
       ),
 

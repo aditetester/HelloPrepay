@@ -79,15 +79,16 @@ const AddMoney = ({ navigation, route }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => null,
       headerStyle: {
         backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: 70,
+        height: verticalScale(50),
       },
+      headerLeft: () => null,
       headerTitle: () => (
         <Image
-          style={[Gutters.headerWidthWidth, Common.resizeModeContain]}
           source={Images.Logo}
+          resizeMode="contain"
+          style={[{ width: scale(90) }, Common.resizeModeContain]}
         />
       ),
 
@@ -102,16 +103,16 @@ const AddMoney = ({ navigation, route }) => {
   return (
     <SafeAreaView style={[Layout.fill, Common.backgroundPrimary]}>
       <View style={Layout.fill}>
-        <TouchableOpacity
-          style={[
-            Gutters.fifteenPWidth,
-            Gutters.fiveTMargin,
-            Gutters.tenHMargin,
-          ]}
-          onPress={onBackHandler}
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={[Gutters.twentyHMargin]}
         >
-          <Image source={Images.LeftArrow} />
-        </TouchableOpacity>
+          <Image
+            source={Images.LeftArrow}
+            style={{ height: verticalScale(19), width: '10%' }}
+            resizeMode="cover"
+          />
+        </Pressable>
         <View
           style={[
             Layout.alignItemsCenter,
@@ -510,10 +511,9 @@ const AddMoney = ({ navigation, route }) => {
               {({ pressed }) => (
                 <Image
                   source={Images.delete}
+                  resizeMode="contain"
                   style={[
-                    { height: verticalScale(30), width: scale(30) },
-                    // Gutters.thirtyHeight,
-                    // Gutters.thirtyWidth,
+                    { height: verticalScale(25), width: scale(25) },
                     Layout.selfCenter,
                   ]}
                 />
@@ -538,11 +538,14 @@ const AddMoney = ({ navigation, route }) => {
               onContinueHandler()
             }}
             loadingProps={[{ size: 'small' }, Common.whiteColor]}
-            titleStyle={[Fonts.fontWeightRegular, Fonts.fontFamilyPrimary]}
+            titleStyle={[
+              Fonts.fontSizeSmall,
+              Fonts.fontWeightRegular,
+              Fonts.fontFamilyPrimary,
+            ]}
             buttonStyle={[
               { height: verticalScale(55) },
               Common.primaryPinkBackground,
-              // Gutters.fiftyfiveHeight,
               Common.borderRadius,
             ]}
             containerStyle={[
