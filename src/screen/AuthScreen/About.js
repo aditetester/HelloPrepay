@@ -84,25 +84,31 @@ const About = ({ navigation, route }) => {
       return
     } else {
       if (data) {
-        if (
-          String(data.message.email[0]) === 'Email Should Be Unique ' ||
-          String(data.message.email[0]) === 'The email has already been taken.'
-        ) {
-          Alert.alert(
-            'Email !!',
-            'This Email is already in use!! \n Use Different Email',
-          )
-        } else if (
-          String(data.message.phone_number) ===
-          'The phone number has already been taken.'
-        ) {
-          Alert.alert(
-            'Phone Number !!',
-            'The phone number has already been taken.',
-          )
-        } else {
-          console.log(error && error)
-          console.log(data && data)
+        try {
+          if (
+            String(data.message.email[0]) === 'Email Should Be Unique ' ||
+            String(data.message.email[0]) ===
+              'The email has already been taken.'
+          ) {
+            Alert.alert(
+              'Email !!',
+              'This Email is already in use!! \n Use Different Email',
+            )
+          } else if (
+            String(data.message.phone_number) ===
+            'The phone number has already been taken.'
+          ) {
+            Alert.alert(
+              'Phone Number !!',
+              'The phone number has already been taken.',
+            )
+          } else {
+            console.log(error && error)
+            console.log(data && data)
+            Alert.alert('Opps!!', 'Something went wrong')
+          }
+        } catch (err) {
+          Alert.alert('Opps!!', 'Something went wrong')
         }
       }
     }

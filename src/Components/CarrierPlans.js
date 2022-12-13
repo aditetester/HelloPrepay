@@ -98,6 +98,14 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
     }
   }
 
+  const onChangeCarrier = () => {
+    setSelection('')
+    setSelectedPrice('')
+    setSelectedName('')
+    setSelectFullPlanName('')
+    navigation.navigate('ChangeCarrier', { navigateFrom: 'Home' })
+  }
+
   const onRefresh = () => {
     setIsRefreshing(true)
     setSelection('')
@@ -448,9 +456,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
               <Button
                 title="Change carrier"
                 loading={false}
-                onPress={() =>
-                  navigation.navigate('ChangeCarrier', { navigateFrom: 'Home' })
-                }
+                onPress={() => onChangeCarrier()}
                 loadingProps={[{ size: 'small' }, Common.whiteColor]}
                 titleStyle={[
                   Fonts.fontWeightRegular,

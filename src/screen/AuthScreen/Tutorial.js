@@ -61,7 +61,16 @@ const Slide = ({ item }) => {
         }}
         source={item?.image}
       />
-      <View style={[{ flex: 1, alignItems: 'center' }, Fonts.textCenter]}>
+      <View
+        style={[
+          {
+            flex: 1,
+            alignItems: 'center',
+            maxWidth: scale(200),
+          },
+          Fonts.textCenter,
+        ]}
+      >
         <Text
           style={[
             styles.title,
@@ -79,7 +88,6 @@ const Slide = ({ item }) => {
             Common.innerText,
             Fonts.fontSizeSmaller,
             Fonts.textCenter,
-            Gutters.sixtyPMWidth,
             Gutters.twentyTMargin,
             Fonts.fontFamilyPrimary,
           ]}
@@ -134,9 +142,10 @@ const Tutorial = ({ navigation }) => {
         {/* Indicator container */}
         <View
           style={[
+            { marginTop: 40 },
             Layout.justifyContentCenter,
             Layout.row,
-            Gutters.fortyTMargin,
+            // Gutters.fortyTMargin,
             Gutters.twentyPHeight,
           ]}
         >
@@ -169,8 +178,8 @@ const Tutorial = ({ navigation }) => {
                 activeOpacity={0.8}
                 style={[
                   {
-                    width: scale(341),
-                    height: verticalScale(64),
+                    width: scale(310),
+                    height: verticalScale(50),
                   },
                   Common.primaryPinkBackground,
                   Common.primaryPinkBorder,

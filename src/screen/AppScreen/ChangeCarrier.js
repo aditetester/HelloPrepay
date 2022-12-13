@@ -113,7 +113,13 @@ const ChangeCarrier = ({ navigation, route }) => {
                 Gutters.tenHMargin,
               ]}
               // onPress={() => navigation.navigate('Profile')}
-              onPress={() => navigation.goBack()}
+              onPress={() => {
+                if (params.navigateFrom === 'Home') {
+                  navigation.navigate('Home')
+                } else if (params.navigateFrom === 'Profile') {
+                  navigation.navigate('Profile')
+                }
+              }}
             >
               <RImage
                 source={Images.LeftArrow}
@@ -130,20 +136,7 @@ const ChangeCarrier = ({ navigation, route }) => {
           style={[{ width: scale(90) }, Common.resizeModeContain]}
         />
       ),
-      headerRight: () =>
-        // <Avatar
-        //   size={64}
-        //   rounded
-        //   onPress={() => navigation.navigate('Profile')}
-        //   source={Images.avatar}
-        //   containerStyle={[
-        //     Gutters.twentyRMargin,
-        //     Gutters.fortyHeight,
-        //     Gutters.fortyWidth,
-        //     Common.greyColor,
-        //   ]}
-        // />
-        null,
+      headerRight: () => null,
       headerTitleAlign: 'center',
       headerShadowVisible: false,
       headerBackTitleVisible: false,
@@ -163,6 +156,7 @@ const ChangeCarrier = ({ navigation, route }) => {
         first_name: userData.first_name,
         data: profileUpdateData,
       })
+      setSelectedId('')
     } else if (profileUpdateData && profileUpdateData.success === false) {
       Alert.alert('', 'Something Went Wrong...')
       return

@@ -341,7 +341,7 @@ const Checkout = ({ navigation, route }) => {
   const onScrollHandle = () => {
     scrollRef.scrollTo({
       x: 0,
-      y: verticalScale(330),
+      y: verticalScale(315),
       animated: true,
     })
   }
@@ -364,7 +364,7 @@ const Checkout = ({ navigation, route }) => {
     if (rechargeError) {
       console.log('rechargeError', rechargeError)
       setModalVisible(true)
-      Alert.alert('Server Problem!!', 'Server problem in plan purchasing')
+      // Alert.alert('Server Problem!!', 'Server problem in plan purchasing')
     }
   }, [rechargeError])
 
@@ -397,7 +397,7 @@ const Checkout = ({ navigation, route }) => {
   useEffect(() => {
     if (EsimOrderError) {
       setModalVisible(true)
-      Alert.alert('Server Problem!!', 'Server down for Esim transaction!')
+      // Alert.alert('Server Problem!!', 'Server down for Esim transaction!')
     }
   }, [EsimOrderError])
 

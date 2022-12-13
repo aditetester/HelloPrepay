@@ -49,7 +49,7 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     if (emailError) {
-      Alert.alert('Opps!!!', 'Server Down \n Please try again')
+      Alert.alert('Opps!!!', 'Server Down \n Please try again later')
       console.log(JSON.stringify('Email Error', emailError.data))
     }
   }, [emailError])
@@ -79,7 +79,6 @@ const Login = ({ navigation }) => {
     } else if (data && data.status !== 'active') {
       setRegistrationDialogs(true)
       // signInUsingFirebase(withoutFormateNumber, 'Registration')
-      setRegistrationDialogs(true)
     } else if (
       data &&
       data.message.phone_number[0] ===
@@ -93,7 +92,7 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     if (error) {
-      Alert.alert('Error!', 'Server Down')
+      Alert.alert('Opps!', 'Something went wrong!!')
     }
   }, [error])
 
