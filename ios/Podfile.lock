@@ -551,8 +551,12 @@ PODS:
   - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
+  - RNSentry (4.11.0):
+    - React-Core
+    - Sentry/HybridSDK (= 7.31.2)
   - RNSVG (13.5.0):
     - React-Core
+  - Sentry/HybridSDK (7.31.2)
   - SocketRocket (0.6.0)
   - Stripe (19.4.1)
   - Yoga (1.14.0)
@@ -632,6 +636,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -665,6 +670,7 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
+    - Sentry
     - SocketRocket
     - Stripe
     - YogaKit
@@ -760,6 +766,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -839,7 +847,9 @@ SPEC CHECKSUMS:
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   RNReanimated: c3e58924b9418883b0bde9e78c4c957302f02435
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
+  RNSentry: f052387ebe939949c74c2cae0c850e76f6d14ddb
   RNSVG: 38ca962c970dbce1ca38991a5aebf26d163f9efb
+  Sentry: b15765d11769852fe78c9add942f7df60ed5dbf5
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Stripe: 5914399ac5878056b985d56b409cb4bb1e7fc7e8
   Yoga: 44c64131616253fa83366295acdbce3d14926041

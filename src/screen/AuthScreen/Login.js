@@ -72,20 +72,24 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     setErrors('')
-    if (data && data.status === 'active') {
-      setDialog(true)
-      setButtonLoading(false)
-      console.log(data)
-    } else if (data && data.status !== 'active') {
-      setRegistrationDialogs(true)
-      // signInUsingFirebase(withoutFormateNumber, 'Registration')
-    } else if (
-      data &&
-      data.message.phone_number[0] ===
-        'The phone number must be between 5 and 10 digits.'
-    ) {
-      setErrors('The phone number must be 10 digits.')
-    } else if (data && data.message) {
+    try {
+      if (data && data.status === 'active') {
+        setDialog(true)
+        setButtonLoading(false)
+        console.log(data)
+      } else if (data && data.status !== 'active') {
+        setRegistrationDialogs(true)
+        // signInUsingFirebase(withoutFormateNumber, 'Registration')
+      } else if (
+        data &&
+        data.message.phone_number[0] ===
+          'The phone number must be between 5 and 10 digits.'
+      ) {
+        setErrors('The phone number must be 10 digits.')
+      } else if (data && data.message) {
+        setErrors('Something Went Wrong...')
+      }
+    } catch (e) {
       setErrors('Something Went Wrong...')
     }
   }, [data])

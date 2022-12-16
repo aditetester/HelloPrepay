@@ -11,15 +11,15 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		17C0D7A8FB371FD19B33CE22 /* libPods-prepaidiq-prepaidiqTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A450993EA121486120295BDC /* libPods-prepaidiq-prepaidiqTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* prepaidiqTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* prepaidiqTests.m */; };
+		4CB553C434548F912E8B1843 /* libPods-prepaidiq-prepaidiqTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A002B4FEB069BAA3A4BA68D /* libPods-prepaidiq-prepaidiqTests.a */; };
 		691AB6B928D3625300748B82 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 691AB6B828D3625300748B82 /* main.jsbundle */; };
+		6DE4CD442B3AA02DDE2A2BEB /* libPods-prepaidiq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F70DF421B01F32F8B0B82BA4 /* libPods-prepaidiq.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8980DFD128D1E059005FD686 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8980DFD028D1E058005FD686 /* GoogleService-Info.plist */; };
-		BA4AECB373984D9076182BA2 /* libPods-prepaidiq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A71D544D2875B0540F2B4BA0 /* libPods-prepaidiq.a */; };
 		F61ED7F028BF92E30015A74E /* Satoshi-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F61ED7EF28BF92E30015A74E /* Satoshi-Regular.otf */; };
 		F6952D9C28AE2164005EE4AF /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8C28AE2164005EE4AF /* Fontisto.ttf */; };
 		F6952D9D28AE2164005EE4AF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8D28AE2164005EE4AF /* Octicons.ttf */; };
@@ -60,24 +60,23 @@
 		00E356EE1AD99517003FC87E /* prepaidiqTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = prepaidiqTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* prepaidiqTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prepaidiqTests.m; sourceTree = "<group>"; };
-		0157262BB59A2C0EDBB3AA44 /* Pods-prepaidiq-prepaidiqTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; path = "Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; sourceTree = "<group>"; };
+		13A41C8C0064350F9E7307C9 /* Pods-prepaidiq-prepaidiqTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq-prepaidiqTests.release.xcconfig"; path = "Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* prepaidiq.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = prepaidiq.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = prepaidiq/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = prepaidiq/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = prepaidiq/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = prepaidiq/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = prepaidiq/main.m; sourceTree = "<group>"; };
+		21171DEEC714589FAE07867A /* Pods-prepaidiq.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq.debug.xcconfig"; path = "Target Support Files/Pods-prepaidiq/Pods-prepaidiq.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* prepaidiq-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "prepaidiq-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* prepaidiq-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "prepaidiq-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		664B2B44CEBE5D8385C05C9C /* Pods-prepaidiq.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq.release.xcconfig"; path = "Target Support Files/Pods-prepaidiq/Pods-prepaidiq.release.xcconfig"; sourceTree = "<group>"; };
+		5A002B4FEB069BAA3A4BA68D /* libPods-prepaidiq-prepaidiqTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prepaidiq-prepaidiqTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		691AB6B828D3625300748B82 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		691AB6BA28D3639200748B82 /* prepaidiq.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = prepaidiq.entitlements; path = prepaidiq/prepaidiq.entitlements; sourceTree = "<group>"; };
+		6E8F674DA0DD73D068349A95 /* Pods-prepaidiq.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq.release.xcconfig"; path = "Target Support Files/Pods-prepaidiq/Pods-prepaidiq.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = prepaidiq/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8980DFD028D1E058005FD686 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		9E9CA576D12A9EB3BF690D25 /* Pods-prepaidiq-prepaidiqTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq-prepaidiqTests.release.xcconfig"; path = "Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests.release.xcconfig"; sourceTree = "<group>"; };
-		A450993EA121486120295BDC /* libPods-prepaidiq-prepaidiqTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prepaidiq-prepaidiqTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A71D544D2875B0540F2B4BA0 /* libPods-prepaidiq.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prepaidiq.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C30BC1268A714912E0AAE79E /* Pods-prepaidiq.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq.debug.xcconfig"; path = "Target Support Files/Pods-prepaidiq/Pods-prepaidiq.debug.xcconfig"; sourceTree = "<group>"; };
+		8D8478EF056957888C234D0C /* Pods-prepaidiq-prepaidiqTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; path = "Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F61ED7EF28BF92E30015A74E /* Satoshi-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Satoshi-Regular.otf"; path = "../src/Assets/fonts/Satoshi-Regular.otf"; sourceTree = "<group>"; };
@@ -97,6 +96,7 @@
 		F6952D9928AE2164005EE4AF /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
 		F6952D9A28AE2164005EE4AF /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		F6952D9B28AE2164005EE4AF /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		F70DF421B01F32F8B0B82BA4 /* libPods-prepaidiq.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prepaidiq.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17C0D7A8FB371FD19B33CE22 /* libPods-prepaidiq-prepaidiqTests.a in Frameworks */,
+				4CB553C434548F912E8B1843 /* libPods-prepaidiq-prepaidiqTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA4AECB373984D9076182BA2 /* libPods-prepaidiq.a in Frameworks */,
+				6DE4CD442B3AA02DDE2A2BEB /* libPods-prepaidiq.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,10 +171,10 @@
 		18A06528071B6FFBBA9372E2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C30BC1268A714912E0AAE79E /* Pods-prepaidiq.debug.xcconfig */,
-				664B2B44CEBE5D8385C05C9C /* Pods-prepaidiq.release.xcconfig */,
-				0157262BB59A2C0EDBB3AA44 /* Pods-prepaidiq-prepaidiqTests.debug.xcconfig */,
-				9E9CA576D12A9EB3BF690D25 /* Pods-prepaidiq-prepaidiqTests.release.xcconfig */,
+				21171DEEC714589FAE07867A /* Pods-prepaidiq.debug.xcconfig */,
+				6E8F674DA0DD73D068349A95 /* Pods-prepaidiq.release.xcconfig */,
+				8D8478EF056957888C234D0C /* Pods-prepaidiq-prepaidiqTests.debug.xcconfig */,
+				13A41C8C0064350F9E7307C9 /* Pods-prepaidiq-prepaidiqTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -184,8 +184,8 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				A71D544D2875B0540F2B4BA0 /* libPods-prepaidiq.a */,
-				A450993EA121486120295BDC /* libPods-prepaidiq-prepaidiqTests.a */,
+				F70DF421B01F32F8B0B82BA4 /* libPods-prepaidiq.a */,
+				5A002B4FEB069BAA3A4BA68D /* libPods-prepaidiq-prepaidiqTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -253,12 +253,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "prepaidiqTests" */;
 			buildPhases = (
-				C52845787F4A3A74690FE0BD /* [CP] Check Pods Manifest.lock */,
+				4067D4699FCDE8D6266DE116 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				B17C4A86BD51B491FF69878E /* [CP] Embed Pods Frameworks */,
-				B59EFEB276B4FC45C8CFF65C /* [CP] Copy Pods Resources */,
+				773271BB9D1FBCEBDDBA9871 /* [CP] Embed Pods Frameworks */,
+				6F28A922C32774A51B0AA156 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -274,15 +274,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "prepaidiq" */;
 			buildPhases = (
-				7F4BD13E6E908FAFDFB34018 /* [CP] Check Pods Manifest.lock */,
+				572FF1EEAA577034EA5DCAED /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				7D3B11714BD4492BB4120927 /* [CP] Embed Pods Frameworks */,
-				2E63ECBD9860F8BC5F7BAE3F /* [CP] Copy Pods Resources */,
-				29078FD7E2942DFC17BFB6AE /* [CP-User] [RNFB] Core Configuration */,
+				C58934E6873540FC8CFE9D35 /* Upload Debug Symbols to Sentry */,
+				FA66D4543145046BDAACEFE4 /* [CP] Embed Pods Frameworks */,
+				444259D377A9068B92FDFF0B /* [CP] Copy Pods Resources */,
+				2361BFDBB73588D3C58CB043 /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -445,9 +446,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=/Users/adite/.nvm/versions/node/v18.12.1/bin/node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport NODE_BINARY=/Users/adite/.nvm/versions/node/v16.18.1/bin/node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n\n/bin/sh ../node_modules/@sentry/react-native/scripts/collect-modules.sh\n";
 		};
-		29078FD7E2942DFC17BFB6AE /* [CP-User] [RNFB] Core Configuration */ = {
+		2361BFDBB73588D3C58CB043 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -472,9 +473,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh\n/bin/sh ../node_modules/@sentry/react-native/scripts/collect-modules.sh\n";
 		};
-		2E63ECBD9860F8BC5F7BAE3F /* [CP] Copy Pods Resources */ = {
+		4067D4699FCDE8D6266DE116 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-prepaidiq-prepaidiqTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		444259D377A9068B92FDFF0B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -500,29 +523,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prepaidiq/Pods-prepaidiq-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7D3B11714BD4492BB4120927 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-prepaidiq/Pods-prepaidiq-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-Glog/glog.framework/glog",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prepaidiq/Pods-prepaidiq-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7F4BD13E6E908FAFDFB34018 /* [CP] Check Pods Manifest.lock */ = {
+		572FF1EEAA577034EA5DCAED /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -544,29 +545,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B17C4A86BD51B491FF69878E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-Glog/glog.framework/glog",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B59EFEB276B4FC45C8CFF65C /* [CP] Copy Pods Resources */ = {
+		6F28A922C32774A51B0AA156 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -592,26 +571,62 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C52845787F4A3A74690FE0BD /* [CP] Check Pods Manifest.lock */ = {
+		773271BB9D1FBCEBDDBA9871 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${PODS_ROOT}/Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-Glog/glog.framework/glog",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-prepaidiq-prepaidiqTests-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C58934E6873540FC8CFE9D35 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\n";
+		};
+		FA66D4543145046BDAACEFE4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-prepaidiq/Pods-prepaidiq-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-Glog/glog.framework/glog",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prepaidiq/Pods-prepaidiq-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -707,7 +722,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0157262BB59A2C0EDBB3AA44 /* Pods-prepaidiq-prepaidiqTests.debug.xcconfig */;
+			baseConfigurationReference = 8D8478EF056957888C234D0C /* Pods-prepaidiq-prepaidiqTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -730,7 +745,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E9CA576D12A9EB3BF690D25 /* Pods-prepaidiq-prepaidiqTests.release.xcconfig */;
+			baseConfigurationReference = 13A41C8C0064350F9E7307C9 /* Pods-prepaidiq-prepaidiqTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -750,7 +765,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C30BC1268A714912E0AAE79E /* Pods-prepaidiq.debug.xcconfig */;
+			baseConfigurationReference = 21171DEEC714589FAE07867A /* Pods-prepaidiq.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -784,7 +799,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 664B2B44CEBE5D8385C05C9C /* Pods-prepaidiq.release.xcconfig */;
+			baseConfigurationReference = 6E8F674DA0DD73D068349A95 /* Pods-prepaidiq.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

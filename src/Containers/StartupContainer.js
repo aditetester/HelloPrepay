@@ -20,6 +20,8 @@ const StartupContainer = () => {
 
   const { t } = useTranslation()
 
+  // throw new Error('My first Sentry error!')
+
   useEffect(() => {
     if (netInfo.isConnected === false) {
       errorToast()

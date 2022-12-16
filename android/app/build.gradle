@@ -83,6 +83,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
 
 project.ext.vectoricons = [
     iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf', 'AntDesign.ttf',
@@ -116,7 +117,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -247,9 +248,17 @@ android {
         release {
             storeFile file('/Users/adite/Documents/Renish/Boilerplate/prepaidiq/android/app/release.keystore')
             storePassword 'android'
-            keyAlias 'androiy'
+            keyAlias 'androidreleasekey'
             keyPassword 'android'
-        }
+        }   
+        // release {
+        //     if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+        //         storeFile file(MYAPP_UPLOAD_STORE_FILE)
+        //         storePassword MYAPP_UPLOAD_STORE_PASSWORD
+        //         keyAlias MYAPP_UPLOAD_KEY_ALIAS
+        //         keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+        //     }
+        // }            
     }
     buildTypes {
         debug {

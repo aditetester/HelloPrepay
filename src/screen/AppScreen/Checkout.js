@@ -26,7 +26,7 @@ import {
   useGetRechargeMutation,
   usePlaceEsimOrderMutation,
 } from '@/Services/api'
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const Checkout = ({ navigation, route }) => {
   //#region Define Variables
@@ -55,8 +55,8 @@ const Checkout = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   const cardNameIsValid = cardName.length > 1
-  const cardNumberIsValid = cardNumber.length > 5
-  const cardDateIsValid = cardDate.length !== ''
+  const cardNumberIsValid = cardNumber.length > 10
+  const cardDateIsValid = cardDate.length !== 0
   const CVVIsValid = CVV.length === 3
   const addressIsValid = address.length > 5
   const aptSuiteIsValid = aptSuite.length > 2
@@ -352,9 +352,14 @@ const Checkout = ({ navigation, route }) => {
 
   useEffect(() => {
     if (rechargeData) {
-      if (rechargeData.order.payment_status === 'success') {
-        navigation.navigate('PaymentSuccess')
-      } else if (rechargeData.order.payment_status === 'fail') {
+      try {
+        if (rechargeData.order.payment_status === 'success') {
+          navigation.navigate('PaymentSuccess')
+        } else if (rechargeData.order.payment_status === 'fail') {
+          setModalVisible(true)
+        }
+      } catch (e) {
+        console.log(e)
         setModalVisible(true)
       }
     }
@@ -386,9 +391,13 @@ const Checkout = ({ navigation, route }) => {
 
   useEffect(() => {
     if (EsimOrderData) {
-      if (EsimOrderData.order.payment_status === 'success') {
-        navigation.navigate('PaymentSuccess')
-      } else if (EsimOrderData.order.payment_status === 'fail') {
+      try {
+        if (EsimOrderData.order.payment_status === 'success') {
+          navigation.navigate('PaymentSuccess')
+        } else if (EsimOrderData.order.payment_status === 'fail') {
+          setModalVisible(true)
+        }
+      } catch (e) {
         setModalVisible(true)
       }
     }
@@ -484,6 +493,9 @@ const Checkout = ({ navigation, route }) => {
           Name on card
         </Text>
         <TextInput
+          value={cardName}
+          onChangeText={text => setCardName(text)}
+          keyboardType="default"
           style={[
             { height: verticalScale(56) },
             Common.primaryBlue,
@@ -496,8 +508,6 @@ const Checkout = ({ navigation, route }) => {
             Fonts.fontFamilyPrimary,
             Gutters.tenHPadding,
           ]}
-          value={cardName}
-          onChangeText={text => setCardName(text)}
         />
 
         <CardNumberTextInput
@@ -1128,7 +1138,7 @@ const Checkout = ({ navigation, route }) => {
             {/* {platform === 'android' && googlePayComponent()} */}
           </View>
           {/* {number == params.phone_number && cardPaymentInfo} */}
-          <CardPaymentInfo />
+          {CardPaymentInfo()}
         </ScrollView>
       ) : (
         loading

@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prepaidiq.d2c",
+      "sha256_cert_fingerprints": [
+        "0B:1F:DB:4B:AF:CB:99:2D:5A:91:89:AC:5E:F3:0B:5A:4B:3A:79:8E:14:04:03:BF:53:1A:51:45:E7:20:BC:8C"
+      ]
+    }
+  }
+]

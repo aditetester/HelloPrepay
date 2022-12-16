@@ -78,7 +78,8 @@
     "twentyfive",
     "Varizon",
     "verzion",
-    "whitecheckcircle"
+    "whitecheckcircle",
+    "xcworkspace"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true

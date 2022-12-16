@@ -32,6 +32,7 @@
     "@reduxjs/toolkit": "^1.8.3",
     "@rneui/base": "^4.0.0-rc.6",
     "@rneui/themed": "^4.0.0-rc.6",
+    "@sentry/react-native": "^4.11.0",
     "antd": "^4.22.8",
     "axios": "^0.27.2",
     "i18next": "^21.8.14",
