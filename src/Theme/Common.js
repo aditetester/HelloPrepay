@@ -243,6 +243,9 @@ export default function ({ Colors, ...args }) {
       blackAndWhite: {
         color: Colors.textColor,
       },
+      bottomSheetTextColor: {
+        color: Colors.bottomSheetTextColor,
+      },
     }),
   }
 }

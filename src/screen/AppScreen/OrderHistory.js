@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTheme } from '@/Hooks'
@@ -103,7 +104,7 @@ const Profile = ({ navigation, route }) => {
             Gutters.fiveTMargin,
             Gutters.tenHMargin,
           ]}
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.goBack()}
         >
           <Image
             source={Images.LeftArrow}
@@ -221,7 +222,7 @@ const Profile = ({ navigation, route }) => {
                 Gutters.tenVMargin,
               ]}
             >
-              {bottomSheetData.first_name}
+              {bottomSheetData.first_name ? bottomSheetData.first_name : '---'}
             </Text>
           </View>
           <View
@@ -249,7 +250,7 @@ const Profile = ({ navigation, route }) => {
                 Gutters.tenVMargin,
               ]}
             >
-              {bottomSheetData.last_name}
+              {bottomSheetData.last_name ? bottomSheetData.last_name : '---'}
             </Text>
           </View>
           <View
@@ -418,24 +419,25 @@ const Profile = ({ navigation, route }) => {
       item.payment_status === 'success' ? Images.success : Images.fail
 
     return (
-      <Pressable
+      <TouchableOpacity
         onPress={() => onShowHistoryHandler(item.id)}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        style={[
-          Common.offWhiteSecondaryBorder,
-          Layout.fill,
-          Common.borderWidthOne,
-          Common.borderRadius,
-          Gutters.ninePadding,
-          Gutters.sixVMargin,
-        ]}
       >
         <Animatable.View
           duration={1000}
           animation="fadeInUp"
           delay={index * 50}
-          style={[Layout.row, { justifyContent: 'space-between' }]}
+          style={[
+            Layout.row,
+            Common.offWhiteSecondaryBorder,
+            Layout.fill,
+            Common.borderWidthOne,
+            Common.borderRadius,
+            Gutters.ninePadding,
+            Gutters.sixVMargin,
+            { justifyContent: 'space-between' },
+          ]}
         >
           <View style={{ width: '80%', flexDirection: 'row' }}>
             <Image
@@ -488,7 +490,7 @@ const Profile = ({ navigation, route }) => {
             />
           </View>
         </Animatable.View>
-      </Pressable>
+      </TouchableOpacity>
     )
   }
 
@@ -526,8 +528,13 @@ const Profile = ({ navigation, route }) => {
             ListEmptyComponent={
               error || (data && data.order.length === 0 && errorComponent)
             }
-            refreshing={isRefreshing} // Added pull to refresh state
-            onRefresh={onRefresh}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing} // Added pull to refresh state
+                onRefresh={onRefresh}
+                tintColor={theme.darkMode ? 'white' : 'black'}
+              />
+            }
           />
         </View>
         <RBSheet

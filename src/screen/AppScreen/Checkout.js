@@ -352,6 +352,7 @@ const Checkout = ({ navigation, route }) => {
 
   useEffect(() => {
     if (rechargeData) {
+      console.log(rechargeData)
       try {
         if (rechargeData.order.payment_status === 'success') {
           navigation.navigate('PaymentSuccess')
@@ -367,7 +368,7 @@ const Checkout = ({ navigation, route }) => {
 
   useEffect(() => {
     if (rechargeError) {
-      console.log('rechargeError', rechargeError)
+      // console.log('rechargeError', rechargeError)
       setModalVisible(true)
       // Alert.alert('Server Problem!!', 'Server problem in plan purchasing')
     }
@@ -391,6 +392,7 @@ const Checkout = ({ navigation, route }) => {
 
   useEffect(() => {
     if (EsimOrderData) {
+      // console.log(EsimOrderData)
       try {
         if (EsimOrderData.order.payment_status === 'success') {
           navigation.navigate('PaymentSuccess')
@@ -398,6 +400,7 @@ const Checkout = ({ navigation, route }) => {
           setModalVisible(true)
         }
       } catch (e) {
+        // console.log(e)
         setModalVisible(true)
       }
     }
@@ -405,6 +408,7 @@ const Checkout = ({ navigation, route }) => {
 
   useEffect(() => {
     if (EsimOrderError) {
+      console.log(EsimOrderError)
       setModalVisible(true)
       // Alert.alert('Server Problem!!', 'Server down for Esim transaction!')
     }
@@ -904,7 +908,7 @@ const Checkout = ({ navigation, route }) => {
         <View style={[Layout.center, Layout.fill, Common.dimBackground]}>
           <View
             style={[
-              { height: '40%' },
+              { height: '45%' },
               Common.whiteColorBackground,
               Common.borderWidthOne,
               Common.secondaryGreyBorder,
@@ -1133,7 +1137,7 @@ const Checkout = ({ navigation, route }) => {
           </View>
 
           <View style={[Gutters.twentyFourHMargin]}>
-            <CardsPayments />
+            {CardsPayments()}
             {/* {platform === 'ios' && applepayComponent()} */}
             {/* {platform === 'android' && googlePayComponent()} */}
           </View>

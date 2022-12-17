@@ -6,6 +6,7 @@ const Colors = {
   backgroundPrimary: 'black',
   primaryBlue: '#28224B',
   primaryBlueMode: 'white',
+  bottomSheetTextColor: 'black',
   primaryPink: '#DB006A',
   persistLoadingBackground: '#DB006A',
   primaryGrey: '#7B808D',

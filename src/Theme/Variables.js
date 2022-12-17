@@ -18,6 +18,7 @@ export const Colors = {
   backgroundPrimary: '#ffffff',
   primaryBlue: '#28224B',
   primaryBlueMode: '#28224B',
+  bottomSheetTextColor: '#28224B',
   primaryPink: '#DB006A',
   persistLoadingBackground: '#FFFFFF',
   primaryGrey: '#7B808D',

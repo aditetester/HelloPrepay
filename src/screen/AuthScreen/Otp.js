@@ -135,7 +135,7 @@ const Otp = ({ navigation, route }) => {
           return
         } catch (error) {
           setButtonLoading(false)
-          Alert.alert('Invalid Code', 'You Entered Invalid Code Login Firebase')
+          Alert.alert('Invalid Code', 'You Entered Invalid Code')
           setKey1('')
           setKey2('')
           setKey3('')
@@ -401,19 +401,20 @@ const Otp = ({ navigation, route }) => {
         </View>
         <View
           style={[
+            { width: '30%', alignSelf: 'center' },
             Common.textColor,
             Layout.row,
             Layout.flexTwo,
             Layout.alignItemsCenter,
             Layout.justifyContentAround,
-            Gutters.ofzHMargin,
+            // Gutters.ofzHMargin,
             Gutters.twentyVMargin,
           ]}
         >
           <View
             style={[
               Layout.center,
-              { height: verticalScale(50), width: scale(30) },
+              { height: verticalScale(50), width: scale(40) },
             ]}
           >
             {key1 ? (
@@ -441,7 +442,7 @@ const Otp = ({ navigation, route }) => {
           <View
             style={[
               Layout.center,
-              { height: verticalScale(50), width: scale(30) },
+              { height: verticalScale(50), width: scale(40) },
             ]}
           >
             {key2 ? (
@@ -469,7 +470,7 @@ const Otp = ({ navigation, route }) => {
           <View
             style={[
               Layout.center,
-              { height: verticalScale(50), width: scale(30) },
+              { height: verticalScale(50), width: scale(40) },
             ]}
           >
             {key3 ? (
@@ -497,7 +498,7 @@ const Otp = ({ navigation, route }) => {
           <View
             style={[
               Layout.center,
-              { height: verticalScale(50), width: scale(30) },
+              { height: verticalScale(50), width: scale(40) },
             ]}
           >
             {key4 ? (
@@ -525,7 +526,7 @@ const Otp = ({ navigation, route }) => {
           <View
             style={[
               Layout.center,
-              { height: verticalScale(50), width: scale(30) },
+              { height: verticalScale(50), width: scale(40) },
             ]}
           >
             {key5 ? (
@@ -553,7 +554,10 @@ const Otp = ({ navigation, route }) => {
           <View
             style={[
               Layout.center,
-              { height: verticalScale(50), width: scale(30) },
+              {
+                height: verticalScale(50),
+                width: scale(40),
+              },
             ]}
           >
             {key6 ? (

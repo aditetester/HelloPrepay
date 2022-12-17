@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
 import { Button } from '@rneui/themed'
 import * as Animatable from 'react-native-animatable'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const PaymentSuccess = ({ navigation, route }) => {
   //NOTE: 1. Define Variables
