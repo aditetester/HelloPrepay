@@ -21,12 +21,12 @@ import {
   CardDateTextInput,
 } from 'rn-credit-card-textinput'
 import GestureRecognizer from 'react-native-swipe-gestures'
-import { PaymentRequest } from 'react-native-payments'
 import {
   useGetRechargeMutation,
   usePlaceEsimOrderMutation,
 } from '@/Services/api'
 import { scale, verticalScale } from 'react-native-size-matters'
+// import { PaymentRequest } from 'react-native-payments'
 
 const Checkout = ({ navigation, route }) => {
   //#region Define Variables
@@ -87,206 +87,207 @@ const Checkout = ({ navigation, route }) => {
 
   //#region Apple Pay Configuration
 
-  const applePaymentSuccess = async () => {
-    await setTimeout(() => {
-      navigation.navigate('PaymentSuccess')
-    }, 1000)
-  }
+  //"react-native-payments": "^0.8.4",
+  // const applePaymentSuccess = async () => {
+  //   await setTimeout(() => {
+  //     navigation.navigate('PaymentSuccess')
+  //   }, 1000)
+  // }
 
-  const applepayComponent = () => {
-    const applePay = () => {
-      const IOS_METHOD_DATA = [
-        {
-          supportedMethods: ['apple-pay'],
-          data: {
-            merchantIdentifier: 'merchant.com.prepaidiq.d2c',
-            // merchantIdentifier: 'merchant.apple.test',
-            supportedNetworks: ['visa', 'mastercard', 'amex'],
-            countryCode: 'US',
-            currencyCode: 'USD',
-            // paymentMethodTokenizationParameters: {
-            //   // parameters: {
-            //   //   gateway: 'nmi',
-            //   //   'nmi:publishableKey': 'STRIPE-PK-KEY',
-            //   // },
-            // },
-          },
-        },
-      ]
+  // const applepayComponent = () => {
+  //   const applePay = () => {
+  //     const IOS_METHOD_DATA = [
+  //       {
+  //         supportedMethods: ['apple-pay'],
+  //         data: {
+  //           merchantIdentifier: 'merchant.com.prepaidiq.d2c',
+  //           // merchantIdentifier: 'merchant.apple.test',
+  //           supportedNetworks: ['visa', 'mastercard', 'amex'],
+  //           countryCode: 'US',
+  //           currencyCode: 'USD',
+  //           // paymentMethodTokenizationParameters: {
+  //           //   // parameters: {
+  //           //   //   gateway: 'nmi',
+  //           //   //   'nmi:publishableKey': 'STRIPE-PK-KEY',
+  //           //   // },
+  //           // },
+  //         },
+  //       },
+  //     ]
 
-      const IOS_DETAILS = {
-        id: 'basic-example',
-        displayItems: [
-          {
-            label: params.FullPlanName,
-            amount: { currency: 'USD', value: params.amount.replace('$', '') },
-          },
-        ],
+  //     const IOS_DETAILS = {
+  //       id: 'basic-example',
+  //       displayItems: [
+  //         {
+  //           label: params.FullPlanName,
+  //           amount: { currency: 'USD', value: params.amount.replace('$', '') },
+  //         },
+  //       ],
 
-        total: {
-          label: 'to Helloprepay',
-          amount: {
-            currency: 'USD',
-            value: `${params.amount.replace('$', '')}`,
-          },
-        },
-      }
+  //       total: {
+  //         label: 'to Helloprepay',
+  //         amount: {
+  //           currency: 'USD',
+  //           value: `${params.amount.replace('$', '')}`,
+  //         },
+  //       },
+  //     }
 
-      const paymentRequest = new PaymentRequest(IOS_METHOD_DATA, IOS_DETAILS)
+  //     const paymentRequest = new PaymentRequest(IOS_METHOD_DATA, IOS_DETAILS)
 
-      paymentRequest
-        .canMakePayments()
-        .then(canMakePayment => {
-          if (canMakePayment) {
-            paymentRequest
-              .show()
-              .then(paymentResponse => {
-                // // Your payment processing code goes here
-                console.log('Apple pay Success', paymentResponse)
-                paymentResponse.complete('success')
-                applePaymentSuccess()
-              })
-              .catch(errors => {
-                // paymentRequest.abort()
-                console.log('Apple pay Error', errors)
-                // paymentRequest.complete('fail')
-                // Alert.alert('Opps!', 'Something went wrong Apple-Pay', [
-                //   { title: 'Ok' },
-                // ])
-                // setModalVisible(true)
-              })
-          } else {
-            Alert.alert(
-              'Apple Pay',
-              'Apple Pay is not available in this device',
-            )
-          }
-        })
-        .catch(errors => {
-          console.log('Can Make Payments Error', errors.message)
-        })
-    }
-    return (
-      <View>
-        <TouchableOpacity
-          onPress={() => applePay()}
-          style={[
-            { height: scale(60) },
-            // Gutters.sixtyHeight,
-            Layout.row,
-            Gutters.fiveVMargin,
-            Common.offWhiteSecondaryBorder,
-          ]}
-        >
-          <ImageBackground
-            source={Images.applepay}
-            resizeMode="stretch"
-            style={[Layout.fullSize, Common.borderRadius]}
-          />
-        </TouchableOpacity>
-      </View>
-    )
-  }
+  //     paymentRequest
+  //       .canMakePayments()
+  //       .then(canMakePayment => {
+  //         if (canMakePayment) {
+  //           paymentRequest
+  //             .show()
+  //             .then(paymentResponse => {
+  //               // // Your payment processing code goes here
+  //               console.log('Apple pay Success', paymentResponse)
+  //               paymentResponse.complete('success')
+  //               applePaymentSuccess()
+  //             })
+  //             .catch(errors => {
+  //               // paymentRequest.abort()
+  //               console.log('Apple pay Error', errors)
+  //               // paymentRequest.complete('fail')
+  //               // Alert.alert('Opps!', 'Something went wrong Apple-Pay', [
+  //               //   { title: 'Ok' },
+  //               // ])
+  //               // setModalVisible(true)
+  //             })
+  //         } else {
+  //           Alert.alert(
+  //             'Apple Pay',
+  //             'Apple Pay is not available in this device',
+  //           )
+  //         }
+  //       })
+  //       .catch(errors => {
+  //         console.log('Can Make Payments Error', errors.message)
+  //       })
+  //   }
+  //   return (
+  //     <View>
+  //       <TouchableOpacity
+  //         onPress={() => applePay()}
+  //         style={[
+  //           { height: scale(60) },
+  //           // Gutters.sixtyHeight,
+  //           Layout.row,
+  //           Gutters.fiveVMargin,
+  //           Common.offWhiteSecondaryBorder,
+  //         ]}
+  //       >
+  //         <ImageBackground
+  //           source={Images.applepay}
+  //           resizeMode="stretch"
+  //           style={[Layout.fullSize, Common.borderRadius]}
+  //         />
+  //       </TouchableOpacity>
+  //     </View>
+  //   )
+  // }
 
   //#endregion
 
   //#region Google Pay Configuration
 
-  const googlePayComponent = () => {
-    const googlePay = () => {
-      const ANDROID_METHOD_DATA = [
-        {
-          supportedMethods: ['android-pay'],
-          data: {
-            supportedNetworks: ['visa', 'mastercard', 'amex'],
-            currencyCode: 'USD',
-            environment: 'TEST', // defaults to production
-            paymentMethodTokenizationParameters: {
-              tokenizationType: 'NETWORK_TOKEN',
-              parameters: {
-                publicKey:
-                  'BFEC244s+3h7MK8gNkvV1HwlnEpEl7cV5PHNdKRebxlmL6Qz+SCDnMc3SoWDsCX0YWGagDqk5eWhn19UvoeXILQ=',
-              },
-            },
-          },
-        },
-      ]
+  // const googlePayComponent = () => {
+  //   const googlePay = () => {
+  //     const ANDROID_METHOD_DATA = [
+  //       {
+  //         supportedMethods: ['android-pay'],
+  //         data: {
+  //           supportedNetworks: ['visa', 'mastercard', 'amex'],
+  //           currencyCode: 'USD',
+  //           environment: 'TEST', // defaults to production
+  //           paymentMethodTokenizationParameters: {
+  //             tokenizationType: 'NETWORK_TOKEN',
+  //             parameters: {
+  //               publicKey:
+  //                 'BFEC244s+3h7MK8gNkvV1HwlnEpEl7cV5PHNdKRebxlmL6Qz+SCDnMc3SoWDsCX0YWGagDqk5eWhn19UvoeXILQ=',
+  //             },
+  //           },
+  //         },
+  //       },
+  //     ]
 
-      // const ANDROID_OPTIONS = {
-      //   requestPayerName: true,
-      //   requestPayerPhone: true,
-      //   requestPayerEmail: true,
-      //   requestShipping: true,
-      // }
+  //     // const ANDROID_OPTIONS = {
+  //     //   requestPayerName: true,
+  //     //   requestPayerPhone: true,
+  //     //   requestPayerEmail: true,
+  //     //   requestShipping: true,
+  //     // }
 
-      const ANDROID_DETAILS = {
-        id: 'basic-example',
-        displayItems: [
-          {
-            label: 'Movie Ticket',
-            amount: { currency: 'USD', value: '15.00' },
-          },
-        ],
-        total: {
-          label: 'Merchant Name',
-          amount: { currency: 'USD', value: '15.00' },
-        },
-      }
+  //     const ANDROID_DETAILS = {
+  //       id: 'basic-example',
+  //       displayItems: [
+  //         {
+  //           label: 'Movie Ticket',
+  //           amount: { currency: 'USD', value: '15.00' },
+  //         },
+  //       ],
+  //       total: {
+  //         label: 'Merchant Name',
+  //         amount: { currency: 'USD', value: '15.00' },
+  //       },
+  //     }
 
-      const ANDROIDPaymentRequest = new PaymentRequest(
-        ANDROID_METHOD_DATA,
-        ANDROID_DETAILS,
-        // ANDROID_OPTIONS,
-      )
-      ANDROIDPaymentRequest.canMakePayments()
-        .then(canMakePayment => {
-          if (canMakePayment) {
-            ANDROIDPaymentRequest.show()
-              .then(paymentResponse => {
-                // Your payment processing code goes here
-                // const { transactionIdentifier, paymentData } =
-                //   paymentResponse.details
-                // console.log('paymentData', paymentData)
-                // console.log('transactionIdentifier', transactionIdentifier)
-                // paymentResponse.complete('success')
-                console.log('Android Pay', paymentResponse)
-                paymentResponse.complete('success')
-              })
-              .catch(error => {
-                console.log('Show Error', error)
-              })
-          } else {
-            Alert.alert(
-              'Apple Pay',
-              'Apple Pay is not available in this device',
-            )
-          }
-        })
-        .catch(error => {
-          console.log('Can Make Payments Error', error.message)
-        })
-    }
-    return (
-      <View>
-        <TouchableOpacity
-          onPress={() => googlePay()}
-          style={[
-            { height: scale(60) },
-            // Gutters.sixtyHeight,
-            Layout.row,
-            Gutters.fiveVMargin,
-            Common.offWhiteSecondaryBorder,
-          ]}
-        >
-          <ImageBackground
-            source={Images.gpay}
-            resizeMode="stretch"
-            style={[Layout.fullSize, Common.borderRadius]}
-          />
-        </TouchableOpacity>
-      </View>
-    )
-  }
+  //     const ANDROIDPaymentRequest = new PaymentRequest(
+  //       ANDROID_METHOD_DATA,
+  //       ANDROID_DETAILS,
+  //       // ANDROID_OPTIONS,
+  //     )
+  //     ANDROIDPaymentRequest.canMakePayments()
+  //       .then(canMakePayment => {
+  //         if (canMakePayment) {
+  //           ANDROIDPaymentRequest.show()
+  //             .then(paymentResponse => {
+  //               // Your payment processing code goes here
+  //               // const { transactionIdentifier, paymentData } =
+  //               //   paymentResponse.details
+  //               // console.log('paymentData', paymentData)
+  //               // console.log('transactionIdentifier', transactionIdentifier)
+  //               // paymentResponse.complete('success')
+  //               console.log('Android Pay', paymentResponse)
+  //               paymentResponse.complete('success')
+  //             })
+  //             .catch(error => {
+  //               console.log('Show Error', error)
+  //             })
+  //         } else {
+  //           Alert.alert(
+  //             'Apple Pay',
+  //             'Apple Pay is not available in this device',
+  //           )
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.log('Can Make Payments Error', error.message)
+  //       })
+  //   }
+  //   return (
+  //     <View>
+  //       <TouchableOpacity
+  //         onPress={() => googlePay()}
+  //         style={[
+  //           { height: scale(60) },
+  //           // Gutters.sixtyHeight,
+  //           Layout.row,
+  //           Gutters.fiveVMargin,
+  //           Common.offWhiteSecondaryBorder,
+  //         ]}
+  //       >
+  //         <ImageBackground
+  //           source={Images.gpay}
+  //           resizeMode="stretch"
+  //           style={[Layout.fullSize, Common.borderRadius]}
+  //         />
+  //       </TouchableOpacity>
+  //     </View>
+  //   )
+  // }
 
   //#endregion
 

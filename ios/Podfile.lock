@@ -1,28 +1,6 @@
 PODS:
   - BEMCheckBox (1.4.1)
   - boost (1.76.0)
-  - Braintree (4.38.0):
-    - Braintree/Card (= 4.38.0)
-    - Braintree/Core (= 4.38.0)
-    - Braintree/PayPal (= 4.38.0)
-    - Braintree/UI (= 4.38.0)
-  - Braintree/Card (4.38.0):
-    - Braintree/Core
-  - Braintree/Core (4.38.0)
-  - Braintree/PayPal (4.38.0):
-    - Braintree/Core
-    - Braintree/PayPalOneTouch
-  - Braintree/PayPalDataCollector (4.38.0):
-    - Braintree/Core
-    - Braintree/PayPalUtils
-  - Braintree/PayPalOneTouch (4.38.0):
-    - Braintree/Core
-    - Braintree/PayPalDataCollector
-    - Braintree/PayPalUtils
-  - Braintree/PayPalUtils (4.38.0)
-  - Braintree/UI (4.38.0):
-    - Braintree/Card
-    - Braintree/Core
   - BVLinearGradient (2.6.2):
     - React-Core
   - CocoaAsyncSocket (7.6.5)
@@ -427,10 +405,6 @@ PODS:
     - React-Core
   - react-native-netinfo (9.3.6):
     - React-Core
-  - react-native-payments (0.8.4):
-    - Braintree (~> 4)
-    - React
-    - Stripe (~> 19)
   - react-native-safe-area-context (4.4.1):
     - RCT-Folly
     - RCTRequired
@@ -558,7 +532,6 @@ PODS:
     - React-Core
   - Sentry/HybridSDK (7.31.2)
   - SocketRocket (0.6.0)
-  - Stripe (19.4.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -613,7 +586,6 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
-  - react-native-payments (from `../node_modules/react-native-payments`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -643,7 +615,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - BEMCheckBox
-    - Braintree
     - CocoaAsyncSocket
     - Firebase
     - FirebaseAnalytics
@@ -672,7 +643,6 @@ SPEC REPOS:
     - PromisesObjC
     - Sentry
     - SocketRocket
-    - Stripe
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -720,8 +690,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-flipper"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
-  react-native-payments:
-    :path: "../node_modules/react-native-payments"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-perflogger:
@@ -776,7 +744,6 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   boost: a7c83b31436843459a1961bfd74b96033dc77234
-  Braintree: 78a33deb6f6ec617c2c4891fbe352854358b3a8d
   BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -824,7 +791,6 @@ SPEC CHECKSUMS:
   React-logger: 23a50ef4c18bf9adbb51e2c979318e6b3a2e44a1
   react-native-flipper: 3a5a6f1c414c66c0bdfc67ac7fef36cd8c44d1f5
   react-native-netinfo: f80db8cac2151405633324cb645c60af098ee461
-  react-native-payments: 0cb00209f3b25a72d5b614554abf688e2cc53002
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   React-perflogger: 39d2ba8cbcac54d1bb1d9a980dab348e96aef467
   React-RCTActionSheet: b1ad907a2c8f8e4d037148ca507b7f2d6ab1c66d
@@ -851,7 +817,6 @@ SPEC CHECKSUMS:
   RNSVG: 38ca962c970dbce1ca38991a5aebf26d163f9efb
   Sentry: b15765d11769852fe78c9add942f7df60ed5dbf5
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  Stripe: 5914399ac5878056b985d56b409cb4bb1e7fc7e8
   Yoga: 44c64131616253fa83366295acdbce3d14926041
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

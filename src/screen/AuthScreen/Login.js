@@ -24,6 +24,8 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState(false)
   const [registrationDialogs, setRegistrationDialogs] = useState(false)
 
+  console.log('########################', user && user.uid)
+
   const [getVerifyUser, { data, isLoading, error }] = useGetVerifyUserMutation()
 
   const [

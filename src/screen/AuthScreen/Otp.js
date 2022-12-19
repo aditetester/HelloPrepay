@@ -118,6 +118,24 @@ const Otp = ({ navigation, route }) => {
     setOTPCode(key1 + key2 + key3 + key4 + key5 + key6)
   }, [key1, key2, key3, key4, key5, key6])
 
+  //---------------------------------------
+  // const [initializing, setInitializing] = useState(true)
+  // const [user, setUser] = useState()
+
+  // useEffect(() => {
+  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+  //   return subscriber
+  // }, [])
+
+  // function onAuthStateChanged(users) {
+  //   setUser(users)
+  //   console.log('User user user ---------------', users)
+  //   if (initializing) {
+  //     setInitializing(false)
+  //   }
+  // }
+  //------------------------------------
+
   const onContinueHandler = async PARAMS => {
     setButtonLoading(true)
     if (PARAMS.navigateFor === 'Login') {

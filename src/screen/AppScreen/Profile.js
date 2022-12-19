@@ -17,6 +17,11 @@ import RBSheet from 'react-native-raw-bottom-sheet'
 import { changeTheme } from '@/Store/Theme'
 import { useGetPlansMutation } from '@/Services/api'
 import { scale, verticalScale } from 'react-native-size-matters'
+import auth, {
+  firebase,
+  getAuth,
+  deleteAccount,
+} from '@react-native-firebase/auth'
 
 const Profile = ({ navigation }) => {
   //#region NOTE: Define Variable
@@ -30,11 +35,46 @@ const Profile = ({ navigation }) => {
   const [darkTheme, setDarkTheme] = useState(false)
 
   const [getPlan, { data, isLoading, error }] = useGetPlansMutation()
-  console.log('Profile', data)
+
+  useEffect(() => {
+    try {
+      const user = firebase.auth().currentUser
+      console.log('User UID: ', user.uid)
+    } catch (r) {
+      console.log(r)
+    }
+  }, [])
 
   //#endregion
 
   //#region NOTE: Helper Method
+
+  const finalDeleteUserAccount = () => {
+    const user = firebase.auth().currentUser
+    if (user) {
+      const user = firebase
+        .auth()
+        .currentUser.delete()
+        .then(res => console.log(res))
+        .then(() => dispatch(setUser({ userData: null, isAuth: false })))
+        .catch(e => console.log(e))
+    } else {
+      Alert.alert('Opps!', 'Something went wrong.....')
+    }
+  }
+
+  const deleteAccount = () => {
+    Alert.alert('Are you sure!!', 'You want delete your account?', [
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          finalDeleteUserAccount()
+        },
+      },
+      { text: 'Cancel', style: 'default' },
+    ])
+  }
 
   const onChangeTheme = () => {
     try {
@@ -53,7 +93,12 @@ const Profile = ({ navigation }) => {
       {
         text: 'Logout',
         style: 'destructive',
-        onPress: () => dispatch(setUser({ userData: null, isAuth: false })),
+        onPress: async () => {
+          auth()
+            .signOut()
+            .then(() => console.log('User signed out!'))
+          dispatch(setUser({ userData: null, isAuth: false }))
+        },
       },
       { text: 'Cancel', style: 'default' },
     ])
@@ -395,7 +440,7 @@ const Profile = ({ navigation }) => {
             size={scale(24)}
             name={'sign-out-alt'}
             type="font-awesome-5"
-            color="red"
+            color="#DB006A"
           />
           <Text
             style={[
@@ -408,6 +453,38 @@ const Profile = ({ navigation }) => {
             ]}
           >
             Logout
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={deleteAccount}
+          style={{
+            flexDirection: 'row',
+            borderWidth: 1,
+            borderColor: 'rgba(158, 150, 150, .5)',
+            padding: scale(15),
+            margin: scale(5),
+            borderRadius: 10,
+            alignItems: 'center',
+          }}
+        >
+          <Icon
+            // onPress={() => setDialog(true)}
+            size={scale(24)}
+            name={'user-times'}
+            type="font-awesome-5"
+            color="red"
+          />
+          <Text
+            style={[
+              Fonts.fontSizeMedium,
+              Fonts.fontWeightSmall,
+              Common.primaryBlueMode,
+              Gutters.tenLMargin,
+              Fonts.fontFamilyPrimary,
+              Gutters.fifteenLMargin,
+            ]}
+          >
+            Delete Account
           </Text>
         </TouchableOpacity>
         {bottomSheetConfig}

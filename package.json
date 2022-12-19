@@ -11,7 +11,7 @@
     "type-check": "tsc",
     "android-release": "react-native run-android --variant release",
     "ios-bundle": "react-native bundle --dev false --entry-file index.js --bundle-output ios/main.jsbundle --platform ios",
-    "open:ios": "open ./ios/*.xcworkspace"
+    "open-iOS": "open ./ios/*.xcworkspace"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -35,6 +35,7 @@
     "@sentry/react-native": "^4.11.0",
     "antd": "^4.22.8",
     "axios": "^0.27.2",
+    "firebase-admin": "^11.4.0",
     "i18next": "^21.8.14",
     "lodash.values": "^4.3.0",
     "moment": "^2.29.4",
@@ -55,7 +56,6 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-loading-spinner-overlay": "^3.0.1",
-    "react-native-payments": "^0.8.4",
     "react-native-phone-number-input": "^2.1.0",
     "react-native-raw-bottom-sheet": "^2.2.0",
     "react-native-reanimated": "^2.9.1",
