@@ -15,16 +15,14 @@ import { setUser } from '@/Store/User'
 import { Icon, CheckBox, Avatar } from '@rneui/themed'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import { changeTheme } from '@/Store/Theme'
-import { useGetPlansMutation } from '@/Services/api'
+import { useChangeUserAccountStatusMutation } from '@/Services/api'
 import { scale, verticalScale } from 'react-native-size-matters'
-import auth, {
-  firebase,
-  getAuth,
-  deleteAccount,
-} from '@react-native-firebase/auth'
+import auth, { firebase } from '@react-native-firebase/auth'
 
 const Profile = ({ navigation }) => {
-  //#region NOTE: Define Variable
+  //############################################################
+  //NOTE: DEFINE VARIABLE
+  //############################################################
   const { Common, Layout, Fonts, Gutters, Images } = useTheme()
   const dispatch = useDispatch()
   const refRBSheet = useRef()
@@ -34,30 +32,36 @@ const Profile = ({ navigation }) => {
   const [lightTheme, setLightTheme] = useState(false)
   const [darkTheme, setDarkTheme] = useState(false)
 
-  const [getPlan, { data, isLoading, error }] = useGetPlansMutation()
+  const [
+    changeStatus,
+    {
+      data: changeStatusData,
+      isLoading: changeStatusIsLoading,
+      error: changeStatusError,
+    },
+  ] = useChangeUserAccountStatusMutation()
 
-  useEffect(() => {
-    try {
-      const user = firebase.auth().currentUser
-      console.log('User UID: ', user.uid)
-    } catch (r) {
-      console.log(r)
-    }
-  }, [])
-
-  //#endregion
-
-  //#region NOTE: Helper Method
+  //############################################################
+  //NOTE: HELPER METHOD
+  //############################################################
 
   const finalDeleteUserAccount = () => {
     const user = firebase.auth().currentUser
     if (user) {
-      const user = firebase
+      firebase
         .auth()
         .currentUser.delete()
         .then(res => console.log(res))
-        .then(() => dispatch(setUser({ userData: null, isAuth: false })))
-        .catch(e => console.log(e))
+        .catch(e => {
+          auth()
+            .signOut()
+            .then(() => console.log('User signed out!'))
+          console.log(e)
+        })
+      changeStatus({
+        body: { phone_number: userData.phone_number, status: 0 },
+        token: userData.token,
+      })
     } else {
       Alert.alert('Opps!', 'Something went wrong.....')
     }
@@ -104,9 +108,40 @@ const Profile = ({ navigation }) => {
     ])
   }
 
-  //#endregion
+  //############################################################
+  //NOTE: LIFE CYCLE METHOD
+  //############################################################
 
-  //#region NOTE: Life Cycle
+  useEffect(() => {
+    try {
+      const user = firebase.auth().currentUser
+      console.log('User UID: ', user.uid)
+    } catch (r) {
+      console.log(r)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (changeStatusData) {
+      if (changeStatusData.success === 1) {
+        dispatch(setUser({ userData: null, isAuth: false }))
+      } else {
+        Alert.alert('Opps!!', 'Something went wrong...')
+      }
+    }
+  }, [changeStatusData])
+
+  useEffect(() => {
+    if (changeStatusError) {
+      Alert.alert('Opps!!', 'Something went wrong...')
+    }
+  }, [changeStatusError])
+
+  useEffect(() => {
+    if (changeStatusIsLoading) {
+      // console.log(changeStatusIsLoading)
+    }
+  }, [changeStatusIsLoading])
 
   useEffect(() => {
     if (theme.darkMode) {
@@ -160,9 +195,9 @@ const Profile = ({ navigation }) => {
     })
   }, [navigation, theme.darkMode])
 
-  //#endregion
-
-  //#region NOTE: Render Method
+  //############################################################
+  //NOTE: RENDER METHOD
+  //############################################################
 
   const themeChangeBottomSheet = () => {
     return (
@@ -253,8 +288,6 @@ const Profile = ({ navigation }) => {
       </ScrollView>
     </RBSheet>
   )
-
-  //#endregion
 
   return (
     <SafeAreaView style={[Common.backgroundPrimary, Layout.fill]}>

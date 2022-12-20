@@ -11,7 +11,9 @@ import {
 import { scale, verticalScale } from 'react-native-size-matters'
 
 const Login = ({ navigation }) => {
-  //NOTE: 1. Define Variables
+  //############################################################
+  //NOTE: DEFINE VARIABLE
+  //############################################################
   const { Common, Layout, Fonts, Gutters } = useTheme()
   const [number, setNumber] = useState('')
   const [buttonLoading, setButtonLoading] = useState(false)
@@ -79,7 +81,14 @@ const Login = ({ navigation }) => {
         setDialog(true)
         setButtonLoading(false)
         console.log(data)
-      } else if (data && data.status !== 'active') {
+      } else if (data && data.status === 'inactive') {
+        Alert.alert('Hello Prepay', 'Your account is not active')
+        // setRegistrationDialogs(true)
+        // signInUsingFirebase(withoutFormateNumber, 'Registration')
+      } else if (
+        data &&
+        data.status === ' Phone NO Does Not Exist In Database'
+      ) {
         setRegistrationDialogs(true)
         // signInUsingFirebase(withoutFormateNumber, 'Registration')
       } else if (

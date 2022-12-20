@@ -22,7 +22,9 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import { verticalScale, scale } from 'react-native-size-matters'
 
 function Esim({ navigation }) {
-  //#region NOTE: 1. Define Variables
+  //############################################################
+  //NOTE: DEFINE VARIABLE
+  //############################################################
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
@@ -87,9 +89,9 @@ function Esim({ navigation }) {
     { data: IMEIData, isLoading: IMEIIsLoading, error: IMEIErrors },
   ] = useCheckIMEINumberMutation()
 
-  //#endregion
-
-  //#region NOTE: 2. Handler Method
+  //############################################################
+  //NOTE: HELPER METHOD
+  //############################################################
 
   const onBuyNowHandler = () => {
     try {
@@ -163,9 +165,9 @@ function Esim({ navigation }) {
     }
   }
 
-  //#endregion
-
-  //#region NOTE: 3. Life Cycle Method
+  //############################################################
+  //NOTE: LIFE CYCLE METHOD
+  //############################################################
 
   useEffect(() => {
     if (priceData) {
@@ -250,9 +252,9 @@ function Esim({ navigation }) {
     }
   }, [IMEIErrors, priceError])
 
-  //#endregion
-
-  //#region NOTE: 4. Render Method
+  //############################################################
+  //NOTE: RENDER METHOD
+  //############################################################
 
   const loadingSpinner = (
     <Spinner

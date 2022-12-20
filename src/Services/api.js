@@ -172,6 +172,18 @@ export const api = createApi({
         }
       },
     }),
+    changeUserAccountStatus: builder.mutation({
+      query: ({ body, token }) => {
+        return {
+          url: 'customer/account-status',
+          method: 'POST',
+          body: body,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      },
+    }),
   }),
 })
 
@@ -189,4 +201,5 @@ export const {
   useGetHistoryMutation,
   usePlaceEsimOrderMutation,
   useCheckIMEINumberMutation,
+  useChangeUserAccountStatusMutation,
 } = api

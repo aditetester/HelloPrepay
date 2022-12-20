@@ -72,8 +72,6 @@ const About = ({ navigation, route }) => {
     }
   }, [isLoading])
 
-  console.log('Registration', data && data)
-
   useEffect(() => {
     if (data && data.register === 'Registration successful') {
       navigation.navigate('SelectCarrier', {
@@ -84,6 +82,7 @@ const About = ({ navigation, route }) => {
       return
     } else {
       if (data) {
+        console.log(data)
         try {
           if (
             String(data.message.email[0]) === 'Email Should Be Unique ' ||
@@ -95,7 +94,7 @@ const About = ({ navigation, route }) => {
               'This Email is already in use!! \n Use Different Email',
             )
           } else if (
-            String(data.message.phone_number) ===
+            String(data.message.phone_number[0]) ===
             'The phone number has already been taken.'
           ) {
             Alert.alert(
@@ -108,7 +107,7 @@ const About = ({ navigation, route }) => {
             Alert.alert('Opps!!', 'Something went wrong')
           }
         } catch (err) {
-          Alert.alert('Opps!!', 'Something went wrong')
+          Alert.alert('Opps!!', 'Something went wrong try')
         }
       }
     }

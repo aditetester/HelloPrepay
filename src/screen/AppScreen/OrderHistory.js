@@ -25,7 +25,9 @@ import * as Animatable from 'react-native-animatable'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
 const Profile = ({ navigation, route }) => {
-  //NOTE: 1. Define Variables
+  //############################################################
+  //NOTE: DEFINE VARIABLE
+  //############################################################
   //   const params = route.params
   const netInfo = useNetInfo()
   const theme = useSelector(state => state.theme)
@@ -37,7 +39,9 @@ const Profile = ({ navigation, route }) => {
 
   const [getHistory, { data, isLoading, error }] = useGetHistoryMutation()
 
-  //#region NOTE: 2. Helper Method
+  //############################################################
+  //NOTE: HELPER METHOD
+  //############################################################
 
   // console.log(data && data.order)
   // __DEV__ && console.log(data && data.payment)
@@ -64,9 +68,9 @@ const Profile = ({ navigation, route }) => {
     })
   }, [])
 
-  //#endregion
-
-  //#region NOTE: 3. Life Cycle
+  //############################################################
+  //NOTE: LIFE CYCLE METHOD
+  //############################################################
 
   useEffect(() => {
     getHistory({
@@ -130,9 +134,9 @@ const Profile = ({ navigation, route }) => {
     })
   }, [navigation, theme])
 
-  //#endregion
-
-  //#region NOTE: 4. Render Method
+  //############################################################
+  //NOTE: RENDER METHOD
+  //############################################################
 
   const loadingSpinner = (
     <Spinner
@@ -151,7 +155,7 @@ const Profile = ({ navigation, route }) => {
       ? `$${bottomSheetData.total_amt}`
       : '...'
     return (
-      <ScrollView style={{ marginHorizontal: scale(10) }}>
+      <ScrollView style={{ marginHorizontal: scale(10) }} bounces={false}>
         <View
           style={{
             alignItems: 'center',
@@ -547,7 +551,7 @@ const Profile = ({ navigation, route }) => {
             container: { borderTopLeftRadius: 10, borderTopRightRadius: 10 },
           }}
         >
-          <ScrollView>
+          <ScrollView bounces="false">
             <TouchableOpacity activeOpacity={1}>
               {bottomSheet()}
             </TouchableOpacity>

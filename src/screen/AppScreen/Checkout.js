@@ -29,12 +29,16 @@ import { scale, verticalScale } from 'react-native-size-matters'
 // import { PaymentRequest } from 'react-native-payments'
 
 const Checkout = ({ navigation, route }) => {
-  //#region Define Variables
+  //############################################################
+  //NOTE: DEFINE VARIABLE
+  //############################################################
   let params = route.params
-  // console.log('🚀 Checkout', params)
+  console.log('🚀 Checkout', params)
   const platform = Platform.OS
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
+  // console.log(userData.first_name)
+  // console.log(userData.last_name)
   const token = String(userData.token)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [scrollRef, setScrollRef] = useState(null)
@@ -83,9 +87,9 @@ const Checkout = ({ navigation, route }) => {
     { data: EsimOrderData, isLoading: EsimOrderLoading, error: EsimOrderError },
   ] = usePlaceEsimOrderMutation()
 
-  //#endregion
-
-  //#region Apple Pay Configuration
+  //############################################################
+  //NOTE: Apple Pay Configuration
+  //############################################################
 
   //"react-native-payments": "^0.8.4",
   // const applePaymentSuccess = async () => {
@@ -297,6 +301,8 @@ const Checkout = ({ navigation, route }) => {
     if (params.navigateFor === 'planOrder') {
       //Call API for plan order
       getRecharge({
+        first_name: userData.first_name,
+        last_name: userData.last_name,
         contact: params.phone_number,
         name_on_card: cardName,
         card_number: cardNumber.split(' ').join(''),
