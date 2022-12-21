@@ -16,6 +16,8 @@ import { scale, verticalScale } from 'react-native-size-matters'
 const Stack = createStackNavigator()
 const AuthNavigation = () => {
   const theme = useSelector(state => state.theme)
+  const startupScreen = useSelector(state => state.user.startupScreen)
+  console.log(startupScreen)
   const { Common, Layout, Images } = useTheme()
   return (
     <SafeAreaView style={Layout.fill}>
@@ -26,7 +28,7 @@ const AuthNavigation = () => {
         />
 
         <Stack.Navigator
-          initialRouteName="Tutorial"
+          initialRouteName={startupScreen}
           screenOptions={{
             headerStyle: {
               backgroundColor: Common.backgroundPrimary.backgroundColor,

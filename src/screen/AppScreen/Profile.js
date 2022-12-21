@@ -51,19 +51,24 @@ const Profile = ({ navigation }) => {
       firebase
         .auth()
         .currentUser.delete()
-        .then(res => console.log(res))
+        .then(res =>
+          changeStatus({
+            body: { phone_number: userData.phone_number, status: 0 },
+            token: userData.token,
+          }),
+        )
         .catch(e => {
           auth()
             .signOut()
             .then(() => console.log('User signed out!'))
           console.log(e)
         })
+    } else {
+      // Alert.alert('Opps!', 'Something went wrong.....')
       changeStatus({
         body: { phone_number: userData.phone_number, status: 0 },
         token: userData.token,
       })
-    } else {
-      Alert.alert('Opps!', 'Something went wrong.....')
     }
   }
 
@@ -101,7 +106,9 @@ const Profile = ({ navigation }) => {
           auth()
             .signOut()
             .then(() => console.log('User signed out!'))
-          dispatch(setUser({ userData: null, isAuth: false }))
+          dispatch(
+            setUser({ userData: null, isAuth: false, startupScreen: 'Login' }),
+          )
         },
       },
       { text: 'Cancel', style: 'default' },
@@ -357,170 +364,172 @@ const Profile = ({ navigation }) => {
           marginTop: verticalScale(5),
         }}
       >
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('OrderHistory', { navigateFrom: 'Profile' })
-          }
-          style={{
-            flexDirection: 'row',
-            borderWidth: 1,
-            borderColor: 'rgba(158, 150, 150, .5)',
-            padding: scale(15),
-            margin: scale(5),
-            borderRadius: 10,
-            alignItems: 'center',
-          }}
-        >
-          <Icon
-            size={scale(24)}
-            name={'history'}
-            type="font-awesome-5"
-            color={Common.primaryPink.color}
-          />
-          <Text
-            style={[
-              Fonts.fontSizeMedium,
-              Fonts.fontWeightSmall,
-              Common.primaryBlueMode,
-              Gutters.tenLMargin,
-              Fonts.fontFamilyPrimary,
-              Gutters.fifteenLMargin,
-            ]}
+        <ScrollView style={{}}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('OrderHistory', { navigateFrom: 'Profile' })
+            }
+            style={{
+              flexDirection: 'row',
+              borderWidth: 1,
+              borderColor: 'rgba(158, 150, 150, .5)',
+              padding: scale(15),
+              margin: scale(5),
+              borderRadius: 10,
+              alignItems: 'center',
+            }}
           >
-            Order History
-          </Text>
-        </TouchableOpacity>
+            <Icon
+              size={scale(24)}
+              name={'history'}
+              type="font-awesome-5"
+              color={Common.primaryPink.color}
+            />
+            <Text
+              style={[
+                Fonts.fontSizeMedium,
+                Fonts.fontWeightSmall,
+                Common.primaryBlueMode,
+                Gutters.tenLMargin,
+                Fonts.fontFamilyPrimary,
+                Gutters.fifteenLMargin,
+              ]}
+            >
+              Order History
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('ChangeCarrier', { navigateFrom: 'Profile' })
-          }
-          style={{
-            flexDirection: 'row',
-            borderWidth: 1,
-            borderColor: 'rgba(158, 150, 150, .5)',
-            padding: scale(15),
-            margin: scale(5),
-            borderRadius: 10,
-            alignItems: 'center',
-          }}
-        >
-          <Icon
-            size={scale(24)}
-            name={'undo'}
-            type="font-awesome-5"
-            color="#DB006A"
-          />
-          <Text
-            style={[
-              Fonts.fontSizeMedium,
-              Fonts.fontWeightSmall,
-              Common.primaryBlueMode,
-              Gutters.tenLMargin,
-              Fonts.fontFamilyPrimary,
-              Gutters.fifteenLMargin,
-            ]}
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ChangeCarrier', { navigateFrom: 'Profile' })
+            }
+            style={{
+              flexDirection: 'row',
+              borderWidth: 1,
+              borderColor: 'rgba(158, 150, 150, .5)',
+              padding: scale(15),
+              margin: scale(5),
+              borderRadius: 10,
+              alignItems: 'center',
+            }}
           >
-            Change Carrier
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => onChangeTheme()}
-          style={{
-            flexDirection: 'row',
-            borderWidth: 1,
-            borderColor: 'rgba(158, 150, 150, .5)',
-            padding: scale(15),
-            margin: scale(5),
-            borderRadius: 10,
-            alignItems: 'center',
-          }}
-        >
-          <Icon
-            // onPress={() => setDialog(true)}
-            size={scale(24)}
-            name={'moon'}
-            type="font-awesome-5"
-            color="#DB006A"
-          />
-          <Text
-            style={[
-              Fonts.fontSizeMedium,
-              Fonts.fontWeightSmall,
-              Common.primaryBlueMode,
-              Gutters.tenLMargin,
-              Fonts.fontFamilyPrimary,
-              Gutters.fifteenLMargin,
-            ]}
+            <Icon
+              size={scale(24)}
+              name={'undo'}
+              type="font-awesome-5"
+              color="#DB006A"
+            />
+            <Text
+              style={[
+                Fonts.fontSizeMedium,
+                Fonts.fontWeightSmall,
+                Common.primaryBlueMode,
+                Gutters.tenLMargin,
+                Fonts.fontFamilyPrimary,
+                Gutters.fifteenLMargin,
+              ]}
+            >
+              Change Carrier
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => onChangeTheme()}
+            style={{
+              flexDirection: 'row',
+              borderWidth: 1,
+              borderColor: 'rgba(158, 150, 150, .5)',
+              padding: scale(15),
+              margin: scale(5),
+              borderRadius: 10,
+              alignItems: 'center',
+            }}
           >
-            Change Theme
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onLogoutHandler}
-          style={{
-            flexDirection: 'row',
-            borderWidth: 1,
-            borderColor: 'rgba(158, 150, 150, .5)',
-            padding: scale(15),
-            margin: scale(5),
-            borderRadius: 10,
-            alignItems: 'center',
-          }}
-        >
-          <Icon
-            // onPress={() => setDialog(true)}
-            size={scale(24)}
-            name={'sign-out-alt'}
-            type="font-awesome-5"
-            color="#DB006A"
-          />
-          <Text
-            style={[
-              Fonts.fontSizeMedium,
-              Fonts.fontWeightSmall,
-              Common.primaryBlueMode,
-              Gutters.tenLMargin,
-              Fonts.fontFamilyPrimary,
-              Gutters.fifteenLMargin,
-            ]}
+            <Icon
+              // onPress={() => setDialog(true)}
+              size={scale(24)}
+              name={'moon'}
+              type="font-awesome-5"
+              color="#DB006A"
+            />
+            <Text
+              style={[
+                Fonts.fontSizeMedium,
+                Fonts.fontWeightSmall,
+                Common.primaryBlueMode,
+                Gutters.tenLMargin,
+                Fonts.fontFamilyPrimary,
+                Gutters.fifteenLMargin,
+              ]}
+            >
+              Change Theme
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onLogoutHandler}
+            style={{
+              flexDirection: 'row',
+              borderWidth: 1,
+              borderColor: 'rgba(158, 150, 150, .5)',
+              padding: scale(15),
+              margin: scale(5),
+              borderRadius: 10,
+              alignItems: 'center',
+            }}
           >
-            Logout
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={deleteAccount}
-          style={{
-            flexDirection: 'row',
-            borderWidth: 1,
-            borderColor: 'rgba(158, 150, 150, .5)',
-            padding: scale(15),
-            margin: scale(5),
-            borderRadius: 10,
-            alignItems: 'center',
-          }}
-        >
-          <Icon
-            // onPress={() => setDialog(true)}
-            size={scale(24)}
-            name={'user-times'}
-            type="font-awesome-5"
-            color="red"
-          />
-          <Text
-            style={[
-              Fonts.fontSizeMedium,
-              Fonts.fontWeightSmall,
-              Common.primaryBlueMode,
-              Gutters.tenLMargin,
-              Fonts.fontFamilyPrimary,
-              Gutters.fifteenLMargin,
-            ]}
+            <Icon
+              // onPress={() => setDialog(true)}
+              size={scale(24)}
+              name={'sign-out-alt'}
+              type="font-awesome-5"
+              color="#DB006A"
+            />
+            <Text
+              style={[
+                Fonts.fontSizeMedium,
+                Fonts.fontWeightSmall,
+                Common.primaryBlueMode,
+                Gutters.tenLMargin,
+                Fonts.fontFamilyPrimary,
+                Gutters.fifteenLMargin,
+              ]}
+            >
+              Logout
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={deleteAccount}
+            style={{
+              flexDirection: 'row',
+              borderWidth: 1,
+              borderColor: 'rgba(158, 150, 150, .5)',
+              padding: scale(15),
+              margin: scale(5),
+              borderRadius: 10,
+              alignItems: 'center',
+            }}
           >
-            Delete Account
-          </Text>
-        </TouchableOpacity>
-        {bottomSheetConfig}
+            <Icon
+              // onPress={() => setDialog(true)}
+              size={scale(24)}
+              name={'user-times'}
+              type="font-awesome-5"
+              color="red"
+            />
+            <Text
+              style={[
+                Fonts.fontSizeMedium,
+                Fonts.fontWeightSmall,
+                Common.primaryBlueMode,
+                Gutters.tenLMargin,
+                Fonts.fontFamilyPrimary,
+                Gutters.fifteenLMargin,
+              ]}
+            >
+              Delete Account
+            </Text>
+          </TouchableOpacity>
+          {bottomSheetConfig}
+        </ScrollView>
       </View>
     </SafeAreaView>
   )

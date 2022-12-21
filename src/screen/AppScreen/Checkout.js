@@ -915,7 +915,7 @@ const Checkout = ({ navigation, route }) => {
         <View style={[Layout.center, Layout.fill, Common.dimBackground]}>
           <View
             style={[
-              { height: '45%' },
+              { height: verticalScale(300) },
               Common.whiteColorBackground,
               Common.borderWidthOne,
               Common.secondaryGreyBorder,
@@ -924,45 +924,45 @@ const Checkout = ({ navigation, route }) => {
               Common.elevationFive,
               Gutters.hundredPWidth,
               Layout.alignItemsCenter,
-              // Layout.halfHeight,
             ]}
           >
             <Image
               source={Images.modalHandle}
-              style={[Common.resizeModeCenter, Gutters.fiveTMargin]}
+              style={[{ marginTop: verticalScale(5) }, Common.resizeModeCenter]}
             />
             <Text
               style={[
+                { marginVertical: verticalScale(5) },
                 Fonts.fontWeightRegular,
                 Fonts.fontSizeRegular,
                 Fonts.textCenter,
                 Fonts.fontFamilyPrimary,
                 Common.primaryBlue,
-                Gutters.fifteenBMargin,
-                Gutters.fiveVMargin,
               ]}
             >
               Order failed
             </Text>
             <Text
               style={[
+                // { marginBottom: scale(20) },
                 Fonts.fontSizeSmall,
                 Fonts.fontWeightSmall,
                 Fonts.fontFamilyPrimary,
                 Fonts.textCenter,
-                Gutters.twentyBMargin,
+                // Gutters.twentyBMargin,
               ]}
             >
               Your payment couldn’t be processed.
             </Text>
             <Text
               style={[
+                { marginBottom: verticalScale(20) },
                 Fonts.fontSizeSmall,
                 Fonts.fontWeightSmall,
                 Common.primaryBlue,
                 Fonts.fontFamilyPrimary,
                 Fonts.textCenter,
-                Gutters.twentyBMargin,
+                // Gutters.twentyBMargin,
                 Gutters.ninetyPWidth,
               ]}
             >
@@ -982,8 +982,9 @@ const Checkout = ({ navigation, route }) => {
                 Common.borderRadius,
               ]}
               containerStyle={[
+                { marginVertical: verticalScale(10) },
                 Gutters.eightyfivePWidth,
-                Gutters.tenVMargin,
+                // Gutters.tenVMargin,
                 Layout.selfCenter,
                 Common.borderRadius,
               ]}

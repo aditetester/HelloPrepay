@@ -2,9 +2,17 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const slice = createSlice({
   name: 'user',
-  initialState: { userData: null, isAuth: false, perpos: null },
+  initialState: {
+    userData: null,
+    isAuth: false,
+    perpos: null,
+    startupScreen: 'Tutorial',
+  },
   reducers: {
-    setUser: (state, { payload: { userData, isAuth, perpos } }) => {
+    setUser: (
+      state,
+      { payload: { userData, isAuth, perpos, startupScreen } },
+    ) => {
       // state.userData = userData
       // state.isAuth = isAuth
       if (typeof userData !== 'undefined') {
@@ -16,6 +24,9 @@ const slice = createSlice({
       }
       if (typeof perpos !== 'undefined') {
         state.perpos = perpos
+      }
+      if (typeof startupScreen !== 'undefined') {
+        state.startupScreen = startupScreen
       }
       console.log('Redux', state.userData)
     },

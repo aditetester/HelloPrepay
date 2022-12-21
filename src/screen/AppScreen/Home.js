@@ -21,6 +21,7 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
 
 const Home = ({ navigation }) => {
   //NOTE: 1. Define Variables
+  console.log('process.env.JEST_WORKER_ID', process.evn)
   let focus = useIsFocused()
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)

@@ -131,7 +131,7 @@ function Esim({ navigation }) {
     } else if (!validDate) {
       getPrice({
         body: {
-          pid: 'ATT-ESIM-US-CA-MEX',
+          // pid: 'ATT-ESIM-US-CA-MEX',
           end_date: formattedEndingDate.toISOString().substring(0, 10),
           start_date: formattedStartingDate.toISOString().substring(0, 10),
         },
