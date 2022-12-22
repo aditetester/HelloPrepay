@@ -58,6 +58,17 @@ const Checkout = ({ navigation, route }) => {
   const [number, setNumber] = useState(userData.phone_number)
   const [modalVisible, setModalVisible] = useState(false)
 
+  const [cardNumberError, setCardNumberError] = useState(false)
+  const [cardNameError, setCardNameError] = useState(false)
+  const [cardDateError, setCardDateError] = useState(false)
+  const [CVVError, setCVVError] = useState(false)
+  const [addressError, setAddressError] = useState(false)
+  const [aptSuiteError, setAptSuiteError] = useState(false)
+  const [cityError, setCityError] = useState(false)
+  const [stateError, setStateError] = useState(false)
+  const [phoneNumberError, setPhoneNumberError] = useState(false)
+  const [agreeError, setAgreeError] = useState(false)
+
   const cardNameIsValid = cardName.length > 1
   const cardNumberIsValid = cardNumber.length > 10
   const cardDateIsValid = cardDate.length !== 0
@@ -76,7 +87,7 @@ const Checkout = ({ navigation, route }) => {
     cityIsValid &&
     stateIsValid &&
     agree
-
+  console.log('cardNameIsValid', cardNameIsValid)
   const [
     getRecharge,
     { data: rechargeData, isLoading: rechargeIsLoading, error: rechargeError },
@@ -431,7 +442,8 @@ const Checkout = ({ navigation, route }) => {
       headerTitle: () => (
         <Image
           source={Images.Logo}
-          style={[{ width: scale(100) }, Common.resizeModeContain]}
+          resizeMode="contain"
+          style={[{ width: scale(90) }, Common.resizeModeContain]}
         />
       ),
 
@@ -505,8 +517,22 @@ const Checkout = ({ navigation, route }) => {
         </Text>
         <TextInput
           value={cardName}
-          onChangeText={text => setCardName(text)}
+          onChangeText={text => {
+            setCardName(text)
+            if (cardNameIsValid === false) {
+              setCardNameError(true)
+            } else {
+              setCardNameError(false)
+            }
+          }}
           keyboardType="default"
+          onBlur={() => {
+            if (cardNameIsValid === false) {
+              setCardNameError(true)
+            } else {
+              setCardNameError(false)
+            }
+          }}
           style={[
             { height: verticalScale(56) },
             Common.primaryBlue,
@@ -514,10 +540,10 @@ const Checkout = ({ navigation, route }) => {
             Common.borderRadius,
             Common.offWhiteBackground,
             Gutters.tenVMargin,
-            // Gutters.fiftysixHeight,
             Fonts.fontSizeSmall,
             Fonts.fontFamilyPrimary,
             Gutters.tenHPadding,
+            cardNameError && Common.errorBorder,
           ]}
         />
 
@@ -526,6 +552,13 @@ const Checkout = ({ navigation, route }) => {
           defaultBorderColor={'#F3F5F7'}
           placeholder={'Card number'}
           placeholderTextColor={'#ccc'}
+          onBlur={() => {
+            if (cardNumberIsValid === false) {
+              setCardNumberError(true)
+            } else {
+              setCardNumberError(false)
+            }
+          }}
           label={'Card Number'}
           labelStyle={[
             Fonts.fontSizeExtraSmall,
@@ -537,11 +570,17 @@ const Checkout = ({ navigation, route }) => {
           defaultValue={cardNumber}
           updateTextVal={text => {
             setCardNumber(text)
+            if (cardNumberIsValid === false) {
+              setCardNumberError(true)
+            } else {
+              setCardNumberError(false)
+            }
           }}
           inputWrapStyle={[
             Common.offWhiteBackground,
             Common.borderRadius,
             { height: verticalScale(56) },
+            cardNumberError && Common.errorBorder,
           ]}
           inputStyle={[
             { height: verticalScale(56) },
@@ -593,9 +632,21 @@ const Checkout = ({ navigation, route }) => {
             focusColor={'#1c32a0'}
             defaultBorderColor={'#F3F5F7'}
             placeholder={'MM/YY'}
+            onBlur={() => {
+              if (cardDateIsValid === false) {
+                setCardDateError(true)
+              } else {
+                setCardDateError(false)
+              }
+            }}
             cardInputContainerStyle={{}}
             updateCardDateText={t => {
               setCardDate(t)
+              if (cardDateIsValid === false) {
+                setCardDateError(true)
+              } else {
+                setCardDateError(false)
+              }
             }}
             inputWrapStyle={[
               {
@@ -606,6 +657,7 @@ const Checkout = ({ navigation, route }) => {
               Common.borderRadius,
               Gutters.tenMTMargin,
               Gutters.fifteenMBMargin,
+              cardDateError && Common.errorBorder,
             ]}
             placeholderTextColor={'#ccc'}
             value={cardDate}
@@ -623,11 +675,26 @@ const Checkout = ({ navigation, route }) => {
             value={CVV}
             secureTextEntry={true}
             maxLength={3}
+            onBlur={() => {
+              if (CVVIsValid === false) {
+                setCVVError(true)
+              } else {
+                setCVVError(false)
+              }
+            }}
+            onChangeText={num => {
+              setCVV(num)
+              if (CVVIsValid === false) {
+                setCVVError(true)
+              } else {
+                setCVVError(false)
+              }
+            }}
             style={[
               { height: verticalScale(56) },
               Common.primaryBlue,
               Common.offWhiteBackground,
-              // Gutters.fiftysixHeight,
+              CVVError && Common.errorBorder,
               Gutters.tenVMargin,
               Common.borderRadius,
               Gutters.fortyeightPWidth,
@@ -635,7 +702,6 @@ const Checkout = ({ navigation, route }) => {
               Fonts.fontWeightSmall,
               Fonts.fontFamilyPrimary,
             ]}
-            onChangeText={num => setCVV(num)}
           />
         </View>
       </View>
@@ -665,6 +731,22 @@ const Checkout = ({ navigation, route }) => {
             Address
           </Text>
           <TextInput
+            value={address}
+            onBlur={() => {
+              if (addressIsValid === false) {
+                setAddressError(true)
+              } else {
+                setAddressError(false)
+              }
+            }}
+            onChangeText={text => {
+              setAddress(text)
+              if (addressIsValid === false) {
+                setAddressError(true)
+              } else {
+                setAddressError(false)
+              }
+            }}
             style={[
               { height: verticalScale(56) },
               Common.primaryBlue,
@@ -672,13 +754,11 @@ const Checkout = ({ navigation, route }) => {
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
-              // Gutters.fiftysixHeight,
+              addressError && Common.errorBorder,
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
             ]}
-            value={address}
-            onChangeText={text => setAddress(text)}
           />
           <Text
             style={[
@@ -691,6 +771,22 @@ const Checkout = ({ navigation, route }) => {
             Apt / Suite
           </Text>
           <TextInput
+            onBlur={() => {
+              if (aptSuiteIsValid === false) {
+                setAptSuiteError(true)
+              } else {
+                setAptSuiteError(false)
+              }
+            }}
+            value={aptSuite}
+            onChangeText={text => {
+              setAptSuite(text)
+              if (aptSuiteIsValid === false) {
+                setAptSuiteError(true)
+              } else {
+                setAptSuiteError(false)
+              }
+            }}
             style={[
               { height: verticalScale(56) },
               Common.primaryBlue,
@@ -701,9 +797,8 @@ const Checkout = ({ navigation, route }) => {
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
+              aptSuiteError && Common.errorBorder,
             ]}
-            value={aptSuite}
-            onChangeText={text => setAptSuite(text)}
           />
           <Text
             style={[
@@ -716,6 +811,22 @@ const Checkout = ({ navigation, route }) => {
             City
           </Text>
           <TextInput
+            onBlur={() => {
+              if (cityIsValid === false) {
+                setCityError(true)
+              } else {
+                setCityError(false)
+              }
+            }}
+            value={city}
+            onChangeText={text => {
+              setCity(text)
+              if (cityIsValid === false) {
+                setCityError(true)
+              } else {
+                setCityError(false)
+              }
+            }}
             style={[
               { height: verticalScale(56) },
               Common.primaryBlue,
@@ -726,9 +837,8 @@ const Checkout = ({ navigation, route }) => {
               Fonts.fontSizeSmall,
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
+              cityError && Common.errorBorder,
             ]}
-            value={city}
-            onChangeText={text => setCity(text)}
           />
           <Text
             style={[
@@ -741,10 +851,27 @@ const Checkout = ({ navigation, route }) => {
             State
           </Text>
           <TextInput
+            value={state}
+            onChangeText={text => {
+              setState(text)
+              if (stateIsValid === false) {
+                setStateError(true)
+              } else {
+                setStateError(false)
+              }
+            }}
+            onBlur={() => {
+              if (stateIsValid === false) {
+                setStateError(true)
+              } else {
+                setStateError(false)
+              }
+            }}
             style={[
               { height: verticalScale(56) },
               Common.primaryBlue,
               Fonts.fontWeightSmall,
+              stateError && Common.errorBorder,
               Common.borderRadius,
               Common.offWhiteBackground,
               Gutters.tenVMargin,
@@ -752,8 +879,6 @@ const Checkout = ({ navigation, route }) => {
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
             ]}
-            value={state}
-            onChangeText={text => setState(text)}
           />
 
           <View style={[Gutters.twentyVMargin]}>

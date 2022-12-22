@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView, StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import {
+  createStackNavigator,
+  cardStyleInterpolator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack'
 import Home from '@/screen/AppScreen/Home'
 import { useTheme } from '@/Hooks'
 import { useSelector } from 'react-redux'
@@ -41,11 +45,13 @@ const AuthNavigation = () => {
         <Stack.Navigator
           initialRouteName={startingScreen}
           screenOptions={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forRevealFromBottomAndroid,
             headerStyle: {
               backgroundColor: Common.backgroundPrimary.backgroundColor,
               height: 70,
             },
-            cardStyleInterpolator: forFade,
+            // cardStyleInterpolator: forFade,
             headerShadowVisible: false,
             headerBackTitleVisible: false,
           }}

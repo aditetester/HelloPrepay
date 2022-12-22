@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux'
 import { useTheme } from '@/Hooks'
 import { Avatar } from '@rneui/themed'
 import CarrierPlans from '@/Components/CarrierPlans'
-import { useIsFocused } from '@react-navigation/native'
+import { useIsFocused, useRoute } from '@react-navigation/native'
 import History from '../Data/history'
 import UserHistory from '../../Components/History'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
@@ -23,6 +23,8 @@ const Home = ({ navigation }) => {
   //NOTE: 1. Define Variables
   console.log('process.env.JEST_WORKER_ID', process.evn)
   let focus = useIsFocused()
+  let route = useRoute()
+  console.log('', route.name)
   const theme = useSelector(state => state.theme)
   const user = useSelector(state => state.user)
   const [number, setNumber] = useState(String(user.userData.phone_number))
@@ -39,15 +41,17 @@ const Home = ({ navigation }) => {
   }
 
   const onExitApp = () => {
-    Alert.alert('Exit App?', 'Are you sure you want to exit?', [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-        onPress: () => null,
-      },
-      { text: 'YES', onPress: () => BackHandler.exitApp() },
-    ])
-    return true
+    if (route.name === 'Home') {
+      Alert.alert('Exit App?', 'Are you sure you want to exit?', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => null,
+        },
+        { text: 'YES', onPress: () => BackHandler.exitApp() },
+      ])
+      return true
+    }
   }
 
   //NOTE: 3. Life Cycle Method
@@ -84,9 +88,11 @@ const Home = ({ navigation }) => {
   }, [navigation, theme, focus])
 
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', onExitApp)
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', onExitApp)
+    if (route.name === 'Home') {
+      BackHandler.addEventListener('hardwareBackPress', onExitApp)
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onExitApp)
+      }
     }
   }, [])
 
