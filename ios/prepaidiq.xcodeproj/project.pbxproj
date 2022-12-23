@@ -19,7 +19,7 @@
 		691AB6B928D3625300748B82 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 691AB6B828D3625300748B82 /* main.jsbundle */; };
 		6DE4CD442B3AA02DDE2A2BEB /* libPods-prepaidiq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F70DF421B01F32F8B0B82BA4 /* libPods-prepaidiq.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		8980DFD128D1E059005FD686 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8980DFD028D1E058005FD686 /* GoogleService-Info.plist */; };
+		892F04AB29558CEA006D66E4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 892F04AA29558CEA006D66E4 /* GoogleService-Info.plist */; };
 		F61ED7F028BF92E30015A74E /* Satoshi-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F61ED7EF28BF92E30015A74E /* Satoshi-Regular.otf */; };
 		F6952D9C28AE2164005EE4AF /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8C28AE2164005EE4AF /* Fontisto.ttf */; };
 		F6952D9D28AE2164005EE4AF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6952D8D28AE2164005EE4AF /* Octicons.ttf */; };
@@ -75,7 +75,7 @@
 		691AB6BA28D3639200748B82 /* prepaidiq.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = prepaidiq.entitlements; path = prepaidiq/prepaidiq.entitlements; sourceTree = "<group>"; };
 		6E8F674DA0DD73D068349A95 /* Pods-prepaidiq.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq.release.xcconfig"; path = "Target Support Files/Pods-prepaidiq/Pods-prepaidiq.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = prepaidiq/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8980DFD028D1E058005FD686 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		892F04AA29558CEA006D66E4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8D8478EF056957888C234D0C /* Pods-prepaidiq-prepaidiqTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; path = "Target Support Files/Pods-prepaidiq-prepaidiqTests/Pods-prepaidiq-prepaidiqTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -153,9 +153,9 @@
 		13B07FAE1A68108700A75B9A /* prepaidiq */ = {
 			isa = PBXGroup;
 			children = (
+				892F04AA29558CEA006D66E4 /* GoogleService-Info.plist */,
 				691AB6BA28D3639200748B82 /* prepaidiq.entitlements */,
 				691AB6B828D3625300748B82 /* main.jsbundle */,
-				8980DFD028D1E058005FD686 /* GoogleService-Info.plist */,
 				F61ED7EF28BF92E30015A74E /* Satoshi-Regular.otf */,
 				F6952D8B28AE2164005EE4AF /* icons */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -412,7 +412,7 @@
 				F6952DA528AE2164005EE4AF /* FontAwesome5_Solid.ttf in Resources */,
 				F6952DA128AE2164005EE4AF /* MaterialCommunityIcons.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				8980DFD128D1E059005FD686 /* GoogleService-Info.plist in Resources */,
+				892F04AB29558CEA006D66E4 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1019549713217-n0v2crl99a29970iah9ldftv2rss521r.apps.googleusercontent.com</string>
+	<string>111298173583-tu42src0tr2ofvg6avuvje5fs71jjg2d.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1019549713217-n0v2crl99a29970iah9ldftv2rss521r</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>1019549713217-arc7g2e50jubk1gqt265gokbclb32uab.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.111298173583-tu42src0tr2ofvg6avuvje5fs71jjg2d</string>
 	<key>API_KEY</key>
-	<string>AIzaSyATm5zSromjCsNh97StRnwRPZBscfqkrhw</string>
+	<string>AIzaSyAb2KpK3eySizwvsv5-UAM725YuNDaX9Vs</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1019549713217</string>
+	<string>111298173583</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.prepaidiq.d2c</string>
 	<key>PROJECT_ID</key>
-	<string>prepaidiq-2923a</string>
+	<string>helloprepaycom</string>
 	<key>STORAGE_BUCKET</key>
-	<string>prepaidiq-2923a.appspot.com</string>
+	<string>helloprepaycom.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1019549713217:ios:11f83d1bbc7bfba8e117c0</string>
+	<string>1:111298173583:ios:0f643d06dbfaaaa9952efa</string>
 </dict>
 </plist>
