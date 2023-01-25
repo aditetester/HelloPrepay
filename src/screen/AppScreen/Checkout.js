@@ -38,7 +38,6 @@ const Checkout = ({ navigation, route }) => {
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
   // console.log(userData.first_name)
-  // console.log(userData.last_name)
   const token = String(userData.token)
   const { Common, Layout, Images, Gutters, Fonts } = useTheme()
   const [scrollRef, setScrollRef] = useState(null)
@@ -50,6 +49,7 @@ const Checkout = ({ navigation, route }) => {
   const [CVV, setCVV] = useState('')
   const [address, setAddress] = useState('')
   const [aptSuite, setAptSuite] = useState('')
+  const [zipCode, setZipCode] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -64,6 +64,7 @@ const Checkout = ({ navigation, route }) => {
   const [CVVError, setCVVError] = useState(false)
   const [addressError, setAddressError] = useState(false)
   const [aptSuiteError, setAptSuiteError] = useState(false)
+  const [zipCodeError, setZipCodeError] = useState(false)
   const [cityError, setCityError] = useState(false)
   const [stateError, setStateError] = useState(false)
   const [phoneNumberError, setPhoneNumberError] = useState(false)
@@ -77,6 +78,7 @@ const Checkout = ({ navigation, route }) => {
   const aptSuiteIsValid = aptSuite.length > 2
   const cityIsValid = city.length > 2
   const stateIsValid = state.length > 2
+  const zipCodeIsValid = zipCode.length > 2
   const dataIsValid =
     cardNameIsValid &&
     cardNumberIsValid &&
@@ -86,7 +88,8 @@ const Checkout = ({ navigation, route }) => {
     aptSuiteIsValid &&
     cityIsValid &&
     stateIsValid &&
-    agree
+    agree &&
+    zipCodeIsValid
   console.log('cardNameIsValid', cardNameIsValid)
   const [
     getRecharge,
@@ -327,6 +330,7 @@ const Checkout = ({ navigation, route }) => {
         plan_id: params.planId,
         price: params.amount.slice(1),
         token: token,
+        zipcode: zipCode,
       })
     } else if (params.navigateFor === 'eSimOrder') {
       //Call API for eSim Order
@@ -350,6 +354,7 @@ const Checkout = ({ navigation, route }) => {
         state: state,
         price: params.amount.slice(1),
         token: token,
+        zipcode: zipCode,
       })
     } else {
       Alert.alert('Opps!', 'Something Went Wrong')
@@ -798,6 +803,47 @@ const Checkout = ({ navigation, route }) => {
               Fonts.fontFamilyPrimary,
               Gutters.tenHPadding,
               aptSuiteError && Common.errorBorder,
+            ]}
+          />
+          <Text
+            style={[
+              Fonts.fontSizeExtraSmall,
+              Fonts.fontWeightSmall,
+              Common.innerText,
+              Fonts.fontFamilyPrimary,
+            ]}
+          >
+            ZipCode
+          </Text>
+          <TextInput
+            keyboardType="numeric"
+            onBlur={() => {
+              if (zipCodeIsValid === false) {
+                setZipCodeError(true)
+              } else {
+                setZipCodeError(false)
+              }
+            }}
+            value={zipCode}
+            onChangeText={text => {
+              setZipCode(text)
+              if (zipCodeIsValid === false) {
+                setZipCodeError(true)
+              } else {
+                setZipCodeError(false)
+              }
+            }}
+            style={[
+              { height: verticalScale(56) },
+              Common.primaryBlue,
+              Fonts.fontWeightSmall,
+              Common.borderRadius,
+              Common.offWhiteBackground,
+              Gutters.tenVMargin,
+              Fonts.fontSizeSmall,
+              Fonts.fontFamilyPrimary,
+              Gutters.tenHPadding,
+              zipCodeError && Common.errorBorder,
             ]}
           />
           <Text

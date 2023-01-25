@@ -26,7 +26,7 @@ import { scale, verticalScale } from 'react-native-size-matters'
 
 const Otp = ({ navigation, route }) => {
   const [params, setParams] = useState(route.params)
-  console.log('Params', params)
+  // console.log('Params', params)
   const dispatch = useDispatch()
   const theme = useSelector(state => state.theme)
   const { Common, Images, Layout, Gutters, Fonts } = useTheme()
@@ -39,6 +39,7 @@ const Otp = ({ navigation, route }) => {
   const [key5, setKey5] = useState('')
   const [key6, setKey6] = useState('')
   const [OTPCode, setOTPCode] = useState('')
+  console.log('OTPCode', OTPCode)
 
   const [
     sendMailCode,
@@ -605,7 +606,10 @@ const Otp = ({ navigation, route }) => {
         <TouchableOpacity style={[Layout.alignItemsCenter, Layout.flexTwo]}>
           <Timer
             maxRange={59}
-            onPress={(console.log('Send Code Again'), onSendCodeAgainHandler)}
+            onPress={() => {
+              console.log('send code again')
+              onSendCodeAgainHandler()
+            }}
             beforeText="Send code again"
             afterText="Send code again in"
           />

@@ -371,7 +371,7 @@ const Profile = ({ navigation }) => {
             }
             style={{
               flexDirection: 'row',
-              borderWidth: 1,
+              borderWidth: scale(1),
               borderColor: 'rgba(158, 150, 150, .5)',
               padding: scale(15),
               margin: scale(5),
@@ -405,7 +405,7 @@ const Profile = ({ navigation }) => {
             }
             style={{
               flexDirection: 'row',
-              borderWidth: 1,
+              borderWidth: scale(1),
               borderColor: 'rgba(158, 150, 150, .5)',
               padding: scale(15),
               margin: scale(5),
@@ -436,7 +436,7 @@ const Profile = ({ navigation }) => {
             onPress={() => onChangeTheme()}
             style={{
               flexDirection: 'row',
-              borderWidth: 1,
+              borderWidth: scale(1),
               borderColor: 'rgba(158, 150, 150, .5)',
               padding: scale(15),
               margin: scale(5),
@@ -468,7 +468,7 @@ const Profile = ({ navigation }) => {
             onPress={onLogoutHandler}
             style={{
               flexDirection: 'row',
-              borderWidth: 1,
+              borderWidth: scale(1),
               borderColor: 'rgba(158, 150, 150, .5)',
               padding: scale(15),
               margin: scale(5),
@@ -500,7 +500,7 @@ const Profile = ({ navigation }) => {
             onPress={deleteAccount}
             style={{
               flexDirection: 'row',
-              borderWidth: 1,
+              borderWidth: scale(1),
               borderColor: 'rgba(158, 150, 150, .5)',
               padding: scale(15),
               margin: scale(5),
