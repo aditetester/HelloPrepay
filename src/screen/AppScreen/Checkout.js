@@ -33,7 +33,7 @@ const Checkout = ({ navigation, route }) => {
   //NOTE: DEFINE VARIABLE
   //############################################################
   let params = route.params
-  console.log('🚀 Checkout', params)
+  // console.log('🚀 Checkout', params)
   const platform = Platform.OS
   const theme = useSelector(state => state.theme)
   const userData = useSelector(state => state.user.userData)
@@ -90,7 +90,7 @@ const Checkout = ({ navigation, route }) => {
     stateIsValid &&
     agree &&
     zipCodeIsValid
-  console.log('cardNameIsValid', cardNameIsValid)
+  // console.log('cardNameIsValid', cardNameIsValid)
   const [
     getRecharge,
     { data: rechargeData, isLoading: rechargeIsLoading, error: rechargeError },

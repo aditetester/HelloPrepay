@@ -114,6 +114,7 @@ export const api = createApi({
     // }),
     getRecharge: builder.mutation({
       query: payload => {
+        console.log('useGetRechargeMutation', payload)
         return {
           url: 'recharge',
           method: 'POST',
@@ -138,6 +139,8 @@ export const api = createApi({
     }),
     placeEsimOrder: builder.mutation({
       query: body => {
+        console.log('ESIM', body)
+
         return {
           url: 'place_order',
           method: 'POST',

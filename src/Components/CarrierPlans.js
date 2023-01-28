@@ -44,8 +44,9 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   //#endregion
 
   //#region NOTE: 2 HELPER METHODS
+  // console.log('Selected Price', selectedPrice)
   const onContinue = () => {
-    if (selectedPrice.split('-').length == 1) {
+    if (selectedPrice && selectedPrice.includes('-') === false) {
       navigation.navigate('Checkout', {
         amount: `$${selectedPrice}`,
         phone_number: phone_number,
@@ -59,7 +60,7 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
       setSelection('')
       setSelectedPrice('')
       setSelectedName('')
-    } else {
+    } else if (selectedPrice && selectedPrice.includes('-') === true) {
       navigation.navigate('AddMoney', {
         phone_number: phone_number,
         planId: isSelected,
@@ -77,24 +78,22 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   }
 
   const onPlanSelect = (id, price, name, cID, fullName) => {
+    console.log(price)
     if (isSelected === '') {
       setSelection(id)
       setSelectedPrice(price)
       setSelectedName(name)
       setSelectFullPlanName(fullName)
-      return
     } else if (isSelected === id) {
       setSelection('')
       setSelectedPrice('')
       setSelectedName('')
       setSelectFullPlanName('')
-      return
     } else if (isSelected !== id) {
       setSelection(id)
       setSelectedPrice(price)
       setSelectedName(name)
       setSelectFullPlanName(fullName)
-      return
     }
   }
 
@@ -151,10 +150,10 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
   const keyExtractor = (item, index) => index.toString()
 
   const renderPlans = ({ item }) => {
+    const name = item.plan_name.split(' ')[0]
     const str = item.plan_name
     const result = str.replace(/[^\d-]/g, '')
     const price = item.price == 0 ? result : item.price
-    const name = item.plan_name.split(' ')[0]
     return (
       <Pressable
         onPress={() =>
@@ -163,7 +162,9 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={[
-          { marginVertical: scale(6) },
+          {
+            marginVertical: scale(6),
+          },
           Common.offWhiteSecondaryBorder,
           item.id === isSelected && Common.primaryPinkBorder,
           item.id === isSelected && Common.primaryPinkBackground,
@@ -209,54 +210,47 @@ const CarrierPlans = ({ phone_number, formattedNumber, first_name }) => {
             </Text>
           </View>
           <View style={{ justifyContent: 'center' }}>
-            <CheckBox
-              center
-              checked={item.id === isSelected}
-              onPress={() => onPlanSelect(item.id)}
-              checkedIcon={
-                <Image
-                  source={Images.checked}
-                  style={[
-                    { height: verticalScale(20), width: scale(20) },
-                    Common.resizeModeContain,
-                  ]}
-                />
-              }
-              uncheckedIcon={
-                <Image
-                  source={Images.unchecked}
-                  style={[
-                    { height: verticalScale(20), width: scale(20) },
-                    Common.resizeModeContain,
-                    // Gutters.twentyfiveHeight,
-                    // Gutters.twentyfiveWidth,
-                  ]}
-                />
-              }
-              containerStyle={[
-                Common.backgroundPrimary,
-                item.id === isSelected && Common.primaryPinkBackground,
-                // Gutters.twozerozeroLMargin,
-                // Gutters.twentyMBMargin,
-                Layout.center,
-                Layout.selfCenter,
-              ]}
-              wrapperStyle={[Layout.center]}
-            />
+            {item.id === isSelected ? (
+              <Image
+                source={Images.checked}
+                style={[
+                  {
+                    height: verticalScale(20),
+                    width: scale(20),
+                    marginRight: scale(15),
+                  },
+                  Common.resizeModeContain,
+                  Common.backgroundPrimary,
+                  item.id === isSelected && Common.primaryPinkBackground,
+                  // Gutters.twozerozeroLMargin,
+                  // Gutters.twentyMBMargin,
+                  Layout.center,
+                  Layout.selfCenter,
+                ]}
+              />
+            ) : (
+              <Image
+                source={Images.unchecked}
+                style={[
+                  {
+                    height: verticalScale(20),
+                    width: scale(20),
+                    marginRight: scale(15),
+                  },
+                  Common.resizeModeContain,
+                  // Gutters.twentyfiveHeight,
+                  // Gutters.twentyfiveWidth,
+                  Common.backgroundPrimary,
+                  item.id === isSelected && Common.primaryPinkBackground,
+                  // Gutters.twozerozeroLMargin,
+                  // Gutters.twentyMBMargin,
+                  Layout.center,
+                  Layout.selfCenter,
+                ]}
+              />
+            )}
           </View>
         </View>
-        {/* <Text
-          style={[
-            { marginLeft: scale(10) },
-            Common.primaryGrey,
-            isSelected === item.id && Common.white,
-            Gutters.fiveVMargin,
-            Fonts.fontFamilyPrimary,
-            Fonts.fontSize12,
-          ]}
-        >
-          {item.type}
-        </Text> */}
       </Pressable>
     )
   }
