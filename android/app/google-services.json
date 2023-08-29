@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "111298173583-pfcl5vigdqh4ht0n27bk2bb9sred61in.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prepaidiq.d2c",
+            "certificate_hash": "278fec288e82c11bca66877a3380a0d625975d66"
+          }
+        },
+        {
+          "client_id": "111298173583-qs2ijceimr9b8qu6njh8080snuucnbh7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prepaidiq.d2c",
+            "certificate_hash": "b7073371d56e5d9a9f62c59e4df8d9b1e5dd23ef"
+          }
+        },
+        {
           "client_id": "111298173583-h2jopkfs0jbraq2c73kskkk3dkrgkqvf.apps.googleusercontent.com",
           "client_type": 3
         }

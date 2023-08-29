@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,37 +8,35 @@ import {
   Alert,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-} from 'react-native'
-import { useSelector } from 'react-redux'
-import { useTheme } from '@/Hooks'
-import { Avatar } from '@rneui/themed'
-import CarrierPlans from '@/Components/CarrierPlans'
-import { useIsFocused, useRoute } from '@react-navigation/native'
-import History from '../Data/history'
-import UserHistory from '../../Components/History'
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
+  ScrollView
+} from 'react-native';
+import { useSelector } from 'react-redux';
+import { useTheme } from '@/Hooks';
+import { Avatar } from '@rneui/themed';
+import CarrierPlans from '@/Components/CarrierPlans';
+import { useIsFocused, useRoute } from '@react-navigation/native';
+import History from '../Data/history';
+import UserHistory from '../../Components/History';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 const Home = ({ navigation }) => {
   //NOTE: 1. Define Variables
-  console.log('process.env.JEST_WORKER_ID', process.evn)
-  let focus = useIsFocused()
-  let route = useRoute()
-  console.log('', route.name)
-  const theme = useSelector(state => state.theme)
-  const user = useSelector(state => state.user)
-  const [number, setNumber] = useState(String(user.userData.phone_number))
-  const withoutFormateNumber = String(number).replace(/\D/g, '')
-  const { Common, Layout, Images, Gutters, Fonts } = useTheme()
+  let focus = useIsFocused();
+  let route = useRoute();
+  console.log('', route.name);
+  const theme = useSelector(state => state.theme);
+  const user = useSelector(state => state.user);
+  const [number, setNumber] = useState(String(user.userData.phone_number));
+  const withoutFormateNumber = String(number).replace(/\D/g, '');
+  const { Common, Layout, Images, Gutters, Fonts } = useTheme();
   let first_name =
-    user.userData.first_name.charAt(0).toUpperCase() +
-    user.userData.first_name.slice(1)
+    user.userData.first_name.charAt(0).toUpperCase() + user.userData.first_name.slice(1);
 
   //NOTE: 2. Helper Method
 
   const onProfileHandler = () => {
-    navigation.navigate('Profile')
-  }
+    navigation.navigate('Profile');
+  };
 
   const onExitApp = () => {
     if (route.name === 'Home') {
@@ -46,73 +44,77 @@ const Home = ({ navigation }) => {
         {
           text: 'Cancel',
           style: 'cancel',
-          onPress: () => null,
+          onPress: () => null
         },
-        { text: 'YES', onPress: () => BackHandler.exitApp() },
-      ])
-      return true
+        { text: 'YES', onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
     }
-  }
+  };
 
   //NOTE: 3. Life Cycle Method
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => null,
-      headerStyle: {
-        backgroundColor: Common.backgroundPrimary.backgroundColor,
-        height: verticalScale(50),
-      },
-      headerTitle: () => (
-        <Image
-          source={Images.Logo}
-          resizeMode="contain"
-          style={[{ width: scale(90) }, Common.resizeModeContain]}
-        />
-      ),
-      headerRight: () => (
-        <Avatar
-          size={verticalScale(40)}
-          rounded
-          onPress={onProfileHandler}
-          title={user.userData.first_name.charAt(0)}
-          containerStyle={[Gutters.twentyRMargin, Common.primaryPinkBackground]}
-        >
-          <Avatar.Accessory size={verticalScale(10)} />
-        </Avatar>
-      ),
-      headerTitleAlign: 'left',
-      headerShadowVisible: false,
-      headerBackTitleVisible: false,
-    })
-  }, [navigation, theme, focus])
+  useEffect(
+    () => {
+      navigation.setOptions({
+        headerLeft: () => null,
+        headerStyle: {
+          backgroundColor: Common.backgroundPrimary.backgroundColor,
+          height: verticalScale(50)
+        },
+        headerTitle: () =>
+          <Image
+            source={Images.Logo}
+            resizeMode="contain"
+            style={[{ width: scale(90) }, Common.resizeModeContain]}
+          />,
+        headerRight: () =>
+          <Avatar
+            size={verticalScale(40)}
+            rounded
+            onPress={onProfileHandler}
+            title={user.userData.first_name.charAt(0)}
+            containerStyle={[Gutters.twentyRMargin, Common.primaryPinkBackground]}
+          >
+            <Avatar.Accessory size={verticalScale(10)} />
+          </Avatar>,
+        headerTitleAlign: 'left',
+        headerShadowVisible: false,
+        headerBackTitleVisible: false
+      });
+    },
+    [navigation, theme, focus]
+  );
 
   useEffect(() => {
     if (route.name === 'Home') {
-      BackHandler.addEventListener('hardwareBackPress', onExitApp)
+      BackHandler.addEventListener('hardwareBackPress', onExitApp);
       return () => {
-        BackHandler.removeEventListener('hardwareBackPress', onExitApp)
-      }
+        BackHandler.removeEventListener('hardwareBackPress', onExitApp);
+      };
     }
-  }, [])
+  }, []);
 
-  useEffect(() => {
-    function phoneFormat(input) {
-      input = input.replace(/\D/g, '').substring(0, 10)
-      var size = input.length
-      if (size > 0) {
-        input = '(' + input
+  useEffect(
+    () => {
+      function phoneFormat(input) {
+        input = input.replace(/\D/g, '').substring(0, 10);
+        var size = input.length;
+        if (size > 0) {
+          input = '(' + input;
+        }
+        if (size > 3) {
+          input = input.slice(0, 4) + ') ' + input.slice(4);
+        }
+        if (size > 6) {
+          input = input.slice(0, 9) + '-' + input.slice(9);
+        }
+        return setNumber(input);
       }
-      if (size > 3) {
-        input = input.slice(0, 4) + ') ' + input.slice(4)
-      }
-      if (size > 6) {
-        input = input.slice(0, 9) + '-' + input.slice(9)
-      }
-      return setNumber(input)
-    }
-    phoneFormat(String(number))
-  }, [number])
+      phoneFormat(String(number));
+    },
+    [number]
+  );
 
   //NOTE: 4. Render Method
 
@@ -123,7 +125,7 @@ const Home = ({ navigation }) => {
           Layout.flexTwo,
           Gutters.twentyFourHMargin,
           Layout.row,
-          Layout.justifyContentBetween,
+          Layout.justifyContentBetween
         ]}
       >
         <View style={[Layout.justifyContentCenter, Layout.fill]}>
@@ -132,17 +134,11 @@ const Home = ({ navigation }) => {
               Common.primaryGrey,
               Fonts.fontSizeRegular,
               Fonts.fontWeightRegular,
-              Fonts.fontFamilyPrimary,
+              Fonts.fontFamilyPrimary
             ]}
           >
             Hello,{' '}
-            <Text
-              style={[
-                Common.titleText,
-                Fonts.fontFamilyPrimary,
-                Fonts.fontSizeRegular,
-              ]}
-            >
+            <Text style={[Common.titleText, Fonts.fontFamilyPrimary, Fonts.fontSizeRegular]}>
               {first_name}.
             </Text>
           </Text>
@@ -157,18 +153,12 @@ const Home = ({ navigation }) => {
               { maxWidth: scale(40) },
               Layout.fill,
               Gutters.fortyHeight,
-              Common.resizeModeContain,
+              Common.resizeModeContain
             ]}
           />
         </TouchableOpacity>
       </View>
-      <View
-        style={[
-          Layout.flexThree,
-          Gutters.fiveVMargin,
-          Gutters.twentyFourHMargin,
-        ]}
-      >
+      <View style={[Layout.flexThree, Gutters.fiveVMargin, Gutters.twentyFourHMargin]}>
         <View style={[Layout.row, { alignItems: 'center', marginVertical: 5 }]}>
           <Text
             style={[
@@ -177,7 +167,7 @@ const Home = ({ navigation }) => {
               Fonts.fontWeightSmall,
               Fonts.fontFamilyPrimary,
               // Gutters.tenBMargin,
-              Fonts.fontSize12,
+              Fonts.fontSize12
             ]}
           >
             Phone Number
@@ -190,8 +180,8 @@ const Home = ({ navigation }) => {
                 marginLeft: scale(5),
                 alignSelf: 'center',
                 height: verticalScale(20),
-                width: scale(20),
-              },
+                width: scale(20)
+              }
             ]}
           />
         </View>
@@ -203,7 +193,7 @@ const Home = ({ navigation }) => {
             Layout.alignItemsCenter,
             Layout.justifyContentBetween,
             Common.borderRadius,
-            Common.primaryBlueBackground,
+            Common.primaryBlueBackground
           ]}
         >
           <TextInput
@@ -217,7 +207,7 @@ const Home = ({ navigation }) => {
               Fonts.fontSizeMedium,
               Fonts.fontWeightRegular,
               Gutters.tenHMargin,
-              Gutters.fiftyfivePWidth,
+              Gutters.fiftyfivePWidth
             ]}
           />
           <Image
@@ -228,7 +218,7 @@ const Home = ({ navigation }) => {
               Gutters.eightRMargin,
               Gutters.eightyPHeight,
               Common.borderRadius,
-              Common.resizeModeContain,
+              Common.resizeModeContain
             ]}
           />
         </View>
@@ -246,7 +236,7 @@ const Home = ({ navigation }) => {
       />
       {/* // )} */}
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
