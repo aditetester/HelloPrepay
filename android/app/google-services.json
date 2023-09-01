@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "111298173583-pfcl5vigdqh4ht0n27bk2bb9sred61in.apps.googleusercontent.com",
+          "client_id": "111298173583-j82r4mdfqcae5cndbubm1s59kt3tvck6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.prepaidiq.d2c",
-            "certificate_hash": "278fec288e82c11bca66877a3380a0d625975d66"
+            "certificate_hash": "71f3ab983a090f7283fd1cf36e741d514924a3ad"
           }
         },
         {

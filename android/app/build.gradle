@@ -88,21 +88,25 @@ def reactNativeArchitectures() {
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
+project.ext.react = [
+        bundleInRelease: true,  // clean and rebuild if changing
+]
+
 project.ext.vectoricons = [
-        iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf', 'AntDesign.ttf',
-                         'Entypo.ttf',
-                         'Feather.ttf',
-                         'FontAwesome.ttf',
-                         'FontAwesome5_Brands.ttf',
-                         'FontAwesome5_Regular.ttf',
-                         'FontAwesome5_Solid.ttf',
-                         'Foundation.ttf',
-                         'Ionicons.ttf',
-                         'MaterialCommunityIcons.ttf',
-                         'SimpleLineIcons.ttf',
-                         'Octicons.ttf',
-                         'Zocial.ttf',
-                         'Fontisto.ttf' ] // Name of the font files you want to copy
+        iconFontNames: ['MaterialIcons.ttf', 'EvilIcons.ttf', 'AntDesign.ttf',
+                        'Entypo.ttf',
+                        'Feather.ttf',
+                        'FontAwesome.ttf',
+                        'FontAwesome5_Brands.ttf',
+                        'FontAwesome5_Regular.ttf',
+                        'FontAwesome5_Solid.ttf',
+                        'Foundation.ttf',
+                        'Ionicons.ttf',
+                        'MaterialCommunityIcons.ttf',
+                        'SimpleLineIcons.ttf',
+                        'Octicons.ttf',
+                        'Zocial.ttf',
+                        'Fontisto.ttf'] // Name of the font files you want to copy
 ]
 
 android {
@@ -115,8 +119,8 @@ android {
         applicationId "com.prepaidiq.d2c"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "7.0"
+        versionCode 8
+        versionName '8.0'
     }
 
     splits {
@@ -124,7 +128,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include (*reactNativeArchitectures())
+            include(*reactNativeArchitectures())
         }
     }
     signingConfigs {
@@ -182,7 +186,7 @@ dependencies {
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.squareup.okhttp3', module:'okhttp'
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
 
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")

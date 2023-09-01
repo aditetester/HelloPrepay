@@ -10,7 +10,7 @@
     "test": "jest",
     "type-check": "tsc",
     "android-dev": "adb reverse tcp:8081 tcp:8081 && react-native run-android",
-    "android-release": "react-native run-android --variant release",
+    "android-release": "adb reverse tcp:8081 tcp:8081 && react-native run-android --variant release",
     "ios-bundle": "react-native bundle --dev false --entry-file index.js --bundle-output ios/main.jsbundle --platform ios",
     "open-iOS": "open ./ios/*.xcworkspace"
   },
