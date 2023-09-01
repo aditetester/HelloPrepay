@@ -88,6 +88,23 @@ def reactNativeArchitectures() {
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
+project.ext.vectoricons = [
+        iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf', 'AntDesign.ttf',
+                         'Entypo.ttf',
+                         'Feather.ttf',
+                         'FontAwesome.ttf',
+                         'FontAwesome5_Brands.ttf',
+                         'FontAwesome5_Regular.ttf',
+                         'FontAwesome5_Solid.ttf',
+                         'Foundation.ttf',
+                         'Ionicons.ttf',
+                         'MaterialCommunityIcons.ttf',
+                         'SimpleLineIcons.ttf',
+                         'Octicons.ttf',
+                         'Zocial.ttf',
+                         'Fontisto.ttf' ] // Name of the font files you want to copy
+]
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -98,8 +115,8 @@ android {
         applicationId "com.prepaidiq.d2c"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "7.0"
     }
 
     splits {
@@ -117,6 +134,14 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
@@ -125,25 +150,25 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-    }
 
-    // applicationVariants are e.g. debug, release
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // https://developer.android.com/studio/build/configure-apk-splits.html
-            // Example: versionCode 1 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
-            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
-            def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
+        // applicationVariants are e.g. debug, release
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                // For each separate APK per architecture, set a unique version code as described here:
+                // https://developer.android.com/studio/build/configure-apk-splits.html
+                // Example: versionCode 1 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
+                def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+                def abi = output.getFilter(OutputFile.ABI)
+                if (abi != null) {  // null for the universal-debug, universal-release variants
+                    output.versionCodeOverride =
+                            defaultConfig.versionCode * 1000 + versionCodes.get(abi)
+                }
+
             }
-
         }
     }
 }
@@ -167,7 +192,7 @@ dependencies {
         implementation jscFlavor
     }
 }
-
+apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
 apply plugin: 'com.google.gms.google-services'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
